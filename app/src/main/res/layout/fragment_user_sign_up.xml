@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<androidx.coordinatorlayout.widget.CoordinatorLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<com.google.android.material.appbar.AppBarLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<com.google.android.material.appbar.MaterialToolbar
+				android:id="@+id/toolbarUserSignUp"
+				style="@style/AppToolbar.Navigation"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:layout_scrollFlags="scroll|enterAlways"
+				app:title="회원가입" />
+		</com.google.android.material.appbar.AppBarLayout>
+
+		<androidx.core.widget.NestedScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginBottom="40dp"
+			android:fillViewport="true"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<TextView
+					android:id="@+id/textViewUserSignUpInfoLabel"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="30dp"
+					android:text="계정 정보"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpId"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					android:hint="@string/common_id"
+					app:endIconMode="clear_text"
+					app:layout_constraintEnd_toStartOf="@id/buttonUserSignUpCheck"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserSignUpInfoLabel">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<Button
+					android:id="@+id/buttonUserSignUpCheck"
+					style="@style/AppText4.S14"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:background="@drawable/selector_button_background"
+					android:text="중복 확인"
+					app:layout_constraintBottom_toBottomOf="@id/textFieldUserSignUpId"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="@id/textFieldUserSignUpId" />
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpPw"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					android:hint="@string/common_pw"
+					app:endIconMode="password_toggle"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpId">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpPwCheck"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="20dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginRight="20dp"
+					android:hint="비밀번호 확인"
+					app:endIconMode="password_toggle"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpPw">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpEmail"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="20dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginRight="20dp"
+					android:hint="이메일 주소"
+					app:endIconMode="clear_text"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpPwCheck">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<TextView
+					android:id="@+id/textViewUserSignUpPrivateInfo"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:text="개인 정보"
+					app:layout_constraintStart_toStartOf="@id/textViewUserSignUpInfoLabel"
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpEmail" />
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpName"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="20dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginRight="20dp"
+					android:hint="@string/common_name"
+					app:endIconMode="clear_text"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textViewUserSignUpPrivateInfo">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<LinearLayout
+					android:id="@+id/linear_rrn"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textFieldUserSignUpName">
+
+					<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/textFieldUserSignUpRRNFirst"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="8dp"
+						android:layout_weight="5"
+						android:hint="앞 6자리">
+
+						<com.google.android.material.textfield.TextInputEditText
+							style="@style/AppText3.S14"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:inputType="number"
+							android:maxLength="6" />
+					</com.google.android.material.textfield.TextInputLayout>
+
+					<View
+						android:id="@+id/dividerLineRRN"
+						android:layout_width="0.5dp"
+						android:layout_height="1dp"
+						android:layout_gravity="center_vertical"
+						android:layout_weight="0.3"
+						android:background="@color/gray100" />
+
+					<!-- 뒤 1자리 입력 필드 -->
+					<com.google.android.material.textfield.TextInputLayout
+						android:id="@+id/textFieldUserSignUpRRNLast"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="8dp"
+						android:layout_weight="2"
+						android:hint="뒤 1자리">
+
+						<com.google.android.material.textfield.TextInputEditText
+							style="@style/AppText3.S14"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:inputType="number"
+							android:maxLength="1" />
+					</com.google.android.material.textfield.TextInputLayout>
+				</LinearLayout>
+
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpPhoneNumber"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					android:hint="@string/common_phone_number"
+					app:endIconMode="clear_text"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/linear_rrn">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:inputType="number" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<TextView
+					android:id="@+id/textFieldUserSignUpAddress"
+					style="@style/AppText3.S14"
+					android:layout_width="match_parent"
+					android:layout_height="50dp"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					android:background="@drawable/background_textview"
+					android:gravity="center"
+					android:hint="클릭해서 주소 설정"
+					android:maxLines="2"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpPhoneNumber" />
+
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpDetailAddress"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					android:hint="@string/common_address_detail"
+					app:endIconMode="clear_text"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpAddress">
+
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content" />
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<com.google.android.material.checkbox.MaterialCheckBox
+					android:id="@+id/checkBoxUserSignUpTerms"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:text="[필수] 인증 약관 전체 동의"
+					app:layout_constraintStart_toStartOf="@id/textViewUserSignUpInfoLabel"
+					app:layout_constraintTop_toBottomOf="@id/textFieldUserSignUpDetailAddress" />
+
+				<TextView
+					android:id="@+id/textViewUserSignUpTermsClick"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="5dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="[클릭]"
+					app:layout_constraintBottom_toBottomOf="@id/checkBoxUserSignUpTerms"
+					app:layout_constraintStart_toEndOf="@id/checkBoxUserSignUpTerms"
+					app:layout_constraintTop_toTopOf="@id/checkBoxUserSignUpTerms" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/buttonUserLogin"
+					style="@style/AppButtonPrimary"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="20dp"
+					android:layout_marginTop="20dp"
+					android:enabled="false"
+					android:text="@string/common_signup"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/checkBoxUserSignUpTerms" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</androidx.core.widget.NestedScrollView>
+	</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+

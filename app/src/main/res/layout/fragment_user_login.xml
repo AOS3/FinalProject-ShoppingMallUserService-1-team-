@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".login.UserLoginFragment">
+
+		<TextView
+			android:id="@+id/textViewUserLoginTitle"
+			android:layout_width="0dp"
+			android:layout_height="50dp"
+			android:layout_marginTop="120dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="@string/common_login"
+			android:textAlignment="center"
+			android:textSize="35dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textFieldUserLoginId"
+			android:layout_width="300dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:hint="@string/common_id"
+			app:endIconMode="clear_text"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textViewUserLoginTitle">
+
+			<com.google.android.material.textfield.TextInputEditText
+				style="@style/AppText3.S14"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textFieldUserLoginPw"
+			android:layout_width="300dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:hint="@string/common_pw"
+			app:endIconMode="password_toggle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/textFieldUserLoginId">
+
+			<com.google.android.material.textfield.TextInputEditText
+				style="@style/AppText3.S14"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<CheckBox
+			android:id="@+id/checkBoxUserLoginAuto"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			style="@style/AppText3.S14"
+			android:text="자동 로그인"
+			app:layout_constraintStart_toStartOf="@id/textFieldUserLoginId"
+			app:layout_constraintTop_toBottomOf="@+id/textFieldUserLoginPw" />
+
+		<androidx.appcompat.widget.AppCompatButton
+			android:id="@+id/buttonUserLogin"
+			style="@style/CustomButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:text="@string/common_login"
+			app:layout_constraintEnd_toEndOf="@id/textFieldUserLoginId"
+			app:layout_constraintStart_toStartOf="@id/textFieldUserLoginId"
+			app:layout_constraintTop_toBottomOf="@+id/checkBoxUserLoginAuto" />
+
+
+		<TextView
+			android:id="@+id/textViewUserLoginSignUpButton"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			style="@style/AppText3.S14"
+			android:text="@string/common_signup"
+			android:textAlignment="center"
+			app:layout_constraintEnd_toStartOf="@+id/textViewUserLoginFindIdButton"
+			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserLogin" />
+
+		<com.google.android.material.divider.MaterialDivider
+			android:layout_width="1dp"
+			android:layout_height="0dp"
+			app:dividerColor="@color/gray50"
+			app:layout_constraintBottom_toBottomOf="@id/textViewUserLoginFindIdButton"
+			app:layout_constraintEnd_toStartOf="@id/textViewUserLoginFindIdButton"
+			app:layout_constraintTop_toTopOf="@id/textViewUserLoginFindIdButton" />
+
+
+		<TextView
+			android:id="@+id/textViewUserLoginFindIdButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			style="@style/AppText3.S14"
+			android:paddingHorizontal="20dp"
+			android:text="ID 찾기"
+			android:textAlignment="center"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserLogin" />
+
+		<com.google.android.material.divider.MaterialDivider
+			android:layout_width="1dp"
+			android:layout_height="0dp"
+			app:dividerColor="@color/gray50"
+			app:layout_constraintBottom_toBottomOf="@id/textViewUserLoginFindIdButton"
+			app:layout_constraintStart_toEndOf="@id/textViewUserLoginFindIdButton"
+			app:layout_constraintTop_toTopOf="@id/textViewUserLoginFindIdButton" />
+
+
+		<TextView
+			android:id="@+id/textViewUserLoginFindPwButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			style="@style/AppText3.S14"
+			android:text="PW 찾기"
+			android:textAlignment="center"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
+			app:layout_constraintStart_toEndOf="@id/textViewUserLoginFindIdButton"
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserLogin" />
+
+		<com.google.android.material.divider.MaterialDivider
+			android:id="@+id/dividerLine"
+			android:layout_width="0dp"
+			android:layout_height="1dp"
+			android:layout_marginTop="20dp"
+			app:dividerColor="@color/gray50"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
+			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintTop_toBottomOf="@+id/textViewUserLoginFindIdButton" />
+
+		<androidx.appcompat.widget.AppCompatButton
+			android:id="@+id/buttonUserLoginKakao"
+			style="@style/AppText4.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:text="카카오 로그인"
+			android:visibility="gone"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
+			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintTop_toBottomOf="@+id/dividerLine" />
+
+		<androidx.appcompat.widget.AppCompatButton
+			android:id="@+id/buttonUserLoginNonMember"
+			style="@style/AppButtonCancel"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:background="@drawable/background_gray100"
+			android:text="비회원 접속"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
+			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserLoginKakao" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

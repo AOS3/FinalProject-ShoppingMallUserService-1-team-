@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:context=".fragment.user_fragment.product_info.UserProductInfoDialogFragment">
+
+		<com.google.android.material.imageview.ShapeableImageView
+			android:id="@+id/imageViewUserProductDialogThumbNail"
+			android:layout_width="80dp"
+			android:layout_height="80dp"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="20dp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:background="@color/gray5" />
+
+		<TextView
+			style="@style/AppText3.S17"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			app:layout_constraintStart_toEndOf="@id/imageViewUserProductDialogThumbNail"
+			app:layout_constraintTop_toTopOf="@id/imageViewUserProductDialogThumbNail"
+			tools:text="딸기[상품명]" />
+
+		<com.google.android.material.divider.MaterialDivider
+			android:id="@+id/dividerUserProductDialogTop"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="20dp"
+			app:dividerColor="@color/gray50"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/imageViewUserProductDialogThumbNail" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoDialogDeliveryOptionLabel"
+			style="@style/AppText5.S17"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="20dp"
+			android:text="배송옵션"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/dividerUserProductDialogTop" />
+
+		<RadioGroup
+			android:id="@+id/radioGroupProductInfoDialog"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="@id/textViewUserProductInfoDialogDeliveryOptionLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogDeliveryOptionLabel">
+
+			<com.google.android.material.radiobutton.MaterialRadioButton
+				android:id="@+id/radioButtonProductInfoDialogBuy"
+				style="@style/AppText3.S17"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:layout_weight="1"
+				android:text="1회 구매" />
+
+			<com.google.android.material.radiobutton.MaterialRadioButton
+				android:id="@+id/radioButtonProductInfoDialogSubscribe"
+				style="@style/AppText3.S17"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:layout_weight="1"
+				android:text="정기 구독[추후]" />
+		</RadioGroup>
+
+		<TextView
+			android:id="@+id/textViewProductInfoDialogCountLabel"
+			style="@style/AppText5.S17"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:text="수량"
+			app:layout_constraintStart_toStartOf="@id/textViewUserProductInfoDialogDeliveryOptionLabel"
+			app:layout_constraintTop_toBottomOf="@id/radioGroupProductInfoDialog" />
+
+		<View
+			android:id="@+id/viewProductInfoDialogCountInput"
+			android:layout_width="0dp"
+			android:layout_height="60dp"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="20dp"
+			android:background="@drawable/background_input_count"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDialogCountLabel" />
+
+		<ImageView
+			android:id="@+id/imageViewProductInfoDialogRemove"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="30dp"
+			android:contentDescription="-버튼을 누르면 값이 감소"
+			android:src="@drawable/ic_remove_42px"
+			app:layout_constraintBottom_toBottomOf="@id/viewProductInfoDialogCountInput"
+			app:layout_constraintStart_toStartOf="@id/viewProductInfoDialogCountInput"
+			app:layout_constraintTop_toTopOf="@id/viewProductInfoDialogCountInput" />
+
+
+		<EditText
+			android:id="@+id/editTextProductInfoDialogCount"
+			style="@style/AppText3.S17"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:background="@color/transparent"
+			android:gravity="center"
+			android:hint="직접입력"
+			android:imeOptions="actionDone"
+			android:inputType="number"
+			android:maxLines="1"
+			app:layout_constraintBottom_toBottomOf="@id/viewProductInfoDialogCountInput"
+			app:layout_constraintEnd_toStartOf="@id/imageViewProductInfoDialogAdd"
+			app:layout_constraintStart_toEndOf="@id/imageViewProductInfoDialogRemove"
+			app:layout_constraintTop_toTopOf="@id/viewProductInfoDialogCountInput" />
+
+		<ImageView
+			android:id="@+id/imageViewProductInfoDialogAdd"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="30dp"
+			android:contentDescription="+버튼을 누르면 값이 감소"
+			android:src="@drawable/ic_add_42px"
+			app:layout_constraintBottom_toBottomOf="@id/viewProductInfoDialogCountInput"
+			app:layout_constraintEnd_toEndOf="@id/viewProductInfoDialogCountInput"
+			app:layout_constraintTop_toTopOf="@id/viewProductInfoDialogCountInput" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoDialogDeliveryDateLabel"
+			style="@style/AppText5.S17"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:text="배송 예정일 선택"
+			app:layout_constraintStart_toStartOf="@id/textViewProductInfoDialogCountLabel"
+			app:layout_constraintTop_toBottomOf="@id/viewProductInfoDialogCountInput" />
+
+		<View
+			android:id="@+id/viewUserProductInfoDialogDeliveryDate"
+			android:layout_width="0dp"
+			android:layout_height="60dp"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="20dp"
+			android:background="@drawable/background_input_count"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogDeliveryDateLabel" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoDialogDeliveryDate"
+			style="@style/AppText5.S25"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintBottom_toBottomOf="@id/viewUserProductInfoDialogDeliveryDate"
+			app:layout_constraintEnd_toEndOf="@id/viewUserProductInfoDialogDeliveryDate"
+			app:layout_constraintStart_toStartOf="@id/viewUserProductInfoDialogDeliveryDate"
+			app:layout_constraintTop_toTopOf="@id/viewUserProductInfoDialogDeliveryDate"
+			tools:text="2025년 01월 14일 (화)" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoDialogPriceLabel"
+			style="@style/AppText5.S25"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="60dp"
+			android:text="결제예상금액"
+			app:layout_constraintStart_toStartOf="@id/textViewUserProductInfoDialogDeliveryDateLabel"
+			app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDialogDeliveryDate" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoDialogPrice"
+			style="@style/AppText5.S25"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="60dp"
+			android:layout_marginEnd="20dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDialogDeliveryDate"
+			tools:text="15,000원" />
+
+		<Button
+			android:id="@+id/buttonUserProductInfoDialogCart"
+			style="@style/Widget.Material3.Button.OutlinedButton"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="20dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="장바구니 담기"
+			app:layout_constraintEnd_toStartOf="@id/buttonUserProductInfoDialogBuy"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogPrice" />
+
+
+		<Button
+			android:id="@+id/buttonUserProductInfoDialogBuy"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="20dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="바로구매"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/buttonUserProductInfoDialogCart"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogPrice" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

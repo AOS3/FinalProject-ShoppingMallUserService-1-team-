@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbarUserInfoModify"
+			style="@style/AppToolbar.Navigation"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:title="회원 정보 관리" />
+
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserInfoModifyArrivalName"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="50dp"
+			android:enabled="false"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/toolbarUserInfoModify">
+
+			<com.google.android.material.textfield.TextInputEditText
+				style="@style/AppText3.S14"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:hint="@string/common_arrival_name" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserInfoModifyUserName"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="20dp"
+			android:enabled="false"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyArrivalName"
+
+			>
+
+			<com.google.android.material.textfield.TextInputEditText
+				style="@style/AppText3.S14"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:hint="이름" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserInfoModifyPhoneNumber"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="20dp"
+			android:enabled="false"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyUserName">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:hint="휴대폰 번호"
+				android:inputType="phone" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<TextView
+			android:id="@+id/textViewUserInfoModifyShowAddress"
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="30dp"
+			android:layout_marginEnd="20dp"
+			android:background="@drawable/background_textview"
+			android:padding="20dp"
+			android:text="@string/common_address"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyPhoneNumber" />
+
+		<TextView
+			android:id="@+id/textViewUserInfoModifyShowPostNumber"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="30dp"
+			android:background="@drawable/background_textview"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:padding="20dp"
+			android:text="@string/common_zip_code"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserInfoModifyDetailAddress"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="25dp"
+			android:enabled="false"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowPostNumber">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:hint="@string/common_address_detail" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<TextView
+			android:id="@+id/textViewUserInfoManageModifyPW"
+			style="@style/AppText3.S14"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:layout_marginEnd="20dp"
+			android:text="비밀번호 변경하기"
+			android:textColor="@color/gray100"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyDetailAddress" />
+
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/buttonUserInfoManageModifyUserInfo"
+			style="@style/Widget.Material3.Button.OutlinedButton"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="정보 수정하기"
+			android:textColor="@color/black"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserInfoManageModifyPW" />
+
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/buttonUserInManageWithdrawal"
+			style="@style/Widget.Material3.Button.OutlinedButton"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="10dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="계정 탈퇴하기"
+			android:textColor="@color/red50"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/buttonUserInfoManageModifyUserInfo"
+			app:strokeColor="@color/red50" />
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

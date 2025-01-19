@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.home_fragment.user_home.UserHomeTabFirstFragment">
+
+		<androidx.core.widget.NestedScrollView
+			android:id="@+id/nestedScrollView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:fillViewport="true">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<com.example.frume.util.NestedScrollableHost
+					android:id="@+id/customScrollableHost"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<!-- ViewPager2 (광고 배너) -->
+					<androidx.viewpager2.widget.ViewPager2
+						android:id="@+id/viewPager"
+						android:layout_width="match_parent"
+						android:layout_height="300dp"
+						android:orientation="horizontal" />
+
+					<LinearLayout
+						android:id="@+id/linearUserHomeTabFirst"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="12dp"
+						android:layout_marginBottom="16dp"
+						android:background="@drawable/gray_ellipse"
+						android:orientation="horizontal"
+						android:paddingStart="8dp"
+						android:paddingTop="4dp"
+						android:paddingEnd="8dp"
+						android:paddingBottom="4dp"
+						android:layout_gravity="end|bottom"
+						app:layout_constraintBottom_toBottomOf="@id/viewPager"
+						app:layout_constraintEnd_toEndOf="@id/viewPager">
+
+						<TextView
+							android:id="@+id/textViewBannerFirstNumber"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="1"
+							android:textColorHint="#ffffff"
+							android:textSize="10dp" />
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginLeft="4dp"
+							android:layout_marginRight="4dp"
+							android:text="/"
+							android:textColor="#FFFFFF"
+							android:textSize="10dp" />
+
+						<TextView
+							android:id="@+id/textViewBannerLastNumber"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="15"
+							android:textColor="#FFFFFF"
+							android:textSize="10dp" />
+					</LinearLayout>
+				</com.example.frume.util.NestedScrollableHost>
+
+
+				<!-- RecyclerView (상품 소개) -->
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recyclerView"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:nestedScrollingEnabled="true"
+					app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/customScrollableHost"
+					app:spanCount="2"
+					tools:listitem="@layout/item_product" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</androidx.core.widget.NestedScrollView>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

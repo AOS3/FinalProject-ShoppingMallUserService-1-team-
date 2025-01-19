@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="LayoutBasicSetting">
+		<item name="background">@color/white</item>
+		<item name="android:layout_width">0dp</item>
+		<item name="android:layout_height">?attr/actionBarSize</item>
+	</style>
+	<!--	textView, editText, toolBar 전부 스타일로 통일 예정   -->
+
+	<style name="AppToolbar" parent="Widget.Material3.Toolbar">
+		<item name="titleTextAppearance">@style/AppToolbarTitle</item>
+		<item name="android:background">@color/green100</item>
+	</style>
+
+	<style name="AppToolbar.Navigation">
+		<item name="navigationIcon">@drawable/ic_back_ios</item>
+		<item name="navigationIconTint">@color/white</item>
+	</style>
+
+
+	<!-- 툴바 글씨 스타일 -->
+	<style name="AppToolbarTitle">
+		<item name="fontFamily">@font/nanumsquareneo_5</item>
+		<item name="android:textSize">22sp</item>
+		<item name="android:textColor">@color/white</item>
+	</style>
+
+	<!--    font 3레벨	-->
+	<style name="AppText3">
+		<item name="fontFamily">@font/nanumsquareneo_3</item>
+	</style>
+
+	<style name="AppText3.S14">
+		<item name="android:textSize">14sp</item>
+	</style>
+
+	<style name="AppText3.S17">
+		<item name="android:textSize">17sp</item>
+	</style>
+
+	<!--    font 4레벨	-->
+	<style name="AppText4">
+		<item name="fontFamily">@font/nanumsquareneo_4</item>
+	</style>
+
+	<style name="AppText4.S14">
+		<item name="android:textSize">14sp</item>
+	</style>
+
+
+	<!--    font 5레벨	-->
+	<style name="AppText5">
+		<item name="fontFamily">@font/nanumsquareneo_5</item>
+	</style>
+
+	<style name="AppText5.S17">
+		<item name="android:textSize">17sp</item>
+	</style>
+
+	<style name="AppText5.S25">
+		<item name="android:textSize">25sp</item>
+	</style>
+
+
+	<!--	토글 커스텀 버튼   -->
+	<style name="ToggleCustom" parent="Widget.MaterialComponents.Button.OutlinedButton">
+		<item name="android:insetTop">0dp</item>
+		<item name="android:insetBottom">0dp</item>
+		<item name="android:insetLeft">0dp</item>
+		<item name="android:insetRight">0dp</item>
+		<item name="android:minWidth">48dp</item>
+		<item name="android:minHeight">48dp</item>
+	</style>
+
+	<!--    활성화 상태가 되는 버튼에 사용	-->
+	<style name="AppButtonPrimary" parent="Widget.AppCompat.Button">
+		<item name="android:background">@drawable/selector_button_background</item>
+		<item name="android:textColor">@color/selector_button_enabled</item>
+		<item name="android:textAppearance">@style/AppText4.S14</item>
+	</style>
+
+	<!--    항상 회색 상태인 버튼에 사용	-->
+	<style name="AppButtonCancel" parent="Widget.AppCompat.Button">
+		<item name="android:background">@drawable/background_gray100</item>
+		<item name="android:textAppearance">@style/AppText4.S14</item>
+	</style>
+
+	<!-- 버튼 스타일 -->
+	<style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+		<!-- 배경 -->
+		<item name="android:background">@drawable/btn_background</item>
+		<!-- 텍스트 색상 -->
+		<item name="android:textColor">@color/btn_text_selector</item>
+		<!-- 기본 속성 -->
+		<item name="android:textAppearance">@style/AppText4.S14</item>
+	</style>
+
+</resources>

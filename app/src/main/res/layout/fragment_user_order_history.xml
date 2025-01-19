@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.home_fragment.my_info.order_inquiry.UserOrderHistoryFragment">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbarUserOrderHistory"
+			style="@style/AppToolbar.Navigation"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:title="주문내역 및 배송조회"
+			/>
+
+
+		<View
+			android:id="@+id/viewUserOrderHistoryFilter"
+			android:layout_width="match_parent"
+			android:layout_height="200dp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/toolbarUserOrderHistory" />
+
+		<TextView
+			android:id="@+id/textViewUserOrderHistoryOrderFilterText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="40dp"
+			android:layout_marginTop="45dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="주문 상태"
+			android:textSize="20dp"
+			app:layout_constraintEnd_toStartOf="@id/textInputLayoutUserOrderHistoryOrderStateFilter"
+			app:layout_constraintStart_toStartOf="@id/viewUserOrderHistoryFilter"
+			app:layout_constraintTop_toTopOf="@id/viewUserOrderHistoryFilter" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserOrderHistoryOrderStateFilter"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="40dp"
+			android:entries="@array/item_user_order_state_order_state"
+			android:gravity="center"
+			app:endIconMode="dropdown_menu"
+			app:layout_constraintBottom_toBottomOf="@id/textViewUserOrderHistoryOrderFilterText"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/textViewUserOrderHistoryOrderFilterText"
+			app:layout_constraintTop_toTopOf="@id/viewUserOrderHistoryFilter">
+
+			<AutoCompleteTextView
+				android:id="@+id/autoCompleteTextViewUserOrderHistoryOrderState"
+				android:layout_width="150dp"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:hint="주문 상태"
+				android:inputType="none" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+
+		<TextView
+			android:id="@+id/textViewUserOrderHistorySearchPeriod"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="45dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="조회 기간"
+			android:textSize="20dp"
+			app:layout_constraintStart_toStartOf="@id/textViewUserOrderHistoryOrderFilterText"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserOrderHistoryOrderFilterText" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserOrderHistorySearchPeriodFilter"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:endIconMode="dropdown_menu"
+			app:layout_constraintBottom_toBottomOf="@id/textViewUserOrderHistorySearchPeriod"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/textViewUserOrderHistorySearchPeriod"
+			app:layout_constraintTop_toTopOf="@+id/textViewUserOrderHistorySearchPeriod">
+
+			<AutoCompleteTextView
+				android:id="@+id/autoCompleteTextViewUserOrderHistorySearchPeriod"
+				android:layout_width="150dp"
+				android:layout_height="wrap_content"
+				android:entries="@array/item_user_order_state_order_state"
+				android:gravity="center"
+				android:hint="조회 기간"
+				android:inputType="none" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.divider.MaterialDivider
+			android:layout_width="match_parent"
+			android:layout_height="3dp"
+			android:layout_marginStart="30dp"
+			android:layout_marginEnd="30dp"
+			android:backgroundTint="@color/gray50"
+			app:layout_constraintTop_toBottomOf="@id/viewUserOrderHistoryFilter" />
+
+
+		<View
+			android:id="@+id/viewUserOrderHistoryDate"
+			android:layout_width="300dp"
+			android:layout_height="40dp"
+			android:layout_marginTop="30dp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/viewUserOrderHistoryFilter" />
+
+
+		<TextView
+			android:id="@+id/textViewUserOrderHistoryFilteredFrontPeriod"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="2024.12.5"
+			app:layout_constraintEnd_toStartOf="@id/textViewUserOrderHistoryTilde"
+			app:layout_constraintStart_toStartOf="@id/viewUserOrderHistoryDate"
+			app:layout_constraintTop_toTopOf="@id/viewUserOrderHistoryDate" />
+
+
+		<TextView
+			android:id="@+id/textViewUserOrderHistoryTilde"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="~"
+			app:layout_constraintEnd_toStartOf="@id/textViewFilteredBackPeriod"
+			app:layout_constraintStart_toEndOf="@id/textViewUserOrderHistoryFilteredFrontPeriod"
+			app:layout_constraintTop_toTopOf="@id/textViewUserOrderHistoryFilteredFrontPeriod" />
+
+		<TextView
+			android:id="@+id/textViewFilteredBackPeriod"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="2025.05.05"
+			app:layout_constraintEnd_toEndOf="@id/viewUserOrderHistoryDate"
+			app:layout_constraintStart_toEndOf="@id/textViewUserOrderHistoryTilde"
+			app:layout_constraintTop_toTopOf="@id/textViewUserOrderHistoryFilteredFrontPeriod" />
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerViewUserOrderHistory"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/viewUserOrderHistoryDate"
+
+
+			tools:listitem="@layout/item_product_order" />
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

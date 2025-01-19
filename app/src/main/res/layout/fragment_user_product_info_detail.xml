@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.user_fragment.product_info.UserProductInfoDetailFragment">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:paddingBottom="50dp">
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="상품필수정보"
+				android:textSize="17sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/dividerTop"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailBreedLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="품종"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/dividerTop" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailBreed"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@id/textViewProductInfoDetailBreedLabel"
+				app:layout_constraintTop_toBottomOf="@id/dividerTop"
+				tools:text="딸기[변경]" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailCategoryLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="식품의 유형"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailBreedLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailCategory"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="과일"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailBreed"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailBreed" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailWeightLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="용량/수량"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailCategoryLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailWeight"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailCategory"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailCategory"
+				tools:text="500g[변경]" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailGrowerLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="생산자 및 소재지"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailWeightLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailGrower"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="상세페이지 참조"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailWeight"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailWeight" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailImporterLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="수입자"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailGrowerLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailImporter"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="상세페이지 참조"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailGrower"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailGrower" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailOriginLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="원산지"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailImporterLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailOrigin"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="상세페이지 참조"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailImporter"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailImporter" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailIngredientsLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="원재료 및 함량"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailOriginLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailIngredients"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="상세페이지 참조"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailOrigin"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailOrigin" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailStorageLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="보관/취급방법"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailIngredientsLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailStorage"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="수령 후 냉장보관"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailIngredients"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailIngredients" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailDateLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="제조년월일/유통기한"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailStorageLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailDate"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="-"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailStorage"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailStorage" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailGeneLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="유전자변형 농산물여부"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailDateLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailGene"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="해당사항 없음"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailDate"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailDate" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailServiceCenterLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="고객센터"
+				android:textSize="17sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailGene" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/dividerMid"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailServiceCenterLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailKakaoServiceLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="카카오톡 상담"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/dividerMid" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailKakaoServiceNameLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="\@쥬시후레시"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailGene"
+				app:layout_constraintTop_toBottomOf="@id/dividerMid" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailMobileServiceLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="전화 상담"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailKakaoServiceLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailMobileServiceNumberLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="02-1234-1234"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailKakaoServiceNameLabel"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailKakaoServiceNameLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailServiceTimeLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="운영 시간"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailMobileServiceLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailServiceTimeDetailLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="상담 시간: 09:00 ~ 18:00"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailMobileServiceNumberLabel"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailMobileServiceNumberLabel" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailDeliveryLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="배송 안내"
+				android:textSize="17sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailServiceTimeLabel" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/dividerBottom"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailDeliveryLabel" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailDeliveryLabel"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="@string/delivery_label"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailDeliveryLabel"
+				app:layout_constraintTop_toBottomOf="@id/dividerBottom" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailReturnLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="교환/반품 안내"
+				android:textSize="17sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailDeliveryLabel" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/dividerBottom2"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailReturnLabel" />
+
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailReturnLabel"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="@string/delivery_label"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailDeliveryLabel"
+				app:layout_constraintTop_toBottomOf="@id/dividerBottom2" />
+
+			<TextView
+				android:id="@+id/textViewProductInfoDetailCompanyLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="사업자 정보"
+				android:textSize="17sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailReturnLabel" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/dividerBottom3"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailCompanyLabel" />
+
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailCompanyNameLabel"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="상호명"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailDeliveryLabel"
+				app:layout_constraintTop_toBottomOf="@id/dividerBottom3" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailCompanyName"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="주시후레시"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailBreed"
+				app:layout_constraintTop_toBottomOf="@id/dividerBottom3" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailCompanyCeoLabel"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="대표자"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailDeliveryLabel"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailCompanyNameLabel" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailCompanyCeo"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="프로젝트 1팀"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailBreed"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailCompanyName" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailCompanyAddressLabel"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="주소"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailDeliveryLabel"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailCompanyCeoLabel" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailCompanyAddress"
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="@string/common_likelion"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailBreed"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailCompanyCeo" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailReturnAddressLabel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="반품 배송지"
+				android:textSize="17sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailCompanyAddressLabel" />
+
+			<com.google.android.material.divider.MaterialDivider
+				android:id="@+id/dividerBottom4"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="10dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDetailReturnAddressLabel" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailReturnAddressLabel2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="주소"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/dividerBottom4" />
+
+			<TextView
+				android:id="@+id/textViewUserProductInfoDetailReturnAddress2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/common_likelion"
+				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailBreed"
+				app:layout_constraintTop_toTopOf="@id/textViewUserProductInfoDetailReturnAddressLabel2" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.core.widget.NestedScrollView>
+</layout>

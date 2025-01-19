@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="4dp">
+
+		<View
+			android:id="@+id/viewItemProduct"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:background="@drawable/background_green10"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintDimensionRatio="w,1:1"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<com.google.android.material.imageview.ShapeableImageView
+			android:id="@+id/imageViewItemProductThumbNail"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:layout_marginStart="30dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginEnd="30dp"
+			android:layout_marginBottom="80dp"
+			android:scaleType="centerCrop"
+			app:layout_constraintBottom_toBottomOf="@id/viewItemProduct"
+			app:layout_constraintEnd_toEndOf="@id/viewItemProduct"
+			app:layout_constraintStart_toStartOf="@id/viewItemProduct"
+			app:layout_constraintTop_toTopOf="@id/viewItemProduct"
+			tools:src="@mipmap/ic_launcher" />
+
+		<TextView
+			android:id="@+id/textViewItemProductTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			app:layout_constraintStart_toStartOf="@id/imageViewItemProductThumbNail"
+			app:layout_constraintTop_toBottomOf="@id/imageViewItemProductThumbNail"
+			tools:text="딸기[상품명]" />
+
+		<TextView
+			android:id="@+id/textViewItemProductDescription"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:layout_marginEnd="30dp"
+			android:ellipsize="end"
+			android:fontFamily="@font/nanumsquareneo_2"
+			android:gravity="start"
+			android:maxLines="2"
+			android:textSize="12sp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="@id/textViewItemProductTitle"
+			app:layout_constraintTop_toBottomOf="@id/textViewItemProductTitle"
+			tools:text="유기농으로 키워 신선합니다.유기농으로 키워 신선합니다.유기농으로 키워 신선합니다.유기농으로 키워 신선합니다.유기농으로 키워 신선합니다.[상품설명]" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

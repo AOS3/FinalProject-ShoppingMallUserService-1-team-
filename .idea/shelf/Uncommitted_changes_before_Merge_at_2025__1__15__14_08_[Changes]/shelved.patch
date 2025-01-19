@@ -1,0 +1,63 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n\t<string name=\"app_name\">FruMe</string>\n\t<!-- TODO: Remove or change this placeholder text -->\n\t<string name=\"hello_blank_fragment\">Hello blank fragment</string>\n\n\n\t<string-array name=\"item_user_order_state_order_state\">\n\t\t<item>전체</item>\n\t\t<item>출고 준비중</item>\n\t\t<item>출고 완료</item>\n\t\t<item>배송 준비중</item>\n\t\t<item>배송중</item>\n\t\t<item>배송 완료</item>\n\t\t<item>결제 대기중</item>\n\t\t<item>결제 완료</item>\n\t\t<item>취소</item>\n\t\t<item>반품</item>\n\t\t<item>교환</item>\n\t</string-array>\n\n\n\t<string-array name=\"item_user_order_state_search_period\">\n\t\t<item>전체</item>\n\t\t<item>15일</item>\n\t\t<item>1개월</item>\n\t\t<item>3개월</item>\n\t\t<item>6개월</item>\n\t</string-array>\n\n\t<string-array name=\"item_user_cancel_and_return\">\n\t\t<item>반품</item>\n\t\t<item>교환</item>\n\t\t<item>취소</item>\n\t</string-array>\n\n\n\t<string name=\"user_product_info_description_delivery_charge_label\">• 배송비: 3,000원 (50,000원 이상 구매 시 무료 배송)</string>\n\t<string name=\"user_product_info_description_dispatch_location_label\">• 출고지: 산지(오전10시 이전 주문 시 당일 출고)</string>\n\t<string name=\"delivery_label\">\n\t\t• 기상 악화 및 교통 상황에 따라 부득이하게 배송이 지연될 수 있습니다.\\n\n\t\t• 신선 식품 특성 상 제주 및 도서 산간 배송이 불가합니다.\\n\n\t\t• 주말 및 공휴일은 상품을 출고하지 않습니다. (단, 신선 식품 특성 상 상품에 따라 변동 될 수 있습니다.)\\n\n\t\t• 산지 상황에 따라 상품이 조기 품절 될 수 있습니다.\\n\n\t\t• 신선 식품 특성 상 금액 및 상품 구성에 변동이 있을 수 있습니다.\\n\n\t\t• 단체 및 다량 주문 시 고객센터로 별도 문의 후 주문 바랍니다.\\n\n</string>\n\n\t<string name=\"return_label\">\n\t\t• 신선 식품 특성 상 다음 사유에 해당할 경우 교환 및 반품이 불가합니다. 단순 변심 / 주문 착오 / 개인 정보 오 기재 / 수취인 연락 부재\\n\n\t\t• 품질 및 배송 관련 문제가 있는 경우 수령 후 1~2일 이내, 상품 확인이 가능 한 이미지를 첨부하여 주시후레시 카카오톡 채널 고객센터로 문의바랍니다.\n\t\t교환 및 반품 희망 시 상담원에게 먼저 문의해 주세요. 임의 접수 시 처리가 불가합니다.\\n\n\t\t• 교환 및 반품은 품질에 문제가 있는 원물의 수량만큼 처리됩니다.\\n\n\n</string>\n\t<string name=\"company_label\">\n\t\t상호명 /t 주시후레시\\n\n\t\t대표자 /t 프로젝트 1조\\n\n\t\t주소 /t멋쟁이사자\n\n</string>\n\t<string name=\"common_likelion\">멋쟁이사자</string>\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision b5b5fb46eea0c50d913c998d962060c604a181d7)
++++ b/app/src/main/res/values/strings.xml	(date 1736917591135)
+@@ -3,7 +3,6 @@
+ 	<!-- TODO: Remove or change this placeholder text -->
+ 	<string name="hello_blank_fragment">Hello blank fragment</string>
+ 
+-
+ 	<string-array name="item_user_order_state_order_state">
+ 		<item>전체</item>
+ 		<item>출고 준비중</item>
+@@ -18,7 +17,6 @@
+ 		<item>교환</item>
+ 	</string-array>
+ 
+-
+ 	<string-array name="item_user_order_state_search_period">
+ 		<item>전체</item>
+ 		<item>15일</item>
+@@ -33,30 +31,28 @@
+ 		<item>취소</item>
+ 	</string-array>
+ 
+-
+ 	<string name="user_product_info_description_delivery_charge_label">• 배송비: 3,000원 (50,000원 이상 구매 시 무료 배송)</string>
++
+ 	<string name="user_product_info_description_dispatch_location_label">• 출고지: 산지(오전10시 이전 주문 시 당일 출고)</string>
++
+ 	<string name="delivery_label">
+ 		• 기상 악화 및 교통 상황에 따라 부득이하게 배송이 지연될 수 있습니다.\n
+ 		• 신선 식품 특성 상 제주 및 도서 산간 배송이 불가합니다.\n
+ 		• 주말 및 공휴일은 상품을 출고하지 않습니다. (단, 신선 식품 특성 상 상품에 따라 변동 될 수 있습니다.)\n
+ 		• 산지 상황에 따라 상품이 조기 품절 될 수 있습니다.\n
+ 		• 신선 식품 특성 상 금액 및 상품 구성에 변동이 있을 수 있습니다.\n
+-		• 단체 및 다량 주문 시 고객센터로 별도 문의 후 주문 바랍니다.\n
+-</string>
++		• 단체 및 다량 주문 시 고객센터로 별도 문의 후 주문 바랍니다.\n</string>
+ 
+ 	<string name="return_label">
+ 		• 신선 식품 특성 상 다음 사유에 해당할 경우 교환 및 반품이 불가합니다. 단순 변심 / 주문 착오 / 개인 정보 오 기재 / 수취인 연락 부재\n
+ 		• 품질 및 배송 관련 문제가 있는 경우 수령 후 1~2일 이내, 상품 확인이 가능 한 이미지를 첨부하여 주시후레시 카카오톡 채널 고객센터로 문의바랍니다.
+ 		교환 및 반품 희망 시 상담원에게 먼저 문의해 주세요. 임의 접수 시 처리가 불가합니다.\n
+-		• 교환 및 반품은 품질에 문제가 있는 원물의 수량만큼 처리됩니다.\n
++		• 교환 및 반품은 품질에 문제가 있는 원물의 수량만큼 처리됩니다.\n</string>
+ 
+-</string>
+ 	<string name="company_label">
+ 		상호명 /t 주시후레시\n
+ 		대표자 /t 프로젝트 1조\n
+-		주소 /t멋쟁이사자
++		주소 /t멋쟁이사자</string>
+ 
+-</string>
+ 	<string name="common_likelion">멋쟁이사자</string>
+ </resources>
+\ No newline at end of file

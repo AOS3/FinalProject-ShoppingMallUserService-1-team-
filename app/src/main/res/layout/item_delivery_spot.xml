@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- 좌측 주소 부분 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- 주소지 이름과 아이콘 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <!-- 아이콘 -->
+                <ImageView
+                    android:id="@+id/addressIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_home_24px" /> <!-- 접근성용 설명 -->
+
+                <!-- 주소지 이름 -->
+                <TextView
+                    android:id="@+id/addressName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="우리집"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- 주소 -->
+            <TextView
+                android:id="@+id/addressDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="4dp"
+                android:maxWidth="250dp"
+                android:text="00시00로 00번길 ㅇㅇ빌라 나동 402호ddddddddddddddddddd"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <!-- 우측 우편번호 부분 -->
+        <TextView
+            android:id="@+id/postalCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            android:text="12456"
+            android:textSize="14sp" />
+    </LinearLayout>
+</layout>

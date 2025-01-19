@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.home_fragment.my_info.my_profile_setting.UserInfoModifyFragment">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			style="@style/LayoutBasicSetting"
+			android:layout_width="match_parent">
+
+			<com.google.android.material.appbar.MaterialToolbar
+				android:id="@+id/toolbarUserInfoModify"
+				style="@style/AppToolbar.Navigation"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:title="회원 정보 수정" />
+
+			<View
+				android:id="@+id/viewUserInfoModifyShowInfo"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="40dp"
+
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/toolbarUserInfoModify" />
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserInfoModifyArrivalName"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginEnd="20dp"
+				app:endIconMode="clear_text"
+				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toTopOf="@id/viewUserInfoModifyShowInfo">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/nanumsquareneo_3"
+					android:hint="배송지 이름" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserInfoModifyUserName"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="20dp"
+				app:endIconMode="clear_text"
+				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyArrivalName">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/nanumsquareneo_3"
+					android:hint="이름" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserInfoModifyPhoneNumber"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="20dp"
+				app:endIconMode="clear_text"
+				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyUserName">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/nanumsquareneo_3"
+					android:hint="휴대폰 번호"
+					android:inputType="phone" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<TextView
+				android:id="@+id/textViewUserInfoModifyShowAddress"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="30dp"
+				android:layout_marginEnd="20dp"
+				android:background="@drawable/background_textview"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="20dp"
+				android:text="주소"
+				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyPhoneNumber" />
+
+			<TextView
+				android:id="@+id/textViewUserInfoModifyShowPostNumber"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="30dp"
+				android:layout_marginEnd="20dp"
+				android:background="@drawable/background_textview"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="20dp"
+				android:text="우편번호 "
+				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress" />
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserInfoModifyDetailAddress"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="25dp"
+				android:layout_marginEnd="20dp"
+				app:endIconMode="clear_text"
+				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowPostNumber">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/nanumsquareneo_3"
+					android:hint="상세주소" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/buttonUserInfoManageModifyUserInfo"
+				style="@style/Widget.Material3.Button.OutlinedButton"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="50dp"
+				android:layout_marginEnd="20dp"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="@string/common_save"
+				android:textColor="@color/black"
+				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyDetailAddress" />
+
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+	</androidx.core.widget.NestedScrollView>
+
+
+</layout>
+

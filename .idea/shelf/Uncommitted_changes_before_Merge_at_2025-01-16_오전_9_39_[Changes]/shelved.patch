@@ -1,0 +1,790 @@
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <data>\r\n\r\n    </data>\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:id=\"@+id/main\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        tools:context=\".MainActivity\">\r\n\r\n        <androidx.fragment.app.FragmentContainerView\r\n            android:id=\"@+id/containerMain\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\" />\r\n\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	(revision 647a49eca947ba63a06a216bae8da00becda364a)
++++ b/app/src/main/res/layout/activity_main.xml	(date 1736987978686)
+@@ -1,23 +1,762 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<layout xmlns:android="http://schemas.android.com/apk/res/android"
++<ScrollView
++    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+-    xmlns:tools="http://schemas.android.com/tools">
+-
+-    <data>
+-
+-    </data>
+-
+-    <androidx.constraintlayout.widget.ConstraintLayout
+-        android:id="@+id/main"
+-        android:layout_width="match_parent"
+-        android:layout_height="match_parent"
+-        tools:context=".MainActivity">
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".MainActivity">
+ 
+         <androidx.fragment.app.FragmentContainerView
+             android:id="@+id/containerMain"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" />
+ 
++    <androidx.constraintlayout.widget.ConstraintLayout
++        android:id="@+id/main"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content">
++
++    <TextView
++        android:id="@+id/textViewUserPaymentUserInfo"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="20dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="주문자 정보"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginLeft="5dp"
++        android:layout_marginTop="20dp"
++        android:text="*"
++        android:textSize="20dp"
++        android:textColor="@color/red50"
++        app:layout_constraintStart_toEndOf="@id/textViewUserPaymentUserInfo"
++        app:layout_constraintTop_toTopOf="parent"/>
++
++    <View
++        android:id="@+id/viewUserPaymentUserName"
++        android:layout_width="0dp"
++        android:layout_height="40dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="20dp"
++        android:layout_marginEnd="20dp"
++        android:background="@drawable/background_input_count"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentUserInfo"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentUserName"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/nanumsquareneo_3"
++        android:textSize="15dp"
++        app:layout_constraintBottom_toBottomOf="@id/viewUserPaymentUserName"
++        app:layout_constraintEnd_toEndOf="@id/viewUserPaymentUserName"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentUserName"
++        app:layout_constraintTop_toTopOf="@id/viewUserPaymentUserName"
++        tools:text="김과일 [주문자 이름]" />
++
++
++    <View
++        android:id="@+id/viewUserPaymentUserPhoneNumber"
++        android:layout_width="0dp"
++        android:layout_height="40dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="10dp"
++        android:layout_marginEnd="20dp"
++        android:background="@drawable/background_input_count"
++        app:layout_constraintTop_toBottomOf="@id/viewUserPaymentUserName"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"/>
++
++    <TextView
++        android:id="@+id/textViewPaymentUserPhoneNumber"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/nanumsquareneo_3"
++        android:textSize="15dp"
++        app:layout_constraintBottom_toBottomOf="@id/viewUserPaymentUserPhoneNumber"
++        app:layout_constraintEnd_toEndOf="@id/viewUserPaymentUserPhoneNumber"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentUserPhoneNumber"
++        app:layout_constraintTop_toTopOf="@id/viewUserPaymentUserPhoneNumber"
++        tools:text="01012345678 [주문자 전화번호]" />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentAddressInfo"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@id/viewUserPaymentUserPhoneNumber"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="배송지 정보"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginLeft="5dp"
++        android:layout_marginTop="40dp"
++        android:text="*"
++        android:textSize="20dp"
++        android:textColor="@color/red50"
++        app:layout_constraintStart_toEndOf="@id/textViewUserPaymentAddressInfo"
++        app:layout_constraintTop_toBottomOf="@id/viewUserPaymentUserPhoneNumber"/>
++
++    <ImageView
++        android:id="@+id/imageViewUserPaymentAddressModify"
++        android:layout_width="24dp"
++        android:layout_height="24dp"
++        android:layout_marginRight="20dp"
++        android:layout_marginTop="40dp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/viewUserPaymentUserPhoneNumber"
++        app:srcCompat="@drawable/ic_edit_24px" />
++
++
++    <View
++        android:id="@+id/viewUserPaymentAddressModify"
++        android:layout_width="0dp"
++        android:layout_height="150dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="10dp"
++        android:layout_marginEnd="20dp"
++        android:background="@drawable/background_gray100"
++        app:layout_constraintTop_toBottomOf="@id/imageViewUserPaymentAddressModify"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        />
++
++    <TextView
++        android:id="@+id/viewUserPaymentAddressModifyAddressName"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="15dp"
++        android:layout_marginLeft="20dp"
++        android:fontFamily="@font/nanumsquareneo_5"
++        android:textSize="12dp"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
++        app:layout_constraintTop_toTopOf="@id/viewUserPaymentAddressModify"
++        tools:text="[배송지명]" />
++
++    <TextView
++        android:id="@+id/viewUserPaymentAddressModifyUserName"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginLeft="20dp"
++        android:layout_marginTop="15dp"
++        android:fontFamily="@font/nanumsquareneo_3"
++        android:textSize="12dp"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
++        app:layout_constraintTop_toBottomOf ="@id/viewUserPaymentAddressModifyAddressName"
++        tools:text="[김과일]" />
++
++    <TextView
++        android:id="@+id/viewUserPaymentAddressModifyUserAddress"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginLeft="20dp"
++        android:layout_marginTop="15dp"
++        android:fontFamily="@font/nanumsquareneo_3"
++        android:textSize="12dp"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
++        app:layout_constraintTop_toBottomOf ="@id/viewUserPaymentAddressModifyUserName"
++        tools:text="[서울특별시 어딘가]"
++        android:drawableStart="@drawable/ic_location_on_24px"
++        android:gravity="center"/>
++
++    <TextView
++        android:id="@+id/viewUserPaymentAddressModifyUserPhoneNumber"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:fontFamily="@font/nanumsquareneo_3"
++        android:layout_marginLeft="20dp"
++        android:layout_marginTop="15dp"
++        android:textSize="12dp"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
++        app:layout_constraintTop_toBottomOf ="@id/viewUserPaymentAddressModifyUserAddress"
++        tools:text="[01012345678]"
++        android:gravity="center"
++        android:drawableStart="@drawable/ic_call_24px"/>
++
++
++        <CheckBox
++            android:id="@+id/checkboxUserPaymentDefaultAddress"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="5dp"
++            android:layout_marginEnd="20dp"
++            android:button="@null"
++            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
++            android:text="기본 배송지로 설정"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintTop_toBottomOf="@id/viewUserPaymentAddressModify" />
++
++        <TextView
++        android:id="@+id/textViewUserPaymentDeliveryMethod"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@id/checkboxUserPaymentDefaultAddress"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="배송 방식"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <RadioGroup
++        android:id="@+id/radioGroupUserPaymentDeliveryMethod"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentDeliveryMethod"
++        >
++
++        <RadioButton
++            android:id="@+id/buttonUserPaymentDeliveryMethodDoor"
++            android:layout_width="0dp"
++            android:layout_height="50dp"
++            android:layout_weight="1"
++            android:text="문 앞 배송"
++            android:textColor="@color/white"
++            android:button="@null"
++            android:gravity="center"
++            android:background="@drawable/background_green100"
++            android:layout_marginTop="20dp"
++            android:layout_marginLeft="5dp"
++            android:checked="true"
++            android:fontFamily="@font/nanumsquareneo_4"/>
++
++        <RadioButton
++            android:id="@+id/buttonUserPaymentDeliveryMethodBox"
++            android:layout_width="0dp"
++            android:layout_height="50dp"
++            android:layout_weight="1"
++            android:text="택배함"
++            android:textColor="@color/white"
++            android:button="@null"
++            android:gravity="center"
++            android:background="@drawable/background_green100"
++            android:layout_marginTop="20dp"
++            android:layout_marginLeft="10dp"
++            android:checked="false"
++            android:fontFamily="@font/nanumsquareneo_4"/>
++
++        <RadioButton
++            android:id="@+id/buttonUserPaymentDeliveryMethodOffice"
++            android:layout_width="0dp"
++            android:layout_height="50dp"
++            android:layout_weight="1"
++            android:text="경비실"
++            android:textColor="@color/white"
++            android:button="@null"
++            android:gravity="center"
++            android:background="@drawable/background_green100"
++            android:layout_marginLeft="10dp"
++            android:layout_marginTop="20dp"
++            android:layout_marginRight="5dp"
++            android:fontFamily="@font/nanumsquareneo_4"
++            android:checked="false"
++            />
++
++    </RadioGroup>
++
++
++    <TextView
++        android:id="@+id/textViewUserPaymentRequest"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@+id/radioGroupUserPaymentDeliveryMethod"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="기타 요청 사항"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <com.google.android.material.textfield.TextInputLayout
++        android:id="@+id/textInputLayoutUserPaymentRequest"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="5dp"
++        app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentRequest"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginRight="10dp"
++        android:layout_marginLeft="10dp"
++        >
++
++        <com.google.android.material.textfield.TextInputEditText
++            android:layout_width="match_parent"
++            android:layout_height="100dp"
++            android:hint="기타 요청사항을 입력해주세요"
++            android:padding="15dp"
++            android:textSize="15dp"
++            android:inputType="text"
++            />
++    </com.google.android.material.textfield.TextInputLayout>
++
++    <TextView
++        android:id="@+id/textViewUserPaymentRequestExample"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="10dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUserPaymentRequest"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="15dp"
++        android:text="- 공동 현관 비밀번호를 입력해 주세요"
++        android:fontFamily="@font/nanumsquareneo_4"
++        />
++
++
++    <TextView
++        android:id="@+id/textViewUserPaymentPaymentMethod"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentRequestExample"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="배송 방식"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <RadioGroup
++        android:id="@+id/radioGroupUserPaymentPaymentMethod"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
++
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentPaymentMethod"
++        app:layout_constraintEnd_toEndOf="parent">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal">
++
++        <RadioButton
++            android:id="@+id/buttonUserPaymentPaymentMethodAccount"
++
++            android:layout_width="0dp"
++            android:layout_height="50dp"
++            android:layout_weight="1"
++
++            android:button="@null"
++            android:background="@drawable/background_green100"
++            android:layout_marginTop="20dp"
++            android:layout_marginLeft="20dp"
++
++            android:text="계좌이체"
++            android:textColor="@android:color/white"
++
++            android:fontFamily="@font/nanumsquareneo_4"
++            android:gravity="center"
++            />
++
++            <RadioButton
++                android:id="@+id/buttonUserPaymentPaymentMethodCard"
++                android:layout_width="0dp"
++                android:layout_height="50dp"
++                android:layout_weight="1"
++
++                android:layout_marginLeft="40dp"
++                android:layout_marginRight="20dp"
++                android:layout_marginTop="20dp"
++                android:background="@drawable/ic_selector_button_background"
++                android:button="@null"
++
++                android:fontFamily="@font/nanumsquareneo_4"
++                android:gravity="center"
++
++                android:text="신용카드"
++                android:textColor="@android:color/white" />
++
++        </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:orientation="horizontal">
++
++            <RadioButton
++                android:id="@+id/buttonUserPaymentPaymentMethodKakaoPay"
++                android:layout_width="0dp"
++                android:layout_height="50dp"
++                android:layout_weight="1"
++
++                android:button="@null"
++                android:background="@drawable/background_green100"
++                android:layout_marginTop="20dp"
++                android:layout_marginLeft="20dp"
++
++                android:fontFamily="@font/nanumsquareneo_4"
++                android:gravity="center"
++
++                android:text="카카오페이"
++                android:textColor="@android:color/white"
++
++                />
++
++            <RadioButton
++                android:id="@+id/buttonUserPaymentPaymentMethodNaverPay"
++                android:layout_width="0dp"
++                android:layout_height="50dp"
++                android:layout_weight="1"
++
++                android:layout_marginLeft="40dp"
++                android:layout_marginRight="20dp"
++                android:layout_marginTop="20dp"
++                android:background="@drawable/ic_selector_button_background"
++                android:button="@null"
++
++                android:fontFamily="@font/nanumsquareneo_4"
++                android:gravity="center"
++                android:text="네이버페이"
++                android:textColor="@android:color/white"
++
++                />
++        </LinearLayout>
++    </RadioGroup>
++
++    <TextView
++        android:id="@+id/textViewUserPaymentSaving"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@+id/radioGroupUserPaymentPaymentMethod"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="보유 적립금 사용"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <com.google.android.material.textfield.TextInputLayout
++        android:id="@+id/textInputLayoutUserPaymentSaving"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="5dp"
++        app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentSaving"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginRight="10dp"
++        android:layout_marginLeft="10dp"
++        >
++
++        <com.google.android.material.textfield.TextInputEditText
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="적립금 사용"
++            android:padding="15dp"
++            android:textSize="15dp"
++            android:inputType="text"
++            />
++    </com.google.android.material.textfield.TextInputLayout>
++
++    <TextView
++        android:id="@+id/textViewUserPaymentRequestPresentSaving"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="10dp"
++        android:layout_marginStart="15dp"
++        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUserPaymentSaving"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="15dp"
++        android:text="보유 적립금 : 12,000원"
++        android:fontFamily="@font/nanumsquareneo_4"
++        />
++
++
++        <CheckBox
++            android:id="@+id/checkboxUserPaymentUseSavingAll"
++            android:layout_width="wrap_content"
++            android:layout_height="25dp"
++            android:layout_marginTop="10dp"
++
++            android:layout_marginEnd="20dp"
++            android:button="@null"
++            android:contentDescription="설정 완료 체크 표시"
++            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
++
++            android:text="전액 사용"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserPaymentSaving" />
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentCard"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@id/checkboxUserPaymentUseSavingAll"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="카드 선택"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginLeft="5dp"
++        android:layout_marginTop="40dp"
++        android:text="*"
++        android:textSize="20dp"
++        android:textColor="@color/red50"
++        app:layout_constraintStart_toEndOf="@id/textViewUserPaymentCard"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentRequestPresentSaving"/>
++
++    <com.google.android.material.textfield.TextInputLayout
++        android:id="@+id/textInputLayoutUserPaymentCard"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="5dp"
++        app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentCard"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginRight="10dp"
++        android:layout_marginLeft="10dp"
++        >
++
++        <com.google.android.material.textfield.TextInputEditText
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="카드"
++            android:text="국민"
++            android:padding="15dp"
++            android:textSize="15dp"
++            android:inputType="text"
++            />
++    </com.google.android.material.textfield.TextInputLayout>
++
++    <TextView
++        android:id="@+id/textViewUserPaymentFinalPaymentInfoTitle"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserPaymentCard"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="최종 결제 정보"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentFinalPayment"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginEnd="20dp"
++        android:fontFamily="@font/nanumsquareneo_5"
++        android:text="15,000원"
++        android:textSize="20dp"
++        app:layout_constraintEnd_toEndOf="parent"
++
++        app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserPaymentCard" />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentTotalSavingInfoTitle"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="20dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentFinalPaymentInfoTitle"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="20dp"
++        android:text="적립금 사용"
++        android:fontFamily="@font/nanumsquareneo_3"
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentTotalSavingInfo"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="20dp"
++        android:layout_marginEnd="20dp"
++        android:fontFamily="@font/nanumsquareneo_5"
++        android:text="0원"
++        android:textSize="20dp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentFinalPayment" />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentDeliveryChargeTitle"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="20dp"
++        android:fontFamily="@font/nanumsquareneo_3"
++        android:text="배송비"
++        android:textSize="20dp"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentTotalSavingInfoTitle" />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentDeliveryCharge"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="16dp"
++        android:layout_marginEnd="20dp"
++
++        android:fontFamily="@font/nanumsquareneo_5"
++        android:text="3,000원"
++        android:textSize="20dp"
++        app:layout_constraintEnd_toEndOf="parent"
++
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentTotalSavingInfo" />
++
++
++    <View
++        android:id="@+id/viewUserPaymentTotalPayment"
++        android:layout_width="0dp"
++        android:layout_height="80dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="80dp"
++        android:layout_marginEnd="20dp"
++        android:background="@drawable/background_gray100"
++        app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentDeliveryChargeTitle"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentTotalPaymentTitle"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="30dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintStart_toStartOf="@id/viewUserPaymentTotalPayment"
++        app:layout_constraintTop_toTopOf="@id/viewUserPaymentTotalPayment"
++        android:textSize="20dp"
++        android:text="총 결제 금액"
++        android:fontFamily="@font/nanumsquareneo_5"
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentTotalPayment"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginEnd="10dp"
++        android:layout_marginStart="20dp"
++        android:layout_marginTop="28dp"
++        android:fontFamily="@font/nanumsquareneo_5"
++        android:text="18,000원"
++        android:textSize="20dp"
++
++
++        app:layout_constraintEnd_toEndOf="@id/viewUserPaymentTotalPayment"
++
++        app:layout_constraintHorizontal_bias="0.922"
++        app:layout_constraintStart_toEndOf= "@id/textViewUserPaymentTotalPaymentTitle"
++        app:layout_constraintTop_toTopOf="@id/viewUserPaymentTotalPayment" />
++
++    <com.google.android.material.checkbox.MaterialCheckBox
++        android:id="@+id/checkboxUserPaymentAgreeAll"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        app:layout_constraintTop_toBottomOf="@id/viewUserPaymentTotalPayment"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_margin="15dp"
++        android:text="전체 동의하기"
++        android:textSize="15dp"
++        android:fontFamily="@font/nanumsquareneo_3"/>
++
++    <View
++        android:id="@+id/viewUserPaymentdivider"
++        android:layout_width="0dp"
++        android:layout_height="1dp"
++        android:background="#D3D3D3"
++        app:layout_constraintTop_toBottomOf="@id/checkboxUserPaymentAgreeAll"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        android:layout_marginStart="20dp"
++        android:layout_marginEnd="20dp"/>
++
++    <com.google.android.material.checkbox.MaterialCheckBox
++        android:id="@+id/checkboxUserPaymentAgree1"
++        android:layout_width="wrap_content"
++        android:layout_height="20dp"
++        app:layout_constraintTop_toBottomOf="@id/viewUserPaymentdivider"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginLeft="15dp"
++        android:layout_marginTop="15dp"
++        android:text="주문하신 제품,가격,할인,배송 정보에 동의합니다."
++        android:textSize="12dp"
++        android:fontFamily="@font/nanumsquareneo_3"/>
++
++    <com.google.android.material.checkbox.MaterialCheckBox
++        android:id="@+id/checkboxUserPaymentAgree2"
++        android:layout_width="wrap_content"
++        android:layout_height="20dp"
++        app:layout_constraintTop_toBottomOf="@id/checkboxUserPaymentAgree1"
++        app:layout_constraintStart_toStartOf="parent"
++        android:layout_marginLeft="15dp"
++        android:layout_marginTop="15dp"
++        android:text="개인정보 수집 및 이용동의"
++        android:textSize="12dp"
++        android:fontFamily="@font/nanumsquareneo_3"/>
++
++    <TextView
++        android:id="@+id/textViewUserPaymentGuide1"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="20dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@+id/checkboxUserPaymentAgree2"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="12dp"
++        android:text="배송 및 결제 안내"
++        android:fontFamily="@font/nanumsquareneo_4"
++        />
++
++    <TextView
++        android:id="@+id/textViewUserPaymentGuide2"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:layout_marginTop="15dp"
++        android:layout_marginStart="20dp"
++        app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentGuide1"
++        app:layout_constraintStart_toStartOf="parent"
++        android:textSize="12dp"
++        android:text="취소/환불/교환 안내"
++        android:fontFamily="@font/nanumsquareneo_4"
++        />
++
++    <Button
++        android:id="@+id/buttonUserCartOrder"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:background="@drawable/background_green100"
++        android:layout_marginTop="80dp"
++        android:layout_marginLeft="20dp"
++        android:layout_marginRight="20dp"
++
++        android:textSize="17dp"
++        android:text="18,000원 결제하기"
++        android:fontFamily="@font/nanumsquareneo_4"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentGuide2"
++        />
++
+ 
+-    </androidx.constraintlayout.widget.ConstraintLayout>
+-</layout>
+\ No newline at end of file
++</androidx.constraintlayout.widget.ConstraintLayout>
++</ScrollView>
+\ No newline at end of file

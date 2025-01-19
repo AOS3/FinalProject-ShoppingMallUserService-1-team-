@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.user_fragment.product_info.UserProductInfoReviewFragment">
+
+		<androidx.appcompat.widget.AppCompatButton
+			android:id="@+id/buttonUserProductInfoReview"
+			style="@style/CustomButtonStyle"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="20dp"
+			android:text="후기 작성"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerViewUserProductInfoReview"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:layout_marginBottom="20dp"
+			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+			app:layout_constraintBottom_toTopOf="@id/textViewPageDivider"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/buttonUserProductInfoReview"
+			tools:listitem="@layout/item_review" />
+
+		<ImageView
+			android:id="@+id/imageViewUserProductInfoReviewBack"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="20dp"
+			android:src="@drawable/ic_back_ios"
+			app:layout_constraintBottom_toBottomOf="@id/textViewPageDivider"
+			app:layout_constraintEnd_toStartOf="@id/textViewUserProductInfoReviewNowPageNumber"
+			app:layout_constraintTop_toTopOf="@id/textViewPageDivider" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoReviewNowPageNumber"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="20dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:textSize="17sp"
+			app:layout_constraintBottom_toBottomOf="@id/textViewPageDivider"
+			app:layout_constraintEnd_toStartOf="@id/textViewPageDivider"
+			app:layout_constraintTop_toTopOf="@id/textViewPageDivider"
+			tools:text="1" />
+
+		<TextView
+			android:id="@+id/textViewPageDivider"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="/"
+			android:textSize="17sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
+
+		<TextView
+			android:id="@+id/textViewUserProductInfoReviewMaxPageNumber"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:textSize="17sp"
+			app:layout_constraintBottom_toBottomOf="@id/textViewPageDivider"
+			app:layout_constraintStart_toEndOf="@id/textViewPageDivider"
+			app:layout_constraintTop_toTopOf="@id/textViewPageDivider"
+			tools:text="10" />
+
+		<ImageView
+			android:id="@+id/imageViewUserProductInfoReviewForward"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:src="@drawable/ic_forward_ios"
+			app:layout_constraintBottom_toBottomOf="@id/textViewPageDivider"
+			app:layout_constraintStart_toEndOf="@id/textViewUserProductInfoReviewMaxPageNumber"
+			app:layout_constraintTop_toTopOf="@id/textViewPageDivider" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

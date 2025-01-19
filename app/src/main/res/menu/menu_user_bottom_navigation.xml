@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<!-- 카테고리 탭 -->
+	<item
+		android:id="@+id/navigation_category"
+		android:icon="@drawable/ic_menu_24px"
+		android:title="카테고리" />
+
+	<!-- 홈 탭 -->
+	<item
+		android:id="@+id/navigation_home"
+		android:icon="@drawable/ic_home_24px"
+		android:title="홈" />
+
+	<!-- 장바구니 탭 -->
+	<item
+		android:id="@+id/navigation_cart"
+		android:icon="@drawable/ic_shopping_cart_24px"
+		android:title="장바구니" />
+
+	<!-- 내 정보 탭 -->
+	<item
+		android:id="@+id/navigation_profile"
+		android:icon="@drawable/ic_person_24px"
+		android:title="내 정보" />
+
+</menu>

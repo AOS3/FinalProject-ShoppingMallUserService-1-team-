@@ -1,0 +1,233 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.home_fragment.my_info.UserInfoFragment">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<TextView
+				android:id="@+id/textViewUserInfoHeader"
+				android:layout_width="match_parent"
+				android:layout_height="150dp"
+				android:background="@color/green100"
+				android:textColor="@color/white"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<TextView
+				android:id="@+id/textViewTitleUserInfo"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="40dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:gravity="start"
+				android:text="김과일님"
+				android:textColor="@color/white"
+				android:textSize="25sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="@id/textViewUserInfoHeader" />
+
+			<TextView
+				android:id="@+id/textViewUserInfoSubtitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="30dp"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:gravity="start"
+				android:text="반갑습니다."
+				android:textColor="@color/white"
+				android:textSize="23sp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewTitleUserInfo" />
+
+			<!-- 내부 ConstraintLayout의 패딩 적용 -->
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingStart="10dp"
+				android:paddingEnd="10dp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoHeader">
+
+				<View
+					android:id="@+id/viewUserInfoCost"
+					android:layout_width="match_parent"
+					android:layout_height="130dp"
+					android:layout_marginTop="30dp"
+					android:background="@color/gray8"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
+
+				<TextView
+					android:id="@+id/TextViewUserInfoReWard"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="적립금"
+					android:textColor="@color/black"
+					app:layout_constraintEnd_toStartOf="@id/TextViewUserInfoReview"
+					app:layout_constraintStart_toStartOf="@id/viewUserInfoCost"
+					app:layout_constraintTop_toTopOf="@id/viewUserInfoCost" />
+
+				<TextView
+					android:id="@+id/reWardCostTextViewUserInfo"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="15dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="1000 원"
+					android:textColor="@color/black"
+					app:layout_constraintEnd_toStartOf="@id/TextViewUserInfoReview"
+					app:layout_constraintStart_toStartOf="@id/viewUserInfoCost"
+					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReWard" />
+
+				<TextView
+					android:id="@+id/TextViewUserInfoReview"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="30dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="후기"
+					android:textColor="@color/black"
+					app:layout_constraintEnd_toEndOf="@id/viewUserInfoCost"
+					app:layout_constraintStart_toEndOf="@id/TextViewUserInfoReWard"
+					app:layout_constraintTop_toTopOf="@id/viewUserInfoCost" />
+
+				<TextView
+					android:id="@+id/reviewCostTextViewUserInfo"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="15dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="2 건"
+					android:textColor="@color/black"
+					app:layout_constraintEnd_toEndOf="@id/viewUserInfoCost"
+					app:layout_constraintStart_toEndOf="@id/reWardCostTextViewUserInfo"
+					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReview" />
+
+				<View
+					android:id="@+id/viewUserInfoUserInfoList"
+					android:layout_width="match_parent"
+					android:layout_height="600dp"
+					android:layout_marginTop="20dp"
+					android:background="@color/gray8"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/viewUserInfoCost" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoOrderTitle"
+					style="@style/AppText5.S25"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="50dp"
+					android:text="주문/배송조회"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="@id/viewUserInfoUserInfoList" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoOrderHistory"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:text="주문내역 및 배송조회"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoOrderTitle" />
+
+				<TextView
+					android:id="@+id/textViewInfoUserInfoSubscription"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:text="내 구독정보"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoOrderHistory" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoProductInquiryTitle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="50dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="문의"
+					android:textSize="25sp"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewInfoUserInfoSubscription" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoProductInquiry"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:text="나의 상품 문의 내역"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoProductInquiryTitle" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoPersonalInfoTitle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="70dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					android:text="나의정보설정"
+					android:textSize="25sp"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoProductInquiry" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoShippingInfo"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:text="배송지관리"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoPersonalInfoTitle" />
+
+				<TextView
+					android:id="@+id/textViewUserInfoAccountInfo"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:text="회원정보 관리 및 탈퇴"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoShippingInfo" />
+
+				<TextView
+					android:id="@+id/textViewLogoutUserInfo"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:text="로그아웃"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserInfoAccountInfo" />
+
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.core.widget.NestedScrollView>
+</layout>

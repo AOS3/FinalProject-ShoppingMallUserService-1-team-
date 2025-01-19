@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_graph"
+	app:startDestination="@id/user_login">
+
+	<fragment
+		android:id="@+id/user_login"
+		android:name="com.example.frume.login.UserLoginFragment"
+		android:label="로그인"
+		tools:layout="@layout/fragment_user_login"
+		>
+		<action
+			android:id="@+id/action_user_login_to_user_signup"
+			app:destination="@id/user_signup" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_signup"
+		android:name="com.example.frume.login.UserSignUpFragment"
+		android:label="회원가입"
+		tools:layout="@layout/fragment_user_sign_up"
+		>
+		<action
+			android:id="@+id/action_user_signup_to_user_login"
+			app:destination="@id/user_login" />
+	</fragment>
+</navigation>

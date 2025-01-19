@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.user_fragment.product_info.UserProductInfoFragment">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolBarUserProductInfo"
+			style="@style/AppToolbar.Navigation"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:title="[상품명]" />
+
+
+		<!--    이름은 코드 내부에서 설정	        -->
+		<!--    상품 설명, 상세 정보, 후기, 문의	-->
+		<com.google.android.material.tabs.TabLayout
+			android:id="@+id/tabLayoutUserProductInfo"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/toolBarUserProductInfo"
+			app:tabSelectedTextColor="@color/green100" />
+
+		<androidx.viewpager2.widget.ViewPager2
+			android:id="@+id/viewPagerUserProductInfo"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/tabLayoutUserProductInfo" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

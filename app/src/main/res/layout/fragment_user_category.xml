@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.user_fragment.category.UserCategoryFragment">
+
+		<TextView
+			android:id="@+id/textViewUserCategoryKoreaLabel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="40dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="국산 과일"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryStrawberry"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="딸기"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryKoreaLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryKoreaLabel" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryApple"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="사과"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/textViewUserCategoryStrawberry"
+			app:layout_constraintTop_toTopOf="@id/textViewUserCategoryStrawberry" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryTangerine"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="감귤"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryKoreaLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryStrawberry" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryGrape"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="포도"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/textViewUserCategoryTangerine"
+			app:layout_constraintTop_toTopOf="@id/textViewUserCategoryTangerine" />
+
+
+		<TextView
+			android:id="@+id/textViewUserCategoryImportLabel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="50dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="수입 과일"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryKoreaLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryTangerine" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryMango"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="망고"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryImportLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryImportLabel" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryBlueberry"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="블루베리"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryApple"
+			app:layout_constraintTop_toTopOf="@id/textViewUserCategoryMango" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryKiwi"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="키위"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryMango"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryMango" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryOrange"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="오렌지"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryBlueberry"
+			app:layout_constraintTop_toTopOf="@id/textViewUserCategoryKiwi" />
+
+
+		<TextView
+			android:id="@+id/textViewUserCategoryWeightLabel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="50dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="용량"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryKoreaLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryKiwi" />
+
+		<TextView
+			android:id="@+id/textViewUserCategorySingle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="1인 가구"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryWeightLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryWeightLabel" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryBulk"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="대용량"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryApple"
+			app:layout_constraintTop_toTopOf="@id/textViewUserCategorySingle" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryOtherLabel"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="50dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="용량"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryKoreaLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategorySingle" />
+
+		<TextView
+			android:id="@+id/textViewUserCategoryPackage"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="30dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="패키지"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryOtherLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewUserCategoryOtherLabel" />
+
+		<TextView
+			android:id="@+id/textViewUserCategorySale"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="특가"
+			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryApple"
+			app:layout_constraintTop_toTopOf="@id/textViewUserCategoryPackage" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

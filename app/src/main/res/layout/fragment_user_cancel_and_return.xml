@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.core.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.home_fragment.my_info.UserCancelAndReturnFragment">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+
+			<com.google.android.material.appbar.MaterialToolbar
+				android:id="@+id/toolbarUserCancelAndReturn"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/green100"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:navigationIcon="@drawable/ic_arrow_back_24px"
+				app:navigationIconTint="@color/white"
+				app:title="반품,취소 및 교환 신청"
+				app:titleTextColor="@color/white" />
+
+			<View
+				android:id="@+id/viewUserCancelAndReturnServiceFilter"
+				android:layout_width="match_parent"
+				android:layout_height="200dp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/toolbarUserCancelAndReturn" />
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserInfoModifyArrivalName"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="40dp"
+				android:layout_marginEnd="20dp"
+				android:hint="서비스"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnServiceFilter"
+				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnServiceFilter">
+
+				<AutoCompleteTextView
+					android:layout_width="match_parent"
+					android:layout_height="50dp"
+					android:entries="@array/item_user_order_state_order_state"
+					android:hint="반품" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<View
+				android:id="@+id/viewUserCancelAndReturnOrderContent"
+				android:layout_width="match_parent"
+				android:layout_height="200dp"
+				android:layout_marginStart="30dp"
+				android:layout_marginTop="50dp"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyArrivalName" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnProductNameTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="상품이름 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnOrderContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnProductNameContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="딸기 150G"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnProductNameTitle"
+				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnOrderContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnPriceTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="가격 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnProductNameTitle" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnPriceContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="15,000 원"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnPriceTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnProductNameContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnQuantityTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="수량 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnPriceTitle" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnQuantityContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="1"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnQuantityTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnPriceContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnShippingAddressTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="배송지 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnQuantityTitle" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnShippingAddressContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="서울 강남구"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnShippingAddressTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnQuantityContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnOrderDateTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="주문날짜 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingAddressTitle" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnOrderDateContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="2025-01-07 16:00"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnOrderDateTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingAddressContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnShippingStatusTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="배송현황 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnOrderDateTitle" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnShippingStatusContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="출고준비"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnShippingStatusTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnOrderDateContent" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnOrderStatusTitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_5"
+				android:text="주문상태 : "
+				android:textSize="20dp"
+				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingStatusTitle" />
+
+			<TextView
+				android:id="@+id/textViewUserCancelAndReturnOrderStatusContent"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:text="결제완료"
+				android:textSize="20dp"
+				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnOrderStatusTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingStatusContent" />
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserCancelAndReturnInputTextLayout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="20dp"
+				android:layout_marginTop="40dp"
+				android:layout_marginEnd="20dp"
+				android:hint="서비스"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/viewUserCancelAndReturnOrderContent">
+
+				<AutoCompleteTextView
+					android:layout_width="match_parent"
+					android:layout_height="200dp"
+					android:entries="@array/item_user_order_state_order_state"
+					android:hint="반품/교환/취소 사유" />
+			</com.google.android.material.textfield.TextInputLayout>
+
+
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/buttonUserCancelAndReturnPost"
+				style="@style/CustomButtonStyle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="20dp"
+				android:layout_marginTop="30dp"
+				android:text="택배 수거"
+				app:layout_constraintEnd_toStartOf="@id/buttonUserCancelAndReturnDirection"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserCancelAndReturnInputTextLayout" />
+
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/buttonUserCancelAndReturnDirection"
+				style="@style/CustomButtonStyle"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="20dp"
+				android:layout_marginTop="30dp"
+				android:text="직접 발송"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@id/buttonUserCancelAndReturnPost"
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserCancelAndReturnInputTextLayout" />
+
+
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/buttonUserCancelAndReturnRequest"
+				style="@style/CustomButtonStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginHorizontal="20dp"
+				android:layout_marginTop="30dp"
+				android:text="요청하기"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/buttonUserCancelAndReturnDirection" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+	</androidx.core.widget.NestedScrollView>
+
+</layout>

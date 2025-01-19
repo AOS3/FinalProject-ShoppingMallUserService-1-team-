@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<!--최상단 레이아웃을 CoordinatorLayout하여 스크롤시에 하단 네비게이션바가 사라지도록 한다
+		스크롤시 주문하기 버튼은 고정, 하단 네비게이션바는 사라진다.-->
+
+	<androidx.coordinatorlayout.widget.CoordinatorLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.user_fragment.user_cart.UserCartFragment">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+
+			<com.google.android.material.appbar.MaterialToolbar
+				android:id="@+id/toolbarUserCart"
+				style="@style/AppToolbar"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:title="장바구니" />
+
+			<!-- 탭바(1회구매/정기구독) -->
+			<com.google.android.material.tabs.TabLayout
+				android:id="@+id/tabbarUserCart"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/white"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/toolbarUserCart">
+
+				<com.google.android.material.tabs.TabItem
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="1회 구매" />
+
+				<com.google.android.material.tabs.TabItem
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="정기 구독" />
+			</com.google.android.material.tabs.TabLayout>
+
+			<androidx.core.widget.NestedScrollView
+				android:id="@+id/view"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/tabbarUserCart">
+
+				<androidx.viewpager2.widget.ViewPager2
+					android:id="@+id/viewpagerUserCartMain"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content" />
+			</androidx.core.widget.NestedScrollView>
+
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

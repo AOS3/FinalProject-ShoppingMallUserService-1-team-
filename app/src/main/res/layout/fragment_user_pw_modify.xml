@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		tools:context=".fragment.home_fragment.my_info.UserPwModifyFragment">
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbarUserPwModify"
+			style="@style/AppToolbar.Navigation"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:title="비밀번호 변경" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserPwModify"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="50dp"
+			app:endIconMode="password_toggle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/toolbarUserPwModify">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:hint="현재 비밀번호" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserNewPwModify"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="20dp"
+			app:endIconMode="password_toggle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserPwModify">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:hint="새 비밀번호" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/textInputLayoutUserNewPwVerify"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="20dp"
+			app:endIconMode="password_toggle"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserNewPwModify">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="@font/nanumsquareneo_3"
+				android:hint="새 비밀번호 확인" />
+		</com.google.android.material.textfield.TextInputLayout>
+
+
+		<TextView
+			style="@style/AppText4.S14"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="50dp"
+			android:text="●  최소 8자, 최대 16자, 소문자, 숫자, 특수문자 포함"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserNewPwVerify" />
+
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/buttonUserPwModifySubmit"
+			style="@style/Widget.Material3.Button.OutlinedButton"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="20dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="20dp"
+			android:layout_marginBottom="50dp"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:text="완료"
+			android:textColor="@color/black"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_graph"
+	app:startDestination="@id/navigation_home">
+
+	<fragment
+		android:id="@+id/navigation_home"
+		android:name="com.example.frume.fragment.home_fragment.user_home.UserHomeFragment"
+		android:label="홈"
+		tools:layout="@layout/fragment_user_home">
+		<action
+			android:id="@+id/action_navigation_home_to_user_search"
+			app:destination="@id/user_search" />
+		<action
+			android:id="@+id/action_navigation_home_to_user_product_info"
+			app:destination="@id/user_product_info" />
+	</fragment>
+
+
+	<fragment
+		android:id="@+id/navigation_profile"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoFragment"
+		android:label="내정보"
+		tools:layout="@layout/fragment_user_info">
+		<action
+			android:id="@+id/action_navigation_profile_to_user_order_history"
+			app:destination="@id/user_order_history" />
+		<action
+			android:id="@+id/action_navigation_profile_to_userAddressManageFragment"
+			app:destination="@id/user_address_manage" />
+		<action
+			android:id="@+id/action_navigation_profile_to_user_info_manage"
+			app:destination="@id/user_info_manage" />
+	</fragment>
+	<fragment
+		android:id="@+id/navigation_cart"
+		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartFragment"
+		android:label="장바구니"
+		tools:layout="@layout/fragment_user_cart">
+		<action
+			android:id="@+id/action_navigation_cart_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_search"
+		android:name="com.example.frume.fragment.home_fragment.user_home.UserSearchFragment"
+		android:label="검색화면"
+		tools:layout="@layout/fragment_user_search">
+		<action
+			android:id="@+id/action_user_search_to_user_product_show_list"
+			app:destination="@id/user_product_show_list" />
+		<action
+			android:id="@+id/action_user_search_to_navigation_home"
+			app:destination="@id/navigation_home" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_product_info"
+		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragment"
+		android:label="상품 정보"
+		tools:layout="@layout/fragment_user_product_info">
+		<action
+			android:id="@+id/action_user_product_info_to_userProductInfoDescriptionFragment"
+			app:destination="@id/user_product_info_description" />
+		<action
+			android:id="@+id/action_user_product_info_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+		<action
+			android:id="@+id/action_user_product_info_to_user_product_info_write_review"
+			app:destination="@id/user_product_info_write_review" />
+		<action
+			android:id="@+id/action_user_product_info_to_navigation_home"
+			app:destination="@id/navigation_home" />
+		<action
+			android:id="@+id/action_user_product_info_to_navigation_home2"
+			app:destination="@id/navigation_home" />
+		<argument
+			android:name="productNameMethod"
+			app:argType="com.example.frume.data.TempProduct"
+			app:nullable="true" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_payment_screen"
+		android:name="com.example.frume.fragment.user_fragment.user_payment.UserPaymentScreenFragment"
+		android:label="결제 화면"
+		tools:layout="@layout/fragment_user_payment_screen">
+		<action
+			android:id="@+id/action_user_payment_screen_to_user_product_info"
+			app:destination="@id/user_product_info" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_order_history"
+		android:name="com.example.frume.fragment.home_fragment.my_info.order_inquiry.UserOrderHistoryFragment"
+		android:label="배송 조회"
+		tools:layout="@layout/fragment_user_order_history">
+		<action
+			android:id="@+id/action_user_order_history_to_user_order_detail"
+			app:destination="@id/user_order_detail" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_address_manage"
+		android:name="com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserAddressManageFragment"
+		android:label="배송지 관리"
+		tools:layout="@layout/fragment_user_address_manage">
+		<action
+			android:id="@+id/action_user_address_manage_to_user_address_add"
+			app:destination="@id/user_address_add" />
+		<action
+			android:id="@+id/action_user_address_manage_to_userAddressModifyFragment"
+			app:destination="@id/user_address_modify" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_address_add"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserAddressAddFragment"
+		android:label="배송지 추가"
+		tools:layout="@layout/fragment_user_address_add">
+		<action
+			android:id="@+id/action_user_address_add_to_user_address_manage"
+			app:destination="@id/user_address_manage" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_address_modify"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserAddressModifyFragment"
+		android:label="배송지 수정"
+		tools:layout="@layout/fragment_user_address_modify">
+		<action
+			android:id="@+id/action_user_address_modify_to_user_address_manage"
+			app:destination="@id/user_address_manage" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_info_manage"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoManageFragment"
+		android:label="회원 정보 관리"
+		tools:layout="@layout/fragment_user_info_manage">
+		<action
+			android:id="@+id/action_user_info_manage_to_userInfoModifyFragment"
+			app:destination="@id/user_info_modify" />
+		<action
+			android:id="@+id/action_user_info_manage_to_user_pw_modify"
+			app:destination="@id/user_pw_modify" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_info_modify"
+		android:name="com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserInfoModifyFragment"
+		android:label="UserInfoModifyFragment"
+		tools:layout="@layout/fragment_user_info_modify">
+		<action
+			android:id="@+id/action_user_info_modify_to_user_info_manage"
+			app:destination="@id/user_info_manage" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_order_detail"
+		android:name="com.example.frume.fragment.home_fragment.my_info.order_inquiry.UserOrderDetailFragment"
+		android:label="주문 상세 내역"
+		tools:layout="@layout/fragment_user_order_detail">
+		<action
+			android:id="@+id/action_user_order_detail_to_userCancelAndReturnFragment"
+			app:destination="@id/user_cancel_and_return" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_cancel_and_return"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragment"
+		android:label="반품 취소 및 교환 신청"
+		tools:layout="@layout/fragment_user_cancel_and_return">
+		<action
+			android:id="@+id/action_userCancelAndReturnFragment_to_user_order_detail"
+			app:destination="@id/user_order_detail" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_product_info_description"
+		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"
+		android:label="상품 설명"
+		tools:layout="@layout/fragment_user_product_info_description">
+		<action
+			android:id="@+id/action_user_product_info_description_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_product_info_write_review"
+		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoWriteReviewFragment"
+		android:label="UserProductInfoWriteReviewFragment"
+		tools:layout="@layout/fragment_user_product_info_write_review">
+		<action
+			android:id="@+id/action_user_product_info_write_review_to_user_product_info"
+			app:destination="@id/user_product_info" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_product_show_list"
+		android:name="com.example.frume.fragment.home_fragment.user_home.UserProductShowListFragment"
+		android:label="상품 정보"
+		tools:layout="@layout/fragment_user_product_show_list">
+		<action
+			android:id="@+id/action_user_product_show_list_to_user_search"
+			app:destination="@id/user_search" />
+	</fragment>
+	<fragment
+		android:id="@+id/navigation_category"
+		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryFragment"
+		android:label="카테고리"
+		tools:layout="@layout/fragment_user_category">
+		<action
+			android:id="@+id/action_navigation_category_to_userCategoryDetailFragment"
+			app:destination="@id/user_category_detail" />
+		<argument
+			android:name="categoryArgs"
+			app:argType="com.example.frume.util.ProductCategoryDetailType" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_category_detail"
+		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragment"
+		android:label="상품 리스트"
+		tools:layout="@layout/fragment_user_category_detail" >
+		<argument
+			android:name="categoryMethod"
+			app:argType="com.example.frume.util.ProductCategoryDetailType" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_pw_modify"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserPwModifyFragment"
+		android:label="비밀번호 변경"
+		tools:layout="@layout/fragment_user_pw_modify" />
+</navigation>

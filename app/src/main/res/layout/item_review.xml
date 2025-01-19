@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="20dp">
+
+		<RatingBar
+			android:id="@+id/ratingBarItemReview"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/nanumsquareneo_5"
+			android:isIndicator="true"
+			android:rating="4.5"
+			android:stepSize="0.5"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<TextView
+			android:id="@+id/textViewRecyclerViewReviewDate"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"
+			android:fontFamily="@font/nanumsquareneo_2"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/ratingBarItemReview"
+			tools:text="2025.01.12" />
+
+		<TextView
+			android:id="@+id/textViewRecyclerViewReviewTitle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:fontFamily="@font/nanumsquareneo_5"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewDate"
+			tools:text="너무 맛있어요![리뷰 제목]" />
+
+		<TextView
+			android:id="@+id/textViewRecyclerViewReviewText"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:ellipsize="end"
+			android:fontFamily="@font/nanumsquareneo_3"
+			android:maxLines="1"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewTitle"
+			tools:text="어쩌구 저쩌구[리뷰 내용]" />
+
+		<ImageView
+			android:id="@+id/imageViewRecyclerViewReview"
+			android:layout_width="300dp"
+			android:layout_height="150dp"
+			android:layout_marginTop="5dp"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewText"
+			tools:background="@color/gray5" />
+
+		<com.google.android.material.divider.MaterialDivider
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			app:dividerColor="@color/gray50"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/imageViewRecyclerViewReview" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

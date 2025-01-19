@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp">
+
+		<!-- 체크박스 (상품 선택) -->
+		<com.google.android.material.checkbox.MaterialCheckBox
+			android:id="@+id/checkboxRecyclerViewSelect"
+			android:layout_width="30dp"
+			android:layout_height="30dp"
+			android:layout_marginLeft="10dp"
+			app:layout_constraintHorizontal_bias="0"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<!-- 상품 이미지
+				이미지 원본 크기와 비율 유지하며 이미지 뷰 내부에 꽉 차도록 한다(centerCrop)-->
+		<ImageView
+			android:id="@+id/imageViewRecyclerViewImage"
+			android:layout_width="130dp"
+			android:layout_height="100dp"
+			android:layout_margin="5dp"
+			android:layout_marginStart="4dp"
+			android:scaleType="centerCrop"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/checkboxRecyclerViewSelect"
+			tools:src="@drawable/ic_panorama_24px" />
+
+		<!-- 상품 이름 -->
+		<TextView
+			android:id="@+id/textViewRecyclerViewProductName"
+			style="@style/AppText5.S17"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="4dp"
+			android:layout_marginTop="30dp"
+			android:ellipsize="end"
+			android:maxLines="1"
+			app:layout_constraintEnd_toStartOf="@id/imageViewRecyclerViewDelete"
+			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewImage"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:text="맛있는 딸기 1kg" />
+
+
+		<ImageView
+			android:id="@+id/imageViewRecyclerViewDelete"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="20dp"
+			android:src="@drawable/ic_delete_white_24px"
+			app:layout_constraintBottom_toBottomOf="@id/textViewRecyclerViewProductName"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="@id/textViewRecyclerViewProductName" />
+
+		<!-- 상품 가격 -->
+		<TextView
+			android:id="@+id/textViewRecyclerViewProductPrice"
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="@id/textViewRecyclerViewProductName"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductName"
+			tools:text="16,900원" />
+
+
+		<View
+			android:id="@+id/viewRecyclerViewCount"
+			android:layout_width="150dp"
+			android:layout_height="40dp"
+			android:layout_marginStart="60dp"
+			android:layout_marginTop="10dp"
+			android:layout_marginEnd="20dp"
+			android:background="@drawable/background_gray100"
+			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewImage"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductPrice" />
+
+		<ImageView
+			android:id="@+id/imageViewRecyclerViewRemove"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="15dp"
+			android:contentDescription="-버튼을 누르면 값이 감소"
+			android:src="@drawable/ic_remove_24px"
+			app:layout_constraintBottom_toBottomOf="@id/viewRecyclerViewCount"
+			app:layout_constraintStart_toStartOf="@id/viewRecyclerViewCount"
+			app:layout_constraintTop_toTopOf="@id/viewRecyclerViewCount" />
+
+
+		<EditText
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginHorizontal="20dp"
+			android:background="@color/transparent"
+			android:gravity="center"
+			android:inputType="number"
+			android:text="13"
+
+			app:layout_constraintBottom_toBottomOf="@id/viewRecyclerViewCount"
+			app:layout_constraintEnd_toStartOf="@id/imageViewRecyclerViewAdd"
+			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewRemove"
+			app:layout_constraintTop_toTopOf="@id/viewRecyclerViewCount" />
+
+		<ImageView
+			android:id="@+id/imageViewRecyclerViewAdd"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="15dp"
+			android:contentDescription="+버튼을 누르면 값이 감소"
+			android:src="@drawable/ic_add_24px"
+			app:layout_constraintBottom_toBottomOf="@id/viewRecyclerViewCount"
+			app:layout_constraintEnd_toEndOf="@id/viewRecyclerViewCount"
+			app:layout_constraintTop_toTopOf="@id/viewRecyclerViewCount" />
+
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
+
