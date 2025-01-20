@@ -1,12 +1,10 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.DeliveryState
 import com.example.frume.util.DeliverySubscribeState
 import com.google.firebase.Timestamp
-import java.sql.Time
 
-// 배송 Model
-class DeliveryModel {
+class DeliveryVO {
     // 배송 문서 ID
     var deliveryDocId = ""
 
@@ -23,7 +21,7 @@ class DeliveryModel {
     var deliveryDueDate = Timestamp.now()
 
     // 정기배송여부
-    var deliveryIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE // 0 : 비구독
+    var deliveryIsSubscribed = 0 // 0 : 비구독
 
     // 기타사항
     var deliveryEtc = ""
@@ -32,6 +30,5 @@ class DeliveryModel {
     var deliveryTimeStamp = Timestamp.now()
 
     // 배송 상태
-    var deliveryState = DeliveryState.DELIVERY_STATE_READY_FOR_SHIPMENT // 1 : 출고 준비중
-
+    var deliveryState = 0 // 0 : 출고 준비중
 }

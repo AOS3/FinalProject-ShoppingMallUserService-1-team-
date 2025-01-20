@@ -1,11 +1,10 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.ProductSellingState
 import com.example.frume.util.ProductType
 import com.google.firebase.Timestamp
 
-// 상품 Model
-class ProductModel {
+class ProductVO {
     // 상품 문서 ID
     var productDocId = ""
 
@@ -34,13 +33,13 @@ class ProductModel {
     var productImages = mutableListOf<String>()
 
     // 식품유형
-    var productType = ProductType.PRODUCT_TYPE_FRESH // 1 : 신선 과일
+    var productType = 1 // 1 : 신선 과일
 
     // 식품용량
     var productVolume = 0
 
     // 판매 상태
-    var productSellingState = ProductSellingState.PRODUCT_STATE_NORMAL // 1: 정상
+    var productSellingState = 1 // 1: 정상
 
     // 등록 시간
     var productTimeStamp = Timestamp.now()

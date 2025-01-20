@@ -1,5 +1,7 @@
 package com.example.frume.model
 
+import com.example.frume.util.CustomerUserGender
+import com.example.frume.util.CustomerUserState
 import com.google.firebase.Timestamp
 
 // 유저 Model
@@ -23,13 +25,18 @@ class UserModel {
     var customerUserAge = 0
 
     // 성별
-    var customerUserGenderIsMale = true
+    var customerUserGenderIsMale = CustomerUserGender.CUSTOMER_USER_GENDER_MALE // 1 : 남자
 
     // 휴대폰 번호
     var customerUserPhoneNumber = ""
 
     // 회원 주소
-    var customerUserAddress = ""
+    var customerUserAddress = mutableMapOf(
+        "BasicAddress" to "",
+        "DetailedAddress" to "",
+        "PostNumber" to ""
+    )
+
 
     // 배송지 items
     var customerUserAddressItems = mutableListOf<DeliveryAddressModel>()
@@ -38,7 +45,7 @@ class UserModel {
     var customerUserReward = 0
 
     // 회원 상태
-    var customerUserState = 0
+    var customerUserState = CustomerUserState.CUSTOMER_USER_STATE_ACTIVE // 1 : 활동중
 
     // 등록 날짜
     var customerUserTimeStamp = Timestamp.now()
@@ -51,9 +58,10 @@ class UserModel {
     // 기본 배송지 주소
     //var customerUserBasicAddress=""
     //배송지 db에 기본배송지 여부가 들어가서 제거함
+}
 
-
-    /*    fun toUserVO() : UserVO{
+/*
+        fun toUserVO() : UserVO{
             val userVO = UserVO()
             userVO.userId = userId
             userVO.userPw = userPw
@@ -70,5 +78,5 @@ class UserModel {
             userVO.userState = userState.number
 
             return userVO
-        }*/
-}
+        }
+}*/

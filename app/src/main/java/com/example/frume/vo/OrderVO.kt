@@ -1,13 +1,13 @@
-package com.example.frume.model
+package com.example.frume.vo
 
+import com.example.frume.model.CartProductModel
 import com.example.frume.util.OrderDeliveryOption
 import com.example.frume.util.OrderIsOneTimeDeliveryBoolType
 import com.example.frume.util.OrderPaymentOption
 import com.example.frume.util.OrderState
 import com.google.firebase.Timestamp
 
-// 주문 Model
-class OrderModel {
+class OrderVO {
     // 주문 문서 ID
     var orderDocId = ""
 
@@ -24,16 +24,16 @@ class OrderModel {
     var orderCustomerPhoneNumber = ""
 
     // 결제 방식
-    var orderPaymentOption = OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT // 1 : 게좌 이체
+    var orderPaymentOption = 1 // 1 : 게좌 이체
 
     // 배송 방식
-    var orderDeliveryOption = OrderDeliveryOption.DOOR_DELIVERY // 1: 문 앞 배송
+    var orderDeliveryOption = 1 // 1: 문 앞 배송
 
     // 배송 예정일
     var orderDeliveryDueDate = Timestamp.now()
 
     // 일회성 배송 여부
-    var orderIsOneTimeDelivery = OrderIsOneTimeDeliveryBoolType.ONE_TIME_DELIVERY // true : 일회성배송
+    var orderIsOneTimeDelivery = true // true : 일회성배송
 
     // 기타사항
     var orderEtc = ""
@@ -42,6 +42,5 @@ class OrderModel {
     var orderTimeStamp = Timestamp.now()
 
     // 주문 상태
-    var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING // 1 : 결제 대기중
-
+    var orderState = 1 // 1 : 결제 대기중
 }

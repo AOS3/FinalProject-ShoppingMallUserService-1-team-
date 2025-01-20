@@ -1,10 +1,9 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.ReviewState
 import com.google.firebase.Timestamp
 
-// 리뷰 Model
-class ReviewModel {
+class ReviewVO {
     // 리뷰 문서 ID
     var reviewDocId = ""
 
@@ -33,7 +32,5 @@ class ReviewModel {
     var reviewAnswer = ""
 
     // 노출 상태
-    var reviewState = ReviewState.REVIEW_STATE_VISIBLE // 1 : 노출 상태
-
-
+    var reviewState = 1 // 1 : 노출 상태
 }

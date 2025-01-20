@@ -1,11 +1,9 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.OrderProductState
 import com.google.firebase.Timestamp
 
-// 주문 상품 Model
-// 주문결제 하고 난 상품들 목록
-class OrderProductModel {
+class OrderProductVD {
     // 주문 상품 ID
     var orderProductDocId = ""
 
@@ -37,7 +35,7 @@ class OrderProductModel {
     var orderProductTotalPrice = 0
 
     // 상태
-    var orderProductState = OrderProductState.ORDER_PRODUCT_STATE_NORMAL // 1 : 정상
+    var orderProductState = 1 // 1 : 정상
 
     // 등록시간
     var orderProductTimeStamp = Timestamp.now()

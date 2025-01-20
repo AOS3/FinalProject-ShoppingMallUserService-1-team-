@@ -1,9 +1,8 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.google.firebase.Timestamp
 
-// 관리자 매출 Model
-class AdminSalesModel {
+class AdminSalesVO {
     // 매출 문서 ID
     var salesDocId = ""
 
@@ -20,12 +19,11 @@ class AdminSalesModel {
     var salesOrderDate = Timestamp.now()
 
     // 매출 상태
-    var salesOrderState = 0
+    var salesOrderState = 0 // 0 : 정상, 1 : 비정상
 
     // 주 카테고리
     var salesCategory1 = ""
 
     // 부 카테고리
     var salesCategory2 = ""
-
 }

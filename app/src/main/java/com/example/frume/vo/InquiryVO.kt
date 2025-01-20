@@ -1,11 +1,10 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.InquiryIsOpenBoolType
 import com.example.frume.util.InquiryIsSecretBoolType
 import com.google.firebase.Timestamp
 
-// 문의 Model
-class InquiryModel {
+class InquiryVO {
     // 문의 문서 ID
     var inquiryDocId = ""
 
@@ -28,10 +27,10 @@ class InquiryModel {
     var inquiryAnswer = ""
 
     // 비밀글 여부
-    var inquiryIsSecret = InquiryIsSecretBoolType.INQUIRY_IS_SECRET_TRUE // true
+    var inquiryIsSecret = true
 
     // 공개상태
-    var inquiryState = InquiryIsOpenBoolType.INQUIRY_IS_OPEN_TRUE // true
+    var inquiryState = true //
 
     // 문의 등록 시간
     var inquiryTimeStamp = Timestamp.now()

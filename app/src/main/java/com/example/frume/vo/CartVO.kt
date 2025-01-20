@@ -1,10 +1,10 @@
-package com.example.frume.model
+package com.example.frume.vo
 
+import com.example.frume.model.CartProductModel
 import com.example.frume.util.CartState
 import com.google.firebase.Timestamp
 
-// 장바구니 Model
-class CartModel {
+class CartVO {
     // 장바구니 문서 ID
     var cartDocId = ""
 
@@ -15,10 +15,8 @@ class CartModel {
     var cartDeliveryTimeStamp = Timestamp.now()
 
     // 노출상태
-    var cartDeliveryState = CartState.CART_STATE_NORMAL // 정상 : 1, 비정상 : 2
+    var cartDeliveryState = 0 // 정상 : 0, 비정상 : 1
 
     // 장바구니 items 문서 IDs
     var cartProductItems = mutableListOf<CartProductModel>()
-
 }
-

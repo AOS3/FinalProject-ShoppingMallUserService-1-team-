@@ -1,11 +1,8 @@
-package com.example.frume.model
+package com.example.frume.vo
 
-import com.example.frume.util.DeliveryAddressState
-import com.example.frume.util.DeliveryDefaultAddressBoolType
 import com.google.firebase.Timestamp
 
-// 배송지 Model
-class DeliveryAddressModel {
+class DeliveryAddressVO {
     // 배송지 문서 id
     var deliveryAddressDocId = ""
 
@@ -28,12 +25,11 @@ class DeliveryAddressModel {
     var deliveryAddressPhoneNumber = ""
 
     // 고정 배송지 여부
-    var deliveryAddressIsDefaultAddress = DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_NOT_DEFAULT // false : 일반 배송지
+    var deliveryAddressIsDefaultAddress = false // false : 일반 배송지
 
     // 등록시간
     var deliveryAddressTimeStamp = Timestamp.now()
 
     // 상태
-    var deliveryAddressState = DeliveryAddressState.DELIVERY_ADDRESS_STATE_NORMAL // 1: 정상
-
+    var deliveryAddressState = 0 // 0: 정상
 }

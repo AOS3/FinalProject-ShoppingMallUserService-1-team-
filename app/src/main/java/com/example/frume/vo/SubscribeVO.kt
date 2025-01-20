@@ -1,13 +1,11 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
-import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.SubscribeState
 import com.google.firebase.Timestamp
 
-// 정기 구독 Model
-class SubscribeModel {
+class SubscribeVO {
     // 구독 문서 ID
     var subscribeDocId = ""
 
@@ -24,13 +22,13 @@ class SubscribeModel {
     var subscribeProductCount = 0
 
     // 배송 반복 주기 1
-    var deliveryCycleWeeks = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_ONE // 1 : 1주
+    var deliveryCycleWeeks = 1 // 1 : 1주
 
     // 배송 반복 주기 2
-    var deliveryCycleDays = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_MONDAY // 1 : 월요일
+    var deliveryCycleDays = 1 // 1 : 월요일
 
     // 구독상태
-    var subscribeState = SubscribeState.SUBSCRIBE_STATE_NOT_SUBSCRIBE // 0 : 비구독
+    var subscribeState = 0 // 0 : 비구독
 
     // 구독 날짜
     var subscribeTimeStamp = Timestamp.now()
