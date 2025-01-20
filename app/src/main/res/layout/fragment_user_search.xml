@@ -8,23 +8,26 @@
 		android:layout_height="match_parent"
 		tools:context=".fragment.home_fragment.user_home.UserSearchFragment">
 
-		<Button
-			android:id="@+id/test"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			android:layout_width="wrap_content"
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbarUserSearch"
+			style="@style/AppToolbar.Navigation"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:text="test" />
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
 
 		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/cardViewUserSearch"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			app:cardCornerRadius="8dp"
-			app:cardElevation="8dp"
+			app:cardElevation="3dp"
+			android:layout_marginStart="50dp"
 			app:cardUseCompatPadding="true"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@id/test"
+			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent">
 
 			<androidx.appcompat.widget.SearchView

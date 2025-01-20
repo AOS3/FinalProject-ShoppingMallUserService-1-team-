@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductShowListBinding
+import com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragmentArgs
 import com.example.frume.fragment.user_fragment.category.UserCategoryFragmentArgs
 
 
@@ -20,7 +21,7 @@ class UserProductShowListFragment : Fragment() {
     private val binding get() = _binding!!
 
     // 변수명 : 어디서 보낸지(이전 카테고리 화면에서 보냈으니) bt navArgs()
-
+    private val args: UserCategoryDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +38,13 @@ class UserProductShowListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settingToolbar()
         onClickToolbar()
-
     }
 
+    private fun settingToolbar() {
+        binding.toolbarUserProductShowList.title = args.searchMethod
+    }
     private fun onClickToolbar() {
         binding.toolbarUserProductShowList.setNavigationOnClickListener {
             findNavController().navigateUp() // 창을 버린다

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,9 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.home.HomeActivity
 import com.example.frume.R
+import com.example.frume.data.Storage
+import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
 import com.example.frume.util.ProductInfoType
+import kotlin.coroutines.coroutineContext
 
 
 class UserCategoryDetailFragment : Fragment() {
@@ -39,6 +43,7 @@ class UserCategoryDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setLayout()
     }
 
@@ -50,10 +55,13 @@ class UserCategoryDetailFragment : Fragment() {
         onClickToolbar()
     }
 
-    fun settingToolbar() {
+    private fun settingToolbar() {
         // 과일 카테고리 이름을 가져와 툴바 바꾸기
-        val selectedFruit = arguments?.getString("selectedFruit") ?: "알 수 없는 과일"
-        binding.toolbarUserCategoryDetail.title = args.categoryMethod.str
+        if (args.categoryMethod.str == "검색") {
+            binding.toolbarUserCategoryDetail.title = args.searchMethod
+        } else {
+            binding.toolbarUserCategoryDetail.title = args.categoryMethod.str
+        }
     }
 
     // sehoon 네비게이션 클릭 메서드
@@ -65,8 +73,10 @@ class UserCategoryDetailFragment : Fragment() {
 
     private fun settingRecyclerView() {
         binding.apply {
-            recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(createDummyData()) { product ->
-                openProductInfoFragment(product)
+            val a = Storage.productList
+            recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(a) { product ->
+                val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product)
+                findNavController().navigate(action)
             }
 
             // recyclerViewUserCategoryDetail.layoutManager = GridLayoutManager(context, 2) // 2열 그리드
@@ -75,28 +85,11 @@ class UserCategoryDetailFragment : Fragment() {
         }
     }
 
-    private fun createDummyData(): List<Product> {
-        return listOf(
-            Product(1, "딸기", "유기농으로 키워 신선합니다.", R.mipmap.ic_launcher),
-            Product(2, "사과", "달콤한 사과입니다.", R.mipmap.ic_launcher),
-            Product(3, "포도", "씨 없는 달콤한 포도입니다.", R.mipmap.ic_launcher),
-            Product(4, "망고", "열대과일의 여왕, 신선한 망고입니다.", R.mipmap.ic_launcher),
-            Product(5, "블루베리", "항산화 성분이 가득한 블루베리.", R.mipmap.ic_launcher)
-        )
-    }
-
-    private fun openProductInfoFragment(product: Product) {
-
-    }
-
 }
 
-// 데이터 클래스 정의
-data class Product(val id: Int, val title: String, val description: String, val imageResId: Int)
-
 class ProductRecyclerViewAdapter(
-    private val productList: List<Product>, // 데이터 리스트
-    private val onItemClick: (Product) -> Unit // 클릭 리스너
+    private val productList: List<TempProduct>, // 데이터 리스트
+    private val onItemClick: (TempProduct) -> Unit // 클릭 리스너
 ) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
 
     // ViewHolder 클래스
@@ -127,9 +120,9 @@ class ProductRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         holder.itemProductBinding.apply {
-            textViewItemProductTitle.text = product.title
-            textViewItemProductDescription.text = product.description
-            imageViewItemProductThumbNail.setImageResource(product.imageResId)
+            textViewItemProductTitle.text = product.productName
+            textViewItemProductDescription.text = product.productDescription
+            imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)
         }
     }
 

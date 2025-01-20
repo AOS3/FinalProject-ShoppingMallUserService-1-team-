@@ -29,8 +29,6 @@ class UserHomeViewModel : ViewModel() {
         Log.d("_data", _data.value.toString())
     }
 
-
-
     private fun getTempProduct() {
         val products = Storage.productList
         _products.value = products

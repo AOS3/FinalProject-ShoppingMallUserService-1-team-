@@ -71,5 +71,7 @@ enum class ProductCategoryDetailType(var number: Int, var str: String) {
     PRODUCT_CATEGORY_BULK(9,"대용량"),
     PRODUCT_CATEGORY_PACKAGE(10,"패키지"),
     PRODUCT_CATEGORY_SALE(11,"특가"),
+    PRODUCT_CATEGORY_SEARCH(12,"검색"),
+
 
 }
