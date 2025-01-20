@@ -103,7 +103,6 @@ class UserAddressManageFragment : Fragment() {
                 addressIcon.setImageResource(item.addressIconResId)
             }
         }
-
     }
 }
 

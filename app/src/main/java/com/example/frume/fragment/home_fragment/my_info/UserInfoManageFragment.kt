@@ -58,5 +58,4 @@ class UserInfoManageFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-
 }

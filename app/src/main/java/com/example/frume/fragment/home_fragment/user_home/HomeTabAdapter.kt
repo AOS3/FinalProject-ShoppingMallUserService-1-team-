@@ -6,10 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 // 홈 화면 최상단 탭 레이아웃 어댑터
 
-class HomeTabAdapter(
-    fragment: Fragment,
-    private val categories: List<String>
-) : FragmentStateAdapter(fragment) {
+class HomeTabAdapter(fragment: Fragment, private val categories: List<String>) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount() = categories.size
 
