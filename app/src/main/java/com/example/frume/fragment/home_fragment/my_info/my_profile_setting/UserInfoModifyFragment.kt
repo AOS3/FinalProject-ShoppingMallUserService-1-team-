@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoModifyBinding
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragmentDirections
 
 
 // sehoon 유저 정보 수정 화면
@@ -37,6 +38,14 @@ class UserInfoModifyFragment : Fragment() {
     // sehoon 여기에 모든 메서드 넣어주세요
     private fun setLayout() {
         onClickButtonSubmit()
+        onClickNavigationIcon()
+    }
+
+    // 네비게이션 아이콘 클릭 리스너
+    fun onClickNavigationIcon() {
+        binding.toolbarUserInfoModify.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     // sehoon 저장버튼 클릭 메서드

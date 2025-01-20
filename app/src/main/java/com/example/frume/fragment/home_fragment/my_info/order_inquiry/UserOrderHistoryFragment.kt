@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.home.HomeActivity
@@ -15,6 +16,7 @@ import com.example.frume.R
 import com.example.frume.data_hj.DummyData
 import com.example.frume.databinding.FragmentUserOrderHistoryBinding
 import com.example.frume.databinding.ItemProductOrderBinding
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragmentDirections
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
@@ -31,11 +33,20 @@ class UserOrderHistoryFragment() : Fragment() {
         userOrderHistoryBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_user_order_history,container,false)
         homeActivity = activity as HomeActivity
 
+        // 뒤로가기 메서드 실행
+        onClickNavigationIcon()
         // 주문 상태 드롭다운 메뉴 실행
         setupOrderStateDropdown()
         // recyclerView 설정
         settingRecyclerView()
         return userOrderHistoryBinding.root
+    }
+
+    // 뒤로가기 버튼 리스너
+    fun onClickNavigationIcon() {
+        userOrderHistoryBinding.toolbarUserOrderHistory.setNavigationOnClickListener{
+            findNavController().navigateUp()
+        }
     }
 
     // 주문 상태 드롭다운 메뉴 버튼 리스너
@@ -113,17 +124,12 @@ class UserOrderHistoryFragment() : Fragment() {
              }
 
              override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMain {
-
                  val itemProductOrderBinding = ItemProductOrderBinding.inflate(layoutInflater, parent, false)
-
                  val viewHolderItemOrderHistory = ViewHolderMain(itemProductOrderBinding)
-
                  // 리스너를 설정해준다.
                  itemProductOrderBinding.root.setOnClickListener(viewHolderItemOrderHistory)
-
                  return viewHolderItemOrderHistory
              }
-
              override fun getItemCount(): Int {
                  return DummyData.dummyShippingItems.size
              }

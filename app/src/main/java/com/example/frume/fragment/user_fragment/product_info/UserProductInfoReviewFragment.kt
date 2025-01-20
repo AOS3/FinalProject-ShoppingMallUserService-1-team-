@@ -48,7 +48,7 @@ class UserProductInfoReviewFragment() : Fragment() {
     // sehoon 리뷰작성 화면 이동 메서드
     private fun onClickButtonWriteReview() {
         fragmentUserProductInfoReviewBinding.buttonUserProductInfoReview.setOnClickListener {
-            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoWriteReview()
+            val action = UserProductInfoReviewFragmentDirections.actionUserProductInfoReviewToUserProductInfoWriteReview()
             findNavController().navigate(action)
         }
     }

@@ -33,7 +33,16 @@
 		<action
 			android:id="@+id/action_navigation_profile_to_user_info_manage"
 			app:destination="@id/user_info_manage" />
+		<action
+			android:id="@+id/action_user_info_to_fragment_user_product_info_review"
+			app:destination="@+id/user_product_info_review"
+			>
+
+		</action>
 	</fragment>
+
+
+
 	<fragment
 		android:id="@+id/navigation_cart"
 		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartFragment"
@@ -97,6 +106,10 @@
 		<action
 			android:id="@+id/action_user_order_history_to_user_order_detail"
 			app:destination="@id/user_order_detail" />
+		<action
+			android:id="@+id/action_user_order_history_to_user_navigation_profile"
+			app:destination="@+id/navigation_profile"
+			/>
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_manage"
@@ -127,6 +140,7 @@
 		<action
 			android:id="@+id/action_user_address_modify_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
+
 	</fragment>
 	<fragment
 		android:id="@+id/user_info_manage"
@@ -176,6 +190,18 @@
 			android:id="@+id/action_user_product_info_description_to_user_payment_screen"
 			app:destination="@id/user_payment_screen" />
 	</fragment>
+
+	<fragment
+		android:id="@+id/user_product_info_review"
+		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoReviewFragment"
+		android:label="상품후기"
+		tools:layout="@layout/fragment_user_product_info_review"
+		>
+		<action
+			android:id="@+id/action_user_product_info_review_to_user_product_info_write_review"
+			app:destination="@id/user_product_info_write_review" />
+	</fragment>
+
 	<fragment
 		android:id="@+id/user_product_info_write_review"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoWriteReviewFragment"
@@ -192,7 +218,8 @@
 		tools:layout="@layout/fragment_user_product_show_list">
 		<action
 			android:id="@+id/action_user_product_show_list_to_user_search"
-			app:destination="@id/user_search" />
+			app:destination="@id/user_search"
+			/>
 	</fragment>
 	<fragment
 		android:id="@+id/navigation_category"
@@ -220,4 +247,6 @@
 		android:name="com.example.frume.fragment.home_fragment.my_info.UserPwModifyFragment"
 		android:label="비밀번호 변경"
 		tools:layout="@layout/fragment_user_pw_modify" />
+
+
 </navigation>
