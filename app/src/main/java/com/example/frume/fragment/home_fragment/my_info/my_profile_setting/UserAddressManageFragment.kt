@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
 import com.example.frume.data_ye.DummyData
+import com.example.frume.data_ye.TempAddress
 import com.example.frume.databinding.FragmentUserAddressManageBinding
 import com.example.frume.databinding.ItemDeliverySpotBinding
 
@@ -38,65 +39,71 @@ class UserAddressManageFragment : Fragment() {
         setLayout()
     }
 
-    // sehoon 모든 메서드 여기에 넣어주세요 (화면 구성)
+    // 화면 구성 메서드 (RecyclerView, 버튼 클릭 등 설정)
     private fun setLayout() {
         // RecyclerView 설정
         settingRecyclerViewUserAddressManage()
+        // 배송지 추가 버튼 클릭 리스너 설정
         onClickAddressAddBtn()
+        // 툴바 네비게이션 클릭 리스너 설정
         onClickToolbar()
     }
 
     // RecyclerView를 구성하는 메서드
     fun settingRecyclerViewUserAddressManage() {
         binding.apply {
-            // 더미 데이터를 이용하여 어댑터에 전달
-            recyclerViewUserOrderHistory.adapter = RecyclerViewUserAddressManageAdapter(DummyData.getDummyUserAddresses())
+            // 더미 데이터를 이용하여 RecyclerView의 어댑터에 주소 리스트 전달
+            recyclerViewUserOrderHistory.adapter = RecyclerViewUserAddressManageAdapter(DummyData.AddressList)
         }
     }
 
-    // sehoon 배송지 추가 버튼 메서드
+    // 배송지 추가 버튼 클릭 메서드
     private fun onClickAddressAddBtn() {
         binding.toolBarUserAddressModify.setOnMenuItemClickListener { menu ->
             when (menu.itemId) {
+                // 배송지 추가 메뉴 버튼 클릭 시
                 R.id.menu_user_address_manage_add -> {
+                    // 배송지 추가 화면으로 네비게이션
                     val action = UserAddressManageFragmentDirections.actionUserAddressManageToUserAddressAdd()
                     findNavController().navigate(action)
                     true
                 }
-                else -> {
-                    true
-                }
+                else -> true
             }
         }
     }
 
-    // sehoon 네비게이션 클릭 메서드
+    // 네비게이션 클릭 메서드 (툴바의 뒤로가기 버튼)
     private fun onClickToolbar() {
         binding.toolBarUserAddressModify.setNavigationOnClickListener {
+            // 뒤로가기 버튼 클릭 시 이전 화면으로 네비게이션
             findNavController().navigateUp()
         }
     }
 
     // RecyclerView의 어댑터
-    inner class RecyclerViewUserAddressManageAdapter(private val addressList: List<DummyData.UserAddress>) : RecyclerView.Adapter<RecyclerViewUserAddressManageAdapter.ViewHolderUserAddress>() {
+    inner class RecyclerViewUserAddressManageAdapter(private val addressList: List<TempAddress>) : RecyclerView.Adapter<RecyclerViewUserAddressManageAdapter.ViewHolderUserAddress>() {
 
-        // ViewHolder
+        // ViewHolder (주소 항목을 바인딩할 뷰 홀더)
         inner class ViewHolderUserAddress(val binding: ItemDeliverySpotBinding) : RecyclerView.ViewHolder(binding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderUserAddress {
+            // 아이템 레이아웃을 바인딩하여 ViewHolder 생성
             val binding = ItemDeliverySpotBinding.inflate(layoutInflater, parent, false)
             return ViewHolderUserAddress(binding)
         }
 
         override fun getItemCount(): Int {
+            // RecyclerView의 항목 개수 (주소 리스트의 크기 반환)
             return addressList.size
         }
 
         override fun onBindViewHolder(holder: ViewHolderUserAddress, position: Int) {
+            // 현재 항목의 주소 데이터를 가져와서 뷰에 바인딩
             val item = addressList[position]
 
-            // 주소 이름, 상세 주소, 우편번호, 아이콘 리소스 바인딩
             holder.binding.apply {
+                // 주소 이름, 상세 주소, 우편번호, 아이콘 리소스를 각각 바인딩
                 addressName.text = item.addressName
                 addressDetail.text = item.addressDetail
                 postalCode.text = item.postalCode
@@ -105,6 +112,7 @@ class UserAddressManageFragment : Fragment() {
         }
     }
 }
+
 
 
 
