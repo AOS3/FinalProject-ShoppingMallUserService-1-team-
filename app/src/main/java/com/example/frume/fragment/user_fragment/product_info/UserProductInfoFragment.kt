@@ -59,8 +59,7 @@ class UserProductInfoFragment : Fragment() {
     private fun onClickNavigationIconBackStack() {
         binding.toolBarUserProductInfo.apply {
             setNavigationOnClickListener {
-                val action = UserProductInfoFragmentDirections.actionUserProductInfoToNavigationHome()
-                findNavController().navigate(action)
+                findNavController().navigateUp()
             }
         }
     }

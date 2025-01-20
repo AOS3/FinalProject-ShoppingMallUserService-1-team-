@@ -69,7 +69,7 @@ class UserCategoryFragment() : Fragment() {
 
     // sehoon 카테고리 클릭 메서드
     private fun navigateToCategoryDetail(category: ProductCategoryDetailType) {
-        val action = UserCategoryFragmentDirections.actionNavigationCategoryToUserCategoryDetailFragment(category)
+        val action = UserCategoryFragmentDirections.actionNavigationCategoryToUserCategoryDetailFragment(category,null)
         findNavController().navigate(action)
     }
 }

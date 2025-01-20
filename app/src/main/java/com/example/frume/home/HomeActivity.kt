@@ -33,11 +33,13 @@ class HomeActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.container_home) as NavHostFragment
         val navController = navHostFragment.navController
-        findViewById<BottomNavigationView>(R.id.bottom_nav_home)
-            .setupWithNavController(navController)
+        findViewById<BottomNavigationView>(R.id.bottom_nav_home).setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home, R.id.navigation_category, R.id.navigation_cart, R.id.navigation_profile -> {
+                R.id.navigation_home,
+                R.id.navigation_category,
+                R.id.navigation_cart,
+                R.id.navigation_profile -> {
                     binding.bottomNavHome.visibility = View.VISIBLE
                 }
 

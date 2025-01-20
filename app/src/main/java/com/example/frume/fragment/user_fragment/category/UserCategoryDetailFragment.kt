@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,9 @@ import com.example.frume.data.Storage
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
+import com.example.frume.util.ProductInfoType
+import kotlin.coroutines.coroutineContext
+
 
 
 class UserCategoryDetailFragment : Fragment() {
@@ -69,6 +73,7 @@ class UserCategoryDetailFragment : Fragment() {
         binding.apply {
             val productTempList = Storage.productList
             recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(productTempList) { product ->
+
                 val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product)
                 findNavController().navigate(action)
             }
@@ -78,6 +83,7 @@ class UserCategoryDetailFragment : Fragment() {
             // recyclerViewUserCategoryDetail.addItemDecoration(divider)
         }
     }
+
 }
 
 class ProductRecyclerViewAdapter(

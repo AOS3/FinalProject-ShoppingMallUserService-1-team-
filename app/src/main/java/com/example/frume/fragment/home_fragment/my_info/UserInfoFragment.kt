@@ -49,7 +49,8 @@ class UserInfoFragment() : Fragment() {
     // 후기 텍스트뷰 클릭 리스너
     fun onClickTextViewUserReview() {
         fragmentUserInfoBinding.TextViewUserInfoReview.setOnClickListener {
-
+            val action = UserInfoFragmentDirections.actionUserInfoToFragmentUserProductInfoReview()
+            findNavController().navigate(action)
         }
     }
 
