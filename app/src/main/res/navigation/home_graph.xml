@@ -61,11 +61,11 @@
 		android:label="검색화면"
 		tools:layout="@layout/fragment_user_search">
 		<action
-			android:id="@+id/action_user_search_to_user_product_show_list"
-			app:destination="@id/user_product_show_list" />
-		<action
 			android:id="@+id/action_user_search_to_navigation_home"
 			app:destination="@id/navigation_home" />
+		<action
+			android:id="@+id/action_user_search_to_user_category_detail"
+			app:destination="@id/user_category_detail" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_product_info"
@@ -244,6 +244,13 @@
 		<argument
 			android:name="categoryMethod"
 			app:argType="com.example.frume.util.ProductCategoryDetailType" />
+		<argument
+			android:name="searchMethod"
+			app:argType="string"
+			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_category_detail_to_user_product_info"
+			app:destination="@id/user_product_info" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_pw_modify"
