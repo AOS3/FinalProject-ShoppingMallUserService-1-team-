@@ -215,6 +215,7 @@
 			app:destination="@id/user_product_info" />
 	</fragment>
 	<fragment
+
 		android:id="@+id/user_product_show_list"
 		android:name="com.example.frume.fragment.home_fragment.user_home.UserProductShowListFragment"
 		android:label="상품 정보"
@@ -225,6 +226,7 @@
 			/>
 	</fragment>
 	<fragment
+
 		android:id="@+id/navigation_category"
 		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryFragment"
 		android:label="카테고리"
