@@ -42,6 +42,9 @@
 		<action
 			android:id="@+id/action_navigation_cart_to_user_payment_screen"
 			app:destination="@id/user_payment_screen" />
+		<action
+			android:id="@+id/action_navigation_cart_to_user_address_manage"
+			app:destination="@id/user_address_manage" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"
