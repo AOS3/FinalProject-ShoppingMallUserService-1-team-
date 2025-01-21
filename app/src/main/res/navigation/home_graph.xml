@@ -34,13 +34,9 @@
 			android:id="@+id/action_navigation_profile_to_user_info_manage"
 			app:destination="@id/user_info_manage" />
 		<action
-			android:id="@+id/action_user_info_to_fragment_user_product_info_review"
-			app:destination="@+id/user_product_info_review"
-			>
-
-		</action>
+			android:id="@+id/action_navigation_profile_to_userInfoReviewFragment"
+			app:destination="@id/user_info_review" />
 	</fragment>
-
 
 
 	<fragment
@@ -76,21 +72,19 @@
 			android:id="@+id/action_user_product_info_to_userProductInfoDescriptionFragment"
 			app:destination="@id/user_product_info_description" />
 		<action
-			android:id="@+id/action_user_product_info_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
-		<action
 			android:id="@+id/action_user_product_info_to_user_product_info_write_review"
 			app:destination="@id/user_product_info_write_review" />
 		<action
 			android:id="@+id/action_user_product_info_to_navigation_home"
 			app:destination="@id/navigation_home" />
-		<action
-			android:id="@+id/action_user_product_info_to_navigation_home2"
-			app:destination="@id/navigation_home" />
+
 		<argument
 			android:name="productNameMethod"
 			app:argType="com.example.frume.data.TempProduct"
 			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_product_info_to_user_product_info_dialog"
+			app:destination="@id/user_product_info_dialog" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_payment_screen"
@@ -111,8 +105,7 @@
 			app:destination="@id/user_order_detail" />
 		<action
 			android:id="@+id/action_user_order_history_to_user_navigation_profile"
-			app:destination="@+id/navigation_profile"
-			/>
+			app:destination="@+id/navigation_profile" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_manage"
@@ -189,17 +182,17 @@
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"
 		android:label="상품 설명"
 		tools:layout="@layout/fragment_user_product_info_description">
-		<action
-			android:id="@+id/action_user_product_info_description_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
+		<argument
+			android:name="productMethod"
+			app:argType="com.example.frume.data.TempProduct"
+			app:nullable="true" />
 	</fragment>
 
 	<fragment
 		android:id="@+id/user_product_info_review"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoReviewFragment"
 		android:label="상품후기"
-		tools:layout="@layout/fragment_user_product_info_review"
-		>
+		tools:layout="@layout/fragment_user_product_info_review">
 		<action
 			android:id="@+id/action_user_product_info_review_to_user_product_info_write_review"
 			app:destination="@id/user_product_info_write_review" />
@@ -222,8 +215,7 @@
 		tools:layout="@layout/fragment_user_product_show_list">
 		<action
 			android:id="@+id/action_user_product_show_list_to_user_search"
-			app:destination="@id/user_search"
-			/>
+			app:destination="@id/user_search" />
 	</fragment>
 	<fragment
 
@@ -242,7 +234,7 @@
 		android:id="@+id/user_category_detail"
 		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragment"
 		android:label="상품 리스트"
-		tools:layout="@layout/fragment_user_category_detail" >
+		tools:layout="@layout/fragment_user_category_detail">
 		<argument
 			android:name="categoryMethod"
 			app:argType="com.example.frume.util.ProductCategoryDetailType" />
@@ -259,6 +251,30 @@
 		android:name="com.example.frume.fragment.home_fragment.my_info.UserPwModifyFragment"
 		android:label="비밀번호 변경"
 		tools:layout="@layout/fragment_user_pw_modify" />
+	<dialog
+		android:id="@+id/user_product_info_dialog"
+		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDialogFragment"
+		android:label="UserProductInfoDialogFragment"
+		tools:layout="@layout/fragment_user_product_info_dialog">
+		<action
+			android:id="@+id/action_user_product_info_dialog_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+		<argument
+			android:name="productMethod"
+			app:argType="string"
+			app:nullable="true" />
+		<argument
+			android:name="productPrice"
+			app:argType="integer" />
+		<argument
+			android:name="productImg"
+			app:argType="integer" />
+	</dialog>
+	<fragment
+		android:id="@+id/user_info_review"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoReviewFragment"
+		android:label="유저 내 후기"
+		tools:layout="@layout/fragment_user_info_review" />
 
 
 </navigation>

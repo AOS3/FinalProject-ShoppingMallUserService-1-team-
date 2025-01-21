@@ -23,6 +23,7 @@
 		</activity>
 		<activity
 			android:name=".home.HomeActivity"
+			android:windowSoftInputMode="adjustPan|adjustResize"
 			android:exported="false" />
 </application>
 

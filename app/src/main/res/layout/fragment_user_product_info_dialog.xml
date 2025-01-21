@@ -10,6 +10,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:background="@drawable/background_top_rounded_corner"
 		tools:context=".fragment.user_fragment.product_info.UserProductInfoDialogFragment">
 
 		<com.google.android.material.imageview.ShapeableImageView
@@ -23,6 +24,7 @@
 			tools:background="@color/gray5" />
 
 		<TextView
+			android:id="@+id/tv_product_name"
 			style="@style/AppText3.S17"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -56,6 +58,7 @@
 
 		<RadioGroup
 			android:id="@+id/radioGroupProductInfoDialog"
+			style="@style/AppText3.S17"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
@@ -63,13 +66,14 @@
 			app:layout_constraintStart_toStartOf="@id/textViewUserProductInfoDialogDeliveryOptionLabel"
 			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogDeliveryOptionLabel">
 
-			<com.google.android.material.radiobutton.MaterialRadioButton
+			<RadioButton
 				android:id="@+id/radioButtonProductInfoDialogBuy"
 				style="@style/AppText3.S17"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
 				android:layout_weight="1"
+				android:checked="true"
 				android:text="1회 구매" />
 
 			<com.google.android.material.radiobutton.MaterialRadioButton
@@ -116,7 +120,7 @@
 			app:layout_constraintTop_toTopOf="@id/viewProductInfoDialogCountInput" />
 
 
-		<EditText
+		<androidx.appcompat.widget.AppCompatEditText
 			android:id="@+id/editTextProductInfoDialogCount"
 			style="@style/AppText3.S17"
 			android:layout_width="0dp"
@@ -125,9 +129,10 @@
 			android:background="@color/transparent"
 			android:gravity="center"
 			android:hint="직접입력"
+			android:text="1"
 			android:imeOptions="actionDone"
 			android:inputType="number"
-			android:maxLines="1"
+			android:maxLength="2"
 			app:layout_constraintBottom_toBottomOf="@id/viewProductInfoDialogCountInput"
 			app:layout_constraintEnd_toStartOf="@id/imageViewProductInfoDialogAdd"
 			app:layout_constraintStart_toEndOf="@id/imageViewProductInfoDialogRemove"
@@ -139,7 +144,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="30dp"
 			android:contentDescription="+버튼을 누르면 값이 감소"
-			android:src="@drawable/ic_add_42px"
+			android:src="@drawable/ic_add_black_42px"
 			app:layout_constraintBottom_toBottomOf="@id/viewProductInfoDialogCountInput"
 			app:layout_constraintEnd_toEndOf="@id/viewProductInfoDialogCountInput"
 			app:layout_constraintTop_toTopOf="@id/viewProductInfoDialogCountInput" />
@@ -171,11 +176,11 @@
 			style="@style/AppText5.S25"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:text="배송 예정일 선택"
 			app:layout_constraintBottom_toBottomOf="@id/viewUserProductInfoDialogDeliveryDate"
 			app:layout_constraintEnd_toEndOf="@id/viewUserProductInfoDialogDeliveryDate"
 			app:layout_constraintStart_toStartOf="@id/viewUserProductInfoDialogDeliveryDate"
-			app:layout_constraintTop_toTopOf="@id/viewUserProductInfoDialogDeliveryDate"
-			tools:text="2025년 01월 14일 (화)" />
+			app:layout_constraintTop_toTopOf="@id/viewUserProductInfoDialogDeliveryDate" />
 
 		<TextView
 			android:id="@+id/textViewUserProductInfoDialogPriceLabel"
@@ -198,27 +203,32 @@
 			app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDialogDeliveryDate"
 			tools:text="15,000원" />
 
-		<Button
+		<androidx.appcompat.widget.AppCompatButton
 			android:id="@+id/buttonUserProductInfoDialogCart"
-			style="@style/Widget.Material3.Button.OutlinedButton"
+			style="@style/CustomButtonReverseStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_margin="20dp"
-			android:fontFamily="@font/nanumsquareneo_5"
+			android:layout_marginHorizontal="20dp"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="60dp"
 			android:text="장바구니 담기"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toStartOf="@id/buttonUserProductInfoDialogBuy"
+			app:layout_constraintHorizontal_weight="0.375"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogPrice" />
 
 
-		<Button
+		<androidx.appcompat.widget.AppCompatButton
 			android:id="@+id/buttonUserProductInfoDialogBuy"
+			style="@style/CustomButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_margin="20dp"
-			android:fontFamily="@font/nanumsquareneo_5"
+			android:layout_marginTop="20dp"
+			android:layout_marginEnd="20dp"
 			android:text="바로구매"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintHorizontal_weight="0.625"
 			app:layout_constraintStart_toEndOf="@id/buttonUserProductInfoDialogCart"
 			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDialogPrice" />
 	</androidx.constraintlayout.widget.ConstraintLayout>

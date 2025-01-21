@@ -61,57 +61,62 @@
 					android:layout_width="match_parent"
 					android:layout_height="130dp"
 					android:layout_marginTop="30dp"
-					android:background="@color/gray8"
+					android:background="@drawable/background_gray8"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent" />
 
 				<TextView
 					android:id="@+id/TextViewUserInfoReWard"
+					style="@style/AppText5.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="30dp"
-					android:fontFamily="@font/nanumsquareneo_5"
 					android:text="적립금"
-					android:textColor="@color/black"
+					app:layout_constraintBottom_toTopOf="@id/reWardCostTextViewUserInfo"
 					app:layout_constraintEnd_toStartOf="@id/TextViewUserInfoReview"
 					app:layout_constraintStart_toStartOf="@id/viewUserInfoCost"
 					app:layout_constraintTop_toTopOf="@id/viewUserInfoCost" />
 
 				<TextView
 					android:id="@+id/reWardCostTextViewUserInfo"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="15dp"
-					android:fontFamily="@font/nanumsquareneo_5"
+					android:layout_marginTop="20dp"
 					android:text="1000 원"
-					android:textColor="@color/black"
-					app:layout_constraintEnd_toStartOf="@id/TextViewUserInfoReview"
-					app:layout_constraintStart_toStartOf="@id/viewUserInfoCost"
+					app:layout_constraintEnd_toEndOf="@id/TextViewUserInfoReWard"
+					app:layout_constraintStart_toStartOf="@id/TextViewUserInfoReWard"
 					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReWard" />
+
+				<com.google.android.material.divider.MaterialDivider
+					android:layout_width="1dp"
+					android:layout_height="0dp"
+					android:orientation="vertical"
+					app:layout_constraintBottom_toBottomOf="@id/reWardCostTextViewUserInfo"
+					app:layout_constraintEnd_toStartOf="@id/TextViewUserInfoReview"
+					app:layout_constraintStart_toEndOf="@id/TextViewUserInfoReWard"
+					app:layout_constraintTop_toTopOf="@id/TextViewUserInfoReWard" />
 
 				<TextView
 					android:id="@+id/TextViewUserInfoReview"
+					style="@style/AppText5.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="30dp"
-					android:fontFamily="@font/nanumsquareneo_5"
 					android:text="후기"
-					android:textColor="@color/black"
 					app:layout_constraintEnd_toEndOf="@id/viewUserInfoCost"
 					app:layout_constraintStart_toEndOf="@id/TextViewUserInfoReWard"
-					app:layout_constraintTop_toTopOf="@id/viewUserInfoCost" />
+					app:layout_constraintTop_toTopOf="@id/TextViewUserInfoReWard" />
 
 				<TextView
 					android:id="@+id/reviewCostTextViewUserInfo"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="15dp"
-					android:fontFamily="@font/nanumsquareneo_5"
+					android:layout_marginTop="20dp"
 					android:text="2 건"
-					android:textColor="@color/black"
-					app:layout_constraintEnd_toEndOf="@id/viewUserInfoCost"
-					app:layout_constraintStart_toEndOf="@id/reWardCostTextViewUserInfo"
+					app:layout_constraintEnd_toEndOf="@id/TextViewUserInfoReview"
+					app:layout_constraintStart_toStartOf="@id/TextViewUserInfoReview"
 					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReview" />
 
 				<View
@@ -119,7 +124,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="600dp"
 					android:layout_marginTop="20dp"
-					android:background="@color/gray8"
+					android:background="@drawable/background_gray8"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +143,7 @@
 
 				<TextView
 					android:id="@+id/textViewUserInfoOrderHistory"
-					style="@style/AppText5.S17"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="20dp"
@@ -149,7 +154,7 @@
 
 				<TextView
 					android:id="@+id/textViewInfoUserInfoSubscription"
-					style="@style/AppText5.S17"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="20dp"
@@ -172,7 +177,7 @@
 
 				<TextView
 					android:id="@+id/textViewUserInfoProductInquiry"
-					style="@style/AppText5.S17"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="20dp"
@@ -195,7 +200,7 @@
 
 				<TextView
 					android:id="@+id/textViewUserInfoShippingInfo"
-					style="@style/AppText5.S17"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="20dp"
@@ -206,7 +211,7 @@
 
 				<TextView
 					android:id="@+id/textViewUserInfoAccountInfo"
-					style="@style/AppText5.S17"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="20dp"
@@ -217,7 +222,7 @@
 
 				<TextView
 					android:id="@+id/textViewLogoutUserInfo"
-					style="@style/AppText5.S17"
+					style="@style/AppText3.S17"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="20dp"

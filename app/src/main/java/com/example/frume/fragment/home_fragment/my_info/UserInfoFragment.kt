@@ -31,7 +31,7 @@ class UserInfoFragment() : Fragment() {
     }
 
     // 주문 내역 리스너
-    fun onClickOrderHistory() {
+    private fun onClickOrderHistory() {
         fragmentUserInfoBinding.textViewUserInfoOrderHistory.setOnClickListener {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserOrderHistory()
             findNavController().navigate(action)
@@ -39,7 +39,7 @@ class UserInfoFragment() : Fragment() {
     }
 
     // 배송지 관리 리스너
-    fun onClickDeliverySpotManagement() {
+    private fun onClickDeliverySpotManagement() {
         fragmentUserInfoBinding.textViewUserInfoShippingInfo.setOnClickListener {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserAddressManageFragment()
             findNavController().navigate(action)
@@ -47,15 +47,22 @@ class UserInfoFragment() : Fragment() {
     }
 
     // 후기 텍스트뷰 클릭 리스너
-    fun onClickTextViewUserReview() {
-        fragmentUserInfoBinding.TextViewUserInfoReview.setOnClickListener {
-            val action = UserInfoFragmentDirections.actionUserInfoToFragmentUserProductInfoReview()
-            findNavController().navigate(action)
+    private fun onClickTextViewUserReview() {
+        fragmentUserInfoBinding.apply {
+            TextViewUserInfoReview.setOnClickListener {
+                val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoReviewFragment()
+                findNavController().navigate(action)
+            }
+            reviewCostTextViewUserInfo.setOnClickListener {
+                val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoReviewFragment()
+                findNavController().navigate(action)
+            }
         }
+
     }
 
     // 회원 정보 및 탈퇴 리스너
-    fun onClickUserInfoManagementOrLeave() {
+    private fun onClickUserInfoManagementOrLeave() {
         fragmentUserInfoBinding.textViewUserInfoAccountInfo.setOnClickListener {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoManage()
             findNavController().navigate(action)
