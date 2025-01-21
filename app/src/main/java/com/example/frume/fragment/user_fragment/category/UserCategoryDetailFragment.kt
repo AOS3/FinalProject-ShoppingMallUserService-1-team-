@@ -1,7 +1,6 @@
 package com.example.frume.fragment.user_fragment.category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.data.Storage
 import com.example.frume.data.TempProduct
@@ -20,6 +17,7 @@ import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
 import com.example.frume.util.ProductInfoType
 import kotlin.coroutines.coroutineContext
+
 
 
 class UserCategoryDetailFragment : Fragment() {
@@ -73,8 +71,9 @@ class UserCategoryDetailFragment : Fragment() {
 
     private fun settingRecyclerView() {
         binding.apply {
-            val a = Storage.productList
-            recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(a) { product ->
+            val productTempList = Storage.productList
+            recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(productTempList) { product ->
+
                 val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product)
                 findNavController().navigate(action)
             }
