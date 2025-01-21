@@ -169,17 +169,16 @@
 		<action
 			android:id="@+id/action_user__to_userCancelAndReturnFragment"
 			app:destination="@id/user_cancel_and_return" />
+		<action
+			android:id="@+id/action_user_order_detail_to_user_cancel_and_return"
+			app:destination="@id/user_cancel_and_return" />
 
 	</fragment>
 	<fragment
 		android:id="@+id/user_cancel_and_return"
 		android:name="com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragment"
 		android:label="반품 취소 및 교환 신청"
-		tools:layout="@layout/fragment_user_cancel_and_return">
-		<action
-			android:id="@+id/action_userCancelAndReturnFragment_to_user_order_detail"
-			app:destination="@id/user_order_detail" />
-	</fragment>
+		tools:layout="@layout/fragment_user_cancel_and_return"/>
 	<fragment
 		android:id="@+id/user_product_info_description"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"

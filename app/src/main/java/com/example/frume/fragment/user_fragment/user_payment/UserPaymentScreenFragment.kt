@@ -66,22 +66,22 @@ class UserPaymentScreenFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
-    
+
     // 카드 드롭다운 리스너
-    private fun setupPaymentCardDropdown(){
-        
+    private fun setupPaymentCardDropdown() {
+
         val autoCompletePaymentCardTextView = binding.autoCompleteTextViewUserPaymentCard
-        
+
         // 드롭다운 데이터 정의
-        val cardTypes = listOf("선택", "삼성", "신한", "국민","롯데","현대","하나","NH","우리","카카오뱅크","비씨")
-        
+        val cardTypes = listOf("선택", "삼성", "신한", "국민", "롯데", "현대", "하나", "NH", "우리", "카카오뱅크", "비씨")
+
         // ArrayAdapter 생성 (autoCompletePaymentCardTextView에 데이터 연결)
         val adapterCardType = ArrayAdapter(
             homeActivity,
             android.R.layout.simple_dropdown_item_1line,
             cardTypes
         )
-        
+
         // autoCompletePaymentCardTextView에 연결
         autoCompletePaymentCardTextView.setAdapter(adapterCardType)
 
@@ -89,12 +89,12 @@ class UserPaymentScreenFragment : Fragment() {
         autoCompletePaymentCardTextView.setOnItemClickListener { parent, view, position, id ->
             val selectedCardType = parent.getItemAtPosition(position).toString()
             // 선택된 항목 처리
-            Toast.makeText(requireContext(),"선택된 상태 : $selectedCardType", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "선택된 상태 : $selectedCardType", Toast.LENGTH_SHORT).show()
         }
     }
 
     // 결제 방식 버튼을 단일 선택만 가능하도록 하는 메서드
-    private fun setupPaymentMethodButtons(){
+    private fun setupPaymentMethodButtons() {
 
         // 버튼을 리스트로 묶어 관리
         val buttons = listOf(
@@ -129,6 +129,7 @@ class UserPaymentScreenFragment : Fragment() {
 
 
                     }
+
                     R.id.buttonUserPaymentPaymentMethodCard -> {
                         // 신용카드 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "신용카드 선택", Toast.LENGTH_SHORT).show()
@@ -137,6 +138,7 @@ class UserPaymentScreenFragment : Fragment() {
                         expandView(binding.textViewUserPaymentStar)
 
                     }
+
                     R.id.buttonUserPaymentPaymentMethodKakaoPay -> {
                         // 카카오페이 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "카카오페이 선택", Toast.LENGTH_SHORT).show()
@@ -144,6 +146,7 @@ class UserPaymentScreenFragment : Fragment() {
                         collapseView(binding.textViewUserPaymentCard)
                         collapseView(binding.textViewUserPaymentStar)
                     }
+
                     R.id.buttonUserPaymentPaymentMethodNaverPay -> {
                         // 네이버페이 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "네이버페이 선택", Toast.LENGTH_SHORT).show()
@@ -175,7 +178,7 @@ class UserPaymentScreenFragment : Fragment() {
 
     private fun collapseView(view: View) {
         val initialHeight = view.height
-        val animation = ValueAnimator.ofInt(initialHeight,50)
+        val animation = ValueAnimator.ofInt(initialHeight, 50)
 
         animation.addUpdateListener { animator ->
             view.layoutParams.height = animator.animatedValue as Int
@@ -189,13 +192,13 @@ class UserPaymentScreenFragment : Fragment() {
             override fun onAnimationEnd(animation: Animator) {
                 view.visibility = View.GONE
             }
+
             override fun onAnimationCancel(animation: Animator) {}
             override fun onAnimationRepeat(animation: Animator) {}
         })
 
         animation.start()
     }
-
 
 
     private fun setupCheckBoxListeners() {
@@ -223,11 +226,10 @@ class UserPaymentScreenFragment : Fragment() {
 
     // 결제 버튼 활성화
     private fun updateOrderButtonState(button: View, checkBoxes: List<View>) {
-
         // 모든 체크박스가 선택되었을 때만 버튼 활성화
         button.isEnabled = checkBoxes.all { (it as? androidx.appcompat.widget.AppCompatCheckBox)?.isChecked == true }
     }
-}
+
 
     // 배송지 변경 아이콘 클릭 시 UserAddressManageFragment로 이동하는 메서드
     private fun onClickPaymentDeliverySpotChange() {
