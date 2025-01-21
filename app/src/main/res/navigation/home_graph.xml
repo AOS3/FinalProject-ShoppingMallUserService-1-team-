@@ -93,6 +93,9 @@
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_product_info"
 			app:destination="@id/user_product_info" />
+		<action
+			android:id="@+id/action_user_payment_screen_to_user_address_manage"
+			app:destination="@id/user_address_manage" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"

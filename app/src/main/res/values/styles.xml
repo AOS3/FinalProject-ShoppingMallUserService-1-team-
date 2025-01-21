@@ -108,6 +108,14 @@
 		<item name="android:textAppearance">@style/AppText4.S14</item>
 	</style>
 
+
+	<!-- 캘린더 스타일 -->
+	<style name="CustomDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">@color/green100</item> <!-- Accent 색상 설정 -->
+	</style>
+
+
+
 	<!-- 버튼 스타일 -->
 	<style name="CustomButtonReverseStyle" parent="Widget.AppCompat.Button.Borderless">
 		<!-- 배경 -->
@@ -137,5 +145,6 @@
 		<item name="colorOnPrimary">@color/green100</item>
 		<item name="shapeCornerFamily">rounded</item>
 	</style>
+
 
 </resources>
