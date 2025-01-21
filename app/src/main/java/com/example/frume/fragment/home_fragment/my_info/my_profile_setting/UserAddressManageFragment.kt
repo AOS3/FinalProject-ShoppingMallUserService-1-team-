@@ -59,7 +59,7 @@ class UserAddressManageFragment : Fragment() {
 
     // 배송지 추가 버튼 클릭 메서드
     private fun onClickAddressAddBtn() {
-        binding.toolBarUserAddressModify.setOnMenuItemClickListener { menu ->
+        binding.toolBarUserAddressManage.setOnMenuItemClickListener { menu ->
             when (menu.itemId) {
                 // 배송지 추가 메뉴 버튼 클릭 시
                 R.id.menu_user_address_manage_add -> {
@@ -75,7 +75,7 @@ class UserAddressManageFragment : Fragment() {
 
     // 네비게이션 클릭 메서드 (툴바의 뒤로가기 버튼)
     private fun onClickToolbar() {
-        binding.toolBarUserAddressModify.setNavigationOnClickListener {
+        binding.toolBarUserAddressManage.setNavigationOnClickListener {
             // 뒤로가기 버튼 클릭 시 이전 화면으로 네비게이션
             findNavController().navigateUp()
         }
@@ -84,8 +84,18 @@ class UserAddressManageFragment : Fragment() {
     // RecyclerView의 어댑터
     inner class RecyclerViewUserAddressManageAdapter(private val addressList: List<TempAddress>) : RecyclerView.Adapter<RecyclerViewUserAddressManageAdapter.ViewHolderUserAddress>() {
 
-        // ViewHolder (주소 항목을 바인딩할 뷰 홀더)
-        inner class ViewHolderUserAddress(val binding: ItemDeliverySpotBinding) : RecyclerView.ViewHolder(binding.root)
+        // ViewHolder
+        inner class ViewHolderUserAddress(val binding: ItemDeliverySpotBinding) : RecyclerView.ViewHolder(binding.root) {
+            init {
+                // 항목 클릭 리스너 설정
+                binding.root.setOnClickListener {
+                    // 클릭된 항목의 position을 사용하여 UserAddressModifyFragment로 이동
+                    val address = addressList[adapterPosition]
+                    val action = UserAddressManageFragmentDirections.actionUserAddressManageToUserAddressModifyFragment() // 여기서 address를 인자로 전달
+                    findNavController().navigate(action)
+                }
+            }
+        }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderUserAddress {
             // 아이템 레이아웃을 바인딩하여 ViewHolder 생성
@@ -111,6 +121,7 @@ class UserAddressManageFragment : Fragment() {
             }
         }
     }
+
 }
 
 

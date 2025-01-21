@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		xmlns:tools="http://schemas.android.com/tools"
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginBottom="30dp"
@@ -245,7 +245,7 @@
 					android:layout_marginLeft="10dp"
 					android:layout_marginTop="20dp"
 					android:layout_weight="1"
-					android:background="@drawable/background_green100"
+					android:background="@drawable/background_gray100"
 					android:button="@null"
 					android:checked="false"
 					android:fontFamily="@font/nanumsquareneo_4"
@@ -261,7 +261,7 @@
 					android:layout_marginTop="20dp"
 					android:layout_marginRight="5dp"
 					android:layout_weight="1"
-					android:background="@drawable/background_green100"
+					android:background="@drawable/background_gray100"
 					android:button="@null"
 					android:checked="false"
 					android:fontFamily="@font/nanumsquareneo_4"

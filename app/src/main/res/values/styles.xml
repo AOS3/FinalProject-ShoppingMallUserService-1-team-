@@ -96,4 +96,10 @@
 		<item name="android:textAppearance">@style/AppText4.S14</item>
 	</style>
 
+	<!-- 캘린더 스타일 -->
+	<style name="CustomDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+		<item name="colorAccent">@color/green100</item> <!-- Accent 색상 설정 -->
+	</style>
+
+
 </resources>

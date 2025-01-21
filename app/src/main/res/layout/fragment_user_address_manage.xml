@@ -9,7 +9,7 @@
 		tools:context=".fragment.home_fragment.my_info.my_profile_setting.UserAddressManageFragment">
 
 		<com.google.android.material.appbar.MaterialToolbar
-			android:id="@+id/toolBarUserAddressModify"
+			android:id="@+id/toolBarUserAddressManage"
 			style="@style/AppToolbar.Navigation"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/toolBarUserAddressModify"
+			app:layout_constraintTop_toBottomOf="@id/toolBarUserAddressManage"
 			tools:listitem="@layout/item_delivery_spot" />
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
