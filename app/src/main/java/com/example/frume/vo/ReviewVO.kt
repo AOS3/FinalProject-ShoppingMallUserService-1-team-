@@ -1,5 +1,6 @@
 package com.example.frume.vo
 
+import com.example.frume.model.ReviewModel
 import com.example.frume.util.ReviewState
 import com.google.firebase.Timestamp
 
@@ -33,4 +34,23 @@ class ReviewVO {
 
     // 노출 상태
     var reviewState = 1 // 1 : 노출 상태
+
+
+    fun toReviewModel(): ReviewModel {
+        val reviewModel = ReviewModel()
+        reviewModel.reviewDocId = reviewDocId
+        reviewModel.reviewProductDocId = reviewProductDocId
+        reviewModel.reviewCustomerDocId = reviewCustomerDocId
+        reviewModel.reviewTitle = reviewTitle
+        reviewModel.reviewContent = reviewContent
+        reviewModel.reviewImagesPath = reviewImagesPath
+        reviewModel.reviewRatingPoint = reviewRatingPoint
+        reviewModel.reviewTimeStamp = reviewTimeStamp
+        reviewModel.reviewAnswer = reviewAnswer
+        when(reviewState){
+            ReviewState.REVIEW_STATE_VISIBLE.num->{reviewModel.reviewState=ReviewState.REVIEW_STATE_VISIBLE}
+            ReviewState.REVIEW_STATE_HIDDEN.num->{reviewModel.reviewState = ReviewState.REVIEW_STATE_HIDDEN}
+        }
+        return reviewModel
+    }
 }

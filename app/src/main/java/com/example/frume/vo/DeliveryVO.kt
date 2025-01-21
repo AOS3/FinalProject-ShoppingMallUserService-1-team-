@@ -1,5 +1,6 @@
 package com.example.frume.vo
 
+import com.example.frume.model.DeliveryModel
 import com.example.frume.util.DeliveryState
 import com.example.frume.util.DeliverySubscribeState
 import com.google.firebase.Timestamp
@@ -31,4 +32,33 @@ class DeliveryVO {
 
     // 배송 상태
     var deliveryState = 0 // 0 : 출고 준비중
+
+
+    fun toDeliverModel(): DeliveryModel {
+        val deliverModel = DeliveryModel()
+        deliverModel.deliveryDocId = deliveryDocId
+        deliverModel.deliveryOrderDocId = deliveryOrderDocId
+        deliverModel.deliveryAddressDocId = deliveryAddressDocId
+        deliverModel.deliveryOption = deliveryOption
+        deliverModel.deliveryDueDate = deliveryDueDate
+        deliverModel.deliveryEtc = deliveryEtc
+        deliverModel.deliveryTimeStamp = deliveryTimeStamp
+
+        when(deliveryIsSubscribed){
+            DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE.num->{deliverModel.deliveryIsSubscribed=DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE}
+            DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE.num->{deliverModel.deliveryIsSubscribed=DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE}
+        }
+
+        when(deliveryState){
+            DeliveryState.DELIVERY_STATE_READY_FOR_SHIPMENT.num->{deliverModel.deliveryState=DeliveryState.DELIVERY_STATE_READY_FOR_SHIPMENT}
+            DeliveryState.DELIVERY_STATE_SHIPMENT_COMPLETE.num->{deliverModel.deliveryState=DeliveryState.DELIVERY_STATE_SHIPMENT_COMPLETE}
+            DeliveryState.DELIVERY_STATE_READY_FOR_DELIVERY.num->{deliverModel.deliveryState=DeliveryState.DELIVERY_STATE_READY_FOR_DELIVERY}
+            DeliveryState.DELIVERY_STATE_IN_DELIVERY.num->{deliverModel.deliveryState=DeliveryState.DELIVERY_STATE_IN_DELIVERY}
+            DeliveryState.DELIVERY_STATE_DELIVERED.num->{deliverModel.deliveryState=DeliveryState.DELIVERY_STATE_DELIVERED}
+
+        }
+
+        return deliverModel
+
+    }
 }

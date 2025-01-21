@@ -2,6 +2,7 @@ package com.example.frume.model
 
 import com.example.frume.util.DeliveryState
 import com.example.frume.util.DeliverySubscribeState
+import com.example.frume.vo.DeliveryVO
 import com.google.firebase.Timestamp
 import java.sql.Time
 
@@ -33,5 +34,22 @@ class DeliveryModel {
 
     // 배송 상태
     var deliveryState = DeliveryState.DELIVERY_STATE_READY_FOR_SHIPMENT // 1 : 출고 준비중
+
+
+    fun toDeliverVO(): DeliveryVO {
+        val deliverVO = DeliveryVO()
+        deliverVO.deliveryDocId = deliveryDocId
+        deliverVO.deliveryOrderDocId = deliveryOrderDocId
+        deliverVO.deliveryAddressDocId = deliveryAddressDocId
+        deliverVO.deliveryOption = deliveryOption
+        deliverVO.deliveryDueDate = deliveryDueDate
+        deliverVO.deliveryIsSubscribed = deliveryIsSubscribed.num
+        deliverVO.deliveryEtc = deliveryEtc
+        deliverVO.deliveryTimeStamp = deliveryTimeStamp
+        deliverVO.deliveryState = deliveryState.num
+
+        return deliverVO
+
+    }
 
 }

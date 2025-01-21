@@ -2,6 +2,7 @@ package com.example.frume.model
 
 import com.example.frume.util.ProductSellingState
 import com.example.frume.util.ProductType
+import com.example.frume.vo.ProductVO
 import com.google.firebase.Timestamp
 
 // 상품 Model
@@ -44,4 +45,26 @@ class ProductModel {
 
     // 등록 시간
     var productTimeStamp = Timestamp.now()
+
+
+    fun toProductVO(): ProductVO {
+        val productVO = ProductVO()
+
+        productVO.productDocId = productDocId
+        productVO.productName = productName
+        productVO.productPrice = productPrice
+        productVO.productCategory1 = productCategory1
+        productVO.productCategory2 = productCategory2
+        productVO.productDescription = productDescription
+        productVO.productVariety = productVariety
+        productVO.productUnit = productUnit
+        productVO.productImages = productImages
+        productVO.productType = productType.num
+        productVO.productVolume = productVolume
+        productVO.productSellingState = productSellingState.num
+        productVO.productTimeStamp = productTimeStamp
+
+        return productVO
+
+    }
 }

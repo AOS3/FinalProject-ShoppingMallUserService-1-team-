@@ -2,6 +2,7 @@ package com.example.frume.model
 
 import com.example.frume.util.InquiryIsOpenBoolType
 import com.example.frume.util.InquiryIsSecretBoolType
+import com.example.frume.vo.InquiryVO
 import com.google.firebase.Timestamp
 
 // 문의 Model
@@ -31,9 +32,26 @@ class InquiryModel {
     var inquiryIsSecret = InquiryIsSecretBoolType.INQUIRY_IS_SECRET_TRUE // true
 
     // 공개상태
-    var inquiryState = InquiryIsOpenBoolType.INQUIRY_IS_OPEN_TRUE // true
+    var inquiryBoolState = InquiryIsOpenBoolType.INQUIRY_IS_OPEN_TRUE // true
 
     // 문의 등록 시간
     var inquiryTimeStamp = Timestamp.now()
+
+    fun toInquiryVO(): InquiryVO {
+        val inquiryVO = InquiryVO()
+
+        inquiryVO.inquiryDocId = inquiryDocId
+        inquiryVO.inquiryProductDocId = inquiryProductDocId
+        inquiryVO.inquiryCustomerDocId = inquiryCustomerDocId
+        inquiryVO.inquiryTitle = inquiryTitle
+        inquiryVO.inquiryContent = inquiryContent
+        inquiryVO.inquiryImagesPath = inquiryImagesPath
+        inquiryVO.inquiryAnswer = inquiryAnswer
+        inquiryVO.inquiryIsSecret = inquiryIsSecret.bool
+        inquiryVO.inquiryBoolState = inquiryBoolState.bool
+        inquiryVO.inquiryTimeStamp = inquiryTimeStamp
+
+        return inquiryVO
+    }
 
 }

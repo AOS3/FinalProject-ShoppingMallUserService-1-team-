@@ -1,12 +1,9 @@
-package com.example.frume.model
+package com.example.frume.vo
 
 import com.example.frume.util.OrderProductState
-import com.example.frume.vo.OrderProductVO
 import com.google.firebase.Timestamp
 
-// 주문 상품 Model
-// 주문결제 하고 난 상품들 목록
-class OrderProductModel {
+class OrderProductVO {
     // 주문 상품 ID
     var orderProductDocId = ""
 
@@ -38,7 +35,7 @@ class OrderProductModel {
     var orderProductTotalPrice = 0
 
     // 상태
-    var orderProductState = OrderProductState.ORDER_PRODUCT_STATE_NORMAL // 1 : 정상
+    var orderProductState = 1 // 1 : 정상
 
     // 등록시간
     var orderProductTimeStamp = Timestamp.now()
@@ -59,10 +56,16 @@ class OrderProductModel {
         orderProductVO.orderProductReward = orderProductReward
         orderProductVO.orderProductDeliveryCost = orderProductDeliveryCost
         orderProductVO.orderProductTotalPrice = orderProductTotalPrice
-        orderProductVO.orderProductState = orderProductState.num
         orderProductVO.orderProductTimeStamp = orderProductTimeStamp
         orderProductVO.orderProductDeliveryCompletedDate = orderProductDeliveryCompletedDate
+        when (orderProductState) {
+            OrderProductState.ORDER_PRODUCT_STATE_NORMAL.num->{OrderProductState.ORDER_PRODUCT_STATE_NORMAL}
+            OrderProductState.ORDER_PRODUCT_STATE_ABNORMAL.num->{OrderProductState.ORDER_PRODUCT_STATE_ABNORMAL}
+        }
 
         return orderProductVO
     }
+
+
+
 }

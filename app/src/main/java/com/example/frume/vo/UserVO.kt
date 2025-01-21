@@ -1,6 +1,7 @@
 package com.example.frume.vo
 
 import com.example.frume.model.DeliveryAddressModel
+import com.example.frume.model.UserModel
 import com.example.frume.util.CustomerUserGender
 import com.example.frume.util.CustomerUserState
 import com.google.firebase.Timestamp
@@ -25,7 +26,7 @@ class UserVO {
     var customerUserAge = 0
 
     // 성별
-    var customerUserGenderIsMale = 1 // 1 : 남자
+    var customerUserGender = 1 // 1 : 남자
 
     // 휴대폰 번호
     var customerUserPhoneNumber = ""
@@ -55,4 +56,46 @@ class UserVO {
 
     // 카카오 토큰
     var customerUserKakaoToken = ""
+
+    fun toUserModel(): UserModel {
+
+        val userModel = UserModel()
+        userModel.customerUserDocId = customerUserDocId
+        userModel.customerUserId = customerUserId
+        userModel.customerUserPw = customerUserPw
+        userModel.customerUserEmail = customerUserEmail
+        userModel.customerUserName = customerUserName
+        userModel.customerUserAge = customerUserAge
+        userModel.customerUserGender
+        userModel.customerUserPhoneNumber = customerUserPhoneNumber
+        userModel.customerUserAddress = customerUserAddress
+        userModel.customerUserAddressItems = customerUserAddressItems
+        userModel.customerUserReward = customerUserReward
+        userModel.customerUserTimeStamp = customerUserTimeStamp
+        userModel.customerUserLocalToken = customerUserLocalToken
+        userModel.customerUserKakaoToken = customerUserKakaoToken
+
+        when (customerUserGender) {
+            CustomerUserGender.CUSTOMER_USER_GENDER_MALE.num -> userModel.customerUserGender =
+                CustomerUserGender.CUSTOMER_USER_GENDER_MALE
+
+            CustomerUserGender.CUSTOMER_USER_GENDER_FEMALE.num -> userModel.customerUserGender =
+                CustomerUserGender.CUSTOMER_USER_GENDER_FEMALE
+        }
+        when (customerUserState) {
+            CustomerUserState.CUSTOMER_USER_STATE_ACTIVE.num -> {
+                userModel.customerUserState = CustomerUserState.CUSTOMER_USER_STATE_ACTIVE
+            }
+
+            CustomerUserState.CUSTOMER_USER_STATE_SUSPENDED.num -> {
+                userModel.customerUserState = CustomerUserState.CUSTOMER_USER_STATE_SUSPENDED
+            }
+
+            CustomerUserState.CUSTOMER_USER_STATE_WITHDRAWN.num -> {
+                userModel.customerUserState = CustomerUserState.CUSTOMER_USER_STATE_WITHDRAWN
+            }
+        }
+
+        return userModel
+    }
 }

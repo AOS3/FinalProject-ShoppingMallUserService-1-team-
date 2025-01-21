@@ -1,5 +1,6 @@
 package com.example.frume.vo
 
+import com.example.frume.model.ProductModel
 import com.example.frume.util.ProductSellingState
 import com.example.frume.util.ProductType
 import com.google.firebase.Timestamp
@@ -43,4 +44,36 @@ class ProductVO {
 
     // 등록 시간
     var productTimeStamp = Timestamp.now()
+
+    fun toProductModel(): ProductModel {
+        val productModel = ProductModel()
+
+        productModel.productDocId = productDocId
+        productModel.productName = productName
+        productModel.productPrice = productPrice
+        productModel.productCategory1 = productCategory1
+        productModel.productCategory2 = productCategory2
+        productModel.productDescription = productDescription
+        productModel.productVariety = productVariety
+        productModel.productUnit = productUnit
+        productModel.productImages = productImages
+        productModel.productVolume = productVolume
+        productModel.productTimeStamp = productTimeStamp
+
+        when(productType){
+            ProductType.PRODUCT_TYPE_FRESH.num->{productModel.productType =ProductType.PRODUCT_TYPE_FRESH}
+            ProductType.PRODUCT_TYPE_OTHER.num->{productModel.productType =ProductType.PRODUCT_TYPE_OTHER}
+            ProductType.PRODUCT_TYPE_MIXED.num->{productModel.productType =ProductType.PRODUCT_TYPE_MIXED}
+            ProductType.PRODUCT_TYPE_PROCESSED.num->{productModel.productType =ProductType.PRODUCT_TYPE_PROCESSED}
+        }
+
+        when (productSellingState) {
+            ProductSellingState.PRODUCT_STATE_NORMAL.num->{ProductSellingState.PRODUCT_STATE_NORMAL}
+            ProductSellingState.PRODUCT_STATE_ABNORMAL.num->{ProductSellingState.PRODUCT_STATE_ABNORMAL}
+        }
+
+
+        return productModel
+
+    }
 }

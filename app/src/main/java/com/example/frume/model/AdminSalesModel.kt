@@ -1,5 +1,7 @@
 package com.example.frume.model
 
+import com.example.frume.util.AdminSalesState
+import com.example.frume.vo.AdminSalesVO
 import com.google.firebase.Timestamp
 
 // 관리자 매출 Model
@@ -20,12 +22,27 @@ class AdminSalesModel {
     var salesOrderDate = Timestamp.now()
 
     // 매출 상태
-    var salesOrderState = 0
+    var salesOrderState = AdminSalesState.ADMIN_SALES_STATE_NORMAL // 1 정상
 
     // 주 카테고리
     var salesCategory1 = ""
 
     // 부 카테고리
     var salesCategory2 = ""
+
+    fun toAdminSalesVO(): AdminSalesVO {
+        val adminSalesVo = AdminSalesVO()
+
+        adminSalesVo.salesDocId = salesDocId
+        adminSalesVo.orderProductId = orderProductId
+        adminSalesVo.orderId = orderId
+        adminSalesVo.salesOrderCost = salesOrderCost
+        adminSalesVo.salesOrderDate = salesOrderDate
+        adminSalesVo.salesOrderState = salesOrderState.num
+        adminSalesVo.salesCategory1 = salesCategory1
+        adminSalesVo.salesCategory2 = salesCategory2
+
+        return adminSalesVo
+    }
 
 }

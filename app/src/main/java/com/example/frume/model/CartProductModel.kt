@@ -6,6 +6,7 @@ import com.example.frume.util.CartProductSubscribeState
 import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
 import com.example.frume.util.DeliverySubscribeState
+import com.example.frume.vo.CartProductVO
 import com.google.firebase.Timestamp
 
 // 장바구니 상품 Model
@@ -42,9 +43,28 @@ class CartProductModel {
     var cartItemDeliveryTimeStamp = Timestamp.now()
 
     // 구매 여부( 구매 할 물건인가?)
-    var cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE // 구매할 품목
+    var cartItemIsPurchases =
+        CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE // 구매할 품목
 
     // 상태
     var cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL // 1 : 정상
+
+    fun toCartProductVO(): CartProductVO {
+        val cartProductVO = CartProductVO()
+        cartProductVO.cartProductDocId = cartProductDocId
+        cartProductVO.cartDocId = cartDocId
+        cartProductVO.customerDocId = customerDocId
+        cartProductVO.cartItemProductDocId = cartItemProductDocId
+        cartProductVO.cartItemProductQuantity = cartItemProductQuantity
+        cartProductVO.cartItemIsSubscribed = cartItemIsSubscribed.num
+        cartProductVO.cartItemDeliveryDueDate = cartItemDeliveryDueDate
+        cartProductVO.cartItemDeliveryCycleWeek = cartItemDeliveryCycleWeek.num
+        cartProductVO.cartItemDeliveryCycleDay = cartItemDeliveryCycleDay.num
+        cartProductVO.cartItemDeliveryTimeStamp = cartItemDeliveryTimeStamp
+        cartProductVO.cartItemIsPurchases = cartItemIsPurchases.bool
+        cartProductVO.cartProductState = cartProductState.num
+
+        return cartProductVO
+    }
 
 }

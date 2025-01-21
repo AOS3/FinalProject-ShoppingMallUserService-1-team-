@@ -4,6 +4,7 @@ import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
 import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.SubscribeState
+import com.example.frume.vo.SubscribeVO
 import com.google.firebase.Timestamp
 
 // 정기 구독 Model
@@ -34,5 +35,23 @@ class SubscribeModel {
 
     // 구독 날짜
     var subscribeTimeStamp = Timestamp.now()
+
+
+
+    fun toSubscribeVO(): SubscribeVO{
+        val subscribeVO = SubscribeVO()
+        subscribeVO.subscribeDocId =subscribeDocId
+        subscribeVO.customerDocId =customerDocId
+        subscribeVO.productDocId =productDocId
+        subscribeVO.orderDocId =orderDocId
+        subscribeVO.subscribeProductCount =subscribeProductCount
+        subscribeVO.deliveryCycleWeeks =deliveryCycleWeeks.num
+        subscribeVO.deliveryCycleDays =deliveryCycleDays .num
+        subscribeVO.subscribeState =subscribeState.num
+        subscribeVO.subscribeTimeStamp = subscribeTimeStamp
+
+        return subscribeVO
+    }
+
 
 }

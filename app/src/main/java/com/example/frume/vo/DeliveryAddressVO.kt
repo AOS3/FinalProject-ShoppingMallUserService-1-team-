@@ -1,5 +1,8 @@
 package com.example.frume.vo
 
+import com.example.frume.model.DeliveryAddressModel
+import com.example.frume.util.DeliveryAddressState
+import com.example.frume.util.DeliveryDefaultAddressBoolType
 import com.google.firebase.Timestamp
 
 class DeliveryAddressVO {
@@ -32,4 +35,30 @@ class DeliveryAddressVO {
 
     // 상태
     var deliveryAddressState = 0 // 0: 정상
+
+    fun toDeliverAddressModel(): DeliveryAddressModel {
+        val deliveryAddressModel = DeliveryAddressModel()
+
+        deliveryAddressModel.deliveryAddressDocId = deliveryAddressDocId
+        deliveryAddressModel.deliveryAddressUserDocId = deliveryAddressUserDocId
+        deliveryAddressModel.deliveryAddressName = deliveryAddressName
+        deliveryAddressModel.deliveryAddressBasicAddress = deliveryAddressBasicAddress
+        deliveryAddressModel.deliveryAddressDetailAddress = deliveryAddressDetailAddress
+        deliveryAddressModel.deliveryAddressPostNumber = deliveryAddressPostNumber
+        deliveryAddressModel.deliveryAddressPhoneNumber = deliveryAddressPhoneNumber
+        when(deliveryAddressIsDefaultAddress){
+            DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_NOT_DEFAULT.bool->{deliveryAddressModel.deliveryAddressIsDefaultAddress= DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_NOT_DEFAULT}
+            DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT.bool->{deliveryAddressModel.deliveryAddressIsDefaultAddress= DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT}
+            else->{}
+
+        }
+        deliveryAddressModel.deliveryAddressTimeStamp = deliveryAddressTimeStamp
+        when(deliveryAddressState){
+            DeliveryAddressState.DELIVERY_ADDRESS_STATE_NORMAL.num->{deliveryAddressModel.deliveryAddressState=DeliveryAddressState.DELIVERY_ADDRESS_STATE_NORMAL}
+            DeliveryAddressState.DELIVERY_ADDRESS_STATE_ABNORMAL.num->{deliveryAddressModel.deliveryAddressState=DeliveryAddressState.DELIVERY_ADDRESS_STATE_ABNORMAL}
+        }
+
+        return deliveryAddressModel
+
+    }
 }

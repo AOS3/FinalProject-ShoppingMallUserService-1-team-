@@ -4,6 +4,7 @@ import com.example.frume.util.OrderDeliveryOption
 import com.example.frume.util.OrderIsOneTimeDeliveryBoolType
 import com.example.frume.util.OrderPaymentOption
 import com.example.frume.util.OrderState
+import com.example.frume.vo.OrderVO
 import com.google.firebase.Timestamp
 
 // 주문 Model
@@ -43,5 +44,26 @@ class OrderModel {
 
     // 주문 상태
     var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING // 1 : 결제 대기중
+
+
+    fun toOrderVO(): OrderVO {
+
+        val orderVO = OrderVO()
+        orderVO.orderDocId = orderDocId
+        orderVO.orderCustomerDocId = orderCustomerDocId
+        orderVO.cartProducts = cartProducts
+        orderVO.orderDeliveryAddress = orderDeliveryAddress
+        orderVO.orderCustomerPhoneNumber = orderCustomerPhoneNumber
+        orderVO.orderPaymentOption = orderPaymentOption.num
+        orderVO.orderDeliveryOption = orderDeliveryOption.num
+        orderVO.orderDeliveryDueDate = orderDeliveryDueDate
+        orderVO.orderIsOneTimeDelivery = orderIsOneTimeDelivery.bool
+        orderVO.orderEtc = orderEtc
+        orderVO.orderTimeStamp = orderTimeStamp
+        orderVO.orderState = orderState.num
+
+        return orderVO
+
+    }
 
 }

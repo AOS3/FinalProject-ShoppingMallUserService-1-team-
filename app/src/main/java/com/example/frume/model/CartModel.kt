@@ -1,6 +1,7 @@
 package com.example.frume.model
 
 import com.example.frume.util.CartState
+import com.example.frume.vo.CartVO
 import com.google.firebase.Timestamp
 
 // 장바구니 Model
@@ -19,6 +20,18 @@ class CartModel {
 
     // 장바구니 items 문서 IDs
     var cartProductItems = mutableListOf<CartProductModel>()
+
+    fun toCartVO(): CartVO {
+        val cartVo = CartVO()
+
+        cartVo.cartDocId = cartDocId
+        cartVo.customerDocId = customerDocId
+        cartVo.cartDeliveryTimeStamp = cartDeliveryTimeStamp
+        cartVo.cartDeliveryState = cartDeliveryState.num
+        cartVo.cartProductItems = cartProductItems
+
+        return cartVo
+    }
 
 }
 

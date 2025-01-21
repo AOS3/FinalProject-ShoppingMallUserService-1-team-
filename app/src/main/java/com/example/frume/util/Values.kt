@@ -222,3 +222,4 @@ enum class CustomerUserState(val num: Int, val str: String) {
     CUSTOMER_USER_STATE_WITHDRAWN(2, "탈퇴"), // 탈퇴한 사용자
     CUSTOMER_USER_STATE_SUSPENDED(3, "정지")  // 정지된 사용자
 }
+
