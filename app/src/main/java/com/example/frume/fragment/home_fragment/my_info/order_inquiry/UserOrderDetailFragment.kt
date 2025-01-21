@@ -1,19 +1,18 @@
 package com.example.frume.fragment.home_fragment.my_info.order_inquiry
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserOrderDetailBinding
-import com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragmentDirections
 
 
 // sehoon 주문 상세 내역
-class UserOrderDetailFragment() : Fragment() {
+class UserOrderDetailFragment : Fragment() {
     private var _binding: FragmentUserOrderDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -44,7 +43,7 @@ class UserOrderDetailFragment() : Fragment() {
     // 반품 교환 및 취소 화면 연결
     private fun moveToCancelAndReturn(){
         binding.buttonUserOrderDetailCancel.setOnClickListener{
-            val action = UserOrderDetailFragmentDirections.actionUserOrderDetailToUserCancelAndReturnFragment()
+            val action = UserOrderDetailFragmentDirections.actionUserOrderDetailToUserCancelAndReturn()
             findNavController().navigate(action)
         }
     }

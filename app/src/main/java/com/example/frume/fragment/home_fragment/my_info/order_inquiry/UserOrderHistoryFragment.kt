@@ -11,13 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.data_hj.DummyData
 import com.example.frume.databinding.FragmentUserOrderHistoryBinding
 import com.example.frume.databinding.ItemProductOrderBinding
-import com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragmentDirections
-import com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragmentDirections
+import com.example.frume.home.HomeActivity
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
