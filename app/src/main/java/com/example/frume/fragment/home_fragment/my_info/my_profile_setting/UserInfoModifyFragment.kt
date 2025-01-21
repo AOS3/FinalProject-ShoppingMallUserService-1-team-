@@ -1,18 +1,19 @@
 package com.example.frume.fragment.home_fragment.my_info.my_profile_setting
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoModifyBinding
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragmentDirections
 import com.google.android.material.textfield.TextInputLayout
 
+
+// sehoon 유저 정보 수정 화면
 class UserInfoModifyFragment : Fragment() {
     private var _binding: FragmentUserInfoModifyBinding? = null
     private val binding get() = _binding!!
@@ -21,7 +22,8 @@ class UserInfoModifyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_info_modify, container, false)
+        _binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_user_info_modify, container, false)
         return binding.root
     }
 
@@ -32,12 +34,13 @@ class UserInfoModifyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 저장 버튼 호출
+        setLayout()
+    }
+
+    // sehoon 여기에 모든 메서드 넣어주세요
+    private fun setLayout() {
         onClickButtonSubmit()
-        // 뒤로 가기 버튼 호출
         onClickNavigationIcon()
-        // 텍스트 입력 시작 시 에러 메시지 제거
-        setTextChangeListener()
     }
 
     // 네비게이션 아이콘 클릭 리스너
@@ -47,101 +50,66 @@ class UserInfoModifyFragment : Fragment() {
         }
     }
 
-    // 저장 버튼 클릭 리스너
+    // sehoon 저장버튼 클릭 메서드
+    // 나의 배송지 화면으로 돌아감
     private fun onClickButtonSubmit() {
         binding.buttonUserInfoManageModifyUserInfo.setOnClickListener {
-            // 이전 에러 메시지 지우기
-            clearErrors()
-
-            // 입력 값 유효성 검사
-            if (validateInputs()) {
-                // 유효한 경우, 네비게이션
-                findNavController().navigateUp()
-            }
+            //val action = UserInfoModifyFragmentDirections.actionUserInfoModifyToUserInfoManage()
+            val isValidInfo = validateFields()
+            if (!isValidInfo) return@setOnClickListener
+            findNavController().navigateUp()
         }
     }
 
-    // 입력 필드 유효성 검사
-    private fun validateInputs(): Boolean {
+    // 필드 유효성 검사 메서드
+    private fun validateFields(): Boolean {
         var isValid = true
-
         // 배송지 이름 검사
-        if (binding.textInputLayoutUserInfoModifyArrivalName.editText?.text.toString().isEmpty()) {
-            binding.textInputLayoutUserInfoModifyArrivalName.error = "배송지 이름을 입력해 주세요"
+        if (binding.textInputLayoutUserInfoModifyArrivalName.editText?.text.isNullOrBlank()) {
+            showError(binding.textInputLayoutUserInfoModifyArrivalName, "배송지 이름을 입력하세요.")
             isValid = false
+        } else {
+            clearError(binding.textInputLayoutUserInfoModifyArrivalName)
         }
 
-        // 이름 검사
-        if (binding.textInputLayoutUserInfoModifyUserName.editText?.text.toString().isEmpty()) {
-            binding.textInputLayoutUserInfoModifyUserName.error = "이름을 입력해 주세요"
+        // 이름 검사 (2글자 이상)
+        val userName = binding.textInputLayoutUserInfoModifyUserName.editText?.text.toString()
+        if (userName.length < 2) {
+            showError(binding.textInputLayoutUserInfoModifyUserName, "이름은 2글자 이상이어야 합니다.")
             isValid = false
+        } else {
+            clearError(binding.textInputLayoutUserInfoModifyUserName)
         }
 
-        // 휴대폰 번호 검사 11자리만
+        // 휴대폰 번호 검사 (11자 이상)
         val phoneNumber = binding.textInputLayoutUserInfoModifyPhoneNumber.editText?.text.toString()
-        if (phoneNumber.isEmpty()) {
-            binding.textInputLayoutUserInfoModifyPhoneNumber.error = "휴대폰 번호를 입력해 주세요"
+        if (phoneNumber.length < 11) {
+            showError(binding.textInputLayoutUserInfoModifyPhoneNumber, "휴대폰 번호는 11자 이상이어야 합니다.")
             isValid = false
-        } else if (phoneNumber.length != 11) {
-            isValid = false
+        } else {
+            clearError(binding.textInputLayoutUserInfoModifyPhoneNumber)
         }
 
         // 상세 주소 검사
-        if (binding.textInputLayoutUserInfoModifyDetailAddress.editText?.text.toString().isEmpty()) {
-            binding.textInputLayoutUserInfoModifyDetailAddress.error = "상세 주소를 입력해 주세요"
+        if (binding.textInputLayoutUserInfoModifyDetailAddress.editText?.text.isNullOrBlank()) {
+            showError(binding.textInputLayoutUserInfoModifyDetailAddress, "상세 주소를 입력하세요.")
             isValid = false
+        } else {
+            clearError(binding.textInputLayoutUserInfoModifyDetailAddress)
         }
 
         return isValid
     }
 
-    // 에러 메시지 초기화
-    private fun clearErrors() {
-        binding.textInputLayoutUserInfoModifyArrivalName.error = null
-        binding.textInputLayoutUserInfoModifyUserName.error = null
-        binding.textInputLayoutUserInfoModifyPhoneNumber.error = null
-        binding.textInputLayoutUserInfoModifyDetailAddress.error = null
+    // 에러 표시 메서드
+    private fun showError(inputLayout: TextInputLayout, errorMessage: String) {
+        inputLayout.error = errorMessage
     }
 
-    // 텍스트 입력 시작 시 에러 메시지 제거
-    private fun setTextChangeListener() {
-        binding.textInputLayoutUserInfoModifyArrivalName.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(editable: Editable?) {
-                binding.textInputLayoutUserInfoModifyArrivalName.error = null
-            }
-        })
-
-        binding.textInputLayoutUserInfoModifyUserName.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(editable: Editable?) {
-                binding.textInputLayoutUserInfoModifyUserName.error = null
-            }
-        })
-
-        binding.textInputLayoutUserInfoModifyPhoneNumber.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(editable: Editable?) {
-                val phoneNumber = editable.toString()
-                // 11자리 이상 입력되지 않도록 제한
-                if (phoneNumber.length > 11) {
-                    editable?.delete(11, phoneNumber.length)
-                }
-                binding.textInputLayoutUserInfoModifyPhoneNumber.error = null
-            }
-        })
-
-        binding.textInputLayoutUserInfoModifyDetailAddress.editText?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(editable: Editable?) {
-                binding.textInputLayoutUserInfoModifyDetailAddress.error = null
-            }
-        })
+    // 에러 제거 메서드
+    private fun clearError(inputLayout: TextInputLayout) {
+        inputLayout.error = null
     }
+
 }
+

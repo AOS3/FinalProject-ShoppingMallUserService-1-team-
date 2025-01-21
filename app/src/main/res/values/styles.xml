@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<!--	바텀 시트 다이얼로그-->
+	<style name="AppBottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+		<item name="bottomSheetStyle">@style/AppBottomSheetModal</item>
+	</style>
+
+	<style name="AppBottomSheetModal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+		<item name="behavior_peekHeight">800dp</item>
+	</style>
+
 	<style name="LayoutBasicSetting">
 		<item name="background">@color/white</item>
 		<item name="android:layout_width">0dp</item>
@@ -29,6 +38,7 @@
 	<!--    font 3레벨	-->
 	<style name="AppText3">
 		<item name="fontFamily">@font/nanumsquareneo_3</item>
+		<item name="android:textColor">@color/black</item>
 	</style>
 
 	<style name="AppText3.S14">
@@ -42,6 +52,7 @@
 	<!--    font 4레벨	-->
 	<style name="AppText4">
 		<item name="fontFamily">@font/nanumsquareneo_4</item>
+		<item name="android:textColor">@color/black</item>
 	</style>
 
 	<style name="AppText4.S14">
@@ -52,6 +63,7 @@
 	<!--    font 5레벨	-->
 	<style name="AppText5">
 		<item name="fontFamily">@font/nanumsquareneo_5</item>
+		<item name="android:textColor">@color/black</item>
 	</style>
 
 	<style name="AppText5.S17">
@@ -87,7 +99,7 @@
 	</style>
 
 	<!-- 버튼 스타일 -->
-	<style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+	<style name="CustomButtonStyle" parent="Widget.AppCompat.Button.Borderless">
 		<!-- 배경 -->
 		<item name="android:background">@drawable/btn_background</item>
 		<!-- 텍스트 색상 -->
@@ -96,9 +108,42 @@
 		<item name="android:textAppearance">@style/AppText4.S14</item>
 	</style>
 
+
 	<!-- 캘린더 스타일 -->
 	<style name="CustomDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
 		<item name="colorAccent">@color/green100</item> <!-- Accent 색상 설정 -->
+	</style>
+
+
+
+	<!-- 버튼 스타일 -->
+	<style name="CustomButtonReverseStyle" parent="Widget.AppCompat.Button.Borderless">
+		<!-- 배경 -->
+		<item name="android:background">@drawable/background_gray100</item>
+		<!-- 텍스트 색상 -->
+		<item name="android:textColor">@color/btn_text_reverse_selector</item>
+		<!-- 기본 속성 -->
+		<item name="android:textAppearance">@style/AppText4.S14</item>
+	</style>
+
+
+	<style
+		name="ThemeOverlay.Questionnaire.DatePicker"
+		parent="@style/ThemeOverlay.Material3.MaterialCalendar"
+		>
+		<item name="android:background">?attr/colorSurface</item>
+	</style>
+
+	<style name="Theme.App" parent="ThemeOverlay.Material3.MaterialCalendar">
+		<item name="android:background">?attr/colorSurface</item>
+
+		<item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+	</style>
+
+	<style name="ThemeOverlay.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+		<item name="colorPrimary">@color/green50</item>
+		<item name="colorOnPrimary">@color/green100</item>
+		<item name="shapeCornerFamily">rounded</item>
 	</style>
 
 

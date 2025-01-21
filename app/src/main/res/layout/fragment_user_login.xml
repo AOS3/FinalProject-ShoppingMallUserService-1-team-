@@ -65,7 +65,7 @@
 			app:layout_constraintTop_toBottomOf="@+id/textFieldUserLoginPw" />
 
 		<androidx.appcompat.widget.AppCompatButton
-			android:id="@+id/buttonUserLogin"
+			android:id="@+id/buttonUserSignUp"
 			style="@style/CustomButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
@@ -85,8 +85,8 @@
 			android:text="@string/common_signup"
 			android:textAlignment="center"
 			app:layout_constraintEnd_toStartOf="@+id/textViewUserLoginFindIdButton"
-			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
-			app:layout_constraintTop_toBottomOf="@+id/buttonUserLogin" />
+			app:layout_constraintStart_toStartOf="@id/buttonUserSignUp"
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserSignUp" />
 
 		<com.google.android.material.divider.MaterialDivider
 			android:layout_width="1dp"
@@ -108,7 +108,7 @@
 			android:textAlignment="center"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/buttonUserLogin" />
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserSignUp" />
 
 		<com.google.android.material.divider.MaterialDivider
 			android:layout_width="1dp"
@@ -127,9 +127,9 @@
 			style="@style/AppText3.S14"
 			android:text="PW 찾기"
 			android:textAlignment="center"
-			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserSignUp"
 			app:layout_constraintStart_toEndOf="@id/textViewUserLoginFindIdButton"
-			app:layout_constraintTop_toBottomOf="@+id/buttonUserLogin" />
+			app:layout_constraintTop_toBottomOf="@+id/buttonUserSignUp" />
 
 		<com.google.android.material.divider.MaterialDivider
 			android:id="@+id/dividerLine"
@@ -137,8 +137,8 @@
 			android:layout_height="1dp"
 			android:layout_marginTop="20dp"
 			app:dividerColor="@color/gray50"
-			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
-			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserSignUp"
+			app:layout_constraintStart_toStartOf="@id/buttonUserSignUp"
 			app:layout_constraintTop_toBottomOf="@+id/textViewUserLoginFindIdButton" />
 
 		<androidx.appcompat.widget.AppCompatButton
@@ -149,8 +149,8 @@
 			android:layout_marginTop="20dp"
 			android:text="카카오 로그인"
 			android:visibility="gone"
-			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
-			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserSignUp"
+			app:layout_constraintStart_toStartOf="@id/buttonUserSignUp"
 			app:layout_constraintTop_toBottomOf="@+id/dividerLine" />
 
 		<androidx.appcompat.widget.AppCompatButton
@@ -161,8 +161,8 @@
 			android:layout_marginTop="20dp"
 			android:background="@drawable/background_gray100"
 			android:text="비회원 접속"
-			app:layout_constraintEnd_toEndOf="@id/buttonUserLogin"
-			app:layout_constraintStart_toStartOf="@id/buttonUserLogin"
+			app:layout_constraintEnd_toEndOf="@id/buttonUserSignUp"
+			app:layout_constraintStart_toStartOf="@id/buttonUserSignUp"
 			app:layout_constraintTop_toBottomOf="@+id/buttonUserLoginKakao" />
 
 	</androidx.constraintlayout.widget.ConstraintLayout>

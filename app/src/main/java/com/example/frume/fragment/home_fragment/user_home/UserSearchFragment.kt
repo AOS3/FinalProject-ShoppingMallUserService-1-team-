@@ -1,11 +1,14 @@
 package com.example.frume.fragment.home_fragment.user_home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.view.inputmethod.InputMethodManager
+
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
@@ -50,11 +53,30 @@ class UserSearchFragment : Fragment() {
             }
         }
 
+
+        showKeyboard()
+        showKeyboard2()
+
         onClickSearchView()
         onClickToolbarNavigation()
     }
 
+
     // 검색 결과 화면 이동
+
+    private fun showKeyboard2() {
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.searchViewUserSearch, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun showKeyboard() {
+        binding.searchViewUserSearch.requestFocus()
+        val inputMethodManager = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+    }
+
+    // sehoon 검색 결과 화면 이동
+
     private fun showSearchResultFragment(query: String) {
         val action = UserSearchFragmentDirections.actionUserSearchToUserCategoryDetail(ProductCategoryDetailType.PRODUCT_CATEGORY_SEARCH, query)
         findNavController().navigate(action)
