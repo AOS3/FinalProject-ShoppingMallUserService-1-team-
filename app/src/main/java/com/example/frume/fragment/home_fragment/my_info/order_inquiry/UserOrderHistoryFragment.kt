@@ -16,6 +16,7 @@ import com.example.frume.R
 import com.example.frume.data_hj.DummyData
 import com.example.frume.databinding.FragmentUserOrderHistoryBinding
 import com.example.frume.databinding.ItemProductOrderBinding
+import com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragmentDirections
 import com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragmentDirections
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
@@ -117,9 +118,17 @@ class UserOrderHistoryFragment() : Fragment() {
                  override fun onClick(v: View?) {
                      // 사용자가 누른 동물 인덱스 담아준다.
                      val dataBundle = Bundle()
-                    // dataBundle.putInt("animalIdx", testList[adapterPosition].)
+                     // dataBundle.putInt("animalIdx", testList[adapterPosition].)
                      // ShowFragment로 이동한다.
-                   //  mainActivity.replaceFragment(FragmentName.SHOW_FRAGMENT, true, dataBundle)
+                     //  mainActivity.replaceFragment(FragmentName.SHOW_FRAGMENT, true, dataBundle)
+
+                     // 주문 상세 내역(USerOrderHistoryFragment)으로 이동
+                     val action = UserOrderHistoryFragmentDirections.actionUserOrderHistoryToUserOrderDetail()
+                     findNavController().navigate(action)
+
+
+
+
                  }
              }
 

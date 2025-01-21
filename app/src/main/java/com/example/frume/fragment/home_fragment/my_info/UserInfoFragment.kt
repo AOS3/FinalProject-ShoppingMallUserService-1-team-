@@ -86,7 +86,6 @@ class UserInfoFragment() : Fragment() {
                 findNavController().navigate(action)
             }
         }
-
     }
 
     // 회원 정보 및 탈퇴 리스너
