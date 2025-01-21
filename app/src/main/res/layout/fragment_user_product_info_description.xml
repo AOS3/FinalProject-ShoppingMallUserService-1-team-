@@ -10,22 +10,28 @@
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:fillViewport="true"
 		tools:context=".fragment.user_fragment.product_info.UserProductInfoDescriptionFragment">
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/recyclerViewUserProductInfoDescriptionCarouselImage"
+			<com.example.frume.util.NestedScrollableHost
+				android:id="@+id/customScrollableHost"
 				android:layout_width="match_parent"
-				android:layout_height="350dp"
-				android:foreground="?attr/selectableItemBackground"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge" />
+				android:layout_height="match_parent">
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recyclerViewUserProductInfoDescriptionCarouselImage"
+					android:layout_width="match_parent"
+					android:layout_height="350dp"
+					android:foreground="?attr/selectableItemBackground"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge" />
+
+			</com.example.frume.util.NestedScrollableHost>
 
 
 			<TextView
@@ -37,7 +43,7 @@
 				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="킹스베리 딸기 500g"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/recyclerViewUserProductInfoDescriptionCarouselImage" />
+				app:layout_constraintTop_toBottomOf="@id/customScrollableHost" />
 
 			<TextView
 				android:id="@+id/textViewUserProductInfoDescription"
@@ -124,12 +130,14 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:nestedScrollingEnabled="false"
+				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_bias="0.0"
+				tools:listitem="@layout/item_product_info_image"
 				app:layout_constraintStart_toStartOf="parent"
+				android:layout_marginBottom="100dp"
 				app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDescriptionDivide"
-				app:layout_constraintVertical_bias="0.0" />
+				/>
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/buttonUserProductInfoDescriptionBuy"
@@ -137,17 +145,12 @@
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_margin="30dp"
+
 				android:background="@drawable/selector_button_background"
 				android:text="구매하기"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent" />
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="105dp"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/recyclerViewUserProductInfoDescriptionDescriptionImage" />
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</androidx.core.widget.NestedScrollView>

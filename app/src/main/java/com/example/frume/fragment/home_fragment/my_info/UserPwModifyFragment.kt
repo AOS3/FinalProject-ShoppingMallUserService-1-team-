@@ -11,6 +11,7 @@ import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoManageBinding
 import com.example.frume.databinding.FragmentUserPwModifyBinding
+import com.google.android.material.textfield.TextInputLayout
 
 
 class UserPwModifyFragment : Fragment() {
@@ -46,9 +47,11 @@ class UserPwModifyFragment : Fragment() {
         onClickToolbar()
     }
 
-    // sehoon 저장버튼 클릭 메서드
+    // sehoon 완료버튼 클릭 메서드
     private fun onClickButtonSubmit() {
         binding.buttonUserPwModifySubmit.setOnClickListener {
+            val isValidPw = validatePasswords()
+            if(!isValidPw) return@setOnClickListener
             findNavController().navigateUp()
         }
     }
@@ -59,4 +62,73 @@ class UserPwModifyFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
+    // 비밀번호 유효성 검사 함수
+    private fun validatePasswords(): Boolean {
+        var isValid = true
+        // DB에서 가져온 회원 비밀번호
+        var userPw = "!q123456"
+
+        // 현재 비밀번호
+        val currentPw = binding.textInputLayoutUserPwModify.editText?.text.toString()
+
+        // 새 비밀번호
+        val newPw = binding.textInputLayoutUserNewPwModify.editText?.text.toString()
+
+        // 새 비밀번호 확인
+        val confirmPw = binding.textInputLayoutUserNewPwVerify.editText?.text.toString()
+
+        // 정규식: 8~15자, 소문자와 특수문자 포함
+        val pwPattern = Regex("^(?=.*[a-z])(?=.*[!@#\$%^&*(),.?\":{}|<>]).{8,15}$")
+
+        // 현재 비밀번호 유효성 검사
+        when {
+            !currentPw.matches(pwPattern) -> {
+                showError(binding.textInputLayoutUserPwModify, "비밀번호는 8~15자, 소문자와 특수문자를 포함해야 합니다.")
+                isValid = false
+            }
+            currentPw != userPw -> {
+                showError(binding.textInputLayoutUserPwModify, "현재 비밀번호가 일치하지 않습니다.")
+                isValid = false
+            }
+            else -> clearError(binding.textInputLayoutUserPwModify)
+        }
+
+        // 새 비밀번호 유효성 검사
+        when {
+            !newPw.matches(pwPattern) -> {
+                showError(binding.textInputLayoutUserNewPwModify, "새 비밀번호는 8~15자, 소문자와 특수문자를 포함해야 합니다.")
+                isValid = false
+            }
+            currentPw == newPw -> {
+                showError(binding.textInputLayoutUserNewPwModify, "새 비밀번호는 현재 비밀번호와 달라야 합니다.")
+                isValid = false
+            }
+            else -> clearError(binding.textInputLayoutUserNewPwModify)
+        }
+
+        // 새 비밀번호 확인 검사
+        if (newPw != confirmPw) {
+            showError(binding.textInputLayoutUserNewPwVerify, "새 비밀번호가 일치하지 않습니다.")
+            isValid = false
+        } else {
+            clearError(binding.textInputLayoutUserNewPwVerify)
+        }
+
+        return isValid
+    }
+
+
+
+    // 에러 메시지 표시
+    private fun showError(inputLayout: TextInputLayout, message: String) {
+        inputLayout.error = message
+    }
+
+    // 에러 메시지 초기화
+    private fun clearError(inputLayout: TextInputLayout) {
+        inputLayout.error = null
+    }
+
+
 }

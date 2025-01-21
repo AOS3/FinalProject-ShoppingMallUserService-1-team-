@@ -36,36 +36,36 @@ class UserHomeFragment : Fragment() {
         setLayout()
     }
 
-    // sehoon 화면 구성
+    // 화면 구성
     private fun setLayout() {
         setTabLayout()
         moveToSearchScreen()
     }
 
-    // sehoon 검색화면으로 이동 메서드
+    // 검색화면으로 이동
     private fun moveToSearchScreen() {
         binding.toolbarUserHome.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menuSearch -> {
+                    // 검색 화면으로 이동
                     val action = UserHomeFragmentDirections.actionNavigationHomeToUserSearch()
                     findNavController().navigate(action)
-                    true
-                }
 
-                else -> {
+                    // 이동한 후 UserSearchFragment에서 포커스와 키보드를 처리하도록
                     true
                 }
+                else -> true
             }
         }
     }
 
-    // sehoon 탭 레이아웃 이름 설정 메서드
+
+    // 탭 레이아웃 이름 설정
     private fun setTabLayout() {
-        val category = Storage.categoryList // 카테고리 리스트
-        // 탭 레이아웃 어댑터 연결
+        val category = Storage.categoryList
         binding.viewpagerUserHomeMain.adapter = HomeTabAdapter(this, category)
         TabLayoutMediator(binding.tabUserHome, binding.viewpagerUserHomeMain) { tab, pos ->
-            tab.text = category[pos] // 탭 레이아웃 텍스트 넣어주기
+            tab.text = category[pos]
         }.attach()
     }
 }

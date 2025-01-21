@@ -27,13 +27,13 @@
 		<!--    상품 설명, 상세 정보, 후기, 문의	-->
 		<com.google.android.material.tabs.TabLayout
 			android:id="@+id/tabLayoutUserProductInfo"
+			style="@style/AppText3.S14"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:background="@color/white"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/toolBarUserProductInfo"
-			app:tabSelectedTextColor="@color/green100" />
+			app:layout_constraintTop_toBottomOf="@id/toolBarUserProductInfo" />
 
 		<androidx.viewpager2.widget.ViewPager2
 			android:id="@+id/viewPagerUserProductInfo"

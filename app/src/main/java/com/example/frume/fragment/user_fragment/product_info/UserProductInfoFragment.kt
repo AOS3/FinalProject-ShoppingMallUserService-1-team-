@@ -1,6 +1,7 @@
 package com.example.frume.fragment.user_fragment.product_info
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.data.Storage
+import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserProductInfoBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -17,7 +19,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class UserProductInfoFragment : Fragment() {
     private var _binding: FragmentUserProductInfoBinding? = null
     private val binding get() = _binding!!
-    private val args:UserProductInfoFragmentArgs by navArgs()
+    private val args: UserProductInfoFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -41,6 +43,7 @@ class UserProductInfoFragment : Fragment() {
         setLayout()
     }
 
+
     private fun setLayout() {
         val detailList = Storage.detailList
         binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList)
@@ -48,10 +51,17 @@ class UserProductInfoFragment : Fragment() {
             tab.text = detailList[pos]
         }.attach()
         toolbarSetting()
+
     }
+
 
     private fun toolbarSetting() {
         binding.toolBarUserProductInfo.title = args.productNameMethod?.productName
+        val a = args.productNameMethod
+        if (a != null) {
+            Log.d("UserProductInto", a.productName)
+        }
+        UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(a)
     }
 
 
@@ -63,7 +73,6 @@ class UserProductInfoFragment : Fragment() {
             }
         }
     }
-
 
 }
 

@@ -59,17 +59,16 @@
 						android:layout_height="wrap_content" />
 				</com.google.android.material.textfield.TextInputLayout>
 
-				<Button
+				<androidx.appcompat.widget.AppCompatButton
 					android:id="@+id/buttonUserSignUpCheck"
-					style="@style/AppText4.S14"
+					style="@style/CustomButtonStyle"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_marginHorizontal="20dp"
-					android:background="@drawable/selector_button_background"
+					android:layout_marginTop="25dp"
 					android:text="중복 확인"
-					app:layout_constraintBottom_toBottomOf="@id/textFieldUserSignUpId"
 					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="@id/textFieldUserSignUpId" />
+					app:layout_constraintTop_toBottomOf="@id/textViewUserSignUpInfoLabel" />
 
 				<com.google.android.material.textfield.TextInputLayout
 					android:id="@+id/textFieldUserSignUpPw"
@@ -86,7 +85,8 @@
 					<com.google.android.material.textfield.TextInputEditText
 						style="@style/AppText3.S14"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"
+						android:inputType="textPassword" />
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<com.google.android.material.textfield.TextInputLayout
@@ -105,7 +105,8 @@
 					<com.google.android.material.textfield.TextInputEditText
 						style="@style/AppText3.S14"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"
+						android:inputType="textPassword" />
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<com.google.android.material.textfield.TextInputLayout
@@ -124,7 +125,8 @@
 					<com.google.android.material.textfield.TextInputEditText
 						style="@style/AppText3.S14"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"
+						android:inputType="textEmailAddress" />
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<TextView
@@ -153,60 +155,47 @@
 					<com.google.android.material.textfield.TextInputEditText
 						style="@style/AppText3.S14"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content" />
+						android:layout_height="wrap_content"
+						android:inputType="textPersonName" />
 				</com.google.android.material.textfield.TextInputLayout>
 
-				<LinearLayout
-					android:id="@+id/linear_rrn"
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpRRNFirst"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_marginHorizontal="20dp"
+					android:layout_marginStart="20dp"
 					android:layout_marginTop="20dp"
-					app:layout_constraintEnd_toEndOf="parent"
+					android:hint="앞 6자리"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toBottomOf="@id/textFieldUserSignUpName">
+					app:layout_constraintTop_toBottomOf="@id/textFieldUserSignUpName"
+					app:layout_constraintWidth_percent="0.5">
 
-					<com.google.android.material.textfield.TextInputLayout
-						android:id="@+id/textFieldUserSignUpRRNFirst"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:layout_marginEnd="8dp"
-						android:layout_weight="5"
-						android:hint="앞 6자리">
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:inputType="number"
+						android:maxLength="6" />
+				</com.google.android.material.textfield.TextInputLayout>
 
-						<com.google.android.material.textfield.TextInputEditText
-							style="@style/AppText3.S14"
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:inputType="number"
-							android:maxLength="6" />
-					</com.google.android.material.textfield.TextInputLayout>
+				<!-- 뒤 1자리 입력 필드 -->
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/textFieldUserSignUpRRNLast"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="20dp"
+					android:hint="뒤 1자리"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="@id/textFieldUserSignUpRRNFirst"
+					app:layout_constraintWidth_percent="0.3">
 
-					<View
-						android:id="@+id/dividerLineRRN"
-						android:layout_width="0.5dp"
-						android:layout_height="1dp"
-						android:layout_gravity="center_vertical"
-						android:layout_weight="0.3"
-						android:background="@color/gray100" />
-
-					<!-- 뒤 1자리 입력 필드 -->
-					<com.google.android.material.textfield.TextInputLayout
-						android:id="@+id/textFieldUserSignUpRRNLast"
-						android:layout_width="0dp"
-						android:layout_height="wrap_content"
-						android:layout_marginStart="8dp"
-						android:layout_weight="2"
-						android:hint="뒤 1자리">
-
-						<com.google.android.material.textfield.TextInputEditText
-							style="@style/AppText3.S14"
-							android:layout_width="match_parent"
-							android:layout_height="match_parent"
-							android:inputType="number"
-							android:maxLength="1" />
-					</com.google.android.material.textfield.TextInputLayout>
-				</LinearLayout>
+					<com.google.android.material.textfield.TextInputEditText
+						style="@style/AppText3.S14"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:inputType="number"
+						android:maxLength="1" />
+				</com.google.android.material.textfield.TextInputLayout>
 
 
 				<com.google.android.material.textfield.TextInputLayout
@@ -219,13 +208,13 @@
 					app:endIconMode="clear_text"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/linear_rrn">
+					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpRRNFirst">
 
 					<com.google.android.material.textfield.TextInputEditText
 						style="@style/AppText3.S14"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:inputType="number" />
+						android:inputType="phone" />
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<TextView
@@ -237,8 +226,8 @@
 					android:layout_marginTop="20dp"
 					android:background="@drawable/background_textview"
 					android:gravity="center"
-					android:hint="클릭해서 주소 설정"
 					android:maxLines="2"
+					android:text="클릭해서 주소 설정"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@+id/textFieldUserSignUpPhoneNumber" />
@@ -259,6 +248,7 @@
 					<com.google.android.material.textfield.TextInputEditText
 						style="@style/AppText3.S14"
 						android:layout_width="match_parent"
+						android:inputType="text"
 						android:layout_height="wrap_content" />
 				</com.google.android.material.textfield.TextInputLayout>
 
@@ -283,13 +273,12 @@
 					app:layout_constraintTop_toTopOf="@id/checkBoxUserSignUpTerms" />
 
 				<androidx.appcompat.widget.AppCompatButton
-					android:id="@+id/buttonUserLogin"
-					style="@style/AppButtonPrimary"
+					android:id="@+id/buttonUserSignUp"
+					style="@style/CustomButtonStyle"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_margin="20dp"
 					android:layout_marginTop="20dp"
-					android:enabled="false"
 					android:text="@string/common_signup"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"

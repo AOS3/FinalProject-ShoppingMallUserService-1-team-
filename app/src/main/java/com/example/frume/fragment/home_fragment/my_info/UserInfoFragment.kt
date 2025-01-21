@@ -1,9 +1,11 @@
 package com.example.frume.fragment.home_fragment.my_info
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -27,11 +29,37 @@ class UserInfoFragment() : Fragment() {
         onClickUserInfoManagementOrLeave()
         // 후기 리스너 실행
         onClickTextViewUserReview()
+        // 로그아웃 리스너 실행
+        onClickLogout()
         return fragmentUserInfoBinding.root
     }
 
+    // 로그아웃 클릭 리스너
+    fun onClickLogout() {
+        fragmentUserInfoBinding.textViewLogoutUserInfo.setOnClickListener {
+            showLogoutDialog()
+        }
+    }
+
+    // 로그아웃 다이얼로그 표시
+    private fun showLogoutDialog() {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("로그아웃")
+            .setMessage("로그아웃 하시겠습니까?")
+            .setPositiveButton("확인") { dialogInterface, which ->
+                Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("취소") { dialogInterface, which ->
+                // 다이얼로그 닫기
+                dialogInterface.dismiss()
+            }
+            .create()
+
+        dialog.show()
+    }
+
     // 주문 내역 리스너
-    fun onClickOrderHistory() {
+    private fun onClickOrderHistory() {
         fragmentUserInfoBinding.textViewUserInfoOrderHistory.setOnClickListener {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserOrderHistory()
             findNavController().navigate(action)
@@ -39,7 +67,7 @@ class UserInfoFragment() : Fragment() {
     }
 
     // 배송지 관리 리스너
-    fun onClickDeliverySpotManagement() {
+    private fun onClickDeliverySpotManagement() {
         fragmentUserInfoBinding.textViewUserInfoShippingInfo.setOnClickListener {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserAddressManageFragment()
             findNavController().navigate(action)
@@ -47,26 +75,28 @@ class UserInfoFragment() : Fragment() {
     }
 
     // 후기 텍스트뷰 클릭 리스너
-    fun onClickTextViewUserReview() {
-        fragmentUserInfoBinding.TextViewUserInfoReview.setOnClickListener {
-            val action = UserInfoFragmentDirections.actionUserInfoToFragmentUserProductInfoReview()
-            findNavController().navigate(action)
-        }
-
-        fragmentUserInfoBinding.reviewCostTextViewUserInfo.setOnClickListener {
-            val action = UserInfoFragmentDirections.actionUserInfoToFragmentUserProductInfoReview()
-            findNavController().navigate(action)
+    private fun onClickTextViewUserReview() {
+        fragmentUserInfoBinding.apply {
+            TextViewUserInfoReview.setOnClickListener {
+                val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoReviewFragment()
+                findNavController().navigate(action)
+            }
+            reviewCostTextViewUserInfo.setOnClickListener {
+                val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoReviewFragment()
+                findNavController().navigate(action)
+            }
         }
     }
 
     // 회원 정보 및 탈퇴 리스너
-    fun onClickUserInfoManagementOrLeave() {
+    private fun onClickUserInfoManagementOrLeave() {
         fragmentUserInfoBinding.textViewUserInfoAccountInfo.setOnClickListener {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoManage()
             findNavController().navigate(action)
         }
 
     }
+
 
 
 }
