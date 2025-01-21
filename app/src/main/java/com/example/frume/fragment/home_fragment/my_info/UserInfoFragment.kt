@@ -52,6 +52,11 @@ class UserInfoFragment() : Fragment() {
             val action = UserInfoFragmentDirections.actionUserInfoToFragmentUserProductInfoReview()
             findNavController().navigate(action)
         }
+
+        fragmentUserInfoBinding.reviewCostTextViewUserInfo.setOnClickListener {
+            val action = UserInfoFragmentDirections.actionUserInfoToFragmentUserProductInfoReview()
+            findNavController().navigate(action)
+        }
     }
 
     // 회원 정보 및 탈퇴 리스너
