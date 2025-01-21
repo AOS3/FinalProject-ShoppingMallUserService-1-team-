@@ -73,14 +73,9 @@ class UserCategoryDetailFragment : Fragment() {
         binding.apply {
             val productTempList = Storage.productList
             recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(productTempList) { product ->
-
                 val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product)
                 findNavController().navigate(action)
             }
-
-            // recyclerViewUserCategoryDetail.layoutManager = GridLayoutManager(context, 2) // 2열 그리드
-            // val divider = MaterialDividerItemDecoration(context, MaterialDividerItemDecoration.VERTICAL)
-            // recyclerViewUserCategoryDetail.addItemDecoration(divider)
         }
     }
 

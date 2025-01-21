@@ -9,23 +9,26 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frume.home.HomeActivity
 import com.example.frume.R
+import com.example.frume.data.Storage
+import com.example.frume.data.TempProduct
 import com.example.frume.data_hj.DummyData
 import com.example.frume.databinding.FragmentUserProductInfoDescriptionBinding
-import com.example.frume.databinding.FragmentUserProductInfoDetailBinding
 import com.example.frume.databinding.ItemProductInfoImageBinding
 import com.example.frume.databinding.ItemProductInfoImageCarouselBinding
+import com.example.frume.fragment.home_fragment.user_home.ProductItemClickListener
 import com.example.frume.util.ItemMarginDecoration
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 
 
-class UserProductInfoDescriptionFragment() : Fragment() {
+class UserProductInfoDescriptionFragment : Fragment() {
     private var _binding: FragmentUserProductInfoDescriptionBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var adapter: ProductImgAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +36,8 @@ class UserProductInfoDescriptionFragment() : Fragment() {
     ): View {
 
         // Inflate the layout for this fragment
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info_description, container, false)
 
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info_description, container, false)
 
         return binding.root
     }
@@ -52,59 +55,31 @@ class UserProductInfoDescriptionFragment() : Fragment() {
 
     private fun setLayout() {
         settingRecyclerViewCarousel()
-        onClickButtonPurches()
-        // recyclerViewImage 실행
         settingRecyclerViewImage()
-        onClickButtonPurches()
+        // recyclerViewImage 실행
+        onClickBuyBtn()
     }
 
     // 구매버튼 리스너
-    private fun onClickButtonPurches() {
+    private fun onClickBuyBtn() {
         binding.buttonUserProductInfoDescriptionBuy.setOnClickListener {
-            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserPaymentScreen()
-            findNavController().navigate(action)
+            val productName = binding.textViewUserProductInfoDescriptionName.text.toString()
+            val productPrice = binding.textViewUserProductInfoDescriptionPrice.text.toString()
+            val productImg = Storage.imgList[0].imgResourceId
+            val numberOnly = productPrice.filter { it.isDigit() }.toInt()
 
+            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDialog(productName, numberOnly, productImg)
+            findNavController().navigate(action)
         }
     }
 
 
     // RecyclerView를 구성하는 메서드
     private fun settingRecyclerViewImage() {
-        binding.apply {
-            // 어뎁터
-            recyclerViewUserProductInfoDescriptionDescriptionImage.adapter =
-                RecyclerViewImageAdapter()
-            // 구분선
-            recyclerViewUserProductInfoDescriptionDescriptionImage.addItemDecoration(
-                ItemMarginDecoration(26) // 상하 여백을 26dp로 설정
-            )
-        }
-    }
+        val tempImgList = Storage.imgList
+        adapter = ProductImgAdapter(tempImgList.toMutableList())
+        binding.recyclerViewUserProductInfoDescriptionDescriptionImage.adapter = adapter
 
-    // RecyclerView의 어뎁터
-    inner class RecyclerViewImageAdapter :
-        RecyclerView.Adapter<RecyclerViewImageAdapter.ViewHolderMain>() {
-        // ViewHolder
-        inner class ViewHolderMain(val itemProductInfoImageBinding: ItemProductInfoImageBinding) :
-            RecyclerView.ViewHolder(itemProductInfoImageBinding.root)
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMain {
-
-            val itemProductInfoImageBinding = ItemProductInfoImageBinding.inflate(layoutInflater, parent, false)
-
-            val viewHolderImage = ViewHolderMain(itemProductInfoImageBinding)
-
-
-            return viewHolderImage
-        }
-
-        override fun getItemCount(): Int {
-            return DummyData.dummyImages.size
-        }
-
-        override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
-            holder.itemProductInfoImageBinding.imageViewItemProductInfoImage.setImageResource(DummyData.dummyImages[position])
-        }
     }
 
 
@@ -116,9 +91,6 @@ class UserProductInfoDescriptionFragment() : Fragment() {
             // 회전 목마용 LayoutManager
             recyclerViewUserProductInfoDescriptionCarouselImage.layoutManager =
                 CarouselLayoutManager()
-            // recyclerView.layoutManager = CarouselLayoutManager(HeroCarouselStrategy())
-            // recyclerView.layoutManager = CarouselLayoutManager(FullScreenCarouselStrategy())
-            // recyclerView.layoutManager = CarouselLayoutManager(FullScreenCarouselStrategy(), RecyclerView.VERTICAL)
 
             val snapHelper = CarouselSnapHelper()
             snapHelper.attachToRecyclerView(recyclerViewUserProductInfoDescriptionCarouselImage)
@@ -166,5 +138,4 @@ class UserProductInfoDescriptionFragment() : Fragment() {
             }
         }
     }
-
 }

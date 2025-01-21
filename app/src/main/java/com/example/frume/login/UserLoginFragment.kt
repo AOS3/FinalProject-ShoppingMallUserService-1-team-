@@ -49,7 +49,7 @@ class UserLoginFragment : Fragment() {
 
     // sehoon 로그인 버튼 클릭 메서드
     private fun onClickLoginBtn() {
-        binding.buttonUserLogin.setOnClickListener {
+        binding.buttonUserSignUp.setOnClickListener {
             moveToHomeScreen()
         }
     }
@@ -68,5 +68,6 @@ class UserLoginFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
 
 }
