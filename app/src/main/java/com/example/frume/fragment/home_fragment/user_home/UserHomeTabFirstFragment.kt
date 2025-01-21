@@ -1,6 +1,7 @@
 package com.example.frume.fragment.home_fragment.user_home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
+import com.example.frume.vo.ProductVO
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
@@ -25,7 +33,13 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_home_tab_first, container, false)
+        _binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_user_home_tab_first,
+            container,
+            false
+        )
+        testProduct()
         return binding.root
     }
 
@@ -87,4 +101,27 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
             }
         }
     }
+
+    fun testProduct() {
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+
+
+            val work1 = async (Dispatchers.IO){
+
+
+
+
+            }
+
+        }
+
+        val firestore = FirebaseFirestore.getInstance()
+        val productVO = ProductVO()
+
+
+    }
+
+
 }

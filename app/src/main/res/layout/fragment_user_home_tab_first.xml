@@ -88,6 +88,14 @@
 					app:spanCount="2"
 					tools:listitem="@layout/item_product" />
 
+				<Button
+					android:id="@+id/testBtn"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="테스트"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent" />
+
 			</androidx.constraintlayout.widget.ConstraintLayout>
 		</androidx.core.widget.NestedScrollView>
 	</androidx.constraintlayout.widget.ConstraintLayout>
