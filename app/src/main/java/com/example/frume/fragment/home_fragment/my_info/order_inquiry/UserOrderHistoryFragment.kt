@@ -114,19 +114,10 @@ class UserOrderHistoryFragment() : Fragment() {
              inner class ViewHolderMain(val itemProductOrderBinding: ItemProductOrderBinding) : RecyclerView.ViewHolder(itemProductOrderBinding.root),
                  View.OnClickListener {
                  override fun onClick(v: View?) {
-                     // 사용자가 누른 동물 인덱스 담아준다.
-                     val dataBundle = Bundle()
-                     // dataBundle.putInt("animalIdx", testList[adapterPosition].)
-                     // ShowFragment로 이동한다.
-                     //  mainActivity.replaceFragment(FragmentName.SHOW_FRAGMENT, true, dataBundle)
 
                      // 주문 상세 내역(USerOrderHistoryFragment)으로 이동
                      val action = UserOrderHistoryFragmentDirections.actionUserOrderHistoryToUserOrderDetail()
                      findNavController().navigate(action)
-
-
-
-
                  }
              }
 

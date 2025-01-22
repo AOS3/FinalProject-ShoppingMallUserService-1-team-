@@ -10,21 +10,20 @@
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			android:layout_marginBottom="40dp">
 
 
 			<com.google.android.material.appbar.MaterialToolbar
 				android:id="@+id/toolbarUserCancelAndReturn"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:background="@color/green100"
+				style="@style/AppToolbar.Navigation"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				app:navigationIcon="@drawable/ic_arrow_back_24px"
-				app:navigationIconTint="@color/white"
 				app:title="반품, 교환 및 취소 신청"
-				app:titleTextColor="@color/white" />
+				/>
 
 			<View
 				android:id="@+id/viewUserCancelAndReturnServiceFilter"
@@ -40,10 +39,10 @@
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="30dp"
 				android:layout_marginEnd="20dp"
+				app:endIconMode="dropdown_menu"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnServiceFilter"
-				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnServiceFilter"
-				app:endIconMode="dropdown_menu">
+				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnServiceFilter">
 
 				<AutoCompleteTextView
 					android:id="@+id/autoCompleteTextViewUserCancelAndReturn"
@@ -52,7 +51,7 @@
 					android:entries="@array/item_user_order_state_order_state"
 					android:hint="반품, 교환 및 취소 선택"
 					android:inputType="none"
-					android:padding="15dp"/>
+					android:padding="15dp" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<View
@@ -69,9 +68,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="상품이름 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnOrderContent" />
 
@@ -80,9 +79,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="딸기 150G"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnProductNameTitle"
 				app:layout_constraintTop_toTopOf="@id/viewUserCancelAndReturnOrderContent" />
 
@@ -91,9 +90,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="가격 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnProductNameTitle" />
 
@@ -102,9 +101,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="15,000 원"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnPriceTitle"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnProductNameContent" />
 
@@ -113,9 +112,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="수량 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnPriceTitle" />
 
@@ -124,9 +123,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="1"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnQuantityTitle"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnPriceContent" />
 
@@ -135,9 +134,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="배송지 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnQuantityTitle" />
 
@@ -146,9 +145,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="서울 강남구"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnShippingAddressTitle"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnQuantityContent" />
 
@@ -157,9 +156,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="주문날짜 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingAddressTitle" />
 
@@ -168,9 +167,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="2025-01-07 16:00"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnOrderDateTitle"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingAddressContent" />
 
@@ -179,9 +178,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="배송현황 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnOrderDateTitle" />
 
@@ -190,9 +189,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="출고준비"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnShippingStatusTitle"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnOrderDateContent" />
 
@@ -201,9 +200,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_5"
+				android:padding="3dp"
 				android:text="주문상태 : "
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserCancelAndReturnOrderContent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingStatusTitle" />
 
@@ -212,9 +211,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
+				android:padding="3dp"
 				android:text="결제완료"
 				android:textSize="20dp"
-				android:padding="3dp"
 				app:layout_constraintStart_toEndOf="@id/textViewUserCancelAndReturnOrderStatusTitle"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCancelAndReturnShippingStatusContent" />
 
@@ -235,7 +234,7 @@
 					android:layout_height="250dp"
 					android:entries="@array/item_user_order_state_order_state"
 					android:hint="반품/교환/취소 사유"
-					android:padding="15dp"/>
+					android:padding="15dp" />
 
 			</com.google.android.material.textfield.TextInputLayout>
 
@@ -254,14 +253,14 @@
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/buttonUserCancelAndReturnDirection"
-				android:background="@drawable/background_gray100"
-				android:textColor="@color/white"
-				android:fontFamily="@font/nanumsquareneo_4"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="30dp"
+				android:background="@drawable/background_gray100"
+				android:fontFamily="@font/nanumsquareneo_4"
 				android:text="직접 발송"
+				android:textColor="@color/white"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toEndOf="@id/buttonUserCancelAndReturnPost"
 				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserCancelAndReturnInputTextLayout" />

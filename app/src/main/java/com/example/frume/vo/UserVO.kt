@@ -38,7 +38,6 @@ class UserVO {
         "PostNumber" to ""
     )
 
-
     // 배송지 items
     var customerUserAddressItems = mutableListOf<DeliveryAddressModel>()
 

@@ -126,6 +126,10 @@
 		<item name="android:textAppearance">@style/AppText4.S14</item>
 	</style>
 
+	<!-- Image Style -->
+	<style name="AppRoundedImage">
+		<item name="cornerSize">10dp</item>
+	</style>
 
 	<style
 		name="ThemeOverlay.Questionnaire.DatePicker"

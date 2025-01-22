@@ -129,24 +129,21 @@
 				android:id="@+id/recyclerViewUserProductInfoDescriptionDescriptionImage"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
+				android:layout_marginBottom="100dp"
 				android:nestedScrollingEnabled="false"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
-				tools:listitem="@layout/item_product_info_image"
 				app:layout_constraintStart_toStartOf="parent"
-				android:layout_marginBottom="100dp"
 				app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDescriptionDivide"
-				/>
+				tools:listitem="@layout/item_product_info_image" />
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/buttonUserProductInfoDescriptionBuy"
-				style="@style/AppButtonPrimary"
+				style="@style/CustomButtonStyle"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_margin="30dp"
-
-				android:background="@drawable/selector_button_background"
 				android:text="구매하기"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"

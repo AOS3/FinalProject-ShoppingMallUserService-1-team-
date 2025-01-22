@@ -123,36 +123,54 @@ class UserPaymentScreenFragment : Fragment() {
                     R.id.buttonUserPaymentPaymentMethodAccount -> {
                         // 계좌이체 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "계좌이체 선택", Toast.LENGTH_SHORT).show()
-                        collapseView(binding.textInputLayoutUserPaymentCard)
+                 /*       collapseView(binding.textInputLayoutUserPaymentCard)
                         collapseView(binding.textViewUserPaymentCard)
-                        collapseView(binding.textViewUserPaymentStar)
-
-
+                        collapseView(binding.textViewUserPaymentStar)*/
+                        binding.apply {
+                            textInputLayoutUserPaymentCard.visibility = View.GONE
+                            textViewUserPaymentCard.visibility = View.GONE
+                            textViewUserPaymentStar.visibility = View.GONE
+                        }
                     }
 
                     R.id.buttonUserPaymentPaymentMethodCard -> {
                         // 신용카드 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "신용카드 선택", Toast.LENGTH_SHORT).show()
-                        expandView(binding.textInputLayoutUserPaymentCard)
+                        /*expandView(binding.textInputLayoutUserPaymentCard)
                         expandView(binding.textViewUserPaymentCard)
-                        expandView(binding.textViewUserPaymentStar)
+                        expandView(binding.textViewUserPaymentStar)*/
+                        binding.apply {
+                            textInputLayoutUserPaymentCard.visibility = View.VISIBLE
+                            textViewUserPaymentCard.visibility = View.VISIBLE
+                            textViewUserPaymentStar.visibility = View.VISIBLE
+                        }
 
                     }
 
                     R.id.buttonUserPaymentPaymentMethodKakaoPay -> {
                         // 카카오페이 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "카카오페이 선택", Toast.LENGTH_SHORT).show()
-                        collapseView(binding.textInputLayoutUserPaymentCard)
+                      /*  collapseView(binding.textInputLayoutUserPaymentCard)
                         collapseView(binding.textViewUserPaymentCard)
-                        collapseView(binding.textViewUserPaymentStar)
+                        collapseView(binding.textViewUserPaymentStar)*/
+                        binding.apply {
+                            textInputLayoutUserPaymentCard.visibility = View.GONE
+                            textViewUserPaymentCard.visibility = View.GONE
+                            textViewUserPaymentStar.visibility = View.GONE
+                        }
                     }
 
                     R.id.buttonUserPaymentPaymentMethodNaverPay -> {
                         // 네이버페이 버튼 선택 시 동작
                         //Toast.makeText(requireContext(), "네이버페이 선택", Toast.LENGTH_SHORT).show()
-                        collapseView(binding.textInputLayoutUserPaymentCard)
+                  /*      collapseView(binding.textInputLayoutUserPaymentCard)
                         collapseView(binding.textViewUserPaymentCard)
-                        collapseView(binding.textViewUserPaymentStar)
+                        collapseView(binding.textViewUserPaymentStar)*/
+                        binding.apply {
+                            textInputLayoutUserPaymentCard.visibility = View.GONE
+                            textViewUserPaymentCard.visibility = View.GONE
+                            textViewUserPaymentStar.visibility = View.GONE
+                        }
                     }
                 }
             }
