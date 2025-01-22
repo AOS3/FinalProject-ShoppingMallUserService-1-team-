@@ -30,6 +30,9 @@ class AdminSalesModel {
     // 부 카테고리
     var salesCategory2 = ""
 
+    // 세부 카테고리
+    var salesCategory3 = ""
+
     fun toAdminSalesVO(): AdminSalesVO {
         val adminSalesVo = AdminSalesVO()
 
@@ -41,6 +44,7 @@ class AdminSalesModel {
         adminSalesVo.salesOrderState = salesOrderState.num
         adminSalesVo.salesCategory1 = salesCategory1
         adminSalesVo.salesCategory2 = salesCategory2
+        adminSalesVo.salesCategory3 = salesCategory3
 
         return adminSalesVo
     }

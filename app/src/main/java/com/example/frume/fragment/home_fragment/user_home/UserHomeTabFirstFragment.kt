@@ -1,6 +1,7 @@
 package com.example.frume.fragment.home_fragment.user_home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,17 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
+import com.example.frume.vo.CartProductVO
+import com.example.frume.vo.ProductVO
+import com.example.frume.vo.ReviewVO
+import com.example.frume.vo.SubscribeVO
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
@@ -46,6 +58,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         adapter = HomeProductAdapter(mutableListOf(), this)
         binding.recyclerView.adapter = adapter
         setBanner()
+
     }
 
     // 배너 설정
@@ -87,4 +100,6 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
             }
         }
     }
+
+
 }
