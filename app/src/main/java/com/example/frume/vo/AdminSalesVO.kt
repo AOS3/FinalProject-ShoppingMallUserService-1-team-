@@ -24,10 +24,13 @@ class AdminSalesVO {
     var salesOrderState = 1 // 1 : 정상, 2 : 비정상
 
     // 주 카테고리
-    var salesCategory1 = ""
+    var salesCategory1 = "국산"
 
     // 부 카테고리
-    var salesCategory2 = ""
+    var salesCategory2 = "딸기"
+
+    // 세부 카테고리
+    var salesCategory3 = "과일 바구니"
 
     fun toAdminSalesModel(): AdminSalesModel {
         val adminSalesModel = AdminSalesModel()
@@ -39,6 +42,7 @@ class AdminSalesVO {
         adminSalesModel.salesOrderDate = salesOrderDate
         adminSalesModel.salesCategory1 = salesCategory1
         adminSalesModel.salesCategory2 = salesCategory2
+        adminSalesModel.salesCategory3 = salesCategory3
 
         when(salesOrderState){
             AdminSalesState.ADMIN_SALES_STATE_NORMAL.num->{adminSalesModel.salesOrderState= AdminSalesState.ADMIN_SALES_STATE_NORMAL}
