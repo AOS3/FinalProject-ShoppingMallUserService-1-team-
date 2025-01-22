@@ -56,12 +56,8 @@ class UserProductInfoFragment : Fragment() {
 
 
     private fun toolbarSetting() {
-        binding.toolBarUserProductInfo.title = args.productNameMethod?.productName
-        val a = args.productNameMethod
-        if (a != null) {
-            Log.d("UserProductInto", a.productName)
-        }
-        UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(a)
+        binding.toolBarUserProductInfo.title = args.selectedProductDocId
+        UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(args.selectedProductDocId)
     }
 
 

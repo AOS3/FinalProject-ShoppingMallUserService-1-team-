@@ -78,9 +78,8 @@
 			app:destination="@id/navigation_home" />
 
 		<argument
-			android:name="productNameMethod"
-			app:argType="com.example.frume.data.TempProduct"
-			app:nullable="true" />
+			android:name="selectedProductDocId"
+			app:argType="string" />
 		<action
 			android:id="@+id/action_user_product_info_to_user_product_info_dialog"
 			app:destination="@id/user_product_info_dialog" />
@@ -186,8 +185,7 @@
 		tools:layout="@layout/fragment_user_product_info_description">
 		<argument
 			android:name="productMethod"
-			app:argType="com.example.frume.data.TempProduct"
-			app:nullable="true" />
+			app:argType="string" />
 	</fragment>
 
 	<fragment
