@@ -46,6 +46,13 @@ class ProductModel {
     // 등록 시간
     var productTimeStamp = Timestamp.now()
 
+    // 안드감
+    // 판매량
+    var productSalesCount = 0
+
+    // 세부 카테고리
+    var productCategory3 = ""
+
 
     fun toProductVO(): ProductVO {
         val productVO = ProductVO()
@@ -63,6 +70,8 @@ class ProductModel {
         productVO.productVolume = productVolume
         productVO.productSellingState = productSellingState.num
         productVO.productTimeStamp = productTimeStamp
+        productVO.productSalesCount = productSalesCount
+        productVO.productCategory3 = productCategory3
 
         return productVO
 
