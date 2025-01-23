@@ -223,3 +223,12 @@ enum class CustomerUserState(val num: Int, val str: String) {
     CUSTOMER_USER_STATE_SUSPENDED(3, "정지")  // 정지된 사용자
 }
 
+// hyeonseo 0123
+// 로그인 결과
+enum class LoginResult(val number:Int, val str:String){
+    LOGIN_RESULT_SUCCESS(1, "로그인 성공"),
+    LOGIN_RESULT_ID_NOT_EXIST(2, "존재하지 않는 아이디"),
+    LOGIN_RESULT_PASSWORD_INCORRECT(3, "잘못된 비밀번호"),
+    LOGIN_RESULT_SIGNOUT_MEMBER(4, "탈퇴한 회원"),
+}
+
