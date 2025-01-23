@@ -73,7 +73,7 @@ class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
 
 
     private fun moveToProductInfo(product: TempProduct) {
-        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product)
+        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productName)
         findNavController().navigate(action)
     }
 

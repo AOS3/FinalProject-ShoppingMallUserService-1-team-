@@ -59,6 +59,12 @@ class UserModel {
     //var customerUserBasicAddress=""
     //배송지 db에 기본배송지 여부가 들어가서 제거함
 
+    // 주민등록번호 앞자리
+    var customerUserRRNFirst = ""
+
+    // 주민등록번호 뒷자리
+    var customerUserRRNLast = ""
+
     fun toUserVO(): UserVO {
 
         val userVO = UserVO()
@@ -77,9 +83,10 @@ class UserModel {
         userVO.customerUserTimeStamp = customerUserTimeStamp
         userVO.customerUserLocalToken = customerUserLocalToken
         userVO.customerUserKakaoToken = customerUserKakaoToken
+        userVO.customerUserRRNFirst = customerUserRRNFirst
+        userVO.customerUserRRNLast = customerUserRRNLast
 
         return userVO
     }
 }
-
 

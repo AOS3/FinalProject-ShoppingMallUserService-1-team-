@@ -1,5 +1,4 @@
 package com.example.frume.fragment.home_fragment.user_home
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

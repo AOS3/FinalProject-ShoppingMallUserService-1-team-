@@ -72,6 +72,9 @@ enum class ProductCategoryDetailType(var number: Int, var str: String) {
     PRODUCT_CATEGORY_PACKAGE(10,"패키지"),
     PRODUCT_CATEGORY_SALE(11,"특가"),
     PRODUCT_CATEGORY_SEARCH(12,"검색"),
+    PRODUCT_CATEGORY_DOMESTIC(13,"국산"),
+    PRODUCT_CATEGORY_IMPORTED(14,"수입")
+
 }
 
 // 관리자 상태
@@ -222,6 +225,7 @@ enum class CustomerUserState(val num: Int, val str: String) {
     CUSTOMER_USER_STATE_WITHDRAWN(2, "탈퇴"), // 탈퇴한 사용자
     CUSTOMER_USER_STATE_SUSPENDED(3, "정지")  // 정지된 사용자
 }
+
 
 // hyeonseo 0123
 // 로그인 결과

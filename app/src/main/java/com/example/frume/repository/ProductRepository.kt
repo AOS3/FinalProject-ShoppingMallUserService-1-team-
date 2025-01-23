@@ -4,17 +4,18 @@ import android.util.Log
 import com.example.frume.vo.ProductVO
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+
 import kotlinx.coroutines.tasks.await
 
 class ProductRepository {
     companion object {
         // 카테고리별 목록 가져오기
         suspend fun gettingProductByCategory(productCategoryType: String): MutableList<ProductVO> {
-            Log.d("test100","ProductRepository : gettingProductByCategory")
+
+            // Log.d("test100","ProductRepository : gettingProductByCategory")
             val firestore = FirebaseFirestore.getInstance()
 
             val collectionReference = firestore.collection("productData")
-            Log.d("test100","ProductRepository -> collectionReference: ${collectionReference.id}")
 
             val result = mutableListOf<ProductVO>()
 
@@ -35,19 +36,15 @@ class ProductRepository {
                     }
 
                 }
-                Log.d("test100","ProductRepository -> collectionReference-> querySnapshot : ${querySnapshot.documents}")
-
 
                 for (document in querySnapshot) {
                     val productVO = document.toObject(ProductVO::class.java)
-                    Log.d("test100","ProductRepository -> productVO: ${productVO}")
 
                     result.add(productVO)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
             return result
         }
 
@@ -77,7 +74,6 @@ class ProductRepository {
 
             return resultList
         }
-
-        // 홈화면 탭바 별로 가져오기(신제품, 특가, 베스트, 1인, 패키지)
+            // 홈화면 탭바 별로 가져오기(신제품, 특가, 베스트, 1인, 패키지)
     }
 }
