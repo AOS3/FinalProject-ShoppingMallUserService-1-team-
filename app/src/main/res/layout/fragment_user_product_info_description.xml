@@ -3,152 +3,152 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools">
 
-	<data>
+	<data></data>
 
-	</data>
-
-	<androidx.core.widget.NestedScrollView
+	<androidx.coordinatorlayout.widget.CoordinatorLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		tools:context=".fragment.user_fragment.product_info.UserProductInfoDescriptionFragment">
 
-		<androidx.constraintlayout.widget.ConstraintLayout
+		<androidx.core.widget.NestedScrollView
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			android:layout_marginBottom="70dp"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-			<com.example.frume.util.NestedScrollableHost
-				android:id="@+id/customScrollableHost"
+			<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+				android:layout_height="wrap_content">
 
-				<androidx.recyclerview.widget.RecyclerView
-					android:id="@+id/recyclerViewUserProductInfoDescriptionCarouselImage"
+				<com.example.frume.util.NestedScrollableHost
+					android:id="@+id/customScrollableHost"
 					android:layout_width="match_parent"
-					android:layout_height="350dp"
-					android:foreground="?attr/selectableItemBackground"
+					android:layout_height="match_parent">
+
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/recyclerViewUserProductInfoDescriptionCarouselImage"
+						android:layout_width="match_parent"
+						android:layout_height="350dp"
+						android:foreground="?attr/selectableItemBackground"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent"
+						app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge" />
+
+				</com.example.frume.util.NestedScrollableHost>
+
+				<TextView
+					android:id="@+id/textViewUserProductInfoDescriptionName"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:fontFamily="@font/nanumsquareneo_5"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/customScrollableHost"
+					tools:text="킹스베리 딸기 500g" />
+
+				<TextView
+					android:id="@+id/textViewUserProductInfoDescription"
+					style="@style/AppText3.S14"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="10dp"
+					android:ellipsize="end"
+					android:maxLines="3"
+					app:layout_constraintBottom_toTopOf="@id/textViewUserProductInfoDescriptionPrice"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
-					app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge" />
+					app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionName"
+					tools:text="맛 좋은 딸기입니다." />
 
-			</com.example.frume.util.NestedScrollableHost>
+				<TextView
+					android:id="@+id/textViewUserProductInfoDescriptionPrice"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="10dp"
+					android:fontFamily="@font/nanumsquareneo_4"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescription"
+					tools:text="19,000원" />
 
+				<com.google.android.material.divider.MaterialDivider
+					android:id="@+id/dividerTop"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginEnd="20dp"
+					app:dividerColor="@color/black"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionPrice" />
 
-			<TextView
-				android:id="@+id/textViewUserProductInfoDescriptionName"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="20dp"
-				android:fontFamily="@font/nanumsquareneo_5"
-				android:text="킹스베리 딸기 500g"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/customScrollableHost" />
+				<TextView
+					android:id="@+id/textViewUserProductInfoDescriptionDeliveryChargeLabel"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="10dp"
+					android:fontFamily="@font/nanumsquareneo_4"
+					android:text="@string/user_product_info_description_delivery_charge_label"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/dividerTop" />
 
-			<TextView
-				android:id="@+id/textViewUserProductInfoDescription"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="20dp"
-				android:fontFamily="@font/nanumsquareneo_3"
-				android:text="맛 좋은 딸기입니다."
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionName"
+				<TextView
+					android:id="@+id/textViewUserProductInfoDescriptionDispatchLocationLabel"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="10dp"
+					android:fontFamily="@font/nanumsquareneo_4"
+					android:text="@string/user_product_info_description_dispatch_location_label"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionDeliveryChargeLabel" />
 
-				/>
+				<com.google.android.material.divider.MaterialDivider
+					android:id="@+id/dividerMid"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginEnd="20dp"
+					app:dividerColor="@color/black"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionDispatchLocationLabel" />
 
+				<View
+					android:id="@+id/viewUserProductInfoDescriptionDivide"
+					android:layout_width="match_parent"
+					android:layout_height="30dp"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/dividerMid" />
 
-			<TextView
-				android:id="@+id/textViewUserProductInfoDescriptionPrice"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="10dp"
-				android:fontFamily="@font/nanumsquareneo_4"
-				android:text="19,000원"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescription" />
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recyclerViewUserProductInfoDescriptionDescriptionImage"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="100dp"
+					android:nestedScrollingEnabled="false"
+					app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDescriptionDivide"
+					tools:listitem="@layout/item_product_info_image" />
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</androidx.core.widget.NestedScrollView>
 
-			<com.google.android.material.divider.MaterialDivider
-				android:id="@+id/dividerTop"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="20dp"
-				android:layout_marginEnd="20dp"
-				app:dividerColor="@color/black"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionPrice" />
-
-			<TextView
-				android:id="@+id/textViewUserProductInfoDescriptionDeliveryChargeLabel"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="10dp"
-				android:fontFamily="@font/nanumsquareneo_4"
-				android:text="@string/user_product_info_description_delivery_charge_label"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/dividerTop" />
-
-
-			<TextView
-				android:id="@+id/textViewUserProductInfoDescriptionDispatchLocationLabel"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="10dp"
-				android:fontFamily="@font/nanumsquareneo_4"
-				android:text="@string/user_product_info_description_dispatch_location_label"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionDeliveryChargeLabel" />
-
-			<com.google.android.material.divider.MaterialDivider
-				android:id="@+id/dividerMid"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="10dp"
-				android:layout_marginEnd="20dp"
-				app:dividerColor="@color/black"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoDescriptionDispatchLocationLabel" />
-
-			<View
-				android:id="@+id/viewUserProductInfoDescriptionDivide"
-				android:layout_width="match_parent"
-				android:layout_height="30dp"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/dividerMid" />
-
-
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/recyclerViewUserProductInfoDescriptionDescriptionImage"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="100dp"
-				android:nestedScrollingEnabled="false"
-				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/viewUserProductInfoDescriptionDivide"
-				tools:listitem="@layout/item_product_info_image" />
-
-			<androidx.appcompat.widget.AppCompatButton
-				android:id="@+id/buttonUserProductInfoDescriptionBuy"
-				style="@style/CustomButtonStyle"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_margin="30dp"
-				android:text="구매하기"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent" />
-
-		</androidx.constraintlayout.widget.ConstraintLayout>
-	</androidx.core.widget.NestedScrollView>
+		<androidx.appcompat.widget.AppCompatButton
+			android:id="@+id/buttonUserProductInfoDescriptionBuy"
+			style="@style/CustomButtonStyle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:layout_margin="16dp"
+			android:text="구매하기" />
+	</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

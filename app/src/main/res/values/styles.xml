@@ -49,6 +49,10 @@
 		<item name="android:textSize">17sp</item>
 	</style>
 
+	<style name="AppText3.S20">
+		<item name="android:textSize">20sp</item>
+	</style>
+
 	<!--    font 4레벨	-->
 	<style name="AppText4">
 		<item name="fontFamily">@font/nanumsquareneo_4</item>
@@ -68,6 +72,10 @@
 
 	<style name="AppText5.S17">
 		<item name="android:textSize">17sp</item>
+	</style>
+
+	<style name="AppText5.S20">
+		<item name="android:textSize">20sp</item>
 	</style>
 
 	<style name="AppText5.S25">
@@ -115,7 +123,6 @@
 	</style>
 
 
-
 	<!-- 버튼 스타일 -->
 	<style name="CustomButtonReverseStyle" parent="Widget.AppCompat.Button.Borderless">
 		<!-- 배경 -->
@@ -131,10 +138,7 @@
 		<item name="cornerSize">10dp</item>
 	</style>
 
-	<style
-		name="ThemeOverlay.Questionnaire.DatePicker"
-		parent="@style/ThemeOverlay.Material3.MaterialCalendar"
-		>
+	<style name="ThemeOverlay.Questionnaire.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
 		<item name="android:background">?attr/colorSurface</item>
 	</style>
 

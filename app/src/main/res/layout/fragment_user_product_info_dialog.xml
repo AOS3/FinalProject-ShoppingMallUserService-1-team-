@@ -13,6 +13,16 @@
 		android:background="@drawable/background_top_rounded_corner"
 		tools:context=".fragment.user_fragment.product_info.UserProductInfoDialogFragment">
 
+		<View
+			android:id="@+id/viewHandle"
+			android:layout_width="50dp"
+			android:layout_height="5dp"
+			android:layout_marginTop="20dp"
+			android:background="@drawable/background_gray100"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
 		<com.google.android.material.imageview.ShapeableImageView
 			android:id="@+id/imageViewUserProductDialogThumbNail"
 			android:layout_width="80dp"
@@ -20,11 +30,11 @@
 			android:layout_marginStart="20dp"
 			android:layout_marginTop="20dp"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/viewHandle"
 			tools:background="@color/gray5" />
 
 		<TextView
-			android:id="@+id/tv_product_name"
+			android:id="@+id/textViewProductName"
 			style="@style/AppText3.S17"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -32,6 +42,21 @@
 			app:layout_constraintStart_toEndOf="@id/imageViewUserProductDialogThumbNail"
 			app:layout_constraintTop_toTopOf="@id/imageViewUserProductDialogThumbNail"
 			tools:text="딸기[상품명]" />
+
+		<TextView
+			android:id="@+id/textViewProductDescription"
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:layout_marginEnd="20dp"
+			android:ellipsize="end"
+			android:maxLines="3"
+			app:layout_constraintBottom_toBottomOf="@id/imageViewUserProductDialogThumbNail"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="@id/textViewProductName"
+			app:layout_constraintTop_toBottomOf="@id/textViewProductName"
+			tools:text="asdfasddfsdklfsdkl;gjkl;asdgklasdkl;gasdkl;gkl;asdgkl;asdjkl;gjasdkl;gjsklgjskldgksdlgk;sdkl;g" />
 
 		<com.google.android.material.divider.MaterialDivider
 			android:id="@+id/dividerUserProductDialogTop"

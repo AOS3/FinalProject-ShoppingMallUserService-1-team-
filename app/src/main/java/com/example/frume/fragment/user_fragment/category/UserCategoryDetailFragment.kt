@@ -1,6 +1,7 @@
 package com.example.frume.fragment.user_fragment.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,13 @@ import com.example.frume.data.Storage
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
+import com.example.frume.model.ProductModel
+import com.example.frume.service.ProductService
 import com.example.frume.util.ProductInfoType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 
 
@@ -24,13 +31,13 @@ class UserCategoryDetailFragment : Fragment() {
     private var _binding: FragmentUserCategoryDetailBinding? = null
     private val binding get() = _binding!!
     private val args: UserCategoryDetailFragmentArgs by navArgs()
+    private var recyclerViewListByCategory = mutableListOf<ProductModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_category_detail, container, false)
-
         return binding.root
     }
 
@@ -47,10 +54,10 @@ class UserCategoryDetailFragment : Fragment() {
 
     private fun setLayout() {
         // 툴바 설정(상단이름 + 뒤로가기 구현)
+        refreshMainRecyclerView()
         settingToolbar()
-        // RecyclerView 설정
-        settingRecyclerView()
         onClickToolbar()
+        // 리사이클러뷰 갱신
     }
 
     private fun settingToolbar() {
@@ -69,21 +76,36 @@ class UserCategoryDetailFragment : Fragment() {
         }
     }
 
-    private fun settingRecyclerView() {
+    private fun settingRecyclerView(a: MutableList<ProductModel>) {
         binding.apply {
-            val productTempList = Storage.productList
-            recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(productTempList) { product ->
-                val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product)
+            recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(a) { product ->
+                val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product.productDocId)
                 findNavController().navigate(action)
             }
         }
     }
 
+    // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
+    fun refreshMainRecyclerView(){
+        Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO){
+                //  mutableList<productModel> 가져온다
+                ProductService.gettingProductByCategory("딸기")
+            }
+            recyclerViewListByCategory = work1.await()
+            settingRecyclerView(recyclerViewListByCategory)
+            Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
+        }
+    }
+
+
 }
 
 class ProductRecyclerViewAdapter(
-    private val productList: List<TempProduct>, // 데이터 리스트
-    private val onItemClick: (TempProduct) -> Unit // 클릭 리스너
+    private val productList: List<ProductModel>, // 데이터 리스트
+    private val onItemClick: (ProductModel) -> Unit // 클릭 리스너
 ) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
 
     // ViewHolder 클래스
@@ -116,7 +138,7 @@ class ProductRecyclerViewAdapter(
         holder.itemProductBinding.apply {
             textViewItemProductTitle.text = product.productName
             textViewItemProductDescription.text = product.productDescription
-            imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)
+            /*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*/
         }
     }
 

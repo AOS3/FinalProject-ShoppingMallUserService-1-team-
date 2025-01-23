@@ -61,7 +61,10 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
     }
 
     private fun setLayout() {
+        val productList = listOf<TempProduct>()// db에서 가져 온 리스트
         adapter = HomeProductAdapter(mutableListOf(), this)
+
+       // adapter = HomeProductAdapter(productList, this) // 어댑터에서 TempProduct를 가져온 형으로 변환
         binding.recyclerView.adapter = adapter
         setBanner()
     }
@@ -95,7 +98,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         // 상세 정보로 이동
         Toast.makeText(requireContext(), product.productName, Toast.LENGTH_SHORT).show()
         // 보내 주고싶은 값을 파라미터로 전달
-        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product)
+        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo("03kJh5PpmQYqVK9GLUie")
         findNavController().navigate(action)
     }
 

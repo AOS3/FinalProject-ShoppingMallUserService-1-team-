@@ -80,7 +80,7 @@ class UserCartFragment1 : Fragment() {
     private fun onClickCartOrderProduct() {
         binding.buttonUserCartOrder.setOnClickListener {
             // 네비게이션을 통해 UserPaymentScreenFragment로 이동
-            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen()
+            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(12000)
             findNavController().navigate(action)
         }
     }

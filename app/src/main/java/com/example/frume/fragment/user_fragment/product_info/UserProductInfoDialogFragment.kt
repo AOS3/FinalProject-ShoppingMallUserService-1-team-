@@ -4,20 +4,27 @@ import android.os.Bundle
 import android.os.Parcel
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDialogBinding
+import com.example.frume.service.ProductService
 import com.example.frume.util.applyNumberFormat
+import com.example.frume.util.convertThreeDigitComma
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -31,9 +38,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     private val args: UserProductInfoDialogFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info_dialog, container, false)
-
         return binding.root
     }
 
@@ -46,8 +51,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-
     }
+
 
     private fun settingBottomSheet() {
         // BottomSheetBehavior 가져오기
@@ -66,16 +71,36 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setLayout() {
+        getProductData()
         onClickPaymentBtn()
-        val productName = args.productMethod
-        productPrice = args.productPrice
-        binding.tvProductName.text = productName
-        binding.textViewUserProductInfoDialogPrice.applyNumberFormat(productPrice)
-        binding.imageViewUserProductDialogThumbNail.setImageResource(args.productImg)
         onClickCalendarDialog()
         settingBottomSheet()
         onClickCountBtn()
         watcherProductCount()
+    }
+
+    private fun getProductData() {
+        val productDocId = args.productDocId
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val productList = ProductService.getProductInfo(productDocId)
+                withContext(Dispatchers.Main) {
+                    // UI
+                    productList.forEach { item ->
+                        productPrice = item.productPrice
+                        with(binding) {
+                            textViewProductName.text = item.productName
+                            textViewProductDescription.text = item.productDescription
+                            textViewUserProductInfoDialogPrice.applyNumberFormat(item.productPrice)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "no data", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     // sehoon 배송 예정일 클릭 메소드
@@ -209,8 +234,13 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             if (binding.textViewUserProductInfoDialogDeliveryDate.text == "배송 예정일 선택") {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
-                val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen()
-                findNavController().navigate(action)
+                if (productCount == 1) {
+                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(productPrice)
+                    findNavController().navigate(action)
+                } else {
+                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(_productPrice)
+                    findNavController().navigate(action)
+                }
             }
         }
     }
