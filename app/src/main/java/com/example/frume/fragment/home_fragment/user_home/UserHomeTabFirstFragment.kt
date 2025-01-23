@@ -9,11 +9,14 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
+import com.example.frume.model.ProductModel
+import com.example.frume.service.ProductService
 import com.example.frume.vo.AdminSalesVO
 import com.example.frume.vo.CartVO
 import com.example.frume.vo.OrderProductVO
@@ -55,18 +58,25 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-        viewModel.product.observe(viewLifecycleOwner) {
-            adapter.add(it.toMutableList())
+
+        // ViewModel 관찰
+        viewModel.products.observe(viewLifecycleOwner) { productList ->
+            adapter.add(productList.toMutableList())
+            binding.recyclerView.adapter?.notifyDataSetChanged()
+        }
+
+        viewModel.banner.observe(viewLifecycleOwner) { banners ->
+            // 배너 처리 (필요하면 구현)
         }
     }
 
     private fun setLayout() {
         adapter = HomeProductAdapter(mutableListOf(), this)
         binding.recyclerView.adapter = adapter
-        setBanner()
+        //setBanner()
     }
 
-    // 배너 설정
+     // 배너 설정
     private fun setBanner() {
         val dummyList = viewModel.getBannerProduct()
         val initialPosition = Int.MAX_VALUE / 2 - (Int.MAX_VALUE / 2 % dummyList.size)
@@ -98,6 +108,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productName)
         findNavController().navigate(action)
     }
+
 
     companion object {
         fun newInstance(): UserHomeTabFirstFragment {

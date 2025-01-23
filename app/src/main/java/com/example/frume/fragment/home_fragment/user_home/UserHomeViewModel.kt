@@ -4,13 +4,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.frume.R
 import com.example.frume.data.Storage
 import com.example.frume.data.TempBanner
 import com.example.frume.data.TempProduct
+import com.example.frume.service.ProductService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UserHomeViewModel : ViewModel() {
     private val _products = MutableLiveData<List<TempProduct>>()
-    val product: LiveData<List<TempProduct>> get() = _products
+    val products: LiveData<List<TempProduct>> get() = _products
 
     private val _banners = MutableLiveData<List<TempBanner>>()
     val banner: LiveData<List<TempBanner>> get() = _banners
@@ -20,7 +26,7 @@ class UserHomeViewModel : ViewModel() {
     val data: LiveData<Int> get() = _data
 
     init {
-        getTempProduct()
+        loadProducts()
         getBannerProduct()
     }
 
@@ -29,9 +35,27 @@ class UserHomeViewModel : ViewModel() {
         Log.d("_data", _data.value.toString())
     }
 
-    private fun getTempProduct() {
-        val products = Storage.productList
-        _products.value = products
+    private fun loadProducts() {
+        viewModelScope.launch {
+            try {
+                val products = withContext(Dispatchers.IO) {
+                    ProductService.gettingProductAll().map { productModel ->
+                        TempProduct(
+                            productImgResourceId = R.drawable.btn_background,
+                            productName = productModel.productName,
+                            productPrice = productModel.productPrice,
+                            productDescription = productModel.productDescription,
+                            productCategory = productModel.productCategory1 // 임시 데이터
+
+                        )
+                    }
+
+                }
+                _products.value = products
+            } catch (e: Exception) {
+                Log.e("UserHomeViewModel", "Error loading products: ${e.message}", e)
+            }
+        }
     }
 
     fun getBannerProduct(): List<TempBanner> {
@@ -40,5 +64,3 @@ class UserHomeViewModel : ViewModel() {
         return banners
     }
 }
-
-

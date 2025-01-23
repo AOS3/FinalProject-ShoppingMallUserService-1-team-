@@ -83,16 +83,22 @@ class UserLoginFragment : Fragment() {
         binding.apply {
             // 입력 요소 검사
             if (binding.textFieldUserLoginId.editText?.text?.toString()?.isEmpty()!!) {
+                /*  userActivity.showMessageDialog("아이디 입력", "아이디를 입력해주세요", "확인") {
+                      userActivity.showSoftInput(textFieldUserLoginId.editText!!)
+                  }
+                  return*/
+            }
+            if (binding.textFieldUserLoginPw.editText?.text?.toString()?.isEmpty()!!) {
+                /*    userActivity.showMessageDialog("비밀번호 입력", "비밀번호를 입력해주세요", "확인") {
+                        userActivity.showSoftInput(textFieldUserLoginPw.editText!!)
+                    }
+                    return*/
+
               /*  userActivity.showMessageDialog("아이디 입력", "아이디를 입력해주세요", "확인") {
                     userActivity.showSoftInput(textFieldUserLoginId.editText!!)
                 }
                 return*/
-            }
-            if (binding.textFieldUserLoginPw.editText?.text?.toString()?.isEmpty()!!) {
-            /*    userActivity.showMessageDialog("비밀번호 입력", "비밀번호를 입력해주세요", "확인") {
-                    userActivity.showSoftInput(textFieldUserLoginPw.editText!!)
-                }
-                return*/
+
             }
 
             // 사용자가 입력한 아이디와 비밀번호
@@ -109,12 +115,66 @@ class UserLoginFragment : Fragment() {
                 // 로그인 결과로 분기한다.
                 when (loginResult) {
                     LoginResult.LOGIN_RESULT_ID_NOT_EXIST -> {
+
+                        /*     userActivity.showMessageDialog("로그인 실패", "존재하지 않는 아이디 입니다", "확인") {
+                                 loginViewModel?.textFieldUserLoginIdEditTextText?.value = ""
+                                 loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
+                                 userActivity.showSoftInput(textFieldUserLoginId.editText!!)
+                             }*/
+                    }
+
+                    LoginResult.LOGIN_RESULT_PASSWORD_INCORRECT -> {
+                        /* userActivity.showMessageDialog("로그인 실패", "잘못된 비밀번호 입니다", "확인") {
+                             loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
+                             userActivity.showSoftInput(textFieldUserLoginPw.editText!!)
+                         }*/
+                    }
+
+                    LoginResult.LOGIN_RESULT_SIGNOUT_MEMBER -> {
+                        /*userActivity.showMessageDialog("로그인 실패", "탈퇴한 회원입니다", "확인") {
+
                    /*     userActivity.showMessageDialog("로그인 실패", "존재하지 않는 아이디 입니다", "확인") {
+
                             loginViewModel?.textFieldUserLoginIdEditTextText?.value = ""
                             loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
                             userActivity.showSoftInput(textFieldUserLoginId.editText!!)
                         }*/
                     }
+
+
+
+                    // hyeonseo 0123
+                   LoginResult.LOGIN_RESULT_SUCCESS -> {
+//                        // 로그인한 사용자 정보를 가져온다.
+//                        val work2 = async(Dispatchers.IO) {
+//                            UserService.selectUserDataByUserIdOne(loginUserId)
+//                        }
+//                        val loginUserModel = work2.await()
+//
+//                        // 만약 자동로그인이 체크되어 있다면
+//                        if (binding.checkBoxUserLoginAuto) {
+//                            CoroutineScope(Dispatchers.Main).launch {
+//                                val work1 = async(Dispatchers.IO) {
+//                                    UserService.updateUserAutoLoginToken(
+//                                        userActivity,
+//                                        loginUserModel.userDocumentId
+//                                    )
+//                                }
+//                                work1.join()
+//                            }
+//                        }
+//
+//
+//                        val intent = Intent(requireContext(), HomeActivity::class.java)
+//                        intent.putExtra("user_document_id", loginUserModel.customerUserDocId)
+//                        startActivity(intent)
+//                        loginActivity.finish()
+                  }
+
+                }
+            }
+        }
+    }
 
                     LoginResult.LOGIN_RESULT_PASSWORD_INCORRECT -> {
                        /* userActivity.showMessageDialog("로그인 실패", "잘못된 비밀번호 입니다", "확인") {
@@ -130,6 +190,8 @@ class UserLoginFragment : Fragment() {
                             userActivity.showSoftInput(textFieldUserLoginId.editText!!)
                         }*/
                     }
+
+}
 
                     LoginResult.LOGIN_RESULT_SUCCESS -> {
                         // 로그인한 사용자 정보를 가져온다.
@@ -162,3 +224,4 @@ class UserLoginFragment : Fragment() {
         }
     }
 }
+

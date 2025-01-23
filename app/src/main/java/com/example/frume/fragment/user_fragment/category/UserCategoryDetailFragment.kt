@@ -18,28 +18,29 @@ import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
 import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
+import com.example.frume.util.ProductInfoType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 
 class UserCategoryDetailFragment : Fragment() {
     private var _binding: FragmentUserCategoryDetailBinding? = null
     private val binding get() = _binding!!
     private val args: UserCategoryDetailFragmentArgs by navArgs()
+
     var recyclerViewListByCategoryList = mutableListOf<ProductModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_user_category_detail,
-            container,
-            false
-        )
+
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_category_detail, container, false)
+
         return binding.root
     }
 
@@ -65,6 +66,7 @@ class UserCategoryDetailFragment : Fragment() {
         // 리사이클러뷰 갱신
         refreshCategoryRecyclerView(args.categoryMethod.str)
         setupSortDropdown()
+
     }
 
     private fun settingToolbar() {
@@ -83,16 +85,7 @@ class UserCategoryDetailFragment : Fragment() {
         }
     }
 
-    /*   private fun settingRecyclerView() {
-           binding.apply {
-               recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(recyclerViewListByCategoryL) { product ->
-                   val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product.productDocId)
-                   findNavController().navigate(action)
-               }
-           }
-       }*/
-
-    // 메인 RecyclerView 구성 메서드
+  
     fun settingCategoryRecyclerView() {
         binding.apply {
             recyclerViewUserCategoryDetail.adapter = CategoryRecyclerViewAdapter()

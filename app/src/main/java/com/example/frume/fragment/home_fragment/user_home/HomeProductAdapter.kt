@@ -21,7 +21,7 @@ class HomeProductAdapter(
         holder.bind(items[position], listener)
     }
 
-    // 갱신
+    // 갱신 add(updateList: MutableList<TempProduct>)
     fun add(updateList: MutableList<TempProduct>) {
         val posStart = items.size
         items.clear()
