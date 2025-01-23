@@ -48,7 +48,7 @@ class UserProductInfoFragment : Fragment() {
 
     private fun setLayout() {
         val detailList = Storage.detailList
-        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId)
+        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.productDocId!!)
         TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->
             tab.text = detailList[pos]
         }.attach()

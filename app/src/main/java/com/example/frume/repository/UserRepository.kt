@@ -5,6 +5,12 @@ import com.example.frume.vo.UserVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
+import android.util.Log
+import com.example.frume.vo.ProductVO
+import com.example.frume.vo.UserVO
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
+
 class UserRepository {
     companion object{
         // 사용자 정보를 추가하는 메서드
