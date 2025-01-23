@@ -1,8 +1,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_home">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/nav_graph"
+	app:startDestination="@id/navigation_home">
+
 
     <fragment
         android:id="@+id/navigation_home"
@@ -80,6 +81,7 @@
 		<argument
 			android:name="selectedProductDocId"
 			app:argType="string" />
+
 		<action
 			android:id="@+id/action_user_product_info_to_user_product_info_dialog"
 			app:destination="@id/user_product_info_dialog" />
@@ -95,6 +97,9 @@
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
+		<argument
+			android:name="productPriceMethod"
+			app:argType="integer" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
@@ -177,7 +182,7 @@
 		android:id="@+id/user_cancel_and_return"
 		android:name="com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragment"
 		android:label="반품 취소 및 교환 신청"
-		tools:layout="@layout/fragment_user_cancel_and_return"/>
+		tools:layout="@layout/fragment_user_cancel_and_return" />
 	<fragment
 		android:id="@+id/user_product_info_description"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"
@@ -230,7 +235,7 @@
 			android:name="categoryArgs"
 			app:argType="com.example.frume.util.ProductCategoryDetailType" />
 	</fragment>
-	<fragment
+	 <fragment
 		android:id="@+id/user_category_detail"
 		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragment"
 		android:label="상품 리스트"
@@ -260,15 +265,8 @@
 			android:id="@+id/action_user_product_info_dialog_to_user_payment_screen"
 			app:destination="@id/user_payment_screen" />
 		<argument
-			android:name="productMethod"
-			app:argType="string"
-			app:nullable="true" />
-		<argument
-			android:name="productPrice"
-			app:argType="integer" />
-		<argument
-			android:name="productImg"
-			app:argType="integer" />
+			android:name="productDocId"
+			app:argType="string" />
 	</dialog>
 	<fragment
 		android:id="@+id/user_info_review"

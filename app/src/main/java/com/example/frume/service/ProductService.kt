@@ -5,8 +5,6 @@ import com.example.frume.model.ProductModel
 import com.example.frume.repository.ProductRepository
 import com.example.frume.vo.ProductVO
 
-
-
 class ProductService {
     companion object{
         // 카테고리별 품목 가져오기
@@ -19,8 +17,16 @@ class ProductService {
             productVOList.forEach {
                 productModelList.add(it.toProductModel())
             }
+            return productModelList
+        }
 
+        suspend fun getProductInfo(productId: String): MutableList<ProductModel> {
+            val productModelList = mutableListOf<ProductModel>()
+            val productVOList = ProductRepository.getProductInfo(productId)
 
+            productVOList.forEach {
+                productModelList.add(it.toProductModel())
+            }
             return productModelList
         }
 
@@ -37,7 +43,7 @@ class ProductService {
                 Log.d("test100","")
             }
             return productModelList
-        
         }
+        
     }
 }

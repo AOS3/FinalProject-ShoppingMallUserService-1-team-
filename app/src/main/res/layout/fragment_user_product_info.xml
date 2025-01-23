@@ -18,9 +18,10 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:title="상품 정보"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:title="[상품명]" />
+			 />
 
 
 		<!--    이름은 코드 내부에서 설정	        -->

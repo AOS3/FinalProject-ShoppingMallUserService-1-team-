@@ -30,6 +30,7 @@ class UserCategoryDetailFragment : Fragment() {
     private var _binding: FragmentUserCategoryDetailBinding? = null
     private val binding get() = _binding!!
     private val args: UserCategoryDetailFragmentArgs by navArgs()
+    private var recyclerViewListByCategory = mutableListOf<ProductModel>()
 
     var recyclerViewListByCategoryList = mutableListOf<ProductModel>()
 
@@ -40,7 +41,6 @@ class UserCategoryDetailFragment : Fragment() {
     ): View {
 
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_category_detail, container, false)
-
         return binding.root
     }
 
@@ -57,6 +57,7 @@ class UserCategoryDetailFragment : Fragment() {
 
     private fun setLayout() {
         // 툴바 설정(상단이름 + 뒤로가기 구현)
+        refreshMainRecyclerView()
         settingToolbar()
         /* // RecyclerView 설정
          settingRecyclerView()*/
@@ -84,6 +85,7 @@ class UserCategoryDetailFragment : Fragment() {
             findNavController().navigateUp()
         }
     }
+
 
   
     fun settingCategoryRecyclerView() {
@@ -259,6 +261,20 @@ class UserCategoryDetailFragment : Fragment() {
     }
 
 
+    // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
+    fun refreshMainRecyclerView(){
+        Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO){
+                //  mutableList<productModel> 가져온다
+                ProductService.gettingProductByCategory("딸기")
+            }
+            recyclerViewListByCategory = work1.await()
+            settingRecyclerView(recyclerViewListByCategory)
+            Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
+        }
+    }
 }
 
 /*
@@ -297,8 +313,8 @@ class ProductRecyclerViewAdapter(
         holder.itemProductBinding.apply {
             textViewItemProductTitle.text = product.productName
             textViewItemProductDescription.text = product.productDescription
-            */
-/*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*//*
+
+            /*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*/
 
         }
     }

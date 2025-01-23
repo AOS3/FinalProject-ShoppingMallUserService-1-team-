@@ -6,29 +6,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
 import com.example.frume.data.Storage
-import com.example.frume.data.TempProduct
 import com.example.frume.data_hj.DummyData
 import com.example.frume.databinding.FragmentUserProductInfoDescriptionBinding
-import com.example.frume.databinding.ItemProductInfoImageBinding
 import com.example.frume.databinding.ItemProductInfoImageCarouselBinding
-import com.example.frume.fragment.home_fragment.user_home.ProductItemClickListener
-import com.example.frume.util.ItemMarginDecoration
+import com.example.frume.service.ProductService
+import com.example.frume.util.convertThreeDigitComma
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class UserProductInfoDescriptionFragment : Fragment() {
     private var _binding: FragmentUserProductInfoDescriptionBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var adapter: ProductImgAdapter
+    private var productDocId: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            productDocId = it.getString(ARG_PRODUCT_DOC_ID)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,17 +68,35 @@ class UserProductInfoDescriptionFragment : Fragment() {
         settingRecyclerViewImage()
         // recyclerViewImage 실행
         onClickBuyBtn()
+        getProductData()
+    }
+
+    private fun getProductData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val productList = ProductService.getProductInfo(productDocId!!)
+                withContext(Dispatchers.Main) {
+                    // UI
+                    productList.forEach { item ->
+                        with(binding) {
+                            textViewUserProductInfoDescriptionName.text = item.productName
+                            textViewUserProductInfoDescription.text = item.productDescription
+                            textViewUserProductInfoDescriptionPrice.text = item.productPrice.convertThreeDigitComma()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "no data", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     // 구매버튼 리스너
     private fun onClickBuyBtn() {
         binding.buttonUserProductInfoDescriptionBuy.setOnClickListener {
-            val productName = binding.textViewUserProductInfoDescriptionName.text.toString()
-            val productPrice = binding.textViewUserProductInfoDescriptionPrice.text.toString()
-            val productImg = Storage.imgList[0].imgResourceId
-            val numberOnly = productPrice.filter { it.isDigit() }.toInt()
-
-            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDialog(productName, numberOnly, productImg)
+            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDialog(productDocId!!)
             findNavController().navigate(action)
         }
     }
@@ -127,13 +155,13 @@ class UserProductInfoDescriptionFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_NUMBER = "arg_number"
-        fun newInstance(): UserProductInfoDescriptionFragment {
+        private const val ARG_PRODUCT_DOC_ID = "product_doc_id"
+
+        fun newInstance(productDocId: String): UserProductInfoDescriptionFragment {
             return UserProductInfoDescriptionFragment().apply {
                 // 값 전달 코드 번들 사용
                 arguments = Bundle().apply {
-                    // putInt(ARG_NUMBER, number)
-
+                    putString(ARG_PRODUCT_DOC_ID, productDocId)
                 }
             }
         }

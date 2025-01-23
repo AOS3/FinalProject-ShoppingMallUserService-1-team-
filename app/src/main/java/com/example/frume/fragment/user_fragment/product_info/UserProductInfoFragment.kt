@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
@@ -46,7 +48,7 @@ class UserProductInfoFragment : Fragment() {
 
     private fun setLayout() {
         val detailList = Storage.detailList
-        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList)
+        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.productDocId!!)
         TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->
             tab.text = detailList[pos]
         }.attach()
@@ -58,8 +60,8 @@ class UserProductInfoFragment : Fragment() {
     private fun toolbarSetting() {
         binding.toolBarUserProductInfo.title = args.selectedProductDocId
         UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(args.selectedProductDocId)
-    }
 
+    }
 
     // sehoon 툴바 네비게이션 클릭 메서드
     private fun onClickNavigationIconBackStack() {

@@ -17,16 +17,19 @@ import android.widget.RadioButton
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserPaymentScreenBinding
 import com.example.frume.fragment.user_fragment.user_cart.UserCartFragmentDirections
+import com.example.frume.util.applyNumberFormat
+import com.example.frume.util.convertThreeDigitComma
 
 class UserPaymentScreenFragment : Fragment() {
 
     private var _binding: FragmentUserPaymentScreenBinding? = null
     private val binding get() = _binding!!
-
+    private val args: UserPaymentScreenFragmentArgs by navArgs()
     lateinit var homeActivity: HomeActivity
 
     override fun onCreateView(
@@ -57,6 +60,7 @@ class UserPaymentScreenFragment : Fragment() {
         onClickToolbarNavigationBtn()  // 툴바 내비게이션 버튼 클릭 리스너 설정
         onClickPaymentDeliverySpotChange()  // 배송지 변경 버튼 클릭 리스너 설정
         setupDeliveryWayRadioButtons()  // 배송 방식 라디오 버튼 설정
+        sehoonTest()
     }
 
     // 툴바 내비게이션 버튼 클릭 리스너
@@ -91,6 +95,27 @@ class UserPaymentScreenFragment : Fragment() {
             // 선택된 항목 처리
             Toast.makeText(requireContext(), "선택된 상태 : $selectedCardType", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    // sehoon test
+    private fun sehoonTest() {
+        // 배달비 x
+        var totalPrice = args.productPriceMethod
+        binding.textViewProductTotalPrice.applyNumberFormat(totalPrice)
+        if (args.productPriceMethod > 50000) {
+            binding.buttonUserCartOrder.text = totalPrice.convertThreeDigitComma()
+            binding.textViewUserPaymentDeliveryCharge.applyNumberFormat(0)
+            binding.textViewUserPaymentFinalPayment.applyNumberFormat(totalPrice)
+            binding.textViewUserPaymentTotalPayment.applyNumberFormat(totalPrice)
+        } else {
+            totalPrice += 3000
+            binding.buttonUserCartOrder.text = totalPrice.convertThreeDigitComma()
+            binding.textViewUserPaymentDeliveryCharge.applyNumberFormat(3000)
+            binding.textViewUserPaymentFinalPayment.applyNumberFormat(totalPrice)
+            binding.textViewUserPaymentTotalPayment.applyNumberFormat(totalPrice)
+        }
+
+
     }
 
     // 결제 방식 버튼을 단일 선택만 가능하도록 하는 메서드
@@ -176,48 +201,6 @@ class UserPaymentScreenFragment : Fragment() {
             }
         }
     }
-
-    private fun expandView(view: View) {
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        val targetHeight = view.measuredHeight
-
-        view.layoutParams.height = 0
-        view.visibility = View.VISIBLE
-
-        val animation = ValueAnimator.ofInt(50, targetHeight)
-        animation.addUpdateListener { animator ->
-            view.layoutParams.height = animator.animatedValue as Int
-            view.requestLayout()
-        }
-
-        animation.duration = 500
-        animation.start()
-    }
-
-    private fun collapseView(view: View) {
-        val initialHeight = view.height
-        val animation = ValueAnimator.ofInt(initialHeight, 50)
-
-        animation.addUpdateListener { animator ->
-            view.layoutParams.height = animator.animatedValue as Int
-            view.requestLayout()
-        }
-
-        animation.duration = 500 // 지속 시간 조정
-
-        animation.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) {}
-            override fun onAnimationEnd(animation: Animator) {
-                view.visibility = View.GONE
-            }
-
-            override fun onAnimationCancel(animation: Animator) {}
-            override fun onAnimationRepeat(animation: Animator) {}
-        })
-
-        animation.start()
-    }
-
 
     private fun setupCheckBoxListeners() {
         val topCheckBox = binding.checkboxUserPaymentAgreeAll

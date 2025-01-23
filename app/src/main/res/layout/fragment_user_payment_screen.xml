@@ -522,73 +522,90 @@
 
 			<TextView
 				android:id="@+id/textViewUserPaymentFinalPaymentInfoTitle"
+				style="@style/AppText5.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="40dp"
-				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="최종 결제 정보"
-				android:textSize="20dp"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserPaymentCard" />
 
 			<TextView
 				android:id="@+id/textViewUserPaymentFinalPayment"
+				style="@style/AppText5.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="40dp"
 				android:layout_marginEnd="20dp"
-				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="15,000원"
-				android:textSize="20dp"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserPaymentCard" />
 
 			<TextView
+				android:id="@+id/textViewProductTotalPriceLabel"
+				style="@style/AppText3.S20"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:text="상품 가격"
+				app:layout_constraintStart_toStartOf="@id/textViewUserPaymentFinalPaymentInfoTitle"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentFinalPaymentInfoTitle" />
+
+			<TextView
+				android:id="@+id/textViewProductTotalPrice"
+				style="@style/AppText3.S20"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp"
+				android:layout_marginEnd="20dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentFinalPaymentInfoTitle"
+				tools:text="54,800원" />
+
+			<TextView
 				android:id="@+id/textViewUserPaymentTotalSavingInfoTitle"
+				style="@style/AppText3.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="20dp"
-				android:fontFamily="@font/nanumsquareneo_3"
 				android:text="적립금 사용"
-				android:textSize="20dp"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentFinalPaymentInfoTitle" />
+				app:layout_constraintTop_toBottomOf="@id/textViewProductTotalPriceLabel" />
 
 			<TextView
 				android:id="@+id/textViewUserPaymentTotalSavingInfo"
+				style="@style/AppText3.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="20dp"
 				android:layout_marginEnd="20dp"
-				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="0원"
-				android:textSize="20dp"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentFinalPayment" />
+				app:layout_constraintTop_toBottomOf="@id/textViewProductTotalPriceLabel" />
 
 			<TextView
 				android:id="@+id/textViewUserPaymentDeliveryChargeTitle"
+				style="@style/AppText3.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="20dp"
 				android:fontFamily="@font/nanumsquareneo_3"
 				android:text="배송비"
-				android:textSize="20dp"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserPaymentTotalSavingInfoTitle" />
 
 			<TextView
 				android:id="@+id/textViewUserPaymentDeliveryCharge"
+				style="@style/AppText3.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginTop="16dp"
 				android:layout_marginEnd="20dp"
-				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="3,000원"
 				android:textSize="20dp"
 				app:layout_constraintEnd_toEndOf="parent"
@@ -608,26 +625,24 @@
 
 			<TextView
 				android:id="@+id/textViewUserPaymentTotalPaymentTitle"
+				style="@style/AppText5.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="30dp"
-				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="총 결제 금액"
-				android:textSize="20dp"
 				app:layout_constraintStart_toStartOf="@id/viewUserPaymentTotalPayment"
 				app:layout_constraintTop_toTopOf="@id/viewUserPaymentTotalPayment" />
 
 			<TextView
 				android:id="@+id/textViewUserPaymentTotalPayment"
+				style="@style/AppText5.S20"
 				android:layout_width="wrap_content"
 				android:layout_height="0dp"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="28dp"
 				android:layout_marginEnd="10dp"
-				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="18,000원"
-				android:textSize="20dp"
 				app:layout_constraintEnd_toEndOf="@id/viewUserPaymentTotalPayment"
 				app:layout_constraintHorizontal_bias="0.922"
 				app:layout_constraintStart_toEndOf="@id/textViewUserPaymentTotalPaymentTitle"
@@ -711,9 +726,10 @@
 				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="80dp"
 				android:enabled="false"
-				android:text="18,000원 결제하기"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentGuide2" />
+				app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentGuide2"
+				tools:text="18,000원 결제하기" />
+
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</ScrollView>
 </layout>

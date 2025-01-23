@@ -13,6 +13,7 @@ import com.example.frume.R
 import com.example.frume.data.TempReview
 import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserProductInfoReviewBinding
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDetailFragment.Companion
 
 
 class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
@@ -23,6 +24,15 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
     private val allReviews = Storage.reviewList // 전체 리뷰 데이터
     private val currentReviews = mutableListOf<TempReview>() // 현재 표시 중인 데이터
     private val pageSize = 10 // 한 페이지당 표시할 항목의 수
+    private var productDocId: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            productDocId = it.getString(ARG_PRODUCT_DOC_ID)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -110,12 +120,12 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
     }
 
     companion object {
-        private const val ARG_NUMBER = "arg_number"
-        fun newInstance(): UserProductInfoReviewFragment {
+        private const val ARG_PRODUCT_DOC_ID = "arg_number"
+        fun newInstance(productDocId: String): UserProductInfoReviewFragment {
             return UserProductInfoReviewFragment().apply {
                 // 값 전달 코드 번들 사용
                 arguments = Bundle().apply {
-                    // putInt(ARG_NUMBER, number)
+                    putString(ARG_PRODUCT_DOC_ID, productDocId)
 
                 }
             }
