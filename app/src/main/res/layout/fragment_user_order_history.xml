@@ -91,7 +91,8 @@
 				android:entries="@array/item_user_order_state_order_state"
 				android:gravity="center"
 				android:hint="조회 기간"
-				android:inputType="none" />
+				android:inputType="none"
+				/>
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<com.google.android.material.divider.MaterialDivider

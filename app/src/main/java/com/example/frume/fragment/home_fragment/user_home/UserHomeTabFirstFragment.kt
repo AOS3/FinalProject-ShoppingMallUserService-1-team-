@@ -95,7 +95,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         // 상세 정보로 이동
         Toast.makeText(requireContext(), product.productName, Toast.LENGTH_SHORT).show()
         // 보내 주고싶은 값을 파라미터로 전달
-        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product)
+        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productName)
         findNavController().navigate(action)
     }
 

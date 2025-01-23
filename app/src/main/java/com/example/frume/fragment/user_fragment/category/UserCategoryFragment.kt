@@ -65,6 +65,11 @@ class UserCategoryFragment() : Fragment() {
         binding.textViewUserCategoryPackage.setOnClickListener { navigateToCategoryDetail(ProductCategoryDetailType.PRODUCT_CATEGORY_PACKAGE) }
 
         binding.textViewUserCategorySale.setOnClickListener { navigateToCategoryDetail(ProductCategoryDetailType.PRODUCT_CATEGORY_SALE) }
+
+        binding.textViewUserCategoryKoreaLabel.setOnClickListener { navigateToCategoryDetail(ProductCategoryDetailType.PRODUCT_CATEGORY_DOMESTIC) }
+
+        binding.textViewUserCategoryImportLabel.setOnClickListener { navigateToCategoryDetail(ProductCategoryDetailType.PRODUCT_CATEGORY_IMPORTED) }
+
     }
 
     // sehoon 카테고리 클릭 메서드

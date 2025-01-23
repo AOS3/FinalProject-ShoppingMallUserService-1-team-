@@ -72,6 +72,9 @@ enum class ProductCategoryDetailType(var number: Int, var str: String) {
     PRODUCT_CATEGORY_PACKAGE(10,"패키지"),
     PRODUCT_CATEGORY_SALE(11,"특가"),
     PRODUCT_CATEGORY_SEARCH(12,"검색"),
+    PRODUCT_CATEGORY_DOMESTIC(13,"국산"),
+    PRODUCT_CATEGORY_IMPORTED(14,"수입")
+
 }
 
 // 관리자 상태
@@ -223,3 +226,10 @@ enum class CustomerUserState(val num: Int, val str: String) {
     CUSTOMER_USER_STATE_SUSPENDED(3, "정지")  // 정지된 사용자
 }
 
+// 로그인 결과
+enum class LoginResult(val number:Int, val str:String){
+    LOGIN_RESULT_SUCCESS(1, "로그인 성공"),
+    LOGIN_RESULT_ID_NOT_EXIST(2, "존재하지 않는 아이디"),
+    LOGIN_RESULT_PASSWORD_INCORRECT(3, "잘못된 비밀번호"),
+    LOGIN_RESULT_SIGN_OUT_MEMBER(4, "탈퇴한 회원"),
+}
