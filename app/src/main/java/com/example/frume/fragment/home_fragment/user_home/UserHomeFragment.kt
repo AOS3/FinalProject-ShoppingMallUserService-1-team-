@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserHomeBinding
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragmentArgs
 import com.google.android.material.tabs.TabLayoutMediator
 
 /*import com.example.frume.fragment.FullSubFragmentName*/
