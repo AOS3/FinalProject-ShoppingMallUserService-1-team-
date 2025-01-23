@@ -15,7 +15,7 @@
         <action
             android:id="@+id/action_navigation_home_to_user_product_info"
             app:destination="@id/user_product_info" />
-    </fragment>
+	</fragment>
 
 
 	<fragment

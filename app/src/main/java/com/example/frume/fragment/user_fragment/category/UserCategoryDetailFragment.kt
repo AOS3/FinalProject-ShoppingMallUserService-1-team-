@@ -99,10 +99,6 @@ class UserCategoryDetailFragment : Fragment() {
 
             // 2열로 구성
             recyclerViewUserCategoryDetail.layoutManager = GridLayoutManager(requireContext(), 2)
-
-            /*   // Divider를 추가하여 아이템 간 구분선을 설정
-               val deco = MaterialDividerItemDecoration(requireContext(), MaterialDividerItemDecoration.VERTICAL)
-               recyclerViewUserCategoryDetail.addItemDecoration(deco)*/
         }
     }
 
@@ -111,7 +107,6 @@ class UserCategoryDetailFragment : Fragment() {
         recyclerViewListByCategoryList.sortBy { it.productSalesCount }
 
         binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-
     }
 
     // 판매량 내림차 정렬
@@ -119,7 +114,6 @@ class UserCategoryDetailFragment : Fragment() {
         recyclerViewListByCategoryList.sortByDescending { it.productSalesCount }
 
         binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-
     }
 
     // 가격 오름차 정렬
@@ -127,7 +121,6 @@ class UserCategoryDetailFragment : Fragment() {
         recyclerViewListByCategoryList.sortBy { it.productPrice }
 
         binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-
     }
 
     // 가격 내림차 정렬
@@ -218,7 +211,7 @@ class UserCategoryDetailFragment : Fragment() {
 
     // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
     fun refreshCategoryRecyclerView(category: String) {
-        Log.d("test100", "UserProductShowListFragment : refreshMainRecyclerView")
+        // Log.d("test100", "UserProductShowListFragment : refreshMainRecyclerView")
 
         CoroutineScope(Dispatchers.Main).launch {
             val work1 = async(Dispatchers.IO) {
@@ -230,7 +223,7 @@ class UserCategoryDetailFragment : Fragment() {
             binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
 
             recyclerViewListByCategoryList.forEach {
-                Log.d("test100", "${it.productName} ${it.productSalesCount}")
+               // Log.d("test100", "${it.productName} ${it.productSalesCount}")
             }
         }
     }
@@ -252,7 +245,8 @@ class UserCategoryDetailFragment : Fragment() {
             val categoryViewHolder = CategoryViewHolder(itemProductBinding)
 
             itemProductBinding.root.setOnClickListener {
-
+                val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(recyclerViewListByCategoryList[categoryViewHolder.adapterPosition].productDocId)
+                findNavController().navigate(action)
             }
 
             return categoryViewHolder
