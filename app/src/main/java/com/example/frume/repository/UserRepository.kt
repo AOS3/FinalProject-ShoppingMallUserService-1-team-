@@ -1,26 +1,21 @@
 package com.example.frume.repository
-import android.util.Log
-import com.example.frume.vo.ProductVO
-import com.example.frume.vo.UserVO
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 
 import android.util.Log
-import com.example.frume.vo.ProductVO
 import com.example.frume.vo.UserVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class UserRepository {
     companion object{
-        // 사용자 정보를 추가하는 메서드
-        fun addCustomerUserData(userVO: UserVO){
+        // 사용자 정보를 추가하는 메서드, userDocID를 리턴해야함 장바구니 생성을 위해
+        fun addCustomerUserData(userVO: UserVO):String{
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("userData")
             val documentReference = collectionReference.document()
             val addUserVO = userVO
             addUserVO.customerUserDocId = documentReference.id
             documentReference.set(addUserVO)
+            return addUserVO.customerUserDocId
         }
 
         // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드

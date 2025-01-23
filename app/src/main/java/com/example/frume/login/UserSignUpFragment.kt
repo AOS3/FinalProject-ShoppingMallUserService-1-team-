@@ -3,23 +3,20 @@ package com.example.frume.login
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserSignUpBinding
-import com.example.frume.model.DeliveryAddressModel
+import com.example.frume.model.CartModel
 import com.example.frume.model.UserModel
-import com.example.frume.service.ProductService
+import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import com.example.frume.util.CustomerUserGender
 import com.example.frume.util.CustomerUserState
@@ -44,6 +41,7 @@ class UserSignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_sign_up, container, false)
         return binding.root
 
@@ -180,7 +178,16 @@ class UserSignUpFragment : Fragment() {
                 }
 
                 // 작업이 완료될 때까지 대기
-                work1.await()
+               val userDocId =  work1.await()
+
+                // 회원가입시 장바구니 생성 hj
+                val work2 = async(Dispatchers.IO){
+                    val cartModel = CartModel()
+                    cartModel.customerDocId = userDocId
+                    CartService.addMyCart(cartModel)
+                }
+                // 장바구니 생성 작업 대기
+                work2.join()
 
                 // 저장 완료 후 토스트 메시지 표시
                 Toast.makeText(requireContext(), "가입이 완료되었습니다. 로그인해 주세요", Toast.LENGTH_LONG).show()
