@@ -12,5 +12,8 @@ data class TempProduct(
     val productName: String,
     val productPrice: Int,
     val productDescription: String,
-    val productCategory: CategoryType
+
+    // 원래 타입이 CategoryType 이거였는데 일단 임시방편으로 String으로 하고
+    // DB에 있는 카테고리 중 하나와 연결
+    val productCategory: String // 홈,특가, ..
 ) : Parcelable

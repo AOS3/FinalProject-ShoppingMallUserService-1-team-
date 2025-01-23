@@ -69,6 +69,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:21.0.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.material:material:1.9.0")
+    // 권한 추가
+    implementation("com.google.firebase:firebase-auth-ktx:21.0.5")
 
 
     // sehoon jetPackNavigation 임포트

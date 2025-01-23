@@ -52,6 +52,15 @@ class UserProductInfoFragment : Fragment() {
         TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->
             tab.text = detailList[pos]
         }.attach()
+        toolbarSetting()
+
+    }
+
+
+    private fun toolbarSetting() {
+        binding.toolBarUserProductInfo.title = args.selectedProductDocId
+        UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(args.selectedProductDocId)
+
     }
 
     // sehoon 툴바 네비게이션 클릭 메서드

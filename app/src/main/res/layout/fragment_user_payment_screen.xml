@@ -729,6 +729,7 @@
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentGuide2"
 				tools:text="18,000원 결제하기" />
+
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</ScrollView>
 </layout>

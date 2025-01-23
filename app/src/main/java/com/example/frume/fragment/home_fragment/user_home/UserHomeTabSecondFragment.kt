@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.data.Storage
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabSecondBinding
+import com.example.frume.service.ProductService
 
 
 class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
@@ -34,23 +35,42 @@ class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
         _binding = null
     }
 
-    // tabLayout 연결
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setLayout()
-        val number = arguments?.getInt(ARG_NUMBER) ?: 0
-        val products = Storage.productList.filter {
-            it.productCategory.number == number
-        }
-
-        adapter.add(products.toMutableList())
+    // 기존 tabLayout 연결
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        setLayout()
+//
+//        val number = arguments?.getInt(ARG_NUMBER) ?: 0
+//        val products = ProductService.gettingProductAll().filter {
+//            it.productCategory.number == number
+//        }
+//
+//        adapter.add(products.toMutableList())
+//
+//
 //        viewModel.updateData(number)
 //        Log.d("number", number.toString())
 //        viewModel.product.observe(viewLifecycleOwner) {
 //            adapter.add(it.toMutableList())
 //        }
+//
+//    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setLayout()
+
+        val number = arguments?.getInt(ARG_NUMBER) ?: 0
+        viewModel.updateData(number)
+
+        // ViewModel에서 필터링된 데이터를 관찰
+        viewModel.products.observe(viewLifecycleOwner) { products ->
+            adapter.add(products.toMutableList())
+            binding.recyclerViewUserHomeTabSecondProductList.adapter?.notifyDataSetChanged()
+        }
     }
+
+
 
     private fun moveToProductInfo(product: TempProduct) {
         val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productName)

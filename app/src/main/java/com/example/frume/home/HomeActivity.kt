@@ -19,6 +19,9 @@ import android.view.inputmethod.InputMethodManager
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
+    // 사용자 문서 id와 닉네임을 받을 변수
+    var loginUserDocumentId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // enableEdgeToEdge()
@@ -30,6 +33,9 @@ class HomeActivity : AppCompatActivity() {
             insets
 
         }
+        // 사용자 문서 id와 닉네임을 받는다.
+        loginUserDocumentId = intent.getStringExtra("user_document_id")!!
+
         setBottomNavigation()
     }
 

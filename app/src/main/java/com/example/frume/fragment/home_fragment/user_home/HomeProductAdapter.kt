@@ -1,5 +1,4 @@
 package com.example.frume.fragment.home_fragment.user_home
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +21,7 @@ class HomeProductAdapter(
         holder.bind(items[position], listener)
     }
 
-    // 갱신
+    // 갱신 add(updateList: MutableList<TempProduct>)
     fun add(updateList: MutableList<TempProduct>) {
         val posStart = items.size
         items.clear()
