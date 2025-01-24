@@ -14,6 +14,7 @@ import com.example.frume.data.TempReview
 import com.example.frume.databinding.FragmentUserInfoReviewBinding
 import com.example.frume.fragment.user_fragment.product_info.ProductReviewAdapter
 import com.example.frume.fragment.user_fragment.product_info.ReviewClickListener
+import com.example.frume.model.ReviewModel
 import kotlin.concurrent.thread
 
 
@@ -21,6 +22,8 @@ class UserInfoReviewFragment : Fragment(), ReviewClickListener {
     private var _binding: FragmentUserInfoReviewBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ProductReviewAdapter
+
+    var reviewList = mutableListOf<ReviewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

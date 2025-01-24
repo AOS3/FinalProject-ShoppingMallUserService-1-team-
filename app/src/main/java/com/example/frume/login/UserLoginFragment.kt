@@ -83,7 +83,10 @@ class UserLoginFragment : Fragment() {
     // sehoon 회원가입 버튼 클릭 메서드
     private fun onClickSignUpBtn() {
         binding.textViewUserLoginSignUpButton.setOnClickListener {
+            Log.d("test100","UserLoginFragment 111111111111111onClickSignUpBtn()")
             val action = UserLoginFragmentDirections.actionUserLoginToUserSignup()
+            Log.d("test100","UserLoginFragment 22222222222222222222222222onClickSignUpBtn()")
+
             findNavController().navigate(action)
         }
     }

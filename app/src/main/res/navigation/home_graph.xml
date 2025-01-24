@@ -48,8 +48,8 @@
 			android:id="@+id/action_navigation_cart_to_user_payment_screen"
 			app:destination="@id/user_payment_screen" />
 		<action
-			android:id="@+id/action_navigation_cart_to_user_address_manage"
-			app:destination="@id/user_address_manage" />
+			android:id="@+id/action_navigation_cart_to_user_cart_choice_Deliver_address"
+			app:destination="@id/user_cart_choice_Deliver_address" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"
@@ -275,6 +275,13 @@
 		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoReviewFragment"
 		android:label="유저 내 후기"
 		tools:layout="@layout/fragment_user_info_review" />
+
+	<fragment
+		android:id="@+id/user_cart_choice_Deliver_address"
+		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartChoiceDeliveryAddressFragment"
+		android:label="배송지 선택"
+		tools:layout="@layout/fragment_user_cart_choice_delivery_address">
+	</fragment>
 
 
 </navigation>

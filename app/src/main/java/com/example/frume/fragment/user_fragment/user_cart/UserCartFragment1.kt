@@ -111,8 +111,9 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     // 배송지 변경 버튼 클릭 시, UserAddressManageFragment로 이동하는 메서드
     private fun onClickCartDeliverySpotChange() {
         binding.buttonUserCartDialogModifyAddress.setOnClickListener {
-            // 네비게이션을 통해 UserAddressManageFragment로 이동
-            val action = UserCartFragmentDirections.actionNavigationCartToUserAddressManage()
+            // 네비게이션을 통해 UserCartChoiceDeliveryAddressFragment로 이동
+            // 이동화면 변경 hj
+            val action = UserCartFragmentDirections.actionNavigationCartToUserCartChoiceDeliverAddress()
             findNavController().navigate(action)
         }
     }
