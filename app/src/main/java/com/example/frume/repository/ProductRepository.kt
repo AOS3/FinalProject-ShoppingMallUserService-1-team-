@@ -51,6 +51,7 @@ class ProductRepository {
             return result
         }
 
+        // productDocId로 상품 정보 가져오기
         suspend fun getProductInfo(productID: String): MutableList<ProductVO> {
             val firestore = FirebaseFirestore.getInstance()
 
@@ -99,5 +100,16 @@ class ProductRepository {
             return resultList
         }
             // 홈화면 탭바 별로 가져오기(신제품, 특가, 베스트, 1인, 패키지)
+
+
+        // 상품 문서 ID로 상품 한개 Model 가져오기 hj
+        suspend fun gettingProductOneByDocId(selectProductDocId:String) : ProductVO{
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("productData")
+
+            val querySnapshot = collectionReference.whereEqualTo("productDocId", selectProductDocId).get().await()
+            val selectedProductVO = querySnapshot.toObjects(ProductVO::class.java)
+            return selectedProductVO[0]
+        }
     }
 }

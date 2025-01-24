@@ -41,12 +41,12 @@ class UserHomeViewModel : ViewModel() {
                 val products = withContext(Dispatchers.IO) {
                     ProductService.gettingProductAll().map { productModel ->
                         TempProduct(
+                            productDocId = productModel.productDocId,
                             productImgResourceId = R.drawable.btn_background,
                             productName = productModel.productName,
                             productPrice = productModel.productPrice,
                             productDescription = productModel.productDescription,
                             productCategory = productModel.productCategory1 // 임시 데이터
-
                         )
                     }
 

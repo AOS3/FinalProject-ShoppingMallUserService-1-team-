@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserLoginBinding
 import com.example.frume.home.HomeActivity
+import com.example.frume.model.UserModel
 import com.example.frume.service.UserService
 import com.example.frume.util.LoginResult
 import kotlinx.coroutines.CoroutineScope
@@ -86,6 +88,7 @@ class UserLoginFragment : Fragment() {
         }
     }
 
+
     // 에러 리셋 리스너 설정
     private fun setupErrorResetListeners() {
         binding.apply {
@@ -122,6 +125,7 @@ class UserLoginFragment : Fragment() {
                 return
             }
             if (binding.textFieldUserLoginPw.editText?.text?.toString()?.isEmpty()!!) {
+
                 binding.textFieldUserLoginPw.error = "비밀번호를 입력해주세요"
                 return
             }
@@ -136,6 +140,7 @@ class UserLoginFragment : Fragment() {
                 }
                 // 로그인 결과를 가져온다.
                 val loginResult = work1.await()
+
 
                 // 로그인 결과로 분기한다.
                 when (loginResult) {
@@ -153,8 +158,7 @@ class UserLoginFragment : Fragment() {
                     }
 
                     LoginResult.LOGIN_RESULT_SUCCESS -> {
-
-                        // 로그인한 사용자 정보를 가져온다.
+                      
                         val work2 = async(Dispatchers.IO) {
                             UserService.selectUserDataByUserIdOne(loginUserId)
                         }

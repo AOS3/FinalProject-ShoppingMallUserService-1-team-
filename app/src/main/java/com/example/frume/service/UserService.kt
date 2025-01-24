@@ -12,11 +12,12 @@ import com.example.frume.util.LoginResult
 class UserService {
     companion object{
         // 사용자 정보를 추가하는 메서드
-        fun addCustomerUserData(userModel: UserModel){
+        fun addCustomerUserData(userModel: UserModel):String{
             // 데이터를 VO에 담아준다.
             val userVO = userModel.toUserVO()
             // 저장하는 메서드를 호출한다.
-            UserRepository.addCustomerUserData(userVO)
+            val userDocId = UserRepository.addCustomerUserData(userVO)
+            return userDocId
         }
 
         // 가입하려는 아이디가 존재하는지 확인하는 메서드
@@ -47,15 +48,27 @@ class UserService {
                 if(userVoList[0].customerUserState == CustomerUserState.CUSTOMER_USER_STATE_WITHDRAWN.num){
                     result = LoginResult.LOGIN_RESULT_SIGN_OUT_MEMBER
                 }
+
             }
             return result
         }
-
+        
         // 사용자 아이디와 동일한 사용자의 정보 하나를 반환하는 메서드
         suspend fun selectUserDataByUserIdOne(userId:String) : UserModel {
             val tempVO = UserRepository.selectUserDataByUserIdOne(userId)[0]
             val loginUserModel = tempVO.toUserModel()
             return loginUserModel
+        }
+
+      
+        // sehoon productDocId로 제품의 정보를 가져온다
+        suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {
+            val userModelList = mutableListOf<UserModel>()
+            val userVoList = UserRepository.getUserInfo(userDocId)
+            userVoList.forEach {
+                userModelList.add(it.toUserModel())
+            }
+            return userModelList
         }
 
         // hyeonseo 0123
@@ -86,4 +99,6 @@ class UserService {
             }
         }
     }
+
 }
+

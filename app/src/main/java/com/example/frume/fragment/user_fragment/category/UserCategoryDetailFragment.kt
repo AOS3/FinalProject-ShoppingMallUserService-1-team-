@@ -24,7 +24,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
-
 class UserCategoryDetailFragment : Fragment() {
     private var _binding: FragmentUserCategoryDetailBinding? = null
     private val binding get() = _binding!!
@@ -267,7 +266,24 @@ class UserCategoryDetailFragment : Fragment() {
     }
 
 
+
+   /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
+    fun refreshMainRecyclerView(){
+        Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
+
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO){
+                //  mutableList<productModel> 가져온다
+                ProductService.gettingProductByCategory("딸기")
+            }
+            recyclerViewListByCategory = work1.await()
+           // settingRecyclerView(recyclerViewListByCategory)
+            Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
+        }
+    }*/
+
 }
+
 
 /*
 class ProductRecyclerViewAdapter(

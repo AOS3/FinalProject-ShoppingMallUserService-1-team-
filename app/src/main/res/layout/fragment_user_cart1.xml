@@ -9,43 +9,45 @@
 		android:layout_height="match_parent"
 		android:fillViewport="true">
 
-
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_marginBottom="40dp">
+			android:layout_height="match_parent">
 
 			<TextView
 				android:id="@+id/textViewUserCartUserName"
+				style="@style/AppText3.S14"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="20dp"
-				android:text="[김과일]"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent" />
 
 			<TextView
 				android:id="@+id/textViewUserCartUserAddress"
-				android:layout_width="wrap_content"
+				style="@style/AppText3.S14"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text=" [서울 특별시 어딘가]"
+				android:layout_marginEnd="20dp"
+				android:maxLines="2"
 				app:drawableStartCompat="@drawable/ic_location_on_24px"
+				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="@id/textViewUserCartUserName"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCartUserName" />
 
 			<TextView
 				android:id="@+id/textViewUserCartUserPhoneNumber"
+				style="@style/AppText3.S14"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:text=" [01012345678]"
 				app:drawableStartCompat="@drawable/ic_call_24px"
 				app:layout_constraintStart_toStartOf="@id/textViewUserCartUserAddress"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCartUserAddress" />
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/buttonUserCartDialogModifyAddress"
+				style="@style/AppText3.S14"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="20dp"
@@ -55,28 +57,24 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCartUserPhoneNumber" />
-
 			<!--전체구매 체크박스 -->
 			<com.google.android.material.checkbox.MaterialCheckBox
 				android:id="@+id/checkboxUserCartSelectAll"
+				style="@style/AppText3.S14"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_margin="15sp"
-				android:fontFamily="@font/nanumsquareneo_3"
 				android:text="전체 선택"
-				android:textSize="15dp"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/buttonUserCartDialogModifyAddress" />
 
-
 			<TextView
 				android:id="@+id/textViewButtonUserCartDelete"
+				style="@style/AppText3.S14"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_marginEnd="20dp"
-				android:fontFamily="@font/nanumsquareneo_3"
 				android:text="선택삭제"
-				android:textSize="15dp"
 				app:layout_constraintBottom_toBottomOf="@id/checkboxUserCartSelectAll"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/buttonUserCartDialogModifyAddress"
@@ -93,7 +91,6 @@
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/checkboxUserCartSelectAll"
 				tools:listitem="@layout/item_usercart_list" />
-
 
 			<TextView
 				android:id="@+id/textViewUserCartDialogDeliveryDateLabel"
@@ -152,7 +149,6 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/viewUserCartDialogDeliveryDate" />
 
-
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/buttonUserCartOrder"
 				style="@style/CustomButtonStyle"
@@ -160,12 +156,12 @@
 				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="50dp"
+				android:layout_marginBottom="40dp"
 				android:text="주문하기"
+				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@id/textViewUserCartDialogPriceLabel" />
-
-
 		</androidx.constraintlayout.widget.ConstraintLayout>
 	</androidx.core.widget.NestedScrollView>
 </layout>
