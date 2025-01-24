@@ -1,5 +1,6 @@
 package com.example.frume.fragment.home_fragment.my_info
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -88,8 +89,19 @@ class UserInfoManageFragment : Fragment() {
     // 계정 탈퇴 처리 함수
     private fun performAccountWithdrawal() {
         // 탈퇴 후 로그인 화면으로 이동?
-        /*val action = UserInfoManageFragmentDirections.actionUserInfoManageToLoginFragment()
-        findNavController().navigate(action)*/
+//        val action = UserInfoManageFragmentDirections.actionUserInfoManageToLoginFragment()
+//        findNavController().navigate(action)
+
+        // 토큰 삭제
+        val sharedPreferences = requireContext().getSharedPreferences("LoginToken", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove("token") // 저장된 토큰 삭제
+        editor.apply()
+
+        // 회원 상태 변경
+
+
+        // 탈퇴 후 로그인 화면으로 이동....
 
         // 탈퇴 완료 메시지
         Toast.makeText(requireContext(), "계정이 탈퇴되었습니다.", Toast.LENGTH_SHORT).show()

@@ -2,6 +2,7 @@ package com.example.frume.fragment.home_fragment.my_info
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,9 +12,11 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.frume.MainActivity
 import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoBinding
+import com.example.frume.login.LoginActivity
 
 class UserInfoFragment() : Fragment() {
 
@@ -50,8 +53,7 @@ class UserInfoFragment() : Fragment() {
             .setMessage("로그아웃 하시겠습니까?")
             .setPositiveButton("확인") { dialogInterface, which ->
 
-                // 토근 삭제
-                // 자동 로그인을 위한 토큰 삭제
+                // 토큰 삭제
                 val sharedPreferences = requireContext().getSharedPreferences("LoginToken", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.remove("token") // 저장된 토큰 삭제
@@ -60,6 +62,12 @@ class UserInfoFragment() : Fragment() {
                 Log.d("test100", "저장된 토큰 삭제")
 
                 // 로그아웃 후 다시 로그인 화면으로 이동
+
+//                // MainActivity를 실행한다.
+//                val mainIntent = Intent(homeActivity, MainActivity::class.java)
+//                startActivity(mainIntent)
+//                // 현재 Activity를 종료한다.
+//                homeActivity.finish()
 
 
 
