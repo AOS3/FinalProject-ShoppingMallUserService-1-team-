@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 // 값을 보내고 싶을 때 safeArgs
 @Parcelize
 data class TempProduct(
+    val productDocId: String,
     val productImgResourceId: Int,
     val productName: String,
     val productPrice: Int,
