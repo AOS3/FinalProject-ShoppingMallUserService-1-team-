@@ -20,14 +20,16 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerUserCartChoiceDeliveryAddress"
-            android:layout_marginTop="20dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarUserCartChoiceDeliveryAddress"
+            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_delivery_spot" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

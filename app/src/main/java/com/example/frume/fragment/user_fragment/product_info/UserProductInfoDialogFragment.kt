@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
@@ -343,8 +344,12 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             // 담았다면 내 장바구니로 이동할건지 체크
             showConfirmationDialog("장바구니로 이동하시겠습니까?","장바구니에 상품을 담았습니다.","네","아니오",fun(){
 
+                //  이전 화면을 팝하고 새로운 화면으로 이동할 때 사용됩니다.
+                val navOption = NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_category, inclusive = true)
+                    .build()
                 val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
-                findNavController().navigate(action)
+                findNavController().navigate(action,  navOption)
             })
 
         }

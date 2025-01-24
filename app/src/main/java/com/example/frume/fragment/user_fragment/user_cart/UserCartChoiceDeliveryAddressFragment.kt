@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCartChoiceDeliveryAddressBinding
@@ -57,29 +58,58 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
         onClickToolbar()
         // 주소지 목록 가져오기
         gettingAddressList(homeActivity.loginUserDocumentId)
-        // RecyclerView 설정
-        settingRecyclerViewUserAddressManage()
     }
 
-    // addressList 만들기
-    fun gettingAddressList(userDocId : String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO){
-                addressList = UserDeliveryAddressService.gettingDeliveryAddressList(userDocId)
-            }
-            work1.join()
-            Log.d("test10","UserCartChoiceDeliveryAddressFragment -> gettingAddressList() : ${addressList}")
+    override fun onResume() {
+        super.onResume()
+        // 리사이클러뷰 어뎁터 설정, 통신으로 DB 에서 리스트 가져오기
+        gettingAddressList(homeActivity.loginUserDocumentId)
+    }
+
+    // 항상 기본배송지가 [0]에 가도록 하기
+    fun settingUpToDefaultSpotAddressList() {
+        // 기본 배송지를 찾은 후, 해당 항목을 첫 번째 인덱스로 이동
+        val defaultAddress = addressList.find { it.deliveryAddressIsDefaultAddress.bool }
+
+        // 기본 배송지가 존재하면
+        defaultAddress?.let { address ->
+            // 기본 배송지 항목을 리스트에서 제거하고 첫 번째 인덱스로 추가
+            addressList.remove(address)
+            addressList.add(0, address)
+
+            // 변경된 리스트를 어댑터에 반영
+            binding.recyclerUserCartChoiceDeliveryAddress.adapter?.notifyDataSetChanged()
         }
     }
+
+    fun gettingAddressList(userDocId: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO) {
+                // 데이터 로드
+                addressList = UserDeliveryAddressService.gettingDeliveryAddressList(userDocId)
+            }
+            work1.await()
+
+            // 디버깅 로그
+            Log.d("test10", "UserCartChoiceDeliveryAddressFragment -> gettingAddressList() : $addressList")
+
+            // 항상 기본배송지가 [0]에 가도록 하는 메서드
+            settingUpToDefaultSpotAddressList()
+
+            // 어댑터 새로 생성 후 RecyclerView에 설정
+            settingRecyclerViewUserAddressManage()
+        }
+    }
+
+
 
     // RecyclerView를 구성하는 메서드
     fun settingRecyclerViewUserAddressManage() {
-        binding.apply {
-            // 더미 데이터를 이용하여 RecyclerView의 어댑터에 주소 리스트 전달
-            recyclerUserCartChoiceDeliveryAddress.adapter = RecyclerViewUserChoiceAddressManageAdapter(addressList)
+        binding.recyclerUserCartChoiceDeliveryAddress.apply {
+            layoutManager = LinearLayoutManager(context) // 세로 방향 LinearLayoutManager 설정
+            adapter = RecyclerViewUserChoiceAddressManageAdapter(addressList) // 어댑터 설정
         }
     }
-
 
     // 네비게이션 클릭 메서드 (툴바의 뒤로가기 버튼)
     private fun onClickToolbar() {
@@ -122,6 +152,11 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
                 addressName.text = item.deliveryAddressName
                 addressDetail.text = item.deliveryAddressBasicAddress +" ${item.deliveryAddressDetailAddress}"
                 postalCode.text = item.deliveryAddressPostNumber
+
+                // 기본 배송지 값이 true 일 때
+                if(item.deliveryAddressIsDefaultAddress.bool){
+                    addressIcon.visibility = View.VISIBLE // 보이게 설정
+                }
             }
         }
     }
