@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +83,7 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
         }
     }
 
+    // 배송지 목록 가져오는 메서드
     fun gettingAddressList(userDocId: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val work1 = async(Dispatchers.IO) {
@@ -127,7 +129,19 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
             init {
                 // 항목 클릭 리스너 설정
                 binding.root.setOnClickListener {
-                    // 기본배송지로 할것인가 다이얼로그
+                    // 배송지로 할것인가 다이얼로그
+                    val selectedAddressModel = addressList[adapterPosition]
+
+                    homeActivity.showConfirmationDialog("배송지 변경","${selectedAddressModel.deliveryAddressName}로 배송지를 변경하시겠습니다?","네","아니요",fun (){
+                        val navOption = NavOptions.Builder()
+                            .setPopUpTo(R.id.navigation_category, inclusive = true)
+                            .build()
+
+                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart()
+                        findNavController().navigate(action,  navOption)
+
+                    })
+
                 }
             }
         }

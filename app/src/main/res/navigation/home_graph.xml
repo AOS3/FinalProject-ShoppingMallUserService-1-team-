@@ -281,6 +281,9 @@
 		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartChoiceDeliveryAddressFragment"
 		android:label="배송지 선택"
 		tools:layout="@layout/fragment_user_cart_choice_delivery_address">
+		<action
+			android:id="@+id/action_user_cart_choice_Deliver_address_to_navigation_cart"
+			app:destination="@id/navigation_cart" />
 	</fragment>
 
 

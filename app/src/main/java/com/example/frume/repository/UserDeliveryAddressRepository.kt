@@ -35,6 +35,30 @@ class UserDeliveryAddressRepository {
         }
 
 
+        // 선택된 배송지 가져오기 hj
+        suspend fun gettingSelectedDeliveryAddress(deliveryAddressDocId: String): DeliveryAddressVO {
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("deliveryAddressData")
+            val result = DeliveryAddressVO()
+
+            try {
+                val defaultDeliveryAddress = collectionReference
+                    .whereEqualTo("deliveryAddressDocId", deliveryAddressDocId)
+                    .get()
+                    .await()
+
+                val defaultDeliveryAddressVO = defaultDeliveryAddress.toObjects(DeliveryAddressVO::class.java)
+
+                return defaultDeliveryAddressVO[0]
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("test100","UserDeliveryAddressRepository -> gettingDefaultDeliveryAddress() catch(e)")
+            }
+            return result
+        }
+
+
         // 배송지 목록 가져오기 hj
         suspend fun gettingDeliveryAddressList(customerUserDocId: String): MutableList<DeliveryAddressVO> {
             Log.d("test100","UserDeliveryAddressRepository -> gettingDeliveryAddressList()")

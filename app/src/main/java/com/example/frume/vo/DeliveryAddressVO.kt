@@ -36,6 +36,9 @@ class DeliveryAddressVO {
     // 상태
     var deliveryAddressState = 0 // 0: 정상
 
+    // 받는사람 이름
+    var deliveryAddressReceiverName = ""
+
     fun toDeliverAddressModel(): DeliveryAddressModel {
         val deliveryAddressModel = DeliveryAddressModel()
 
@@ -46,6 +49,7 @@ class DeliveryAddressVO {
         deliveryAddressModel.deliveryAddressDetailAddress = deliveryAddressDetailAddress
         deliveryAddressModel.deliveryAddressPostNumber = deliveryAddressPostNumber
         deliveryAddressModel.deliveryAddressPhoneNumber = deliveryAddressPhoneNumber
+        deliveryAddressModel.deliveryAddressReceiverName=deliveryAddressReceiverName
         when(deliveryAddressIsDefaultAddress){
             DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_NOT_DEFAULT.bool->{deliveryAddressModel.deliveryAddressIsDefaultAddress= DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_NOT_DEFAULT}
             DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT.bool->{deliveryAddressModel.deliveryAddressIsDefaultAddress= DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT}

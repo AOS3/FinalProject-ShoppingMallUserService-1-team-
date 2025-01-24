@@ -65,6 +65,7 @@ class UserAddressAddFragment : Fragment() {
         val isCheckedState = binding.checkboxUserAddressModifyDefaultAddress.isChecked
 
         val deliveryAddressModel = DeliveryAddressModel().apply {
+            deliveryAddressReceiverName = binding.textInputLayoutUserAddressModifyUserName.editText?.text.toString()
             deliveryAddressName = binding.textInputLayoutUserAddressModifyArrivalName.editText?.text.toString()
             deliveryAddressBasicAddress = "test Basic Addr"
             deliveryAddressDetailAddress = binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()

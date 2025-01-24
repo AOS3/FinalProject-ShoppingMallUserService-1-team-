@@ -46,6 +46,12 @@ class CartProductVO {
     // 상태
     var cartProductState = 1 // 정상
 
+    // 가격
+    var cartProductPrice = 0
+
+    // 이름
+    var cartProductName = ""
+
 
 
     fun toCartProductModel(): CartProductModel {
@@ -57,6 +63,8 @@ class CartProductVO {
         cartProductModel.cartItemProductQuantity = cartItemProductQuantity
         cartProductModel.cartItemDeliveryTimeStamp = cartItemDeliveryTimeStamp
         cartProductModel.cartItemDeliveryDueDate = cartItemDeliveryDueDate
+        cartProductModel.cartProductPrice = cartProductPrice
+        cartProductModel.cartProductName = cartProductName
 
 
         when(cartItemIsSubscribed){
