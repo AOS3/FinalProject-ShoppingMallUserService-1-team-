@@ -335,7 +335,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             }
 
             // cartProductModel 생성
-            val cartProductModel = convertToCartProduct(cartProductCount,dueDate,args.productDocId,myCartModel.cartDocId)
+            val cartProductModel = convertToCartProduct(cartProductCount,dueDate, "${args.productDocId}",myCartModel.cartDocId)
 
             // 내 cart 에 cartProduct 담기
             CartProductService.addMyCartProduct(myCartModel.cartDocId, cartProductModel)
