@@ -30,12 +30,15 @@
 			app:endIconMode="clear_text"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/textViewUserLoginTitle">
+			app:layout_constraintTop_toBottomOf="@+id/textViewUserLoginTitle"
+			>
 
 			<com.google.android.material.textfield.TextInputEditText
 				style="@style/AppText3.S14"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent" />
+				android:layout_height="match_parent"
+				android:singleLine="true"
+				/>
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<com.google.android.material.textfield.TextInputLayout
@@ -47,12 +50,15 @@
 			app:endIconMode="password_toggle"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/textFieldUserLoginId">
+			app:layout_constraintTop_toBottomOf="@+id/textFieldUserLoginId"
+			>
 
 			<com.google.android.material.textfield.TextInputEditText
 				style="@style/AppText3.S14"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent" />
+				android:layout_height="match_parent"
+				android:inputType="textPassword"
+				android:singleLine="true"/>
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<CheckBox

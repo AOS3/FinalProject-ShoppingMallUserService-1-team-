@@ -266,6 +266,7 @@ class UserCategoryDetailFragment : Fragment() {
     }
 
 
+
    /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
     fun refreshMainRecyclerView(){
         Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
