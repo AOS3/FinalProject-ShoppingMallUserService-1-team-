@@ -1,12 +1,8 @@
 package com.example.frume.repository
 
-import com.example.frume.vo.UserVO
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import android.util.Log
 import com.example.frume.vo.UserVO
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import kotlinx.coroutines.tasks.await
 
 class UserRepository {
@@ -37,16 +33,6 @@ class UserRepository {
 
 
 
-        // 자동로그인 토큰값을 갱신하는 메서드
-        suspend fun updateUserAutoLoginToken(customerUserDocId: String, customerUserLocalToken: String) {
-            val firestore = FirebaseFirestore.getInstance()
-            val collectionReference = firestore.collection("userData")
-            val documentReference = collectionReference.document(customerUserDocId)
-            val tokenMap = mapOf(
-                "userAutoLoginToken" to customerUserLocalToken
-            )
-            documentReference.update(tokenMap).await()
-        }
 
         
         // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드
@@ -93,7 +79,7 @@ class UserRepository {
             documentReference.update(tokenMap).await()
         }
 
-          
+
         // productDocId로 상품 정보 가져오기
         suspend fun getUserInfo(userDocId: String): MutableList<UserVO> {
             val firestore = FirebaseFirestore.getInstance()
