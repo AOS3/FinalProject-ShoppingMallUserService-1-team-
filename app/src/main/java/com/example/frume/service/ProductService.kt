@@ -46,5 +46,12 @@ class ProductService {
             return productModelList
         }
 
+
+        // 상품 문서 ID로 상품 한개 Model 가져오기 hj
+        suspend fun gettingProductOneByDocId(productDocID: String) :ProductModel{
+            val selectedProductVO = ProductRepository.gettingProductOneByDocId(productDocID)
+            return selectedProductVO.toProductModel()
+        }
+
     }
 }

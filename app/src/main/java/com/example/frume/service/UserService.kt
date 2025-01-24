@@ -12,11 +12,12 @@ import com.example.frume.util.LoginResult
 class UserService {
     companion object{
         // 사용자 정보를 추가하는 메서드
-        fun addCustomerUserData(userModel: UserModel){
+        fun addCustomerUserData(userModel: UserModel):String{
             // 데이터를 VO에 담아준다.
             val userVO = userModel.toUserVO()
             // 저장하는 메서드를 호출한다.
-            UserRepository.addCustomerUserData(userVO)
+            val userDocId = UserRepository.addCustomerUserData(userVO)
+            return userDocId
         }
 
         // 가입하려는 아이디가 존재하는지 확인하는 메서드
@@ -63,13 +64,11 @@ class UserService {
         suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {
             val userModelList = mutableListOf<UserModel>()
             val userVoList = UserRepository.getUserInfo(userDocId)
-
             userVoList.forEach {
                 userModelList.add(it.toUserModel())
             }
             return userModelList
         }
-
 
         // hyeonseo 0123
         // 자동로그인 토큰값을 갱신하는 메서드

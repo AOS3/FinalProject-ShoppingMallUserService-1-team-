@@ -28,17 +28,18 @@ class UserCategoryDetailFragment : Fragment() {
     private var _binding: FragmentUserCategoryDetailBinding? = null
     private val binding get() = _binding!!
     private val args: UserCategoryDetailFragmentArgs by navArgs()
-    private var recyclerViewListByCategory = mutableListOf<ProductModel>()
-
     var recyclerViewListByCategoryList = mutableListOf<ProductModel>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_category_detail, container, false)
+        _binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_user_category_detail,
+            container,
+            false
+        )
         return binding.root
     }
 
@@ -55,7 +56,6 @@ class UserCategoryDetailFragment : Fragment() {
 
     private fun setLayout() {
         // 툴바 설정(상단이름 + 뒤로가기 구현)
-        refreshMainRecyclerView()
         settingToolbar()
         /* // RecyclerView 설정
          settingRecyclerView()*/
@@ -65,7 +65,6 @@ class UserCategoryDetailFragment : Fragment() {
         // 리사이클러뷰 갱신
         refreshCategoryRecyclerView(args.categoryMethod.str)
         setupSortDropdown()
-
     }
 
     private fun settingToolbar() {
@@ -84,8 +83,16 @@ class UserCategoryDetailFragment : Fragment() {
         }
     }
 
+    /*   private fun settingRecyclerView() {
+           binding.apply {
+               recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(recyclerViewListByCategoryL) { product ->
+                   val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product.productDocId)
+                   findNavController().navigate(action)
+               }
+           }
+       }*/
 
-  
+    // 메인 RecyclerView 구성 메서드
     fun settingCategoryRecyclerView() {
         binding.apply {
             recyclerViewUserCategoryDetail.adapter = CategoryRecyclerViewAdapter()
@@ -216,7 +223,7 @@ class UserCategoryDetailFragment : Fragment() {
             binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
 
             recyclerViewListByCategoryList.forEach {
-               // Log.d("test100", "${it.productName} ${it.productSalesCount}")
+                // Log.d("test100", "${it.productName} ${it.productSalesCount}")
             }
         }
     }
@@ -259,7 +266,7 @@ class UserCategoryDetailFragment : Fragment() {
     }
 
 
-    // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
+   /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
     fun refreshMainRecyclerView(){
         Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
 
@@ -272,7 +279,8 @@ class UserCategoryDetailFragment : Fragment() {
            // settingRecyclerView(recyclerViewListByCategory)
             Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
         }
-    }
+    }*/
+
 }
 
 
@@ -312,8 +320,8 @@ class ProductRecyclerViewAdapter(
         holder.itemProductBinding.apply {
             textViewItemProductTitle.text = product.productName
             textViewItemProductDescription.text = product.productDescription
-
-            /*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*/
+            */
+/*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*//*
 
         }
     }

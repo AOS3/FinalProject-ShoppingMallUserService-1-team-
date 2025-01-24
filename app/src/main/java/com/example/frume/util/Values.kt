@@ -98,6 +98,7 @@ enum class CartState(val num: Int, val str: String) {
 }
 
 enum class DeliveryCycleWeeks(val num: Int, val str: String) {
+    DELIVERY_CYCLE_WEEKS_NONE(0,"1회 구매"),
    DELIVERY_CYCLE_WEEKS_ONE(1,"1 주"),
     DELIVERY_CYCLE_WEEKS_TWO(2,"2 주"),
     DELIVERY_CYCLE_WEEKS_THREE(3,"3 주"),
@@ -105,6 +106,7 @@ enum class DeliveryCycleWeeks(val num: Int, val str: String) {
 }
 
 enum class DeliveryCycleDays(val num: Int, val str: String) {
+    DELIVERY_CYCLE_DAYS_NONE(0,"1회 구매"),
     DELIVERY_CYCLE_DAYS_MONDAY(1,"월요일"),
     DELIVERY_CYCLE_DAYS_TUESDAY(2,"화요일"),
     DELIVERY_CYCLE_DAYS_WEDNESDAY(3,"수요일"),
