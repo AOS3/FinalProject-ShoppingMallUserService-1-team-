@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
+import com.example.frume.data.Storage
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
 import com.example.frume.model.ProductModel
@@ -29,13 +30,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 
 class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
     private var _binding: FragmentUserHomeTabFirstBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<UserHomeViewModel>()
-    private lateinit var adapter: HomeProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,29 +59,37 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
 
-        // ViewModel 관찰
-        viewModel.products.observe(viewLifecycleOwner) { productList ->
-            adapter.add(productList.toMutableList())
-            binding.recyclerView.adapter?.notifyDataSetChanged()
-        }
-
-        viewModel.banner.observe(viewLifecycleOwner) { banners ->
-            // 배너 처리 (필요하면 구현)
-        }
     }
 
     private fun setLayout() {
-        val productList = listOf<TempProduct>()// db에서 가져 온 리스트
-        adapter = HomeProductAdapter(mutableListOf(), this)
-
-       // adapter = HomeProductAdapter(productList, this) // 어댑터에서 TempProduct를 가져온 형으로 변환
-        binding.recyclerView.adapter = adapter
-        //setBanner()
+        setRecyclerView()
+        setBanner()
     }
 
-     // 배너 설정
+    private fun setRecyclerView() {
+        lifecycleScope.launch(Dispatchers.Main) {
+            val products = withContext(Dispatchers.IO) {
+                ProductService.gettingProductAll().map { productModel ->
+                    TempProduct(
+                        productDocId = productModel.productDocId,
+                        productImgResourceId = R.drawable.btn_background,
+                        productName = productModel.productName,
+                        productPrice = productModel.productPrice,
+                        productDescription = productModel.productDescription,
+                        productCategory = productModel.productCategory1 // 임시 데이터
+
+                    )
+                }
+            }
+            val adapter = HomeProductAdapter(products.toMutableList(), this@UserHomeTabFirstFragment)
+            binding.recyclerView.adapter = adapter
+        }
+    }
+
+
+    // 배너 설정
     private fun setBanner() {
-        val dummyList = viewModel.getBannerProduct()
+        val dummyList = Storage.bannerList
         val initialPosition = Int.MAX_VALUE / 2 - (Int.MAX_VALUE / 2 % dummyList.size)
 
         with(binding) {
@@ -108,7 +116,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         // 상세 정보로 이동
         Toast.makeText(requireContext(), product.productName, Toast.LENGTH_SHORT).show()
         // 보내 주고싶은 값을 파라미터로 전달
-        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo("03kJh5PpmQYqVK9GLUie")
+        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productDocId)
 
         findNavController().navigate(action)
     }

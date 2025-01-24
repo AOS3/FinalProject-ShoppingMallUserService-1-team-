@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class TempCartProduct(
     val imageResId: Int,
+    var productCheck: Boolean=false,
     val productName: String,
     val productPrice: Int,
-    val quantity: Int
+    var quantity: Int
 ) : Parcelable

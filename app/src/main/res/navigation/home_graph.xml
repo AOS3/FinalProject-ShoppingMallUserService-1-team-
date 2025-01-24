@@ -98,8 +98,8 @@
 			android:id="@+id/action_user_payment_screen_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
 		<argument
-			android:name="productPriceMethod"
-			app:argType="integer" />
+			android:name="userDocId"
+			app:argType="string" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
@@ -187,11 +187,7 @@
 		android:id="@+id/user_product_info_description"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"
 		android:label="상품 설명"
-		tools:layout="@layout/fragment_user_product_info_description">
-		<argument
-			android:name="productMethod"
-			app:argType="string" />
-	</fragment>
+		tools:layout="@layout/fragment_user_product_info_description"/>
 
 	<fragment
 		android:id="@+id/user_product_info_review"
@@ -266,10 +262,13 @@
 			app:destination="@id/user_payment_screen" />
 		<argument
 			android:name="productDocId"
-			app:argType="string" />
+			app:argType="string"
+			app:nullable="true" />    
 		<action
 			android:id="@+id/action_user_product_info_dialog_to_navigation_cart"
 			app:destination="@id/navigation_cart" />
+
+	
 	</dialog>
 	<fragment
 		android:id="@+id/user_info_review"

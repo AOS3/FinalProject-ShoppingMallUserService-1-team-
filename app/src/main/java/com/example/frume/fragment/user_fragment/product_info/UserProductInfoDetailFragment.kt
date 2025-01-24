@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDetailBinding
-import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment.Companion
 import com.example.frume.service.ProductService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

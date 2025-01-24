@@ -27,8 +27,8 @@ class UserService {
             // 가져온 데이터가 있다면
             return userVoList.isEmpty()
         }
-        
-            // 로그인 처리 메서드
+
+        // 로그인 처리 메서드
         suspend fun checkLogin(loginUserId:String, loginUserPw:String) : LoginResult {
             // 로그인 결과
             var result = LoginResult.LOGIN_RESULT_SUCCESS
@@ -60,6 +60,15 @@ class UserService {
             return loginUserModel
         }
 
+        // sehoon productDocId로 제품의 정보를 가져온다
+        suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {
+            val userModelList = mutableListOf<UserModel>()
+            val userVoList = UserRepository.getUserInfo(userDocId)
+            userVoList.forEach {
+                userModelList.add(it.toUserModel())
+            }
+            return userModelList
+        }
 
         // hyeonseo 0123
         // 자동로그인 토큰값을 갱신하는 메서드
@@ -90,8 +99,5 @@ class UserService {
                 return userModel
             }
         }
-
-
     }
 }
-

@@ -10,10 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
-import com.example.frume.data.TempReview
 import com.example.frume.data.Storage
+import com.example.frume.data.TempReview
 import com.example.frume.databinding.FragmentUserProductInfoReviewBinding
-import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDetailFragment.Companion
 
 
 class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
