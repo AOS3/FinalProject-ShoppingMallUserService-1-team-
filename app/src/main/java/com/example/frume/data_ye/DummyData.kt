@@ -11,9 +11,9 @@ object DummyData {
     // 더미 데이터를 위한 클래스
     private fun getCartItems(): List<TempCartProduct> {
         return listOf(
-            TempCartProduct(R.drawable.img_fruit, "맛있는 딸기 1kg", 16900, 3),
-            TempCartProduct(R.drawable.img_fruit, "신선한 바나나 1kg", 8500, 5),
-            TempCartProduct(R.drawable.img_fruit, "고급 사과 1kg", 12300, 2)
+            TempCartProduct(R.drawable.img_fruit, false,"맛있는 딸기 1kg", 16900, 3),
+            TempCartProduct(R.drawable.img_fruit, false,"신선한 바나나 1kg", 8500, 5),
+            TempCartProduct(R.drawable.img_fruit, false,"고급 사과 1kg", 12300, 2)
 
         )
     }

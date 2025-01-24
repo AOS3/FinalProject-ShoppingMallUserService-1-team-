@@ -18,12 +18,10 @@ import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
 import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
-import com.example.frume.util.ProductInfoType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
 
 class UserCategoryDetailFragment : Fragment() {
@@ -271,11 +269,12 @@ class UserCategoryDetailFragment : Fragment() {
                 ProductService.gettingProductByCategory("딸기")
             }
             recyclerViewListByCategory = work1.await()
-            settingRecyclerView(recyclerViewListByCategory)
+           // settingRecyclerView(recyclerViewListByCategory)
             Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
         }
     }
 }
+
 
 /*
 class ProductRecyclerViewAdapter(

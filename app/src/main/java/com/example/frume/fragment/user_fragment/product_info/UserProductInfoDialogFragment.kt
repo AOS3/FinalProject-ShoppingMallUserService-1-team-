@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDialogBinding
+import com.example.frume.home.HomeActivity
 import com.example.frume.service.ProductService
 import com.example.frume.util.applyNumberFormat
 import com.example.frume.util.convertThreeDigitComma
@@ -83,10 +84,10 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         val productDocId = args.productDocId
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val productList = ProductService.getProductInfo(productDocId)
+                val productList = productDocId?.let { ProductService.getProductInfo(it) }
                 withContext(Dispatchers.Main) {
                     // UI
-                    productList.forEach { item ->
+                    productList?.forEach { item ->
                         productPrice = item.productPrice
                         with(binding) {
                             textViewProductName.text = item.productName
@@ -231,14 +232,15 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickPaymentBtn() {
         binding.buttonUserProductInfoDialogBuy.setOnClickListener {
+            val userDocId = activity as HomeActivity
             if (binding.textViewUserProductInfoDialogDeliveryDate.text == "배송 예정일 선택") {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
                 if (productCount == 1) {
-                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(productPrice)
+                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(userDocId.loginUserDocumentId)
                     findNavController().navigate(action)
                 } else {
-                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(_productPrice)
+                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(userDocId.loginUserDocumentId)
                     findNavController().navigate(action)
                 }
             }
