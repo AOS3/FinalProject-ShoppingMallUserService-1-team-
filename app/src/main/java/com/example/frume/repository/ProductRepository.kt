@@ -51,6 +51,7 @@ class ProductRepository {
             return result
         }
 
+        // productDocId로 상품 정보 가져오기
         suspend fun getProductInfo(productID: String): MutableList<ProductVO> {
             val firestore = FirebaseFirestore.getInstance()
 

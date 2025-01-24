@@ -27,8 +27,8 @@ class UserService {
             // 가져온 데이터가 있다면
             return userVoList.isEmpty()
         }
-        
-            // 로그인 처리 메서드
+
+        // 로그인 처리 메서드
         suspend fun checkLogin(loginUserId:String, loginUserPw:String) : LoginResult {
             // 로그인 결과
             var result = LoginResult.LOGIN_RESULT_SUCCESS
@@ -48,11 +48,11 @@ class UserService {
                 if(userVoList[0].customerUserState == CustomerUserState.CUSTOMER_USER_STATE_WITHDRAWN.num){
                     result = LoginResult.LOGIN_RESULT_SIGN_OUT_MEMBER
                 }
+
             }
             return result
         }
-
-        // 사용자 아이디를 통해 문서 id와 사용자 정보를 가져온다.
+        
         // 사용자 아이디와 동일한 사용자의 정보 하나를 반환하는 메서드
         suspend fun selectUserDataByUserIdOne(userId:String) : UserModel {
             val tempVO = UserRepository.selectUserDataByUserIdOne(userId)[0]
@@ -60,6 +60,16 @@ class UserService {
             return loginUserModel
         }
 
+      
+        // sehoon productDocId로 제품의 정보를 가져온다
+        suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {
+            val userModelList = mutableListOf<UserModel>()
+            val userVoList = UserRepository.getUserInfo(userDocId)
+            userVoList.forEach {
+                userModelList.add(it.toUserModel())
+            }
+            return userModelList
+        }
 
         // hyeonseo 0123
         // 자동로그인 토큰값을 갱신하는 메서드
@@ -78,20 +88,17 @@ class UserService {
         // hyeonseo 0123
         // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드
         suspend fun selectUserDataByLoginToken(loginToken:String) : UserModel?{
+
             val loginUserVO = UserRepository.selectUserDataByLoginToken(loginToken)
+
             if(loginUserVO == null){
                 return null
             } else {
-
-                // 2차 주석 처리 -> VO에 문서ID 이미 있어서 필요 없을듯.
-                //val customerUserDocId = loginUserVO.customerUserDocId
-
                 val userModel = loginUserVO.toUserModel()
                 return userModel
             }
         }
-
-
     }
+
 }
 
