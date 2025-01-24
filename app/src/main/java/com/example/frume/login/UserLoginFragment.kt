@@ -1,7 +1,10 @@
 package com.example.frume.login
 
+
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+
 
 
 class UserLoginFragment : Fragment() {
@@ -44,9 +48,12 @@ class UserLoginFragment : Fragment() {
     }
 
     private fun setLayout() {
+
         onClickLoginBtn()
         onClickSignUpBtn()
         onClickNonMemberLoginBtn()
+        setupErrorResetListeners()
+
     }
 
     // sehoon 홈 화면 이동 메서드
@@ -78,27 +85,45 @@ class UserLoginFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
+    // 에러 리셋 리스너 설정
+    private fun setupErrorResetListeners() {
+        binding.apply {
+            // ID 입력 필드의 에러 리셋
+            textFieldUserLoginId.editText?.let { editText ->
+                editText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        textFieldUserLoginId.error = null // 에러 초기화
+                    }
+                    override fun afterTextChanged(s: Editable?) {}
+                })
+            }
+
+            // 비밀번호 입력 필드의 에러 리셋
+            textFieldUserLoginPw.editText?.let { editText ->
+                editText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        textFieldUserLoginPw.error = null // 에러 초기화
+                    }
+                    override fun afterTextChanged(s: Editable?) {}
+                })
+            }
+        }
+    }
+
     // 로그인 처리 메서드
     fun proLogin() {
         binding.apply {
             // 입력 요소 검사
             if (binding.textFieldUserLoginId.editText?.text?.toString()?.isEmpty()!!) {
-                /*  userActivity.showMessageDialog("아이디 입력", "아이디를 입력해주세요", "확인") {
-                      userActivity.showSoftInput(textFieldUserLoginId.editText!!)
-                  }
-                  return*/
+                binding.textFieldUserLoginId.error = "아이디를 입력해주세요"
+                return
             }
             if (binding.textFieldUserLoginPw.editText?.text?.toString()?.isEmpty()!!) {
-                /*    userActivity.showMessageDialog("비밀번호 입력", "비밀번호를 입력해주세요", "확인") {
-                        userActivity.showSoftInput(textFieldUserLoginPw.editText!!)
-                    }
-                    return*/
-
-              /*  userActivity.showMessageDialog("아이디 입력", "아이디를 입력해주세요", "확인") {
-                    userActivity.showSoftInput(textFieldUserLoginId.editText!!)
-                }
-                return*/
-
+                binding.textFieldUserLoginPw.error = "비밀번호를 입력해주세요"
+                return
             }
 
             // 사용자가 입력한 아이디와 비밀번호
@@ -111,117 +136,51 @@ class UserLoginFragment : Fragment() {
                 }
                 // 로그인 결과를 가져온다.
                 val loginResult = work1.await()
-                // Log.d("test100", loginResult.str)
+
                 // 로그인 결과로 분기한다.
                 when (loginResult) {
                     LoginResult.LOGIN_RESULT_ID_NOT_EXIST -> {
-
-                        /*     userActivity.showMessageDialog("로그인 실패", "존재하지 않는 아이디 입니다", "확인") {
-                                 loginViewModel?.textFieldUserLoginIdEditTextText?.value = ""
-                                 loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
-                                 userActivity.showSoftInput(textFieldUserLoginId.editText!!)
-                             }*/
+                        binding.textFieldUserLoginId.error = "존재하지 않는 아이디 입니다"
                     }
 
                     LoginResult.LOGIN_RESULT_PASSWORD_INCORRECT -> {
-                        /* userActivity.showMessageDialog("로그인 실패", "잘못된 비밀번호 입니다", "확인") {
-                             loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
-                             userActivity.showSoftInput(textFieldUserLoginPw.editText!!)
-                         }*/
-                    }
-
-                    LoginResult.LOGIN_RESULT_SIGNOUT_MEMBER -> {
-                        /*userActivity.showMessageDialog("로그인 실패", "탈퇴한 회원입니다", "확인") {
-
-                   /*     userActivity.showMessageDialog("로그인 실패", "존재하지 않는 아이디 입니다", "확인") {
-
-                            loginViewModel?.textFieldUserLoginIdEditTextText?.value = ""
-                            loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
-                            userActivity.showSoftInput(textFieldUserLoginId.editText!!)
-                        }*/
-                    }
-
-
-
-                    // hyeonseo 0123
-                   LoginResult.LOGIN_RESULT_SUCCESS -> {
-//                        // 로그인한 사용자 정보를 가져온다.
-//                        val work2 = async(Dispatchers.IO) {
-//                            UserService.selectUserDataByUserIdOne(loginUserId)
-//                        }
-//                        val loginUserModel = work2.await()
-//
-//                        // 만약 자동로그인이 체크되어 있다면
-//                        if (binding.checkBoxUserLoginAuto) {
-//                            CoroutineScope(Dispatchers.Main).launch {
-//                                val work1 = async(Dispatchers.IO) {
-//                                    UserService.updateUserAutoLoginToken(
-//                                        userActivity,
-//                                        loginUserModel.userDocumentId
-//                                    )
-//                                }
-//                                work1.join()
-//                            }
-//                        }
-//
-//
-//                        val intent = Intent(requireContext(), HomeActivity::class.java)
-//                        intent.putExtra("user_document_id", loginUserModel.customerUserDocId)
-//                        startActivity(intent)
-//                        loginActivity.finish()
-                  }
-
-                }
-            }
-        }
-    }
-
-                    LoginResult.LOGIN_RESULT_PASSWORD_INCORRECT -> {
-                       /* userActivity.showMessageDialog("로그인 실패", "잘못된 비밀번호 입니다", "확인") {
-                            loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
-                            userActivity.showSoftInput(textFieldUserLoginPw.editText!!)
-                        }*/
+                        binding.textFieldUserLoginPw.error = "잘못된 비밀번호입니다"
                     }
 
                     LoginResult.LOGIN_RESULT_SIGN_OUT_MEMBER -> {
-                        /*userActivity.showMessageDialog("로그인 실패", "탈퇴한 회원입니다", "확인") {
-                            loginViewModel?.textFieldUserLoginIdEditTextText?.value = ""
-                            loginViewModel?.textFieldUserLoginPwEditTextText?.value = ""
-                            userActivity.showSoftInput(textFieldUserLoginId.editText!!)
-                        }*/
+                        binding.textFieldUserLoginId.error = "탈퇴한 회원입니다"
+                        binding.textFieldUserLoginPw.error = "탈퇴한 회원입니다"
                     }
 
-}
-
                     LoginResult.LOGIN_RESULT_SUCCESS -> {
+
                         // 로그인한 사용자 정보를 가져온다.
                         val work2 = async(Dispatchers.IO) {
                             UserService.selectUserDataByUserIdOne(loginUserId)
                         }
                         val loginUserModel = work2.await()
-/*
+
                         // 만약 자동로그인이 체크되어 있다면
-                        if (loginViewModel?.checkBoxUserLoginAutoChecked?.value!!) {
+                        if (binding.checkBoxUserLoginAuto.isChecked) {
                             CoroutineScope(Dispatchers.Main).launch {
+
                                 val work1 = async(Dispatchers.IO) {
                                     UserService.updateUserAutoLoginToken(
-                                        userActivity,
-                                        loginUserModel.userDocumentId
+                                        loginActivity,
+                                        loginUserModel.customerUserDocId
                                     )
                                 }
                                 work1.join()
                             }
-                        }*/
-
+                        }
+                        // HomeActivity를 실행하고 현재 Activity를 종료한다.
                         val intent = Intent(requireContext(), HomeActivity::class.java)
                         intent.putExtra("user_document_id", loginUserModel.customerUserDocId)
                         startActivity(intent)
-                        loginActivity.finish()
+                        requireActivity().finish()
                     }
-
                 }
             }
         }
     }
 }
-
