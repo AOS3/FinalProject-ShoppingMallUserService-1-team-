@@ -348,6 +348,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             // 담았다면 내 장바구니로 이동할건지 체크
             showConfirmationDialog("장바구니로 이동하시겠습니까?","장바구니에 상품을 담았습니다.","네","아니오",fun(){
 
+                val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
+                findNavController().navigate(action)
             })
 
         }
@@ -356,7 +358,6 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     // 장바구니 담기 메서드
     private fun onClickButtonCategory() {
         binding.buttonUserProductInfoDialogCart.setOnClickListener {
-
 
             // 담을지 말지 다이얼로그 띄운다.
             showConfirmationDialog("장바구니에 담으시겠습니까?","","네","아니오",fun(){
@@ -385,8 +386,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         cartProductModel.cartItemIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
         // 등록시간
         cartProductModel.cartItemDeliveryTimeStamp = Timestamp.now()
-        cartProductModel.cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_ONE
-        cartProductModel.cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_MONDAY
+        cartProductModel.cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_NONE
+        cartProductModel.cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_NONE
         cartProductModel.cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE
         cartProductModel.cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL
 

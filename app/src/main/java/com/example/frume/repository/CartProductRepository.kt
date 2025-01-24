@@ -2,7 +2,6 @@ package com.example.frume.repository
 
 import android.util.Log
 import com.example.frume.model.CartProductModel
-import com.example.frume.model.ProductModel
 import com.example.frume.vo.CartProductVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -35,7 +34,7 @@ class CartProductRepository {
         suspend fun addMyCartProduct(cartDocId: String, cartProductModel: CartProductModel) {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("cartData")
-            val selectedProductVO = cartProductModel.toCartProductVO()
+            val selectedCartProductVO = cartProductModel.toCartProductVO()
 
             try {
                 // cartDocId로 문서 검색
@@ -47,11 +46,15 @@ class CartProductRepository {
 
                     // 서브컬렉션에 데이터 추가
                     val subCollectionRef = cartDocument.collection("cartProductItems")
-                    subCollectionRef.add(selectedProductVO).await()
+                    // 서브컬렉션의 문서 생성
+                    val subDoc = subCollectionRef.document()
+                    // 서브컬렉션의 문서 ID VO에 넣기
+                    selectedCartProductVO.cartProductDocId = subDoc.id
+                    subDoc.set(selectedCartProductVO).await()
 
-                    Log.d("addMyCartProduct", "성공: $selectedProductVO")
+                    Log.d("CartProductRepository -> addMyCartProduct()", "성공: $subDoc")
                 } else {
-                    Log.e("addMyCartProduct", "cartDocId에 해당하는 장바구니 문서를 찾을 수 없다: $cartDocId")
+                    Log.e("CartProductRepository -> addMyCartProduct", "cartDocId에 해당하는 장바구니 문서를 찾을 수 없다: $cartDocId")
                 }
             } catch (e: Exception) {
                 Log.e("addMyCartProduct", "에러 발생", e)
