@@ -34,10 +34,10 @@ class CartProductModel {
     var cartItemDeliveryDueDate = Timestamp.now()
 
     // 배송 반복 주기1
-    var cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_ONE
+    var cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_NONE // 1회 구매 hj
 
     // 배송 반복 주기2
-    var cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_MONDAY
+    var cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_NONE // 1회 구매 hj
 
     // 등록시간
     var cartItemDeliveryTimeStamp = Timestamp.now()

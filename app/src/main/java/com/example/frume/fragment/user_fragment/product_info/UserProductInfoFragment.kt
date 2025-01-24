@@ -31,7 +31,7 @@ class UserProductInfoFragment : Fragment() {
         _binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info, container, false)
 
-        onClickNavigationIconBackStack()
+
         return binding.root
     }
 
@@ -45,23 +45,20 @@ class UserProductInfoFragment : Fragment() {
         setLayout()
     }
 
-
     private fun setLayout() {
+        setViewPager()
+        onClickNavigationIconBackStack()
+    }
+
+    // sehoon 뷰 페이저 함수 생성
+    private fun setViewPager() {
         val detailList = Storage.detailList
-        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.productDocId!!)
+        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId!!)
         TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->
             tab.text = detailList[pos]
         }.attach()
-        toolbarSetting()
-
     }
 
-
-    private fun toolbarSetting() {
-        binding.toolBarUserProductInfo.title = args.selectedProductDocId
-        UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(args.selectedProductDocId)
-
-    }
 
     // sehoon 툴바 네비게이션 클릭 메서드
     private fun onClickNavigationIconBackStack() {

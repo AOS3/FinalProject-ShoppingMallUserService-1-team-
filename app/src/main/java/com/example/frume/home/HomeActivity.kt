@@ -53,12 +53,10 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_profile -> {
                     binding.bottomNavHome.visibility = View.VISIBLE
                 }
-
                 else -> {
                     binding.bottomNavHome.visibility = View.GONE
                 }
             }
-
         }
     }
 

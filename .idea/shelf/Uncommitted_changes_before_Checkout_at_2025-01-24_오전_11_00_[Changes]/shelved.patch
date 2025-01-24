@@ -1,0 +1,400 @@
+Index: app/src/main/java/com/example/frume/service/UserService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.frume.service\r\n\r\n\r\nimport android.content.Context\r\nimport androidx.core.content.edit\r\nimport com.example.frume.model.UserModel\r\nimport com.example.frume.repository.UserRepository\r\nimport com.example.frume.util.CustomerUserState\r\nimport com.example.frume.util.LoginResult\r\n\r\n\r\nclass UserService {\r\n    companion object{\r\n        // 사용자 정보를 추가하는 메서드\r\n        fun addCustomerUserData(userModel: UserModel):String{\r\n            // 데이터를 VO에 담아준다.\r\n            val userVO = userModel.toUserVO()\r\n            // 저장하는 메서드를 호출한다.\r\n            val userDocId = UserRepository.addCustomerUserData(userVO)\r\n            return userDocId\r\n        }\r\n\r\n        // 가입하려는 아이디가 존재하는지 확인하는 메서드\r\n        suspend fun checkJoinCustomerUserId(customerUserId:String) : Boolean{\r\n            // 아이디를 통해 사용자 정보를 가져온다.\r\n            val userVoList = UserRepository.selectUserDataByCustomerUserId(customerUserId)\r\n            // 가져온 데이터가 있다면\r\n            return userVoList.isEmpty()\r\n        }\r\n\r\n        // 로그인 처리 메서드\r\n        suspend fun checkLogin(loginUserId:String, loginUserPw:String) : LoginResult {\r\n            // 로그인 결과\r\n            var result = LoginResult.LOGIN_RESULT_SUCCESS\r\n\r\n            // 입력한 아이디로 사용자 정보를 가져온다.\r\n            val userVoList = UserRepository.selectUserDataByUserId(loginUserId)\r\n\r\n            // 가져온 사용자 정보가 없다면\r\n            if(userVoList.isEmpty()){\r\n                result = LoginResult.LOGIN_RESULT_ID_NOT_EXIST\r\n            } else {\r\n                if(loginUserPw != userVoList[0].customerUserPw){\r\n                    // 비밀번호가 다르다면\r\n                    result = LoginResult.LOGIN_RESULT_PASSWORD_INCORRECT\r\n                }\r\n                // 탈퇴한 회원이라면\r\n                if(userVoList[0].customerUserState == CustomerUserState.CUSTOMER_USER_STATE_WITHDRAWN.num){\r\n                    result = LoginResult.LOGIN_RESULT_SIGN_OUT_MEMBER\r\n                }\r\n\r\n            }\r\n            return result\r\n        }\r\n        \r\n        // 사용자 아이디와 동일한 사용자의 정보 하나를 반환하는 메서드\r\n        suspend fun selectUserDataByUserIdOne(userId:String) : UserModel {\r\n            val tempVO = UserRepository.selectUserDataByUserIdOne(userId)[0]\r\n            val loginUserModel = tempVO.toUserModel()\r\n            return loginUserModel\r\n        }\r\n\r\n      \r\n        // sehoon productDocId로 제품의 정보를 가져온다\r\n        suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {\r\n            val userModelList = mutableListOf<UserModel>()\r\n            val userVoList = UserRepository.getUserInfo(userDocId)\r\n            userVoList.forEach {\r\n                userModelList.add(it.toUserModel())\r\n            }\r\n            return userModelList\r\n        }\r\n\r\n        // hyeonseo 0123\r\n        // 자동로그인 토큰값을 갱신하는 메서드\r\n        suspend fun updateUserAutoLoginToken(context: Context, customerUserDocId:String){\r\n            // 새로운 토큰값을 발행한다.\r\n            val newToken = \"${customerUserDocId}${System.nanoTime()}\"\r\n            // SharedPreference에 저장한다.\r\n            val pref = context.getSharedPreferences(\"LoginToken\", Context.MODE_PRIVATE)\r\n            pref.edit {\r\n                putString(\"token\", newToken)\r\n            }\r\n            // 서버에 저장한다.\r\n            UserRepository.updateUserAutoLoginToken(customerUserDocId, newToken)\r\n        }\r\n\r\n        // hyeonseo 0123\r\n        // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드\r\n        suspend fun selectUserDataByLoginToken(loginToken:String) : UserModel?{\r\n\r\n            val loginUserVO = UserRepository.selectUserDataByLoginToken(loginToken)\r\n\r\n            if(loginUserVO == null){\r\n                return null\r\n            } else {\r\n                val userModel = loginUserVO.toUserModel()\r\n                return userModel\r\n            }\r\n        }\r\n    }\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/frume/service/UserService.kt b/app/src/main/java/com/example/frume/service/UserService.kt
+--- a/app/src/main/java/com/example/frume/service/UserService.kt	(revision b9f313379f3ea8db3b14070a016b3344ac6238fa)
++++ b/app/src/main/java/com/example/frume/service/UserService.kt	(date 1737683964490)
+@@ -12,12 +12,11 @@
+ class UserService {
+     companion object{
+         // 사용자 정보를 추가하는 메서드
+-        fun addCustomerUserData(userModel: UserModel):String{
++        fun addCustomerUserData(userModel: UserModel){
+             // 데이터를 VO에 담아준다.
+             val userVO = userModel.toUserVO()
+             // 저장하는 메서드를 호출한다.
+-            val userDocId = UserRepository.addCustomerUserData(userVO)
+-            return userDocId
++            UserRepository.addCustomerUserData(userVO)
+         }
+ 
+         // 가입하려는 아이디가 존재하는지 확인하는 메서드
+@@ -27,8 +26,8 @@
+             // 가져온 데이터가 있다면
+             return userVoList.isEmpty()
+         }
+-
+-        // 로그인 처리 메서드
++        
++            // 로그인 처리 메서드
+         suspend fun checkLogin(loginUserId:String, loginUserPw:String) : LoginResult {
+             // 로그인 결과
+             var result = LoginResult.LOGIN_RESULT_SUCCESS
+@@ -48,11 +47,11 @@
+                 if(userVoList[0].customerUserState == CustomerUserState.CUSTOMER_USER_STATE_WITHDRAWN.num){
+                     result = LoginResult.LOGIN_RESULT_SIGN_OUT_MEMBER
+                 }
+-
+             }
+             return result
+         }
+-        
++
++        // 사용자 아이디를 통해 문서 id와 사용자 정보를 가져온다.
+         // 사용자 아이디와 동일한 사용자의 정보 하나를 반환하는 메서드
+         suspend fun selectUserDataByUserIdOne(userId:String) : UserModel {
+             val tempVO = UserRepository.selectUserDataByUserIdOne(userId)[0]
+@@ -60,17 +59,6 @@
+             return loginUserModel
+         }
+ 
+-      
+-        // sehoon productDocId로 제품의 정보를 가져온다
+-        suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {
+-            val userModelList = mutableListOf<UserModel>()
+-            val userVoList = UserRepository.getUserInfo(userDocId)
+-            userVoList.forEach {
+-                userModelList.add(it.toUserModel())
+-            }
+-            return userModelList
+-        }
+-
+         // hyeonseo 0123
+         // 자동로그인 토큰값을 갱신하는 메서드
+         suspend fun updateUserAutoLoginToken(context: Context, customerUserDocId:String){
+@@ -88,17 +76,20 @@
+         // hyeonseo 0123
+         // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드
+         suspend fun selectUserDataByLoginToken(loginToken:String) : UserModel?{
+-
+             val loginUserVO = UserRepository.selectUserDataByLoginToken(loginToken)
+-
+             if(loginUserVO == null){
+                 return null
+             } else {
++
++                // 2차 주석 처리 -> VO에 문서ID 이미 있어서 필요 없을듯.
++                //val customerUserDocId = loginUserVO.customerUserDocId
++
+                 val userModel = loginUserVO.toUserModel()
+                 return userModel
+             }
+         }
++
++
+     }
+-
+ }
+ 
+Index: app/src/main/java/com/example/frume/repository/UserRepository.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.frume.repository\r\n\r\nimport com.example.frume.vo.UserVO\r\nimport com.google.firebase.firestore.FirebaseFirestore\r\nimport kotlinx.coroutines.tasks.await\r\nimport android.util.Log\r\nimport com.example.frume.vo.UserVO\r\nimport com.google.firebase.firestore.FirebaseFirestore\r\nimport com.google.firebase.firestore.auth.User\r\nimport kotlinx.coroutines.tasks.await\r\n\r\nclass UserRepository {\r\n    companion object{\r\n        // 사용자 정보를 추가하는 메서드, userDocID를 리턴해야함 장바구니 생성을 위해\r\n        fun addCustomerUserData(userVO: UserVO):String{\r\n\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val documentReference = collectionReference.document()\r\n            val addUserVO = userVO\r\n            addUserVO.customerUserDocId = documentReference.id\r\n            documentReference.set(addUserVO)\r\n            return addUserVO.customerUserDocId\r\n        }\r\n\r\n        // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드\r\n\r\n        suspend fun selectUserDataByCustomerUserId(customerUserId: String): MutableList<UserVO> {\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val result = collectionReference.whereEqualTo(\"customerUserId\", customerUserId).get().await()\r\n\r\n            // Log.d(\"test100\", \"${result.documents}\")\r\n            val userVoList = result.toObjects(UserVO::class.java)\r\n            return userVoList\r\n        }\r\n\r\n\r\n\r\n        // 자동로그인 토큰값을 갱신하는 메서드\r\n        suspend fun updateUserAutoLoginToken(customerUserDocId: String, customerUserLocalToken: String) {\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val documentReference = collectionReference.document(customerUserDocId)\r\n            val tokenMap = mapOf(\r\n                \"userAutoLoginToken\" to customerUserLocalToken\r\n            )\r\n            documentReference.update(tokenMap).await()\r\n        }\r\n\r\n        \r\n        // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드\r\n        suspend fun selectUserDataByLoginToken(customerUserLocalToken:String) : UserVO?{\r\n\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val resultList = collectionReference.whereEqualTo(\"customerUserLocalToken\", customerUserLocalToken).get().await()\r\n            val userVOList = resultList.toObjects(UserVO::class.java)\r\n\r\n            return if (userVOList.isNotEmpty()) userVOList[0] else null\r\n        }\r\n          \r\n        \r\n        // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드\r\n        suspend fun selectUserDataByUserId(customerUserId: String): MutableList<UserVO> {\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val result = collectionReference.whereEqualTo(\"customerUserId\", customerUserId).get().await()\r\n            val userVoList = result.toObjects(UserVO::class.java)\r\n            return userVoList\r\n        }\r\n\r\n        // 사용자 아이디와 동일한 사용자의 정보 하나를 반환하는 메서드\r\n        suspend fun selectUserDataByUserIdOne(userId: String): MutableList<UserVO> {\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val result = collectionReference.whereEqualTo(\"customerUserId\", userId).get().await()\r\n            val userVoList = result.toObjects(UserVO::class.java)\r\n\r\n            return userVoList\r\n        }\r\n\r\n\r\n        // 토큰 관련\r\n        // 자동로그인 토큰값을 갱신하는 메서드\r\n        suspend fun updateUserAutoLoginToken(customerUserDocId:String, customerUserLocalToken:String){\r\n            val firestore = FirebaseFirestore.getInstance()\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val documentReference = collectionReference.document(customerUserDocId)\r\n            val tokenMap = mapOf(\r\n                \"customerUserLocalToken\" to customerUserLocalToken\r\n            )\r\n            documentReference.update(tokenMap).await()\r\n        }\r\n\r\n          \r\n        // productDocId로 상품 정보 가져오기\r\n        suspend fun getUserInfo(userDocId: String): MutableList<UserVO> {\r\n            val firestore = FirebaseFirestore.getInstance()\r\n\r\n            val collectionReference = firestore.collection(\"userData\")\r\n            val userResult = mutableListOf<UserVO>()\r\n\r\n            try {\r\n                val product = collectionReference.whereEqualTo(\"customerUserDocId\", userDocId).get().await()\r\n\r\n                for (document in product) {\r\n                    val userVO = document.toObject(UserVO::class.java)\r\n                    Log.d(\"test100\", \"ProductRepository -> productVO: $userVO\")\r\n\r\n                    userResult.add(userVO)\r\n                }\r\n            } catch (e: Exception) {\r\n                e.printStackTrace()\r\n            }\r\n            return userResult\r\n\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/frume/repository/UserRepository.kt b/app/src/main/java/com/example/frume/repository/UserRepository.kt
+--- a/app/src/main/java/com/example/frume/repository/UserRepository.kt	(revision b9f313379f3ea8db3b14070a016b3344ac6238fa)
++++ b/app/src/main/java/com/example/frume/repository/UserRepository.kt	(date 1737683879078)
+@@ -1,31 +1,25 @@
+ package com.example.frume.repository
+ 
+-import com.example.frume.vo.UserVO
+-import com.google.firebase.firestore.FirebaseFirestore
+-import kotlinx.coroutines.tasks.await
+ import android.util.Log
+ import com.example.frume.vo.UserVO
+ import com.google.firebase.firestore.FirebaseFirestore
+-import com.google.firebase.firestore.auth.User
+ import kotlinx.coroutines.tasks.await
+ 
+ class UserRepository {
+     companion object{
+-        // 사용자 정보를 추가하는 메서드, userDocID를 리턴해야함 장바구니 생성을 위해
+-        fun addCustomerUserData(userVO: UserVO):String{
+-
++        // 사용자 정보를 추가하는 메서드
++        fun addCustomerUserData(userVO: UserVO){
+             val firestore = FirebaseFirestore.getInstance()
+             val collectionReference = firestore.collection("userData")
+             val documentReference = collectionReference.document()
+             val addUserVO = userVO
+             addUserVO.customerUserDocId = documentReference.id
+             documentReference.set(addUserVO)
+-            return addUserVO.customerUserDocId
+         }
+ 
+         // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드
+ 
+-        suspend fun selectUserDataByCustomerUserId(customerUserId: String): MutableList<UserVO> {
++        suspend fun selectUserDataByCustomerUserId(customerUserId:String) : MutableList<UserVO>{
+             val firestore = FirebaseFirestore.getInstance()
+             val collectionReference = firestore.collection("userData")
+             val result = collectionReference.whereEqualTo("customerUserId", customerUserId).get().await()
+@@ -36,9 +30,9 @@
+         }
+ 
+ 
+-
++  
+         // 자동로그인 토큰값을 갱신하는 메서드
+-        suspend fun updateUserAutoLoginToken(customerUserDocId: String, customerUserLocalToken: String) {
++        suspend fun updateUserAutoLoginToken(customerUserDocId:String, customerUserLocalToken:String){
+             val firestore = FirebaseFirestore.getInstance()
+             val collectionReference = firestore.collection("userData")
+             val documentReference = collectionReference.document(customerUserDocId)
+@@ -48,21 +42,30 @@
+             documentReference.update(tokenMap).await()
+         }
+ 
+-        
++
+         // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드
+         suspend fun selectUserDataByLoginToken(customerUserLocalToken:String) : UserVO?{
+-
+             val firestore = FirebaseFirestore.getInstance()
+             val collectionReference = firestore.collection("userData")
+             val resultList = collectionReference.whereEqualTo("customerUserLocalToken", customerUserLocalToken).get().await()
+             val userVOList = resultList.toObjects(UserVO::class.java)
+ 
+-            return if (userVOList.isNotEmpty()) userVOList[0] else null
++            if(userVOList.isEmpty()){
++                return null
++            } else {
++
++                val returnUserVO = userVOList[0]
++                // 이거 잘 확인되면 return userVOList으로 바로 가도될듯..
++
++                Log.d("test100", "UserRepository.selectUserDataByLoginToken() -> userVOList ${userVOList}")
++
++                return returnUserVO
++            }
+         }
+-          
+-        
++
++       
+         // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드
+-        suspend fun selectUserDataByUserId(customerUserId: String): MutableList<UserVO> {
++        suspend fun selectUserDataByUserId(customerUserId:String) : MutableList<UserVO>{
+             val firestore = FirebaseFirestore.getInstance()
+             val collectionReference = firestore.collection("userData")
+             val result = collectionReference.whereEqualTo("customerUserId", customerUserId).get().await()
+@@ -71,7 +74,7 @@
+         }
+ 
+         // 사용자 아이디와 동일한 사용자의 정보 하나를 반환하는 메서드
+-        suspend fun selectUserDataByUserIdOne(userId: String): MutableList<UserVO> {
++        suspend fun selectUserDataByUserIdOne(userId:String) : MutableList<UserVO>{
+             val firestore = FirebaseFirestore.getInstance()
+             val collectionReference = firestore.collection("userData")
+             val result = collectionReference.whereEqualTo("customerUserId", userId).get().await()
+@@ -80,41 +83,5 @@
+             return userVoList
+         }
+ 
+-
+-        // 토큰 관련
+-        // 자동로그인 토큰값을 갱신하는 메서드
+-        suspend fun updateUserAutoLoginToken(customerUserDocId:String, customerUserLocalToken:String){
+-            val firestore = FirebaseFirestore.getInstance()
+-            val collectionReference = firestore.collection("userData")
+-            val documentReference = collectionReference.document(customerUserDocId)
+-            val tokenMap = mapOf(
+-                "customerUserLocalToken" to customerUserLocalToken
+-            )
+-            documentReference.update(tokenMap).await()
+-        }
+-
+-          
+-        // productDocId로 상품 정보 가져오기
+-        suspend fun getUserInfo(userDocId: String): MutableList<UserVO> {
+-            val firestore = FirebaseFirestore.getInstance()
+-
+-            val collectionReference = firestore.collection("userData")
+-            val userResult = mutableListOf<UserVO>()
+-
+-            try {
+-                val product = collectionReference.whereEqualTo("customerUserDocId", userDocId).get().await()
+-
+-                for (document in product) {
+-                    val userVO = document.toObject(UserVO::class.java)
+-                    Log.d("test100", "ProductRepository -> productVO: $userVO")
+-
+-                    userResult.add(userVO)
+-                }
+-            } catch (e: Exception) {
+-                e.printStackTrace()
+-            }
+-            return userResult
+-
+-        }
+     }
+ }
+\ No newline at end of file
+Index: app/src/main/java/com/example/frume/fragment/user_fragment/product_info/UserProductInfoFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.frume.fragment.user_fragment.product_info\r\n\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.databinding.DataBindingUtil\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.fragment.app.activityViewModels\r\nimport androidx.fragment.app.viewModels\r\nimport androidx.navigation.fragment.findNavController\r\nimport androidx.navigation.fragment.navArgs\r\nimport com.example.frume.R\r\nimport com.example.frume.data.Storage\r\nimport com.example.frume.data.TempProduct\r\nimport com.example.frume.databinding.FragmentUserProductInfoBinding\r\nimport com.google.android.material.tabs.TabLayoutMediator\r\n\r\n\r\nclass UserProductInfoFragment : Fragment() {\r\n    private var _binding: FragmentUserProductInfoBinding? = null\r\n    private val binding get() = _binding!!\r\n    private val args: UserProductInfoFragmentArgs by navArgs()\r\n\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        _binding =\r\n            DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info, container, false)\r\n\r\n\r\n        return binding.root\r\n    }\r\n\r\n    override fun onDestroyView() {\r\n        super.onDestroyView()\r\n        _binding!!\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n        setLayout()\r\n    }\r\n\r\n    private fun setLayout() {\r\n        setViewPager()\r\n        onClickNavigationIconBackStack()\r\n    }\r\n\r\n    // sehoon 뷰 페이저 함수 생성\r\n    private fun setViewPager() {\r\n        val detailList = Storage.detailList\r\n        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId!!)\r\n        TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->\r\n            tab.text = detailList[pos]\r\n        }.attach()\r\n    }\r\n\r\n\r\n    // sehoon 툴바 네비게이션 클릭 메서드\r\n    private fun onClickNavigationIconBackStack() {\r\n        binding.toolBarUserProductInfo.apply {\r\n            setNavigationOnClickListener {\r\n                findNavController().navigateUp()\r\n            }\r\n        }\r\n    }\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/frume/fragment/user_fragment/product_info/UserProductInfoFragment.kt b/app/src/main/java/com/example/frume/fragment/user_fragment/product_info/UserProductInfoFragment.kt
+--- a/app/src/main/java/com/example/frume/fragment/user_fragment/product_info/UserProductInfoFragment.kt	(revision b9f313379f3ea8db3b14070a016b3344ac6238fa)
++++ b/app/src/main/java/com/example/frume/fragment/user_fragment/product_info/UserProductInfoFragment.kt	(date 1737683886357)
+@@ -31,7 +31,7 @@
+         _binding =
+             DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info, container, false)
+ 
+-
++        onClickNavigationIconBackStack()
+         return binding.root
+     }
+ 
+@@ -45,20 +45,23 @@
+         setLayout()
+     }
+ 
++
+     private fun setLayout() {
+-        setViewPager()
+-        onClickNavigationIconBackStack()
+-    }
+-
+-    // sehoon 뷰 페이저 함수 생성
+-    private fun setViewPager() {
+         val detailList = Storage.detailList
+-        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId!!)
++        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId)
+         TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->
+             tab.text = detailList[pos]
+         }.attach()
++        toolbarSetting()
++
+     }
+ 
++
++    private fun toolbarSetting() {
++        binding.toolBarUserProductInfo.title = args.selectedProductDocId
++        UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoDescriptionFragment(args.selectedProductDocId)
++
++    }
+ 
+     // sehoon 툴바 네비게이션 클릭 메서드
+     private fun onClickNavigationIconBackStack() {
+Index: app/src/main/java/com/example/frume/fragment/user_fragment/category/UserCategoryDetailFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.frume.fragment.user_fragment.category\r\n\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.ArrayAdapter\r\nimport android.widget.Toast\r\nimport androidx.databinding.DataBindingUtil\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.navigation.fragment.findNavController\r\nimport androidx.navigation.fragment.navArgs\r\nimport androidx.recyclerview.widget.GridLayoutManager\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.example.frume.R\r\nimport com.example.frume.databinding.FragmentUserCategoryDetailBinding\r\nimport com.example.frume.databinding.ItemProductBinding\r\nimport com.example.frume.model.ProductModel\r\nimport com.example.frume.service.ProductService\r\nimport kotlinx.coroutines.CoroutineScope\r\nimport kotlinx.coroutines.Dispatchers\r\nimport kotlinx.coroutines.async\r\nimport kotlinx.coroutines.launch\r\n\r\n\r\nclass UserCategoryDetailFragment : Fragment() {\r\n    private var _binding: FragmentUserCategoryDetailBinding? = null\r\n    private val binding get() = _binding!!\r\n    private val args: UserCategoryDetailFragmentArgs by navArgs()\r\n    var recyclerViewListByCategoryList = mutableListOf<ProductModel>()\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        _binding = DataBindingUtil.inflate(\r\n            inflater,\r\n            R.layout.fragment_user_category_detail,\r\n            container,\r\n            false\r\n        )\r\n        return binding.root\r\n    }\r\n\r\n    override fun onDestroyView() {\r\n        super.onDestroyView()\r\n        _binding = null\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n\r\n        setLayout()\r\n    }\r\n\r\n    private fun setLayout() {\r\n        // 툴바 설정(상단이름 + 뒤로가기 구현)\r\n        settingToolbar()\r\n        /* // RecyclerView 설정\r\n         settingRecyclerView()*/\r\n        onClickToolbar()\r\n        // settingRecyclerView\r\n        settingCategoryRecyclerView()\r\n        // 리사이클러뷰 갱신\r\n        refreshCategoryRecyclerView(args.categoryMethod.str)\r\n        setupSortDropdown()\r\n    }\r\n\r\n    private fun settingToolbar() {\r\n        // 과일 카테고리 이름을 가져와 툴바 바꾸기\r\n        if (args.categoryMethod.str == \"검색\") {\r\n            binding.toolbarUserCategoryDetail.title = args.searchMethod\r\n        } else {\r\n            binding.toolbarUserCategoryDetail.title = args.categoryMethod.str\r\n        }\r\n    }\r\n\r\n    // sehoon 네비게이션 클릭 메서드\r\n    private fun onClickToolbar() {\r\n        binding.toolbarUserCategoryDetail.setNavigationOnClickListener {\r\n            findNavController().navigateUp()\r\n        }\r\n    }\r\n\r\n    /*   private fun settingRecyclerView() {\r\n           binding.apply {\r\n               recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(recyclerViewListByCategoryL) { product ->\r\n                   val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product.productDocId)\r\n                   findNavController().navigate(action)\r\n               }\r\n           }\r\n       }*/\r\n\r\n    // 메인 RecyclerView 구성 메서드\r\n    fun settingCategoryRecyclerView() {\r\n        binding.apply {\r\n            recyclerViewUserCategoryDetail.adapter = CategoryRecyclerViewAdapter()\r\n\r\n            // 2열로 구성\r\n            recyclerViewUserCategoryDetail.layoutManager = GridLayoutManager(requireContext(), 2)\r\n        }\r\n    }\r\n\r\n    // 판매량 오름차 정렬\r\n    fun sortBySalesCount() {\r\n        recyclerViewListByCategoryList.sortBy { it.productSalesCount }\r\n\r\n        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()\r\n    }\r\n\r\n    // 판매량 내림차 정렬\r\n    fun sortDescendingBySalesCount() {\r\n        recyclerViewListByCategoryList.sortByDescending { it.productSalesCount }\r\n\r\n        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()\r\n    }\r\n\r\n    // 가격 오름차 정렬\r\n    fun sortByPrice() {\r\n        recyclerViewListByCategoryList.sortBy { it.productPrice }\r\n\r\n        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()\r\n    }\r\n\r\n    // 가격 내림차 정렬\r\n    fun sortDescendingByPrice() {\r\n        recyclerViewListByCategoryList.sortByDescending { it.productPrice }\r\n\r\n        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()\r\n    }\r\n\r\n    // 정렬 드롭다운 메뉴 버튼 리스너\r\n    private fun setupSortDropdown() {\r\n        val autoCompleteTextViewUserCategoryDetailFilterText =\r\n            binding.autoCompleteTextViewUserCategoryDetailSalesCount\r\n        // 드롭다운 데이터 정의\r\n        val filterState = listOf(\"판매량 적은순\", \"판매량 많은순\", \"가격 낮은순\", \"가격 높은순\")\r\n\r\n\r\n        // ArrayAdapter 생성 (autoCompleteOrderStateTextView에 데이터를 연결)\r\n        val adapterSalesCountState = ArrayAdapter(\r\n            requireContext(),\r\n            android.R.layout.simple_dropdown_item_1line,\r\n            filterState\r\n        )\r\n\r\n        // autoCompleteOrderStateTextView에 어댑터 연결\r\n        autoCompleteTextViewUserCategoryDetailFilterText.setAdapter(adapterSalesCountState)\r\n\r\n        // autoCompleteSearchPeriodTextView에 어댑터 연결\r\n\r\n        // autoCompleteOrderStateTextView 항목 선택 이벤트 리스너 설정\r\n        autoCompleteTextViewUserCategoryDetailFilterText.setOnItemClickListener { parent, view, position, id ->\r\n            val selectedProductSalesCountState = parent.getItemAtPosition(position).toString()\r\n            // 선택된 항목 처리\r\n            // 선택된 항목에 따라 메서드를 실행\r\n            when (position) {\r\n                0 -> {\r\n                    // 판매량 적은순 처리\r\n                    sortBySalesCount()\r\n                    Toast.makeText(\r\n                        requireContext(),\r\n                        \"선택된 상태: 판매량 적은순\",\r\n                        Toast.LENGTH_SHORT\r\n                    ).show()\r\n                }\r\n\r\n                1 -> {\r\n                    // 판매량 많은순 처리\r\n                    sortDescendingBySalesCount()\r\n                    Toast.makeText(\r\n                        requireContext(),\r\n                        \"선택된 상태: 판매량 많은순\",\r\n                        Toast.LENGTH_SHORT\r\n                    ).show()\r\n                }\r\n\r\n                2 -> {\r\n                    // 가격 낮은순 처리\r\n                    sortByPrice()\r\n                    Toast.makeText(\r\n                        requireContext(),\r\n                        \"선택된 상태: 가격 낮은순\",\r\n                        Toast.LENGTH_SHORT\r\n                    ).show()\r\n                }\r\n\r\n                3 -> {\r\n                    // 가격 높은순 처리\r\n                    sortDescendingByPrice()\r\n                    Toast.makeText(\r\n                        requireContext(),\r\n                        \"선택된 상태: 가격 높은순\",\r\n                        Toast.LENGTH_SHORT\r\n                    ).show()\r\n                }\r\n\r\n                else -> {\r\n                    Toast.makeText(\r\n                        requireContext(),\r\n                        \"알 수 없는 상태\",\r\n                        Toast.LENGTH_SHORT\r\n                    ).show()\r\n                }\r\n            }\r\n        }\r\n\r\n    }\r\n\r\n\r\n    // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드\r\n    fun refreshCategoryRecyclerView(category: String) {\r\n        // Log.d(\"test100\", \"UserProductShowListFragment : refreshMainRecyclerView\")\r\n\r\n        CoroutineScope(Dispatchers.Main).launch {\r\n            val work1 = async(Dispatchers.IO) {\r\n                //  mutableList<productModel> 가져온다\r\n                ProductService.gettingProductByCategory(category)\r\n            }\r\n            recyclerViewListByCategoryList = work1.await()\r\n\r\n            binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()\r\n\r\n            recyclerViewListByCategoryList.forEach {\r\n                // Log.d(\"test100\", \"${it.productName} ${it.productSalesCount}\")\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    // CategoryRecyclerView의 어뎁터\r\n    inner class CategoryRecyclerViewAdapter :\r\n        RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryViewHolder>() {\r\n        inner class CategoryViewHolder(val itemProductBinding: ItemProductBinding) :\r\n            RecyclerView.ViewHolder(itemProductBinding.root)\r\n\r\n        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {\r\n            val itemProductBinding = DataBindingUtil.inflate<ItemProductBinding>(\r\n                layoutInflater,\r\n                R.layout.item_product,\r\n                parent,\r\n                false\r\n            )\r\n            val categoryViewHolder = CategoryViewHolder(itemProductBinding)\r\n\r\n            itemProductBinding.root.setOnClickListener {\r\n                val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(recyclerViewListByCategoryList[categoryViewHolder.adapterPosition].productDocId)\r\n                findNavController().navigate(action)\r\n            }\r\n\r\n            return categoryViewHolder\r\n        }\r\n\r\n        override fun getItemCount(): Int {\r\n            return recyclerViewListByCategoryList.size\r\n        }\r\n\r\n        override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {\r\n            holder.itemProductBinding.textViewItemProductTitle.text =\r\n                recyclerViewListByCategoryList[position].productName\r\n            // Log.d(\"test100\", \"recyclerViewListByCategoryList[${position}].productName : ${recyclerViewListByCategoryList[position].productName}\")\r\n            holder.itemProductBinding.textViewItemProductDescription.text =\r\n                recyclerViewListByCategoryList[position].productDescription\r\n        }\r\n    }\r\n\r\n\r\n\r\n   /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드\r\n    fun refreshMainRecyclerView(){\r\n        Log.d(\"test100\",\"UserProductShowListFragment : refreshMainRecyclerView\")\r\n\r\n        CoroutineScope(Dispatchers.Main).launch {\r\n            val work1 = async(Dispatchers.IO){\r\n                //  mutableList<productModel> 가져온다\r\n                ProductService.gettingProductByCategory(\"딸기\")\r\n            }\r\n            recyclerViewListByCategory = work1.await()\r\n           // settingRecyclerView(recyclerViewListByCategory)\r\n            Log.d(\"test 100\",\"recyclerViewListByCategory : ${recyclerViewListByCategory}\")\r\n        }\r\n    }*/\r\n\r\n}\r\n\r\n\r\n/*\r\nclass ProductRecyclerViewAdapter(\r\n    private val productList: List<ProductModel>, // 데이터 리스트\r\n    private val onItemClick: (ProductModel) -> Unit // 클릭 리스너\r\n) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {\r\n\r\n    // ViewHolder 클래스\r\n    inner class ProductViewHolder(val itemProductBinding: ItemProductBinding) :\r\n        RecyclerView.ViewHolder(itemProductBinding.root)\r\n\r\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {\r\n        // DataBinding 초기화\r\n        val binding = DataBindingUtil.inflate<ItemProductBinding>(\r\n            LayoutInflater.from(parent.context),\r\n            R.layout.item_product,\r\n            parent,\r\n            false\r\n        )\r\n        val viewHolder = ProductViewHolder(binding)\r\n\r\n        // 클릭 리스너 설정\r\n        binding.root.setOnClickListener {\r\n            val position = viewHolder.adapterPosition\r\n            if (position != RecyclerView.NO_POSITION) {\r\n                onItemClick(productList[position])\r\n            }\r\n        }\r\n\r\n        return viewHolder\r\n    }\r\n\r\n    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {\r\n        val product = productList[position]\r\n        holder.itemProductBinding.apply {\r\n            textViewItemProductTitle.text = product.productName\r\n            textViewItemProductDescription.text = product.productDescription\r\n            */\r\n/*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*//*\r\n\r\n        }\r\n    }\r\n\r\n    override fun getItemCount(): Int = productList.size\r\n}*/
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/frume/fragment/user_fragment/category/UserCategoryDetailFragment.kt b/app/src/main/java/com/example/frume/fragment/user_fragment/category/UserCategoryDetailFragment.kt
+--- a/app/src/main/java/com/example/frume/fragment/user_fragment/category/UserCategoryDetailFragment.kt	(revision b9f313379f3ea8db3b14070a016b3344ac6238fa)
++++ b/app/src/main/java/com/example/frume/fragment/user_fragment/category/UserCategoryDetailFragment.kt	(date 1737683886859)
+@@ -266,21 +266,20 @@
+     }
+ 
+ 
+-
+-   /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
+-    fun refreshMainRecyclerView(){
+-        Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
++    /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
++     fun refreshMainRecyclerView(){
++         Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
+ 
+-        CoroutineScope(Dispatchers.Main).launch {
+-            val work1 = async(Dispatchers.IO){
+-                //  mutableList<productModel> 가져온다
+-                ProductService.gettingProductByCategory("딸기")
+-            }
+-            recyclerViewListByCategory = work1.await()
+-           // settingRecyclerView(recyclerViewListByCategory)
+-            Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
+-        }
+-    }*/
++         CoroutineScope(Dispatchers.Main).launch {
++             val work1 = async(Dispatchers.IO){
++                 //  mutableList<productModel> 가져온다
++                 ProductService.gettingProductByCategory("딸기")
++             }
++             recyclerViewListByCategory = work1.await()
++            // settingRecyclerView(recyclerViewListByCategory)
++             Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
++         }
++     }*/
+ 
+ }
+ 
+Index: app/src/main/java/com/example/frume/login/UserLoginFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.frume.login\r\n\r\n\r\nimport android.content.Intent\r\nimport android.os.Bundle\r\nimport android.text.Editable\r\nimport android.text.TextWatcher\r\nimport android.util.Log\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.databinding.DataBindingUtil\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.navigation.fragment.findNavController\r\nimport com.example.frume.R\r\nimport com.example.frume.databinding.FragmentUserLoginBinding\r\nimport com.example.frume.home.HomeActivity\r\nimport com.example.frume.model.UserModel\r\nimport com.example.frume.service.UserService\r\nimport com.example.frume.util.LoginResult\r\nimport kotlinx.coroutines.CoroutineScope\r\nimport kotlinx.coroutines.Dispatchers\r\nimport kotlinx.coroutines.async\r\nimport kotlinx.coroutines.launch\r\n\r\n\r\n\r\nclass UserLoginFragment : Fragment() {\r\n    private var _binding: FragmentUserLoginBinding? = null\r\n    private val binding get() = _binding!!\r\n    lateinit var loginActivity: LoginActivity\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View {\r\n        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_login, container, false)\r\n        loginActivity = activity as LoginActivity\r\n        return binding.root\r\n    }\r\n\r\n    override fun onDestroyView() {\r\n        super.onDestroyView()\r\n        _binding = null\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n        setLayout()\r\n    }\r\n\r\n    private fun setLayout() {\r\n\r\n        onClickLoginBtn()\r\n        onClickSignUpBtn()\r\n        onClickNonMemberLoginBtn()\r\n        setupErrorResetListeners()\r\n\r\n    }\r\n\r\n    // sehoon 홈 화면 이동 메서드\r\n    private fun moveToHomeScreen() {\r\n        val intent = Intent(requireContext(), HomeActivity::class.java)\r\n        intent.putExtra(\"user_document_id\", \"noUser\")\r\n        startActivity(intent)\r\n        loginActivity.finish()\r\n    }\r\n\r\n    // sehoon 로그인 버튼 클릭 메서드\r\n    private fun onClickLoginBtn() {\r\n        binding.buttonUserSignUp.setOnClickListener {\r\n            proLogin()\r\n        }\r\n    }\r\n\r\n    // sehoon 비회원 접속 버튼 클릭 메서드\r\n    private fun onClickNonMemberLoginBtn() {\r\n        binding.buttonUserLoginNonMember.setOnClickListener {\r\n            moveToHomeScreen()\r\n        }\r\n    }\r\n\r\n    // sehoon 회원가입 버튼 클릭 메서드\r\n    private fun onClickSignUpBtn() {\r\n        binding.textViewUserLoginSignUpButton.setOnClickListener {\r\n            val action = UserLoginFragmentDirections.actionUserLoginToUserSignup()\r\n            findNavController().navigate(action)\r\n        }\r\n    }\r\n\r\n\r\n    // 에러 리셋 리스너 설정\r\n    private fun setupErrorResetListeners() {\r\n        binding.apply {\r\n            // ID 입력 필드의 에러 리셋\r\n            textFieldUserLoginId.editText?.let { editText ->\r\n                editText.addTextChangedListener(object : TextWatcher {\r\n                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}\r\n                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {\r\n                        textFieldUserLoginId.error = null // 에러 초기화\r\n                    }\r\n                    override fun afterTextChanged(s: Editable?) {}\r\n                })\r\n            }\r\n\r\n            // 비밀번호 입력 필드의 에러 리셋\r\n            textFieldUserLoginPw.editText?.let { editText ->\r\n                editText.addTextChangedListener(object : TextWatcher {\r\n                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}\r\n                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {\r\n                        textFieldUserLoginPw.error = null // 에러 초기화\r\n                    }\r\n                    override fun afterTextChanged(s: Editable?) {}\r\n                })\r\n            }\r\n        }\r\n    }\r\n\r\n    // 로그인 처리 메서드\r\n    fun proLogin() {\r\n        binding.apply {\r\n            // 입력 요소 검사\r\n            if (binding.textFieldUserLoginId.editText?.text?.toString()?.isEmpty()!!) {\r\n                binding.textFieldUserLoginId.error = \"아이디를 입력해주세요\"\r\n                return\r\n            }\r\n            if (binding.textFieldUserLoginPw.editText?.text?.toString()?.isEmpty()!!) {\r\n\r\n                binding.textFieldUserLoginPw.error = \"비밀번호를 입력해주세요\"\r\n                return\r\n            }\r\n\r\n            // 사용자가 입력한 아이디와 비밀번호\r\n            val loginUserId = binding.textFieldUserLoginId.editText?.text.toString()\r\n            val loginUserPw = binding.textFieldUserLoginPw.editText?.text.toString()\r\n\r\n            CoroutineScope(Dispatchers.Main).launch {\r\n                val work1 = async(Dispatchers.IO) {\r\n                    UserService.checkLogin(loginUserId, loginUserPw)\r\n                }\r\n                // 로그인 결과를 가져온다.\r\n                val loginResult = work1.await()\r\n\r\n\r\n                // 로그인 결과로 분기한다.\r\n                when (loginResult) {\r\n                    LoginResult.LOGIN_RESULT_ID_NOT_EXIST -> {\r\n                        binding.textFieldUserLoginId.error = \"존재하지 않는 아이디 입니다\"\r\n                    }\r\n\r\n                    LoginResult.LOGIN_RESULT_PASSWORD_INCORRECT -> {\r\n                        binding.textFieldUserLoginPw.error = \"잘못된 비밀번호입니다\"\r\n                    }\r\n\r\n                    LoginResult.LOGIN_RESULT_SIGN_OUT_MEMBER -> {\r\n                        binding.textFieldUserLoginId.error = \"탈퇴한 회원입니다\"\r\n                        binding.textFieldUserLoginPw.error = \"탈퇴한 회원입니다\"\r\n                    }\r\n\r\n                    LoginResult.LOGIN_RESULT_SUCCESS -> {\r\n                      \r\n                        val work2 = async(Dispatchers.IO) {\r\n                            UserService.selectUserDataByUserIdOne(loginUserId)\r\n                        }\r\n                        val loginUserModel = work2.await()\r\n\r\n                        // 만약 자동로그인이 체크되어 있다면\r\n                        if (binding.checkBoxUserLoginAuto.isChecked) {\r\n                            CoroutineScope(Dispatchers.Main).launch {\r\n\r\n                                val work1 = async(Dispatchers.IO) {\r\n                                    UserService.updateUserAutoLoginToken(\r\n                                        loginActivity,\r\n                                        loginUserModel.customerUserDocId\r\n                                    )\r\n                                }\r\n                                work1.join()\r\n                            }\r\n                        }\r\n                        // HomeActivity를 실행하고 현재 Activity를 종료한다.\r\n                        val intent = Intent(requireContext(), HomeActivity::class.java)\r\n                        intent.putExtra(\"user_document_id\", loginUserModel.customerUserDocId)\r\n                        startActivity(intent)\r\n                        requireActivity().finish()\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/frume/login/UserLoginFragment.kt b/app/src/main/java/com/example/frume/login/UserLoginFragment.kt
+--- a/app/src/main/java/com/example/frume/login/UserLoginFragment.kt	(revision b9f313379f3ea8db3b14070a016b3344ac6238fa)
++++ b/app/src/main/java/com/example/frume/login/UserLoginFragment.kt	(date 1737683887163)
+@@ -5,7 +5,6 @@
+ import android.os.Bundle
+ import android.text.Editable
+ import android.text.TextWatcher
+-import android.util.Log
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+@@ -15,13 +14,13 @@
+ import com.example.frume.R
+ import com.example.frume.databinding.FragmentUserLoginBinding
+ import com.example.frume.home.HomeActivity
+-import com.example.frume.model.UserModel
+ import com.example.frume.service.UserService
+ import com.example.frume.util.LoginResult
+ import kotlinx.coroutines.CoroutineScope
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.async
+ import kotlinx.coroutines.launch
++import com.example.frume.model.UserModel
+ 
+ 
+ 
+@@ -88,7 +87,6 @@
+         }
+     }
+ 
+-
+     // 에러 리셋 리스너 설정
+     private fun setupErrorResetListeners() {
+         binding.apply {
+@@ -125,7 +123,6 @@
+                 return
+             }
+             if (binding.textFieldUserLoginPw.editText?.text?.toString()?.isEmpty()!!) {
+-
+                 binding.textFieldUserLoginPw.error = "비밀번호를 입력해주세요"
+                 return
+             }
+@@ -141,7 +138,6 @@
+                 // 로그인 결과를 가져온다.
+                 val loginResult = work1.await()
+ 
+-
+                 // 로그인 결과로 분기한다.
+                 when (loginResult) {
+                     LoginResult.LOGIN_RESULT_ID_NOT_EXIST -> {
+@@ -158,7 +154,8 @@
+                     }
+ 
+                     LoginResult.LOGIN_RESULT_SUCCESS -> {
+-                      
++
++                        // 로그인한 사용자 정보를 가져온다.
+                         val work2 = async(Dispatchers.IO) {
+                             UserService.selectUserDataByUserIdOne(loginUserId)
+                         }

@@ -4,30 +4,41 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
+import com.example.frume.data.Storage
 import com.example.frume.data_ye.DummyData
 import com.example.frume.data_ye.TempCartProduct
 import com.example.frume.databinding.FragmentUserCart1Binding
 import com.example.frume.databinding.ItemUsercartListBinding
+import com.example.frume.fragment.home_fragment.user_home.HomeProductAdapter
+import com.example.frume.home.HomeActivity
+import com.example.frume.service.UserService
+import com.example.frume.util.applyNumberFormat
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Indicator
+import com.google.android.material.checkbox.MaterialCheckBox
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Locale
 
-class UserCartFragment1 : Fragment() {
-
+class UserCartFragment1 : Fragment(), CartClickListener {
     private var _binding: FragmentUserCart1Binding? = null
     private val binding get() = _binding!!
-
-    // 전체 선택 상태를 관리하는 변수
-    private var isAllSelected = false
+    private lateinit var adapter: UserCartAdapter
+    private lateinit var cartList: MutableList<TempCartProduct>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,21 +58,51 @@ class UserCartFragment1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setLayout()
+    }
+
+
+    private fun setLayout() {
         // RecyclerView 설정 메서드 호출
         settingRecyclerViewUserCartProduct()
-
+        getUserData()
         // 버튼 클릭 리스너 설정
         onClickCartOrderProduct()
         onClickCartDeliverySpotChange()
+        settingDateDialog()
+        onClickCartRemoveBtn()
+        onClickAllCheckBox()
+        getTotalPrice()
+    }
 
-        // 전체 선택 체크박스 클릭 리스너 설정
-        binding.checkboxUserCartSelectAll.setOnCheckedChangeListener { _, isChecked ->
-            // 체크박스 상태를 반영하여 전체 선택 상태 갱신
-            isAllSelected = isChecked
-            updateItemSelection() // 아이템 선택 상태 업데이트
+    // sehoon 총 가격을 가져오는 메서드
+    private fun getTotalPrice() {
+        binding.textViewUserCartDialogPrice.applyNumberFormat(adapter.getTotalPrice())
+    }
+
+    // 유저 정보를 가져오는 메서드
+    private fun getUserData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val userDocId = activity as HomeActivity
+            val userList = UserService.getUserInfo(userDocId.loginUserDocumentId)
+            withContext(Dispatchers.Main) {
+                with(binding) {
+                    userList.forEach {
+                        textViewUserCartUserName.text = it.customerUserName
+                        textViewUserCartUserPhoneNumber.text = it.customerUserPhoneNumber
+                        val address1 = it.customerUserAddress["BasicAddress"]
+                        val address2 = it.customerUserAddress["DetailedAddress"]
+                        val address3 = it.customerUserAddress["PostNumber"]
+                        textViewUserCartUserAddress.text = "$address1" + "$address2" + "$address3"
+                    }
+                }
+
+            }
         }
+    }
 
-        // 날짜 선택을 위한 클릭 리스너 설정
+    // 날짜 선택을 위한 클릭 리스너 설정
+    private fun settingDateDialog() {
         binding.viewUserCartDialogDeliveryDate.setOnClickListener {
             showDatePickerDialog()  // 날짜 선택 다이얼로그 호출
         }
@@ -80,27 +121,45 @@ class UserCartFragment1 : Fragment() {
     private fun onClickCartOrderProduct() {
         binding.buttonUserCartOrder.setOnClickListener {
             // 네비게이션을 통해 UserPaymentScreenFragment로 이동
-            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(12000)
+            val userDocId = activity as HomeActivity
+            // sehoon 장바구니 -> 저장
+            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(userDocId.loginUserDocumentId)
             findNavController().navigate(action)
         }
     }
 
     // RecyclerView 설정 메서드
     private fun settingRecyclerViewUserCartProduct() {
-        binding.recyclerViewUserCart1.apply {
-            // LinearLayoutManager를 사용하여 RecyclerView가 세로로 스크롤 되도록 설정
-            layoutManager = LinearLayoutManager(context)
-            // RecyclerView에 어댑터 설정
-            // DummyData.CartItemList에 포함된 데이터를 어댑터로 전달하여 화면에 표시
-            adapter = RecyclerViewUserCartProductAdapter(DummyData.CartItemList)
+        // 사용자의 장바구니를 가져옴
+        cartList = DummyData.CartItemList.toMutableList()
+        adapter = UserCartAdapter(cartList.toMutableList(), this)
+        binding.recyclerViewUserCart1.adapter = adapter
+    }
+
+    // 개별 삭제 메서드
+    private fun onClickCartRemoveBtn() {
+        binding.textViewButtonUserCartDelete.setOnClickListener {
+            val emptyCheck = adapter.deleteSelectedItems()
+            getTotalPrice()
+            // 리싸이클러뷰가 비어있으면 전체 선택 체크박스 해제
+            if (emptyCheck) {
+                binding.checkboxUserCartSelectAll.isChecked = false
+            }
         }
     }
 
-    // 전체 선택 상태에 따라 RecyclerView 아이템들의 선택 상태를 업데이트
-    private fun updateItemSelection() {
-        val adapter = binding.recyclerViewUserCart1.adapter as RecyclerViewUserCartProductAdapter
-        // 모든 아이템의 선택 상태를 갱신
-        adapter.updateAllItemsSelected(isAllSelected)
+    // 전체 선택 체크박스 메소드
+    private fun onClickAllCheckBox() {
+        with(binding) {
+            checkboxUserCartSelectAll.setOnClickListener {
+                if (checkboxUserCartSelectAll.isChecked) {
+                    adapter.onClickAllCheckBox(true)
+                } else {
+                    adapter.onClickAllCheckBox(false)
+                }
+            }
+        }
+
     }
 
     // 날짜 선택 다이얼로그를 띄우고, 선택한 날짜를 TextView에 업데이트하는 메서드
@@ -155,100 +214,45 @@ class UserCartFragment1 : Fragment() {
         datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)?.setTextColor(textColor)
     }
 
-    // RecyclerView의 어댑터
-    private inner class RecyclerViewUserCartProductAdapter(private val cartItems: List<TempCartProduct>) :
-        RecyclerView.Adapter<RecyclerViewUserCartProductAdapter.ViewHolderUserCartProduct>() {
-
-        // 각 아이템의 선택 상태를 추적하는 리스트 (초기값은 모두 선택되지 않음)
-        private val itemSelection = MutableList(cartItems.size) { false }
-
-        // 각 아이템의 수량을 추적하는 리스트 (초기값은 모두 0)
-        private val itemQuantity = MutableList(cartItems.size) { 1 }
-
-        // ViewHolder (각 아이템을 바인딩할 뷰 홀더)
-        private inner class ViewHolderUserCartProduct(val binding: ItemUsercartListBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-
-            init {
-                // 각 아이템의 체크박스를 클릭하면 해당 아이템의 선택 상태를 업데이트
-                binding.checkboxRecyclerViewSelect.setOnCheckedChangeListener { _, isChecked ->
-                    itemSelection[adapterPosition] = isChecked
-                    updateSelectAllCheckbox()
-                }
-
-                // 수량 감소 버튼 클릭 리스너
-                binding.imageViewRecyclerViewRemove.setOnClickListener {
-                    // 수량 감소 (0보다 작지 않도록 처리)
-                    if (itemQuantity[adapterPosition] > 1) {
-                        itemQuantity[adapterPosition]--
-                        updateQuantityText(adapterPosition)
-                    }
-                }
-
-                // 수량 증가 버튼 클릭 리스너
-                binding.imageViewRecyclerViewAdd.setOnClickListener {
-                    // 수량 증가 (99보다 많지 않도록 처리)
-                    if (itemQuantity[adapterPosition] < 99) {
-                        itemQuantity[adapterPosition]++
-                        updateQuantityText(adapterPosition)
-                    }
-                }
-            }
-        }
-
-        // 새로운 ViewHolder를 생성하는 메서드
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderUserCartProduct {
-            // Item 레이아웃을 인플레이트하여 ViewHolder에 바인딩
-            val binding = ItemUsercartListBinding.inflate(layoutInflater, parent, false)
-            return ViewHolderUserCartProduct(binding)
-        }
-
-        // 아이템의 개수를 반환하는 메서드
-        override fun getItemCount(): Int {
-            return cartItems.size
-        }
-
-        // 아이템에 데이터를 바인딩하는 메서드
-        override fun onBindViewHolder(holder: ViewHolderUserCartProduct, position: Int) {
-            val item = cartItems[position]
-
-            // 아이템의 데이터와 레이아웃을 연결
-            holder.binding.apply {
-                textViewRecyclerViewProductName.text = item.productName
-                textViewRecyclerViewProductPrice.text = "${item.productPrice}원"
-                imageViewRecyclerViewImage.setImageResource(item.imageResId)
-
-                // 해당 아이템의 선택 상태를 체크박스에 반영
-                checkboxRecyclerViewSelect.isChecked = itemSelection[position]
-
-                // 수량을 EditText에 반영
-                editTextProductCount.setText(itemQuantity[position].toString()) // 수정된 부분
-            }
-        }
-
-        // 전체 선택 상태에 따라 모든 아이템 선택 여부를 업데이트하는 메서드
-        fun updateAllItemsSelected(isSelected: Boolean) {
-            itemSelection.fill(isSelected)
-            notifyDataSetChanged()
-        }
-
-        // 모든 아이템의 선택 상태를 확인하여 전체 선택 체크박스를 업데이트
-        private fun updateSelectAllCheckbox() {
-            val allSelected = itemSelection.all { it }
-            if (allSelected != isAllSelected) {
-                isAllSelected = allSelected
-                binding.checkboxUserCartSelectAll.isChecked = isAllSelected
-            }
-        }
-
-        // 수량 변경 후 EditText에 반영하는 메서드
-        private fun updateQuantityText(position: Int) {
-            // 수량을 EditText에 업데이트
-            val itemQuantityText = itemQuantity[position].toString() // 수정된 부분
-            val viewHolder = binding.recyclerViewUserCart1.findViewHolderForAdapterPosition(position) as? ViewHolderUserCartProduct
-            viewHolder?.binding?.editTextProductCount?.setText(itemQuantityText)
+    override fun onClickAdd(pos: Int, cartProduct: TempCartProduct) {
+        if (cartProduct.quantity == 10) {
+            Toast.makeText(requireContext(), "최대 구매 개수는 10개 입니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            adapter.onClickAdd(pos)
+            getTotalPrice()
         }
     }
 
+    override fun onClickMinus(pos: Int, cartProduct: TempCartProduct) {
+        if (cartProduct.quantity == 1) {
+            Toast.makeText(requireContext(), "최소 구매 개수는 1개 입니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            adapter.onClickMinus(pos)
+            getTotalPrice()
+        }
+    }
+
+
+    override fun onClickCheckBox() {
+        binding.checkboxUserCartSelectAll.setOnClickListener {
+            val isChecked = binding.checkboxUserCartSelectAll.isChecked
+            adapter.onClickAllCheckBox(isChecked)
+        }
+    }
+
+    override fun onClickItemCheckBox(pos: Int, cartProduct: TempCartProduct) {
+        cartProduct.productCheck = !cartProduct.productCheck
+        when {
+            adapter.isCheckBox() -> {
+                binding.checkboxUserCartSelectAll.isChecked = true
+            }
+            adapter.isCheckBoxAny() -> {
+                binding.checkboxUserCartSelectAll.checkedState = MaterialCheckBox.STATE_INDETERMINATE
+            }
+            else -> {
+                binding.checkboxUserCartSelectAll.isChecked = false
+            }
+        }
+    }
 }
 
