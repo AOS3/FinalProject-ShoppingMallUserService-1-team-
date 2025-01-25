@@ -140,6 +140,9 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
                         val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart()
                         findNavController().navigate(action,  navOption)
 
+                        /*val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart1("UserCartChoiceDeliverAddressFragment")
+                        findNavController().navigate(action,  navOption)*/
+
                     })
 
                 }

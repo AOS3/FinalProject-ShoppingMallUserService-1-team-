@@ -12,10 +12,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.data_ye.DummyData
 import com.example.frume.data_ye.TempCartProduct
 import com.example.frume.databinding.FragmentUserCart1Binding
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDialogFragmentArgs
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.CartModel
 import com.example.frume.model.CartProductModel
@@ -35,24 +37,25 @@ import kotlinx.coroutines.withTimeout
 import java.util.Calendar
 import java.util.Locale
 
+
 class UserCartFragment1 : Fragment(), CartClickListener {
     private var _binding: FragmentUserCart1Binding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: UserCartAdapter
     private lateinit var cartList: MutableList<TempCartProduct>
     lateinit var homeActivity: HomeActivity
-
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
     var deliveryAddressSpot : DeliveryAddressModel? = null
+    // private val args: UserCartFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         homeActivity = activity as HomeActivity
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart1, container, false)
-        Log.d("test100","userDocId : ${homeActivity.loginUserDocumentId}")
 
         return binding.root
     }
@@ -60,6 +63,10 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    fun printArgs() {
+       // Log.d("test100","userCartFragment1-> args : ${args}, args.addressDocId : ${args.selectedDeliveryAddressDocId}")
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,6 +97,8 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         getReceiverData()
         // 카트 품목을 가져와 카트품목을 구한다.
         settingCartProductList()
+        //printArgs
+        printArgs()
     }
 
     // sehoon 총 가격을 가져오는 메서드
@@ -109,6 +118,7 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         }
     }
 
+    // 아마 mvvm liveData쓰면 코드 바뀔듯
     // 배송지 정보를 토대로 배송지 정보를 입력한다.
     private fun settingReceiverInfo() {
         binding.apply {
