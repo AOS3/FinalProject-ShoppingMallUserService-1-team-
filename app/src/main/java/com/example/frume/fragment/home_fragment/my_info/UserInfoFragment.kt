@@ -62,12 +62,11 @@ class UserInfoFragment() : Fragment() {
                 Log.d("test100", "저장된 토큰 삭제")
 
                 // 로그아웃 후 다시 로그인 화면으로 이동
+                val intent = Intent(homeActivity, LoginActivity::class.java)
+                startActivity(intent)
 
-//                // MainActivity를 실행한다.
-//                val mainIntent = Intent(homeActivity, MainActivity::class.java)
-//                startActivity(mainIntent)
-//                // 현재 Activity를 종료한다.
-//                homeActivity.finish()
+                // 현재 액티비티 종료
+                homeActivity.finish()
 
 
 

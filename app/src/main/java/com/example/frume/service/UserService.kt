@@ -98,6 +98,12 @@ class UserService {
                 return userModel
             }
         }
+
+        // 사용자의 상태를 변경하는 메서드
+        suspend fun updateUserState(customerUserDocId:String, newState:CustomerUserState){
+            UserRepository.updateUserState(customerUserDocId, newState)
+        }
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.frume.repository
 
 import android.util.Log
+import com.example.frume.util.CustomerUserState
 import com.example.frume.vo.UserVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -102,5 +103,21 @@ class UserRepository {
             return userResult
 
         }
+
+
+        // 사용자의 상태를 변경하는 메서드
+        suspend fun updateUserState(customerUserDocId:String, newState: CustomerUserState){
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("userData")
+            val documentReference = collectionReference.document(customerUserDocId)
+
+            val updateMap = mapOf(
+                "customerUserState" to newState.num
+            )
+
+            documentReference.update(updateMap).await()
+        }
+
+
     }
 }
