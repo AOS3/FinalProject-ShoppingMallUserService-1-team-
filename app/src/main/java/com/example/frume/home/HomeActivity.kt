@@ -1,5 +1,6 @@
 package com.example.frume.home
 
+import android.content.DialogInterface
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,7 @@ import kotlin.concurrent.thread
 import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -101,4 +103,26 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.dispatchTouchEvent(ev)
     }
+
+    // 다이얼로그를 통해 메시지를 보여주는 함수
+    fun showConfirmationDialog(
+        title: String,
+        message: String,
+        positiveTitle: String = "네",
+        negativeTitle: String = "아니요",
+        onPositive: () -> Unit,
+        onNegative: () -> Unit = {}
+    ) {
+        val builder = MaterialAlertDialogBuilder(this@HomeActivity)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton(positiveTitle) { dialogInterface: DialogInterface, i: Int ->
+            onPositive()
+        }
+        builder.setNegativeButton(negativeTitle) { dialogInterface: DialogInterface, i: Int ->
+            onNegative()
+        }
+        builder.show()
+    }
+
 }

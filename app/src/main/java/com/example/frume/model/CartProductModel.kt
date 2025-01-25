@@ -49,6 +49,12 @@ class CartProductModel {
     // 상태
     var cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL // 1 : 정상
 
+    // 가격
+    var cartProductPrice = 0
+
+    // 이름
+    var cartProductName = ""
+
     fun toCartProductVO(): CartProductVO {
         val cartProductVO = CartProductVO()
         cartProductVO.cartProductDocId = cartProductDocId
@@ -63,6 +69,8 @@ class CartProductModel {
         cartProductVO.cartItemDeliveryTimeStamp = cartItemDeliveryTimeStamp
         cartProductVO.cartItemIsPurchases = cartItemIsPurchases.bool
         cartProductVO.cartProductState = cartProductState.num
+        cartProductVO.cartProductPrice=cartProductPrice
+        cartProductVO.cartProductName=cartProductName
 
         return cartProductVO
     }

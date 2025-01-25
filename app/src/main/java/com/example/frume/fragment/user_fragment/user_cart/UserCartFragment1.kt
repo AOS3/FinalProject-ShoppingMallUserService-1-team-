@@ -2,7 +2,6 @@ package com.example.frume.fragment.user_fragment.user_cart
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,25 +11,24 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
-import com.example.frume.data.Storage
 import com.example.frume.data_ye.DummyData
 import com.example.frume.data_ye.TempCartProduct
 import com.example.frume.databinding.FragmentUserCart1Binding
-import com.example.frume.databinding.ItemUsercartListBinding
-import com.example.frume.fragment.home_fragment.user_home.HomeProductAdapter
 import com.example.frume.home.HomeActivity
-import com.example.frume.service.UserService
+import com.example.frume.model.CartModel
+import com.example.frume.model.CartProductModel
+import com.example.frume.model.DeliveryAddressModel
+import com.example.frume.service.CartProductService
+import com.example.frume.service.CartService
+import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.util.applyNumberFormat
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Indicator
 import com.google.android.material.checkbox.MaterialCheckBox
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Locale
 
@@ -39,14 +37,23 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     private val binding get() = _binding!!
     private lateinit var adapter: UserCartAdapter
     private lateinit var cartList: MutableList<TempCartProduct>
+    lateinit var homeActivity: HomeActivity
+
+    // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
+    var deliveryAddressSpot = DeliveryAddressModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart1, container, false)
+        homeActivity = activity as HomeActivity
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart1, container, false)
+        Log.d("test100","userDocId : ${homeActivity.loginUserDocumentId}")
+        // 배송지 정보를 가져와 deliverSpot에 설정해주는 메서드
+        getReceiverData()
+        // 카트 품목을 가져와 카트품목을 구한다.
+        settingCartProductList()
         return binding.root
     }
 
@@ -61,11 +68,17 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         setLayout()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // 배송지를 변경하고 화면을 다시 그린 경우 변경된 정보로 다시 ui 세팅한다.
+        settingReceiverInfo()
+    }
 
     private fun setLayout() {
         // RecyclerView 설정 메서드 호출
         settingRecyclerViewUserCartProduct()
-        getUserData()
+        // 배송지 정보를 토대로 레이아웃을 그리는 메서드
+        settingReceiverInfo()
         // 버튼 클릭 리스너 설정
         onClickCartOrderProduct()
         onClickCartDeliverySpotChange()
@@ -80,24 +93,29 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         binding.textViewUserCartDialogPrice.applyNumberFormat(adapter.getTotalPrice())
     }
 
-    // 유저 정보를 가져오는 메서드
-    private fun getUserData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val userDocId = activity as HomeActivity
-            val userList = UserService.getUserInfo(userDocId.loginUserDocumentId)
-            withContext(Dispatchers.Main) {
-                with(binding) {
-                    userList.forEach {
-                        textViewUserCartUserName.text = it.customerUserName
-                        textViewUserCartUserPhoneNumber.text = it.customerUserPhoneNumber
-                        val address1 = it.customerUserAddress["BasicAddress"]
-                        val address2 = it.customerUserAddress["DetailedAddress"]
-                        val address3 = it.customerUserAddress["PostNumber"]
-                        textViewUserCartUserAddress.text = "$address1" + "$address2" + "$address3"
-                    }
-                }
 
+    // 배송지를 유저정보에서 가져오지 않고, 배송지 DB에서 기본배송지를 가져오는 것으로 수정 hj 받는사람 이름도 DeliveryAddres Model 에 추가함
+    private fun getReceiverData() {
+        // 배송지에서 기본 배송지를 가져온다
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO){
+                UserDeliveryAddressService.gettingDefaultDeliveryAddress(homeActivity.loginUserDocumentId)
             }
+            deliveryAddressSpot = work1.await()
+        }
+    }
+
+    // 배송지 정보를 토대로 배송지 정보를 입력한다.
+    private fun settingReceiverInfo() {
+        binding.apply {
+            val receiverName = deliveryAddressSpot.deliveryAddressReceiverName
+            val basicAddress = deliveryAddressSpot.deliveryAddressBasicAddress
+            val detailAddress = deliveryAddressSpot.deliveryAddressDetailAddress
+            val phoneNumber = deliveryAddressSpot.deliveryAddressPhoneNumber
+
+            textViewUserCartUserName.text = receiverName
+            textViewUserCartUserAddress.text = "${basicAddress}  ${detailAddress}"
+            textViewUserCartUserPhoneNumber.text = phoneNumber
         }
     }
 
@@ -111,8 +129,9 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     // 배송지 변경 버튼 클릭 시, UserAddressManageFragment로 이동하는 메서드
     private fun onClickCartDeliverySpotChange() {
         binding.buttonUserCartDialogModifyAddress.setOnClickListener {
-            // 네비게이션을 통해 UserAddressManageFragment로 이동
-            val action = UserCartFragmentDirections.actionNavigationCartToUserAddressManage()
+            // 네비게이션을 통해 UserCartChoiceDeliveryAddressFragment로 이동
+            // 이동화면 변경 hj
+            val action = UserCartFragmentDirections.actionNavigationCartToUserCartChoiceDeliverAddress()
             findNavController().navigate(action)
         }
     }
@@ -128,6 +147,31 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         }
     }
 
+    // 내 카트를 가져와, 카트 품목들을 가져온다
+    // 품목을 cartProductList에 담는다
+    private fun settingCartProductList() {
+        var cartModel :CartModel
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO){
+                CartService.gettingMyCart(homeActivity.loginUserDocumentId)
+            }
+            cartModel = work1.await()
+
+            val work2 = async(Dispatchers.IO){
+                CartProductService.gettingMyCartProductItems(cartModel.cartDocId)
+            }
+            // 장바구니 품목들을 가져온다.
+            val cartProductList = work2.await()
+        }
+    }
+
+    /*// RecyclerView 설정 메서드
+    private fun settingRecyclerViewUserCartProduct() {
+        // 사용자의 장바구니를 가져옴
+        cartProductList = DummyData.CartItemList.toMutableList()
+        adapter = UserCartAdapter(cartProductList.toMutableList(), this)
+        binding.recyclerViewUserCart1.adapter = adapter
+    }*/
     // RecyclerView 설정 메서드
     private fun settingRecyclerViewUserCartProduct() {
         // 사용자의 장바구니를 가져옴

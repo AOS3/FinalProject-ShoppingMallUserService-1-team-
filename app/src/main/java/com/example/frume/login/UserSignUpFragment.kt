@@ -3,6 +3,7 @@ package com.example.frume.login
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,7 @@ class UserSignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("test100","UserSignUpFragment -> onCreateView()")
 
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_sign_up, container, false)
         return binding.root
@@ -54,6 +56,8 @@ class UserSignUpFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("test100","UserSignUpFragment -> onViewCreated()")
+
         super.onViewCreated(view, savedInstanceState)
         setLayout()
     }
