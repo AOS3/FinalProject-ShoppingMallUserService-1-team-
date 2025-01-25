@@ -27,8 +27,11 @@ import com.example.frume.util.applyNumberFormat
 import com.google.android.material.checkbox.MaterialCheckBox
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import java.util.Calendar
 import java.util.Locale
 
@@ -40,7 +43,7 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     lateinit var homeActivity: HomeActivity
 
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
-    var deliveryAddressSpot = DeliveryAddressModel()
+    var deliveryAddressSpot : DeliveryAddressModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,10 +53,7 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         homeActivity = activity as HomeActivity
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart1, container, false)
         Log.d("test100","userDocId : ${homeActivity.loginUserDocumentId}")
-        // 배송지 정보를 가져와 deliverSpot에 설정해주는 메서드
-        getReceiverData()
-        // 카트 품목을 가져와 카트품목을 구한다.
-        settingCartProductList()
+
         return binding.root
     }
 
@@ -86,6 +86,10 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         onClickCartRemoveBtn()
         onClickAllCheckBox()
         getTotalPrice()
+        // 배송지 정보를 가져와 deliverSpot에 설정해주는 메서드
+        getReceiverData()
+        // 카트 품목을 가져와 카트품목을 구한다.
+        settingCartProductList()
     }
 
     // sehoon 총 가격을 가져오는 메서드
@@ -108,17 +112,38 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     // 배송지 정보를 토대로 배송지 정보를 입력한다.
     private fun settingReceiverInfo() {
         binding.apply {
-            val receiverName = deliveryAddressSpot.deliveryAddressReceiverName
-            val basicAddress = deliveryAddressSpot.deliveryAddressBasicAddress
-            val detailAddress = deliveryAddressSpot.deliveryAddressDetailAddress
-            val phoneNumber = deliveryAddressSpot.deliveryAddressPhoneNumber
+            // CoroutineScope 사용
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    // 배송지 정보가 null이 아니거나 값이 설정될 때까지 반복 (2초 제한)
+                    withTimeout(2000) {  // 2000ms = 2초
+                        while (deliveryAddressSpot == null) {
+                            delay(500)  // 0.5초마다 확인
+                        }
+                    }
 
-            textViewUserCartUserName.text = receiverName
-            textViewUserCartUserAddress.text = "${basicAddress}  ${detailAddress}"
-            textViewUserCartUserPhoneNumber.text = phoneNumber
+                    // 배송지 정보가 null이 아니면 UI 업데이트
+                    deliveryAddressSpot?.let {
+                        val receiverName = it.deliveryAddressReceiverName
+                        val basicAddress = it.deliveryAddressBasicAddress
+                        val detailAddress = it.deliveryAddressDetailAddress
+                        val phoneNumber = it.deliveryAddressPhoneNumber
+
+                        // UI에 배송지 정보 입력
+                        textViewUserCartUserName.text = receiverName
+                        textViewUserCartUserAddress.text = "${basicAddress}  ${detailAddress}"
+                        textViewUserCartUserPhoneNumber.text = phoneNumber
+                    }
+                } catch (e: TimeoutCancellationException) {
+                    // 2초 이내에 배송지 정보가 로드되지 않으면 타임아웃 처리
+                    // 여기서 타임아웃 후 처리를 할 수 있음 (예: 로딩 실패 메시지 표시)
+                    textViewUserCartUserName.text = "배송지 로드 실패"
+                    textViewUserCartUserAddress.text = "배송지 정보를 불러올 수 없습니다."
+                    textViewUserCartUserPhoneNumber.text = "잠시 후 다시 시도해주세요."
+                }
+            }
         }
     }
-
     // 날짜 선택을 위한 클릭 리스너 설정
     private fun settingDateDialog() {
         binding.viewUserCartDialogDeliveryDate.setOnClickListener {
