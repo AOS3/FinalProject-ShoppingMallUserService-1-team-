@@ -3,7 +3,6 @@ package com.example.frume.fragment.user_fragment.user_cart
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.data_ye.DummyData
 import com.example.frume.data_ye.TempCartProduct
 import com.example.frume.databinding.FragmentUserCart1Binding
-import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDialogFragmentArgs
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.CartModel
-import com.example.frume.model.CartProductModel
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.CartService
@@ -38,11 +34,10 @@ import java.util.Calendar
 import java.util.Locale
 
 
-class UserCartFragment1 : Fragment(), CartClickListener {
+class UserCartFragment1 : Fragment(){
     private var _binding: FragmentUserCart1Binding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: UserCartAdapter
-    private lateinit var cartList: MutableList<TempCartProduct>
+
     lateinit var homeActivity: HomeActivity
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
     var deliveryAddressSpot : DeliveryAddressModel? = null
@@ -64,10 +59,6 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         super.onDestroyView()
         _binding = null
     }
-    fun printArgs() {
-       // Log.d("test100","userCartFragment1-> args : ${args}, args.addressDocId : ${args.selectedDeliveryAddressDocId}")
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,29 +73,29 @@ class UserCartFragment1 : Fragment(), CartClickListener {
     }
 
     private fun setLayout() {
-        // RecyclerView 설정 메서드 호출
-        settingRecyclerViewUserCartProduct()
+
         // 배송지 정보를 토대로 레이아웃을 그리는 메서드
         settingReceiverInfo()
-        // 버튼 클릭 리스너 설정
-        onClickCartOrderProduct()
-        onClickCartDeliverySpotChange()
-        settingDateDialog()
-        onClickCartRemoveBtn()
-        onClickAllCheckBox()
-        getTotalPrice()
         // 배송지 정보를 가져와 deliverSpot에 설정해주는 메서드
         getReceiverData()
         // 카트 품목을 가져와 카트품목을 구한다.
         settingCartProductList()
-        //printArgs
-        printArgs()
+        // 날짜 선택을 위한 클릭 리스너 메서드 실행
+        settingDateDialog()
+        // UserPaymentScreenFragment로 이동하는 메서드 실행
+        onClickCartOrderProduct()
+        // 배송지 변경 화면으로 이동하는 메서드 실행
+        onClickCartDeliverySpotChange()
+
+        // RecyclerView 설정 메서드 호출
+        /*settingRecyclerViewUserCartProduct()*/
+        /*onClickCartRemoveBtn()*/
+        /*onClickAllCheckBox()*/
+        /*getTotalPrice()*/
+
     }
 
-    // sehoon 총 가격을 가져오는 메서드
-    private fun getTotalPrice() {
-        binding.textViewUserCartDialogPrice.applyNumberFormat(adapter.getTotalPrice())
-    }
+
 
 
     // 배송지를 유저정보에서 가져오지 않고, 배송지 DB에서 기본배송지를 가져오는 것으로 수정 hj 받는사람 이름도 DeliveryAddres Model 에 추가함
@@ -200,46 +191,7 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         }
     }
 
-    /*// RecyclerView 설정 메서드
-    private fun settingRecyclerViewUserCartProduct() {
-        // 사용자의 장바구니를 가져옴
-        cartProductList = DummyData.CartItemList.toMutableList()
-        adapter = UserCartAdapter(cartProductList.toMutableList(), this)
-        binding.recyclerViewUserCart1.adapter = adapter
-    }*/
-    // RecyclerView 설정 메서드
-    private fun settingRecyclerViewUserCartProduct() {
-        // 사용자의 장바구니를 가져옴
-        cartList = DummyData.CartItemList.toMutableList()
-        adapter = UserCartAdapter(cartList.toMutableList(), this)
-        binding.recyclerViewUserCart1.adapter = adapter
-    }
 
-    // 개별 삭제 메서드
-    private fun onClickCartRemoveBtn() {
-        binding.textViewButtonUserCartDelete.setOnClickListener {
-            val emptyCheck = adapter.deleteSelectedItems()
-            getTotalPrice()
-            // 리싸이클러뷰가 비어있으면 전체 선택 체크박스 해제
-            if (emptyCheck) {
-                binding.checkboxUserCartSelectAll.isChecked = false
-            }
-        }
-    }
-
-    // 전체 선택 체크박스 메소드
-    private fun onClickAllCheckBox() {
-        with(binding) {
-            checkboxUserCartSelectAll.setOnClickListener {
-                if (checkboxUserCartSelectAll.isChecked) {
-                    adapter.onClickAllCheckBox(true)
-                } else {
-                    adapter.onClickAllCheckBox(false)
-                }
-            }
-        }
-
-    }
 
     // 날짜 선택 다이얼로그를 띄우고, 선택한 날짜를 TextView에 업데이트하는 메서드
     @SuppressLint("DefaultLocale")
@@ -293,7 +245,16 @@ class UserCartFragment1 : Fragment(), CartClickListener {
         datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)?.setTextColor(textColor)
     }
 
-    override fun onClickAdd(pos: Int, cartProduct: TempCartProduct) {
+
+
+
+    /*    // sehoon 총 가격을 가져오는 메서드
+    private fun getTotalPrice() {
+        binding.textViewUserCartDialogPrice.applyNumberFormat(adapter.getTotalPrice())
+    }*/
+
+
+    /*override fun onClickAdd(pos: Int, cartProduct: TempCartProduct) {
         if (cartProduct.quantity == 10) {
             Toast.makeText(requireContext(), "최대 구매 개수는 10개 입니다.", Toast.LENGTH_SHORT).show()
         } else {
@@ -332,6 +293,45 @@ class UserCartFragment1 : Fragment(), CartClickListener {
                 binding.checkboxUserCartSelectAll.isChecked = false
             }
         }
-    }
+    }*/
+
+
+    /*
+        // RecyclerView 설정 메서드
+        private fun settingRecyclerViewUserCartProduct() {
+            // 사용자의 장바구니를 가져옴
+            cartList = DummyData.CartItemList.toMutableList()
+            adapter = UserCartAdapter(cartList.toMutableList(), this)
+            binding.recyclerViewUserCart1.adapter = adapter
+        }
+    */
+
+    // 개별 삭제 메서드
+    /*
+        private fun onClickCartRemoveBtn() {
+            binding.textViewButtonUserCartDelete.setOnClickListener {
+                val emptyCheck = adapter.deleteSelectedItems()
+                getTotalPrice()
+                // 리싸이클러뷰가 비어있으면 전체 선택 체크박스 해제
+                if (emptyCheck) {
+                    binding.checkboxUserCartSelectAll.isChecked = false
+                }
+            }
+        }
+    */
+
+    /*    // 전체 선택 체크박스 메소드
+        private fun onClickAllCheckBox() {
+            with(binding) {
+                checkboxUserCartSelectAll.setOnClickListener {
+                    if (checkboxUserCartSelectAll.isChecked) {
+                        adapter.onClickAllCheckBox(true)
+                    } else {
+                        adapter.onClickAllCheckBox(false)
+                    }
+                }
+            }
+
+        }*/
 }
 
