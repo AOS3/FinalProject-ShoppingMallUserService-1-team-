@@ -83,7 +83,7 @@
 			<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/recyclerViewUserCart1"
 				android:layout_width="0dp"
-				android:layout_height="wrap_content"
+				android:layout_height="match_parent"
 				android:layout_margin="10dp"
 				android:nestedScrollingEnabled="false"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -93,7 +93,7 @@
 				tools:listitem="@layout/item_usercart_list" />
 
 			<TextView
-				android:id="@+id/textViewUserCartDialogDeliveryDateLabel"
+				android:id="@+id/textViewBottomSheetShowCartOptionDateLabel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="30dp"
@@ -103,7 +103,7 @@
 				app:layout_constraintTop_toBottomOf="@+id/recyclerViewUserCart1" />
 
 			<View
-				android:id="@+id/viewUserCartDialogDeliveryDate"
+				android:id="@+id/viewBottomSheetShowCartOptionDate"
 				android:layout_width="0dp"
 				android:layout_height="60dp"
 				android:layout_marginHorizontal="20dp"
@@ -111,19 +111,19 @@
 				android:background="@drawable/background_input_count"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserCartDialogDeliveryDateLabel" />
+				app:layout_constraintTop_toBottomOf="@id/textViewBottomSheetShowCartOptionDateLabel" />
 
 			<TextView
-				android:id="@+id/textViewUserCartDialogDeliveryDate"
+				android:id="@+id/textViewBottomSheetShowCartOptionDate"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:fontFamily="@font/nanumsquareneo_3"
 				android:text="2025년 01월 14일 (화)"
 				android:textSize="18dp"
-				app:layout_constraintBottom_toBottomOf="@id/viewUserCartDialogDeliveryDate"
-				app:layout_constraintEnd_toEndOf="@id/viewUserCartDialogDeliveryDate"
-				app:layout_constraintStart_toStartOf="@id/viewUserCartDialogDeliveryDate"
-				app:layout_constraintTop_toTopOf="@id/viewUserCartDialogDeliveryDate" />
+				app:layout_constraintBottom_toBottomOf="@id/viewBottomSheetShowCartOptionDate"
+				app:layout_constraintEnd_toEndOf="@id/viewBottomSheetShowCartOptionDate"
+				app:layout_constraintStart_toStartOf="@id/viewBottomSheetShowCartOptionDate"
+				app:layout_constraintTop_toTopOf="@id/viewBottomSheetShowCartOptionDate" />
 
 			<TextView
 				android:id="@+id/textViewUserCartDialogPriceLabel"
@@ -134,8 +134,8 @@
 				android:fontFamily="@font/nanumsquareneo_3"
 				android:text="총 결제 예상 금액"
 				android:textSize="20dp"
-				app:layout_constraintStart_toStartOf="@id/textViewUserCartDialogDeliveryDateLabel"
-				app:layout_constraintTop_toBottomOf="@id/viewUserCartDialogDeliveryDate" />
+				app:layout_constraintStart_toStartOf="@id/textViewBottomSheetShowCartOptionDateLabel"
+				app:layout_constraintTop_toBottomOf="@id/viewBottomSheetShowCartOptionDate" />
 
 			<TextView
 				android:id="@+id/textViewUserCartDialogPrice"
@@ -147,7 +147,7 @@
 				android:text="15,000원"
 				android:textSize="20dp"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/viewUserCartDialogDeliveryDate" />
+				app:layout_constraintTop_toBottomOf="@id/viewBottomSheetShowCartOptionDate" />
 
 			<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/buttonUserCartOrder"

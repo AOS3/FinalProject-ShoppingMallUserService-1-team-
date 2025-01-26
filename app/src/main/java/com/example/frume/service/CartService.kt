@@ -25,15 +25,7 @@ class CartService {
             return myCartModel
         }
 
-        // 내 장바구니 상품목록에 추가하기 hj
-        fun addProductInMyCart() {
 
-        }
-
-        // 내장바구니에 상품전체 목록 가져오기
-        fun gettingMyProductInCart() {
-
-        }
 
     }
 }

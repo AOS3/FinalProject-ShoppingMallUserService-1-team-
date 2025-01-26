@@ -1,19 +1,16 @@
 package com.example.frume.fragment.user_fragment.user_cart
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCartBinding
 import com.example.frume.databinding.ItemUsercartListBinding
@@ -25,8 +22,7 @@ import com.example.frume.service.CartProductService
 import com.example.frume.service.CartService
 import com.example.frume.service.UserDeliveryAddressService
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -34,34 +30,48 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 
 class UserCartFragment() : Fragment() {
 
     lateinit var fragmentUserCartBinding: FragmentUserCartBinding
 
     lateinit var homeActivity: HomeActivity
+
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
-    var deliveryAddressSpot : DeliveryAddressModel? = null
+    var deliveryAddressSpot: DeliveryAddressModel? = null
+
     // private val args: UserCartFragmentArgs by navArgs()
     var cartProductList = mutableListOf<CartProductModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         homeActivity = activity as HomeActivity
 
-        fragmentUserCartBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart, container, false)
+        fragmentUserCartBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart, container, false)
 
-
+        setLayout()
 
         return fragmentUserCartBinding.root
     }
 
     override fun onResume() {
+        Log.d("test100", "onResume() ")
         super.onResume()
         // 배송지를 변경하고 화면을 다시 그린 경우 변경된 정보로 다시 ui 세팅한다.
         settingReceiverInfo()
+        // RecyclerView 어뎁터 세팅 실행
+        settingRecyclerView()
+        // 리사이클러뷰 초기화
+        refreshRecyclerView()
     }
 
     private fun setLayout() {
@@ -88,12 +98,18 @@ class UserCartFragment() : Fragment() {
 
     }
 
+    // 리사이클러뷰 다시 그리기
+    private fun refreshRecyclerView() {
+        fragmentUserCartBinding.apply {
+            recyclerViewUserCart1.adapter?.notifyDataSetChanged()
+        }
+    }
 
     // 배송지를 유저정보에서 가져오지 않고, 배송지 DB에서 기본배송지를 가져오는 것으로 수정 hj 받는사람 이름도 DeliveryAddres Model 에 추가함
     private fun getReceiverData() {
         // 배송지에서 기본 배송지를 가져온다
         CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO){
+            val work1 = async(Dispatchers.IO) {
                 UserDeliveryAddressService.gettingDefaultDeliveryAddress(homeActivity.loginUserDocumentId)
             }
             deliveryAddressSpot = work1.await()
@@ -143,7 +159,8 @@ class UserCartFragment() : Fragment() {
         fragmentUserCartBinding.buttonUserCartDialogModifyAddress.setOnClickListener {
             // 네비게이션을 통해 UserCartChoiceDeliveryAddressFragment로 이동
             // 이동화면 변경 hj
-            val action = UserCartFragmentDirections.actionNavigationCartToUserCartChoiceDeliverAddress()
+            val action =
+                UserCartFragmentDirections.actionNavigationCartToUserCartChoiceDeliverAddress()
             findNavController().navigate(action)
         }
     }
@@ -154,7 +171,8 @@ class UserCartFragment() : Fragment() {
             // 네비게이션을 통해 UserPaymentScreenFragment로 이동
             val userDocId = activity as HomeActivity
             // sehoon 장바구니 -> 저장
-            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(userDocId.loginUserDocumentId)
+            val action =
+                UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(userDocId.loginUserDocumentId)
             findNavController().navigate(action)
         }
     }
@@ -162,21 +180,20 @@ class UserCartFragment() : Fragment() {
     // 내 카트를 가져와, 카트 품목들을 가져온다
     // 품목을 cartProductList에 담는다
     private fun settingCartProductList() {
-        var cartModel : CartModel
+        var cartModel: CartModel
         CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO){
+            val work1 = async(Dispatchers.IO) {
                 CartService.gettingMyCart(homeActivity.loginUserDocumentId)
             }
             cartModel = work1.await()
 
-            val work2 = async(Dispatchers.IO){
+            val work2 = async(Dispatchers.IO) {
                 CartProductService.gettingMyCartProductItems(cartModel.cartDocId)
             }
             // 장바구니 품목들을 가져온다.
             cartProductList = work2.await()
         }
     }
-
 
 
     // 날짜 선택 다이얼로그를 띄우고, 선택한 날짜를 TextView에 업데이트하는 메서드
@@ -199,7 +216,7 @@ class UserCartFragment() : Fragment() {
         resources.updateConfiguration(config, resources.displayMetrics)
 
         // DatePickerDialog 생성
-        val datePickerDialog = DatePickerDialog(
+        /*val datePickerDialog = DatePickerDialog(
             requireContext(),
             R.style.CustomDatePickerStyle,  // 커스텀 테마 적용
             { _, selectedYear, selectedMonth, selectedDay ->
@@ -212,7 +229,7 @@ class UserCartFragment() : Fragment() {
                 )
 
                 // 선택한 날짜를 TextView에 표시
-                binding.textViewUserCartDialogDeliveryDate.text = selectedDate
+                fragmentUserCartBinding.textViewUserCartDialogDeliveryDate.text = selectedDate
             },
             year, month, day
         )
@@ -228,13 +245,12 @@ class UserCartFragment() : Fragment() {
 
         // 버튼 색깔 설정
         datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE)?.setTextColor(textColor)
-        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)?.setTextColor(textColor)
+        datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)?.setTextColor(textColor)*/
     }
 
     // RecyclerView를 구성하는 메서드
-    fun settingRecyclerView(){
-
-        binding.apply {
+    fun settingRecyclerView() {
+        fragmentUserCartBinding.apply {
             // CoroutineScope 사용
             CoroutineScope(Dispatchers.Main).launch {
                 try {
@@ -250,7 +266,10 @@ class UserCartFragment() : Fragment() {
                     // LayoutManager
                     recyclerViewUserCart1.layoutManager = LinearLayoutManager(homeActivity)
                     // 구분선
-                    val deco = MaterialDividerItemDecoration(homeActivity, MaterialDividerItemDecoration.VERTICAL)
+                    val deco = MaterialDividerItemDecoration(
+                        homeActivity,
+                        MaterialDividerItemDecoration.VERTICAL
+                    )
                     recyclerViewUserCart1.addItemDecoration(deco)
 
                 } catch (e: TimeoutCancellationException) {
@@ -258,7 +277,6 @@ class UserCartFragment() : Fragment() {
                     // 여기서 타임아웃 후 처리를 할 수 있음 (예: 로딩 실패 메시지 표시)
                     // 어뎁터
                     recyclerViewUserCart1.adapter = RecyclerViewCart1Adapter()
-
                 }
             }
         }
@@ -274,24 +292,35 @@ class UserCartFragment() : Fragment() {
     }
 
     // RecyclerView의 어뎁터
-    inner class RecyclerViewCart1Adapter : RecyclerView.Adapter<RecyclerViewCart1Adapter.ViewHolderMain>(){
+    inner class RecyclerViewCart1Adapter :
+        RecyclerView.Adapter<RecyclerViewCart1Adapter.ViewHolderMain>() {
         // ViewHolder
-        inner class ViewHolderMain(val itemCartListBinding: ItemUsercartListBinding) : RecyclerView.ViewHolder(itemCartListBinding.root),
+        inner class ViewHolderMain(val itemCartListBinding: ItemUsercartListBinding) :
+            RecyclerView.ViewHolder(itemCartListBinding.root),
             View.OnClickListener {
-            override fun onClick(v: View?) {
-                //
-            }
+            override fun onClick(v: View?) {}
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMain {
-
-            //
-            val itemProductListBinding = ItemUsercartListBinding.inflate(layoutInflater, parent, false)
+            val itemProductListBinding =
+                ItemUsercartListBinding.inflate(layoutInflater, parent, false)
 
             val viewHolderProductItem = ViewHolderMain(itemProductListBinding)
 
             // 리스너를 설정해준다.
             itemProductListBinding.root.setOnClickListener(viewHolderProductItem)
+
+            itemProductListBinding.textViewRecyclerViewChangeOption.setOnClickListener {
+                val cartDocId = cartProductList[viewHolderProductItem.adapterPosition].cartDocId
+                val cartProductDocId =
+                    cartProductList[viewHolderProductItem.adapterPosition].cartProductDocId
+                val action =
+                    UserCartFragmentDirections.actionNavigationCartToBottomSheetShowCartOptionFragment(
+                        cartDocId,
+                        cartProductDocId
+                    )
+                findNavController().navigate(action)
+            }
 
             return viewHolderProductItem
         }
@@ -300,16 +329,46 @@ class UserCartFragment() : Fragment() {
             return cartProductList.size
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
-            // holder.itemCartListBinding.text
-            holder.itemCartListBinding.textViewRecyclerViewProductName.text = cartProductList[position].cartProductName
-            holder.itemCartListBinding.textViewRecyclerViewProductPrice.text = cartProductList[position].cartProductPrice.toString()
-            val productQuantity =  cartProductList[position].cartItemProductQuantity
-            holder.itemCartListBinding.editTextProductCount.setText("$productQuantity")
-            holder.itemCartListBinding.checkboxRecyclerViewSelect.isChecked= cartProductList[position].cartItemIsPurchases.bool
-
+            val sumPrice =
+                cartProductList[position].cartProductUnitPrice * cartProductList[position].cartItemProductQuantity
+            val productQuantity = cartProductList[position].cartItemProductQuantity
+            val dueDateTimeStamp = cartProductList[position].cartItemDeliveryDueDate
+            val dueDateToString = convertToDate(dueDateTimeStamp)
+            holder.itemCartListBinding.textViewRecyclerViewProductName.text =
+                cartProductList[position].cartProductName
+            holder.itemCartListBinding.textViewRecyclerViewProductCount.text =
+                productQuantity.toString()
+            holder.itemCartListBinding.textViewRecyclerViewProductPrice.text = sumPrice.toString()
+            holder.itemCartListBinding.checkboxRecyclerViewSelect.isChecked =
+                cartProductList[position].cartItemIsCheckState.bool
+            holder.itemCartListBinding.TextViewProductDueDate.text = dueDateToString
         }
     }
 
+    // 2025-01-29 형식을 TimeStamp 객체로 변환하기
+    private fun convertToTimestamp(dueDate: String): Timestamp {
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
+        dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Seoul")
 
+        return try {
+            val parsedDate = dateFormatter.parse(dueDate)
+            if (parsedDate != null) Timestamp(parsedDate) else Timestamp.now()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Timestamp.now()
+        }
+    }
+
+    private fun convertToDate(timeStamp: Timestamp): String {
+
+        // Firestore Timestamp를 Date 객체로 변환
+        val date = timeStamp.toDate()
+
+        // 원하는 형식으로 날짜 포맷
+        val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
+
+        return dateFormat.format(date)
+    }
 }

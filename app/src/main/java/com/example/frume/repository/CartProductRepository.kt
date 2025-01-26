@@ -29,6 +29,32 @@ class CartProductRepository {
             return result
         }
 
+        // 내장바구니에 상품 목록 1개 가져오기 hj
+        suspend fun gettingMyCartProductItem(cartDocId: String, cartProductDocId: String): CartProductVO {
+            val firestore = FirebaseFirestore.getInstance()
+
+            // Firestore에서 선택된 장바구니 문서의 특정 항목 가져오기
+            val documentSnapshot = firestore.collection("cartData")
+                .document(cartDocId)
+                .collection("cartProductItems")
+                .document(cartProductDocId)
+                .get()
+                .await()
+
+            // 문서가 존재하지 않으면 예외를 발생
+            if (!documentSnapshot.exists()) {
+                throw IllegalStateException("Document with ID $cartProductDocId does not exist in cartData/$cartDocId/cartProductItems")
+            }
+
+            // 문서를 CartProductVO로 변환
+            val result = documentSnapshot.toObject(CartProductVO::class.java)
+                ?: throw IllegalStateException("Failed to convert document to CartProductVO")
+
+            Log.d("test100", "CartProductRepository->gettingMyCartProductItem : $result")
+            return result
+        }
+
+
 
         // 내 장바구니 상품목록에 추가하기, 장바구니 서브컬렉션에 추가, 장바구니 부를때 항상 장바구니 상품들을 부르기 때문 hj
         suspend fun addMyCartProduct(cartDocId: String, cartProductModel: CartProductModel) {
@@ -37,13 +63,13 @@ class CartProductRepository {
             val selectedCartProductVO = cartProductModel.toCartProductVO()
 
             try {
-                // cartDocId로 문서 검색
-                val selectedCartDocs = collectionReference.whereEqualTo("cartDocId", cartDocId).get().await()
+                // cartDocId로 문서 직접 참조
+                val cartDocument = collectionReference.document(cartDocId)
 
-                if (selectedCartDocs.documents.isNotEmpty()) {
-                    // 검색된 첫 번째 문서를 참조
-                    val cartDocument = selectedCartDocs.documents.first().reference
+                // 문서 존재 여부 확인
+                val cartDocumentSnapshot = cartDocument.get().await()
 
+                if (cartDocumentSnapshot.exists()) {
                     // 서브컬렉션에 데이터 추가
                     val subCollectionRef = cartDocument.collection("cartProductItems")
                     // 서브컬렉션의 문서 생성
@@ -60,6 +86,37 @@ class CartProductRepository {
                 Log.e("addMyCartProduct", "에러 발생", e)
             }
         }
+
+
+
+        // 내 장바구니 옵션 변경하기
+        suspend fun changeCartProductOption(cartDocId: String, cartProductDocId: String, cartProductVO: CartProductVO) {
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("cartData")
+            try {
+                // cartDocId로 문서 직접 참조
+                val cartDocument = collectionReference.document(cartDocId)
+
+                // 문서 존재 여부 확인
+                val cartDocumentSnapshot = cartDocument.get().await()
+
+                if (cartDocumentSnapshot.exists()) {
+                    // 서브컬렉션 내의 cartProductDocId 문서 참조
+                    val subCollectionRef = cartDocument.collection("cartProductItems")
+                    val subDoc = subCollectionRef.document(cartProductDocId)
+
+                    // 해당 문서에 업데이트된 VO 저장
+                    subDoc.set(cartProductVO).await()
+
+                    Log.d("CartProductRepository -> changeCartProductOption()", "성공: $subDoc")
+                } else {
+                    Log.e("CartProductRepository -> changeCartProductOption", "cartDocId에 해당하는 장바구니 문서를 찾을 수 없습니다: $cartDocId")
+                }
+            } catch (e: Exception) {
+                Log.e("CartProductRepository -> changeCartProductOption", "옵션 변경 중 에러 발생", e)
+            }
+        }
+
 
     }
 }

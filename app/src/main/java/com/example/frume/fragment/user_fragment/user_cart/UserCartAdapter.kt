@@ -85,7 +85,7 @@ class CartViewHolder(
             textViewRecyclerViewProductName.text = cart.productName
             textViewRecyclerViewProductPrice.applyNumberFormat(cart.productPrice * cart.quantity)
             imageViewRecyclerViewImage.setImageResource(cart.imageResId)
-            editTextProductCount.setText("${cart.quantity}")
+            /*editTextProductCount.setText("${cart.quantity}")*/
             checkboxRecyclerViewSelect.isChecked = cart.productCheck
 
         /*    imageViewRecyclerViewAdd.setOnClickListener {

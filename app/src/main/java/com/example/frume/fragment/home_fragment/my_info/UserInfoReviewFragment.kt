@@ -21,15 +21,11 @@ import com.example.frume.fragment.user_fragment.product_info.ProductReviewAdapte
 import com.example.frume.fragment.user_fragment.product_info.ReviewClickListener
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.ReviewModel
-import com.example.frume.service.ReviewService
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -80,7 +76,7 @@ class UserInfoReviewFragment : Fragment(), ReviewClickListener {
     fun gettingReviewList(userDocId: String) {
         CoroutineScope(Dispatchers.Main).launch {
             val work1 = async(Dispatchers.IO) {
-                reviewList = ReviewService.gettingMyReviewList(userDocId)
+                // reviewList = ReviewService.gettingMyReviewList(userDocId)
             }
             work1.join()
         }
@@ -90,29 +86,6 @@ class UserInfoReviewFragment : Fragment(), ReviewClickListener {
     fun settingRecyclerViewUserReviewManager() {
         binding.apply {
             // RecyclerView의 어댑터에 리뷰 리스트 전달
-
-
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    // 배송지 정보가 null이 아니거나 값이 설정될 때까지 반복 (2초 제한)
-                    withTimeout(2000) {  // 2000ms = 2초
-                        while (reviewList.size == 0) {
-                            delay(500)  // 0.5초마다 확인
-                        }
-                    }
-
-                    reviewList?.let {
-                        adapter = ProductReviewAdapter()
-
-
-
-                    }
-                } catch (e: TimeoutCancellationException) {
-                    // 2초 이내에 배송지 정보가 로드되지 않으면 타임아웃 처리
-                    // 여기서 타임아웃 후 처리를 할 수 있음 (예: 로딩 실패 메시지 표시)
-
-                }
-            }
             recyclerViewUserInfoReview.adapter = RecyclerViewUserInfoReviewAdapter(reviewList)
         }
     }

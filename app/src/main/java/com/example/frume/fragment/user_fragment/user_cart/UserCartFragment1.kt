@@ -82,7 +82,7 @@ class UserCartFragment1 : Fragment(){
         // 카트 품목을 가져와 카트품목을 구한다.
         settingCartProductList()
         // 날짜 선택을 위한 클릭 리스너 메서드 실행
-        settingDateDialog()
+        /*settingDateDialog()*/
         // UserPaymentScreenFragment로 이동하는 메서드 실행
         onClickCartOrderProduct()
         // 배송지 변경 화면으로 이동하는 메서드 실행
@@ -148,12 +148,12 @@ class UserCartFragment1 : Fragment(){
             }
         }
     }
-    // 날짜 선택을 위한 클릭 리스너 설정
+    /*// 날짜 선택을 위한 클릭 리스너 설정
     private fun settingDateDialog() {
         binding.viewUserCartDialogDeliveryDate.setOnClickListener {
             showDatePickerDialog()  // 날짜 선택 다이얼로그 호출
         }
-    }
+    }*/
 
     // 배송지 변경 버튼 클릭 시, UserAddressManageFragment로 이동하는 메서드
     private fun onClickCartDeliverySpotChange() {
@@ -228,8 +228,8 @@ class UserCartFragment1 : Fragment(){
                     selectedDay
                 )
 
-                // 선택한 날짜를 TextView에 표시
-                binding.textViewUserCartDialogDeliveryDate.text = selectedDate
+                /*// 선택한 날짜를 TextView에 표시
+                binding.textViewUserCartDialogDeliveryDate.text = selectedDate*/
             },
             year, month, day
         )
@@ -322,8 +322,8 @@ class UserCartFragment1 : Fragment(){
                  holder.itemCartListBinding.textViewRecyclerViewProductName.text = cartProductList[position].cartProductName
                  holder.itemCartListBinding.textViewRecyclerViewProductPrice.text = cartProductList[position].cartProductPrice.toString()
                  val productQuantity =  cartProductList[position].cartItemProductQuantity
-                 holder.itemCartListBinding.editTextProductCount.setText("$productQuantity")
-                 holder.itemCartListBinding.checkboxRecyclerViewSelect.isChecked= cartProductList[position].cartItemIsPurchases.bool
+                 /*holder.itemCartListBinding.editTextProductCount.setText("$productQuantity")*/
+                 holder.itemCartListBinding.checkboxRecyclerViewSelect.isChecked= cartProductList[position].cartItemIsCheckState.bool
 
              }
          }

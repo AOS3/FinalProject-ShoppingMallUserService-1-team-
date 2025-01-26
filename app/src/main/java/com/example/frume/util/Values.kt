@@ -121,9 +121,9 @@ enum class CartProductState(val num: Int, val str: String) {
     CART_PRODUCT_STATE_ABNORMAL(2,"비정상"),
 }
 
-enum class CartProductIsPurchasesBoolType(val bool: Boolean, val str: String) {
-    CART_PRODUCT_IS_PURCHASES_TRUE(true,"구매할 품목"),
-    CART_PRODUCT_IS_PURCHASES_FALSE(false,"구매하지 않을 품목"),
+enum class CartProductIsCheckStateBoolType(val bool: Boolean, val str: String) {
+    CART_PRODUCT_IS_CHECKED_TRUE(true,"체크된 품목"),
+    CART_PRODUCT_IS_CHECKED_FALSE(false,"체크 되지 않은 품목"),
 }
 
 enum class CartProductSubscribeState(val num: Int, val str: String) {

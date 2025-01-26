@@ -23,7 +23,7 @@ import com.example.frume.model.ProductModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.ProductService
 import com.example.frume.service.CartService
-import com.example.frume.util.CartProductIsPurchasesBoolType
+import com.example.frume.util.CartProductIsCheckStateBoolType
 import com.example.frume.util.CartProductState
 import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
@@ -399,14 +399,12 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         var productModel = ProductModel()
         try {
             // IO 스레드에서 비동기 데이터 로드
-            val productDeferred = async(Dispatchers.IO) {
+            val work1 = async(Dispatchers.IO) {
                 ProductService.getProductInfo(productDocId).getOrNull(0) ?: ProductModel()
             }
 
-            Log.d("test100", "11111111${productDeferred.await().productDocId}")
-
             // 데이터 로드 완료 대기
-            productModel = productDeferred.await()
+            productModel = work1.await()
 
             // 시간 제한 설정 (2초)
             withTimeout(2000L) {
@@ -428,6 +426,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
         // `dueDate`를 `Timestamp`로 변환하여 할당
         cartProductModel.cartItemDeliveryDueDate = convertToTimestamp(dueDate)
+        cartProductModel.cartProductUnitPrice = productModel.productPrice
 
         // 필요한 변환 작업 수행
         cartProductModel.cartItemProductQuantity = productCount.toIntOrNull() ?: 0
@@ -445,18 +444,13 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         // 기본값 설정
         cartProductModel.cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_NONE
         cartProductModel.cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_NONE
-        cartProductModel.cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE
+        cartProductModel.cartItemIsCheckState = CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE
         cartProductModel.cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL
 
         // ProductModel 데이터를 CartProductModel에 매핑
-        Log.d("test100", "222222222222${productModel.productName}")
         cartProductModel.cartProductName = productModel.productName
-        Log.d("test100", "3333333333333${productModel.productPrice}")
 
         cartProductModel.cartProductPrice = productModel.productPrice
-
-        Log.d("test100", "44444444444444444444${productModel.productName}")
-        Log.d("test100", "5555555555555555555555${productModel.productPrice}")
 
         return@runBlocking cartProductModel
     }

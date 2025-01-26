@@ -50,6 +50,9 @@
 		<action
 			android:id="@+id/action_navigation_cart_to_user_cart_choice_Deliver_address"
 			app:destination="@id/user_cart_choice_Deliver_address" />
+		<action
+			android:id="@+id/action_navigation_cart_to_bottomSheetShowCartOptionFragment"
+			app:destination="@id/bottomSheetShowCartOptionFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"
@@ -268,7 +271,7 @@
 			android:id="@+id/action_user_product_info_dialog_to_navigation_cart"
 			app:destination="@id/navigation_cart" />
 
-	
+
 	</dialog>
 	<fragment
 		android:id="@+id/user_info_review"
@@ -284,26 +287,20 @@
 		<action
 			android:id="@+id/action_user_cart_choice_Deliver_address_to_navigation_cart"
 			app:destination="@id/navigation_cart" />
-		<action
-			android:id="@+id/action_user_cart_choice_Deliver_address_to_navigation_cart1"
-			app:destination="@id/navigation_cart1" />
 	</fragment>
 
-	<fragment
-		android:id="@+id/navigation_cart1"
-		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartFragment1"
-		android:label="장바구니1"
-		tools:layout="@layout/fragment_user_cart1">
-		<action
-			android:id="@+id/action_navigation_cart_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
-		<action
-			android:id="@+id/action_navigation_cart_to_user_cart_choice_Deliver_address"
-			app:destination="@id/user_cart_choice_Deliver_address" />
+	<dialog
+		android:id="@+id/bottomSheetShowCartOptionFragment"
+		android:name="com.example.frume.fragment.user_fragment.user_cart.BottomSheetShowCartOptionFragment"
+		android:label="상품정보 변경 바텀시트"
+		tools:layout="@layout/fragment_bottom_sheet_show_cart_option"
+		>
 		<argument
-			android:name="selectedDeliveryAddressDocId"
-			app:argType="string"
-			app:nullable="true" />
-	</fragment>
+			android:name="cartDocId"
+			app:argType="string" />
+		<argument
+			android:name="cartProductDocId"
+			app:argType="string" />
+	</dialog>
 
 </navigation>
