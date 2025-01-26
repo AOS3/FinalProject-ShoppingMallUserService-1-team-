@@ -19,6 +19,7 @@ import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDialogBinding
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.CartProductModel
+import com.example.frume.model.ProductModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.ProductService
 import com.example.frume.service.CartService
@@ -36,9 +37,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -275,10 +280,16 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
                 if (productCount == 1) {
-                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(userDocId.loginUserDocumentId)
+                    val action =
+                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
+                            userDocId.loginUserDocumentId
+                        )
                     findNavController().navigate(action)
                 } else {
-                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(userDocId.loginUserDocumentId)
+                    val action =
+                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
+                            userDocId.loginUserDocumentId
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -286,7 +297,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-     fun addToCategory() {
+    fun addToCategory() {
         // 담는 경우라면
         CoroutineScope(Dispatchers.Main).launch {
 
@@ -331,25 +342,31 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             }
             if (isInMyCart) {
                 // 이미 존재하는 상품입니다. Dialog
-                showConfirmationDialog("이미 존재하는 상품입니다.","","확인","",fun(){},fun(){})
+                showConfirmationDialog("이미 존재하는 상품입니다.", "", "확인", "", fun() {}, fun() {})
                 return@launch
             }
 
             // cartProductModel 생성
-            val cartProductModel = convertToCartProduct(cartProductCount,dueDate,"${args.productDocId}",myCartModel.cartDocId)
+            val cartProductModel = convertToCartProduct(
+                cartProductCount,
+                dueDate,
+                "${args.productDocId}",
+                myCartModel.cartDocId
+            )
 
             // 내 cart 에 cartProduct 담기
             CartProductService.addMyCartProduct(myCartModel.cartDocId, cartProductModel)
 
             // 담았다면 내 장바구니로 이동할건지 체크
-            showConfirmationDialog("장바구니로 이동하시겠습니까?","장바구니에 상품을 담았습니다.","네","아니오",fun(){
+            showConfirmationDialog("장바구니로 이동하시겠습니까?", "장바구니에 상품을 담았습니다.", "네", "아니오", fun() {
 
                 //  이전 화면을 팝하고 새로운 화면으로 이동할 때 사용됩니다.
                 val navOption = NavOptions.Builder()
                     .setPopUpTo(R.id.navigation_category, inclusive = true)
                     .build()
-                val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
-                findNavController().navigate(action,  navOption)
+                val action =
+                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
+                findNavController().navigate(action, navOption)
             })
 
         }
@@ -360,21 +377,56 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         binding.buttonUserProductInfoDialogCart.setOnClickListener {
 
             // 담을지 말지 다이얼로그 띄운다.
-            showConfirmationDialog("장바구니에 담으시겠습니까?","","네","아니오",fun(){
-                addToCategory()
-            },)
+            showConfirmationDialog(
+                "장바구니에 담으시겠습니까?", "", "네", "아니오",
+                fun() {
+                    addToCategory()
+                },
+            )
         }
     }
+
     // cartProduct로 변환하기
     fun convertToCartProduct(
         productCount: String,
         dueDate: String,
         productDocId: String,
         cartDocId: String
-    ): CartProductModel {
+    ): CartProductModel = runBlocking {
+        // runBlocking 사용
+        // mvvm 에서 mutableLiveData 사용할때 바뀔듯
         val cartProductModel = CartProductModel()
+        var productModel = ProductModel()
+        try {
+            // IO 스레드에서 비동기 데이터 로드
+            val productDeferred = async(Dispatchers.IO) {
+                ProductService.getProductInfo(productDocId).getOrNull(0) ?: ProductModel()
+            }
 
-        // dueDate를 Timestamp로 변환하여 할당
+            Log.d("test100", "11111111${productDeferred.await().productDocId}")
+
+            // 데이터 로드 완료 대기
+            productModel = productDeferred.await()
+
+            // 시간 제한 설정 (2초)
+            withTimeout(2000L) {
+                while (productModel.productDocId.isEmpty()) {
+                    delay(500)  // 0.5초마다 확인
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            // 타임아웃 발생 시 기본값 처리
+            productModel = ProductModel()
+        } catch (e: Exception) {
+            Log.e("test100", "예외 발생: ${e.message}")
+        }
+
+        // 데이터 유효성 확인
+        if (productModel.productDocId.isEmpty()) {
+            throw IllegalStateException("ProductModel이 유효하지 않습니다.")
+        }
+
+        // `dueDate`를 `Timestamp`로 변환하여 할당
         cartProductModel.cartItemDeliveryDueDate = convertToTimestamp(dueDate)
 
         // 필요한 변환 작업 수행
@@ -382,17 +434,33 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         cartProductModel.cartItemProductDocId = productDocId
         cartProductModel.cartDocId = cartDocId
         cartProductModel.customerDocId = homeActivity.loginUserDocumentId
-        // 비구독
-        cartProductModel.cartItemIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
-        // 등록시간
+
+        // 비구독 설정
+        cartProductModel.cartItemIsSubscribed =
+            DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
+
+        // 등록 시간
         cartProductModel.cartItemDeliveryTimeStamp = Timestamp.now()
+
+        // 기본값 설정
         cartProductModel.cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_NONE
         cartProductModel.cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_NONE
         cartProductModel.cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE
         cartProductModel.cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL
 
-        return cartProductModel
+        // ProductModel 데이터를 CartProductModel에 매핑
+        Log.d("test100", "222222222222${productModel.productName}")
+        cartProductModel.cartProductName = productModel.productName
+        Log.d("test100", "3333333333333${productModel.productPrice}")
+
+        cartProductModel.cartProductPrice = productModel.productPrice
+
+        Log.d("test100", "44444444444444444444${productModel.productName}")
+        Log.d("test100", "5555555555555555555555${productModel.productPrice}")
+
+        return@runBlocking cartProductModel
     }
+
 
     // 2025-01-29 형식을 TimeStamp 객체로 변환하기
     fun convertToTimestamp(dueDate: String): Timestamp {

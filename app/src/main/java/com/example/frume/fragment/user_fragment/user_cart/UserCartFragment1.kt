@@ -6,23 +6,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
-import com.example.frume.data_ye.DummyData
-import com.example.frume.data_ye.TempCartProduct
 import com.example.frume.databinding.FragmentUserCart1Binding
+import com.example.frume.databinding.ItemUsercartListBinding
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.CartModel
+import com.example.frume.model.CartProductModel
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.CartService
 import com.example.frume.service.UserDeliveryAddressService
-import com.example.frume.util.applyNumberFormat
-import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -42,6 +42,7 @@ class UserCartFragment1 : Fragment(){
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
     var deliveryAddressSpot : DeliveryAddressModel? = null
     // private val args: UserCartFragmentArgs by navArgs()
+    var cartProductList = mutableListOf<CartProductModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,6 +87,8 @@ class UserCartFragment1 : Fragment(){
         onClickCartOrderProduct()
         // 배송지 변경 화면으로 이동하는 메서드 실행
         onClickCartDeliverySpotChange()
+        // RecyclerView 어뎁터 세팅 실행
+         settingRecyclerView()
 
         // RecyclerView 설정 메서드 호출
         /*settingRecyclerViewUserCartProduct()*/
@@ -187,7 +190,7 @@ class UserCartFragment1 : Fragment(){
                 CartProductService.gettingMyCartProductItems(cartModel.cartDocId)
             }
             // 장바구니 품목들을 가져온다.
-            val cartProductList = work2.await()
+            cartProductList = work2.await()
         }
     }
 
@@ -244,6 +247,85 @@ class UserCartFragment1 : Fragment(){
         datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE)?.setTextColor(textColor)
         datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE)?.setTextColor(textColor)
     }
+
+     // RecyclerView를 구성하는 메서드
+         fun settingRecyclerView(){
+
+         binding.apply {
+             // CoroutineScope 사용
+             CoroutineScope(Dispatchers.Main).launch {
+                 try {
+                     // 배송지 정보가 null이 아니거나 값이 설정될 때까지 반복 (2초 제한)
+                     withTimeout(2000) {  // 2000ms = 2초
+                         while (cartProductList.size == 0) {
+                             delay(500)  // 0.5초마다 확인
+                         }
+                     }
+
+                     // 어뎁터
+                     recyclerViewUserCart1.adapter = RecyclerViewCart1Adapter()
+                     // LayoutManager
+                     recyclerViewUserCart1.layoutManager = LinearLayoutManager(homeActivity)
+                     // 구분선
+                     val deco = MaterialDividerItemDecoration(homeActivity, MaterialDividerItemDecoration.VERTICAL)
+                     recyclerViewUserCart1.addItemDecoration(deco)
+
+                 } catch (e: TimeoutCancellationException) {
+                     // 2초 이내에 배송지 정보가 로드되지 않으면 타임아웃 처리
+                     // 여기서 타임아웃 후 처리를 할 수 있음 (예: 로딩 실패 메시지 표시)
+                     // 어뎁터
+                     recyclerViewUserCart1.adapter = RecyclerViewCart1Adapter()
+
+                 }
+             }
+         }
+             /*binding.apply {
+                 // 어뎁터
+                 recyclerViewUserCart1.adapter = RecyclerViewCart1Adapter()
+                 // LayoutManager
+                 recyclerViewUserCart1.layoutManager = LinearLayoutManager(homeActivity)
+                 // 구분선
+                 val deco = MaterialDividerItemDecoration(homeActivity, MaterialDividerItemDecoration.VERTICAL)
+                 recyclerViewUserCart1.addItemDecoration(deco)
+             }*/
+         }
+
+         // RecyclerView의 어뎁터
+         inner class RecyclerViewCart1Adapter : RecyclerView.Adapter<RecyclerViewCart1Adapter.ViewHolderMain>(){
+             // ViewHolder
+             inner class ViewHolderMain(val itemCartListBinding: ItemUsercartListBinding) : RecyclerView.ViewHolder(itemCartListBinding.root),
+                 View.OnClickListener {
+                 override fun onClick(v: View?) {
+                     //
+                 }
+             }
+
+             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMain {
+
+     //
+                 val itemProductListBinding = ItemUsercartListBinding.inflate(layoutInflater, parent, false)
+
+                 val viewHolderProductItem = ViewHolderMain(itemProductListBinding)
+
+                 // 리스너를 설정해준다.
+                 itemProductListBinding.root.setOnClickListener(viewHolderProductItem)
+
+                 return viewHolderProductItem
+             }
+
+             override fun getItemCount(): Int {
+                 return cartProductList.size
+             }
+
+             override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
+                 // holder.itemCartListBinding.text
+                 holder.itemCartListBinding.textViewRecyclerViewProductName.text = cartProductList[position].cartProductName
+                 holder.itemCartListBinding.textViewRecyclerViewProductPrice.text = cartProductList[position].cartProductPrice.toString()
+                 val productQuantity =  cartProductList[position].cartItemProductQuantity
+                 holder.itemCartListBinding.editTextProductCount.setText("$productQuantity")
+
+             }
+         }
 
 
 
