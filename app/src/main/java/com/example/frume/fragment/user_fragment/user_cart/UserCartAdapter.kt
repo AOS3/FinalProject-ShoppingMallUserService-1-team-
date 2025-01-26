@@ -88,12 +88,12 @@ class CartViewHolder(
             editTextProductCount.setText("${cart.quantity}")
             checkboxRecyclerViewSelect.isChecked = cart.productCheck
 
-            imageViewRecyclerViewAdd.setOnClickListener {
+        /*    imageViewRecyclerViewAdd.setOnClickListener {
                 listener.onClickAdd(adapterPosition, cart)
             }
             imageViewRecyclerViewRemove.setOnClickListener {
                 listener.onClickMinus(adapterPosition, cart)
-            }
+            }*/
             checkboxRecyclerViewSelect.setOnClickListener {
                 listener.onClickItemCheckBox(adapterPosition, cart)
             }

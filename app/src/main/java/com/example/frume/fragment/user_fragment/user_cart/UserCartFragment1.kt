@@ -323,6 +323,7 @@ class UserCartFragment1 : Fragment(){
                  holder.itemCartListBinding.textViewRecyclerViewProductPrice.text = cartProductList[position].cartProductPrice.toString()
                  val productQuantity =  cartProductList[position].cartItemProductQuantity
                  holder.itemCartListBinding.editTextProductCount.setText("$productQuantity")
+                 holder.itemCartListBinding.checkboxRecyclerViewSelect.isChecked= cartProductList[position].cartItemIsPurchases.bool
 
              }
          }
