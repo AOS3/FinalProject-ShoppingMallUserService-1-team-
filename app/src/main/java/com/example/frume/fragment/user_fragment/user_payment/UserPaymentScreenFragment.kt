@@ -29,8 +29,9 @@ import com.example.frume.util.convertThreeDigitComma
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+// 결제 화면
 class UserPaymentScreenFragment : Fragment() {
+
 
     private var _binding: FragmentUserPaymentScreenBinding? = null
     private val binding get() = _binding!!
