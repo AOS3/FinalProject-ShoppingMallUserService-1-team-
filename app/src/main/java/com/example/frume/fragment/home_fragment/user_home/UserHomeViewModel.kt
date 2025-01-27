@@ -46,9 +46,10 @@ class UserHomeViewModel : ViewModel() {
                             productName = productModel.productName,
                             productPrice = productModel.productPrice,
                             productDescription = productModel.productDescription,
-                            productCategory = productModel.productCategory1 // 임시 데이터
+                            productCategory = productModel.productHomeCategory
                         )
                     }
+
 
                 }
                 _products.value = products

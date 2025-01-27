@@ -1,6 +1,7 @@
 package com.example.frume.vo
 
 import com.example.frume.model.ProductModel
+import com.example.frume.util.CategoryType
 import com.example.frume.util.ProductSellingState
 import com.example.frume.util.ProductType
 import com.google.firebase.Timestamp
@@ -53,6 +54,9 @@ class ProductVO {
     // 세부 카테고리
     var productCategory3 = ""
 
+    // 홈화면 탭바 카테고리 필터링
+    var productHomeCategory = 0
+
 
     fun toProductModel(): ProductModel {
         val productModel = ProductModel()
@@ -81,6 +85,15 @@ class ProductVO {
         when (productSellingState) {
             ProductSellingState.PRODUCT_STATE_NORMAL.num->{ProductSellingState.PRODUCT_STATE_NORMAL}
             ProductSellingState.PRODUCT_STATE_ABNORMAL.num->{ProductSellingState.PRODUCT_STATE_ABNORMAL}
+        }
+
+        when(productHomeCategory){
+            CategoryType.CATEGORY_HOME_MAIN.number -> {CategoryType.CATEGORY_HOME_MAIN}
+            CategoryType.CATEGORY_HOME_NEW.number -> {CategoryType.CATEGORY_HOME_NEW}
+            CategoryType.CATEGORY_HOME_BEST.number -> {CategoryType.CATEGORY_HOME_BEST}
+            CategoryType.CATEGORY_HOME_SALE.number -> {CategoryType.CATEGORY_HOME_SALE}
+            CategoryType.CATEGORY_HOME_SINGLE.number -> {CategoryType.CATEGORY_HOME_SINGLE}
+            CategoryType.CATEGORY_HOME_PACKAGE.number -> {CategoryType.CATEGORY_HOME_PACKAGE}
         }
 
 

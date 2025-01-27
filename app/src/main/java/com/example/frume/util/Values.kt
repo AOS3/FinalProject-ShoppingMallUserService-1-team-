@@ -238,3 +238,5 @@ enum class LoginResult(val number:Int, val str:String){
     LOGIN_RESULT_SIGN_OUT_MEMBER(4, "탈퇴한 회원"),
 }
 
+
+
