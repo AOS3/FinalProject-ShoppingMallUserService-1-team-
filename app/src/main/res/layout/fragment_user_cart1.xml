@@ -81,7 +81,7 @@
 				app:layout_constraintTop_toTopOf="@id/checkboxUserCartSelectAll" />
 
 			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/recyclerViewUserCart1"
+				android:id="@+id/recycler_view_user_cart1"
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
 				android:layout_margin="10dp"
@@ -100,7 +100,7 @@
 				android:fontFamily="@font/nanumsquareneo_5"
 				android:text="배송 예정일 선택"
 				app:layout_constraintStart_toStartOf="@id/textViewUserCartUserName"
-				app:layout_constraintTop_toBottomOf="@+id/recyclerViewUserCart1" />
+				app:layout_constraintTop_toBottomOf="@+id/recycler_view_user_cart1" />
 
 			<View
 				android:id="@+id/viewBottomSheetShowCartOptionDate"

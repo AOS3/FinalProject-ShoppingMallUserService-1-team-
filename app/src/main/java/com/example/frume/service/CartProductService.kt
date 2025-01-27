@@ -49,5 +49,10 @@ class CartProductService {
             CartProductRepository.changeCartProductOption(cartDocId, cartProductDocId, cartProductModel.toCartProductVO())
         }
 
+        // 장바구니에서 품목 제거
+        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId : MutableList<String>){
+            CartProductRepository.deleteCartProducts(cartDocId, selectedListDocId)
+        }
+
     }
 }

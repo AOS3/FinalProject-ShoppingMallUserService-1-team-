@@ -53,6 +53,10 @@
 		<action
 			android:id="@+id/action_navigation_cart_to_bottomSheetShowCartOptionFragment"
 			app:destination="@id/bottomSheetShowCartOptionFragment" />
+		<argument
+			android:name="deliveryAddressDocId"
+			app:argType="string"
+			android:defaultValue='NONE' />
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"

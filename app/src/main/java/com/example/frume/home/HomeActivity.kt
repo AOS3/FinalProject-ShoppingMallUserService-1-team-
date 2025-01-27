@@ -21,8 +21,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
-    // 사용자 문서 id와 닉네임을 받을 변수
+    // 사용자 문서 iD
     var loginUserDocumentId = ""
+    // 사용자 장바구니 문서 ID
+    var userCartDocId = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class HomeActivity : AppCompatActivity() {
         }
         // 사용자 문서 id와 닉네임을 받는다.
         loginUserDocumentId = intent.getStringExtra("user_document_id")!!
-
+        userCartDocId = intent.getStringExtra("user_cart_document_id")!!
         setBottomNavigation()
     }
 

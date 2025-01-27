@@ -2,6 +2,7 @@ package com.example.frume.fragment.user_fragment.user_cart
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
     private val args: BottomSheetShowCartOptionFragmentArgs by navArgs()
     lateinit var binding: FragmentBottomSheetShowCartOptionBinding
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,22 +47,21 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
             container,
             false
         )
+        // 카트 품목 가져오는 메서드 실행
         gettingCartProduct()
+        // 가져온 카트 품목으로 ui그리는 메서드 실행
         settingView()
+        // 날짜 선택을 위한 클릭 메서드 실행
         settingDateDialog()
+        // 수량 변경 (+) 버튼 누를때 메서드 실행
         onClickAdd()
+        // 수량 변경 (-) 버튼 누를때 리스너
         onClickMinus()
         // 변경완료 리스너 메서드 실행
         changeCartProductOption()
-
-
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
 
     // args 값으로 cartProduct 가져오는 메서드
     private fun gettingCartProduct() {
@@ -203,6 +204,7 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
         }
     }
 
+    // 수량 변경 + 버튼 누를때 리스너
     @SuppressLint("SetTextI18n")
     private fun onClickAdd() {
         binding.apply {
@@ -210,12 +212,13 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
                 // editText의 현재 텍스트 값에서 +1 한 값을 다시 설정
                 val cartProductQuantity = editTextBottomSheetShowCartOptionProductCount.text.toString().toIntOrNull() ?: 0
                 editTextBottomSheetShowCartOptionProductCount.setText((cartProductQuantity + 1).toString())
-                calculation()
+                calculationPrice()
             }
 
         }
     }
 
+    // 수량 변경 - 버튼 누를때 리스너
     @SuppressLint("SetTextI18n")
     private fun onClickMinus() {
         binding.apply {
@@ -226,13 +229,15 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
                 if (cartProductQuantity > 0) {
                     editTextBottomSheetShowCartOptionProductCount.setText((cartProductQuantity - 1).toString())
                 }
-                calculation()
+                // 상품 수량*단가 구하는 메서드 실행
+                calculationPrice()
             }
         }
     }
 
+    // 상품 수량*단가 구하는 메서드
     @SuppressLint("SetTextI18n")
-    private fun calculation() {
+    private fun calculationPrice() {
         binding.apply {
             val totalPrice = editTextBottomSheetShowCartOptionProductCount.text.toString().toInt() * cartProductModel.cartProductUnitPrice
             textViewBottomSheetShowCartOptionPrice.text = totalPrice.toString() // Int를 String으로 변환하여 설정

@@ -365,7 +365,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                     .setPopUpTo(R.id.navigation_category, inclusive = true)
                     .build()
                 val action =
-                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
+                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart("NONE")
                 findNavController().navigate(action, navOption)
             })
 

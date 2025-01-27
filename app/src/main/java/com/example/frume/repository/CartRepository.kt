@@ -24,7 +24,6 @@ class CartRepository {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("cartData")
             val result = collectionReference.whereEqualTo("customerDocId", customerUserId).get().await()
-            Log.d("test100", "UserCartRepository->gettingMyCart()->result : ${result.documents}")
             val userCartVoList = result.toObjects(CartVO::class.java)
 
             return userCartVoList

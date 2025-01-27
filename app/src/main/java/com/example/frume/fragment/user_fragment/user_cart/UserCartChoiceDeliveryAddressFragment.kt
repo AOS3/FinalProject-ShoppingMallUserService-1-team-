@@ -137,7 +137,7 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
                             .setPopUpTo(R.id.navigation_category, inclusive = true)
                             .build()
 
-                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart()
+                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart(selectedAddressModel.deliveryAddressDocId)
                         findNavController().navigate(action,  navOption)
 
                         /*val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart1("UserCartChoiceDeliverAddressFragment")

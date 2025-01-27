@@ -16,6 +16,7 @@ import com.example.frume.R
 import com.example.frume.databinding.FragmentUserLoginBinding
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.UserModel
+import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import com.example.frume.util.LoginResult
 import kotlinx.coroutines.CoroutineScope
@@ -167,6 +168,11 @@ class UserLoginFragment : Fragment() {
                         }
                         val loginUserModel = work2.await()
 
+                        val work3 = async(Dispatchers.IO){
+                            CartService.gettingMyCart(loginUserModel.customerUserDocId)
+                        }
+                        val cartDocId = work3.await().cartDocId
+
                         // 만약 자동로그인이 체크되어 있다면
                         if (binding.checkBoxUserLoginAuto.isChecked) {
                             CoroutineScope(Dispatchers.Main).launch {
@@ -183,6 +189,8 @@ class UserLoginFragment : Fragment() {
                         // HomeActivity를 실행하고 현재 Activity를 종료한다.
                         val intent = Intent(requireContext(), HomeActivity::class.java)
                         intent.putExtra("user_document_id", loginUserModel.customerUserDocId)
+                        intent.putExtra("user_cart_document_id", cartDocId)
+
                         startActivity(intent)
                         requireActivity().finish()
                     }

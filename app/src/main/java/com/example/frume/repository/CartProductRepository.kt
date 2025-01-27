@@ -117,6 +117,27 @@ class CartProductRepository {
             }
         }
 
+        // 장바구니에서 품목 제거
+        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId: MutableList<String>) {
+            val firestore = FirebaseFirestore.getInstance()
+
+            // Firestore의 장바구니 데이터 접근
+            val cartProductItemsRef = firestore.collection("cartData")
+                .document(cartDocId)
+                .collection("cartProductItems")
+
+            // 각 문서를 삭제
+            selectedListDocId.forEach { cartProductDocId ->
+                try {
+                    // 문서 삭제
+                    cartProductItemsRef.document(cartProductDocId).delete().await()
+                    Log.d("deleteCartProducts", "삭제 성공 ID $cartProductDocId")
+                } catch (e: Exception) {
+                    Log.e("deleteCartProducts", "삭제 실패 $cartProductDocId", e)
+                }
+            }
+        }
+
 
     }
 }
