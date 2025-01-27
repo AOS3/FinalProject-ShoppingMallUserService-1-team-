@@ -92,7 +92,7 @@ class ProductRepository {
 
             for (document in result) {
                 val productVO = document.toObject(ProductVO::class.java)
-                Log.d("test100","ProductRepository.gettingProductAll -> productVO: ${productVO}")
+                Log.d("test100","ProductRepository.gettingProductAll -> productVO: ${productVO} , ${productVO.productHomeCategory}")
 
                 resultList.add(productVO)
             }

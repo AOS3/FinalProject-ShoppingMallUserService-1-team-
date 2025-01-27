@@ -22,7 +22,7 @@ enum class UserInfoType(var number: Int, var str: String) {
     
     // 홈 화면 탭 레이아웃 분류
 enum class CategoryType(val number: Int, val category: String) {
-    CATEGORY_HOME_MAIN(0, "홈"),
+   // CATEGORY_HOME_MAIN(0, "홈"),
     CATEGORY_HOME_NEW(1, "신제품"),
     CATEGORY_HOME_SALE(2, "특가"),
     CATEGORY_HOME_BEST(3, "베스트"),

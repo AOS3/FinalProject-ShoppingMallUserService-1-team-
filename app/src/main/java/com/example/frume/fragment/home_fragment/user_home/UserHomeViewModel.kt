@@ -26,38 +26,78 @@ class UserHomeViewModel : ViewModel() {
     val data: LiveData<Int> get() = _data
 
     init {
-        loadProducts()
+        //loadProducts()
         getBannerProduct()
     }
 
     fun updateData(newValue: Int) {
         _data.value = newValue
         Log.d("_data", _data.value.toString())
+        loadProducts(newValue) // 데이터를 업데이트하면서 카테고리 필터링
     }
 
-    private fun loadProducts() {
+//    private fun loadProducts() {
+//        viewModelScope.launch {
+//            try {
+//                val products = withContext(Dispatchers.IO) {
+//                    ProductService.gettingProductAll().map { productModel ->
+//                        TempProduct(
+//                            productDocId = productModel.productDocId,
+//                            productImgResourceId = R.drawable.btn_background,
+//                            productName = productModel.productName,
+//                            productPrice = productModel.productPrice,
+//                            productDescription = productModel.productDescription,
+//                            productCategory = productModel.productHomeCategory
+//                        )
+//                    }
+//
+//
+//                }
+//                _products.value = products
+//            } catch (e: Exception) {
+//                Log.e("UserHomeViewModel", "Error loading products: ${e.message}", e)
+//            }
+//        }
+//    }
+
+    // 카테고리에 따라 제품 데이터 로드
+    private fun loadProducts(categoryNumber: Int) {
         viewModelScope.launch {
             try {
-                val products = withContext(Dispatchers.IO) {
-                    ProductService.gettingProductAll().map { productModel ->
+                val filteredProducts = withContext(Dispatchers.IO) {
+                    // 모든 제품 가져오기
+                    val allProducts = ProductService.gettingProductAll()
+
+                    Log.d("test111", "All products: $allProducts")
+
+                    // 카테고리에 따른 필터링 및 TempProduct로 변환
+                    allProducts.filter { productModel ->
+                        Log.d(
+                            "test111",
+                            "Filtering: ${productModel.productHomeCategory} == $categoryNumber"
+                        )
+                        productModel.productHomeCategory == categoryNumber // 필터 조건
+                    }.map { productModel ->
                         TempProduct(
                             productDocId = productModel.productDocId,
-                            productImgResourceId = R.drawable.btn_background,
+                            productImgResourceId = R.drawable.btn_background, // 예제 이미지 리소스 ID
                             productName = productModel.productName,
                             productPrice = productModel.productPrice,
                             productDescription = productModel.productDescription,
                             productCategory = productModel.productHomeCategory
                         )
                     }
-
-
                 }
-                _products.value = products
+
+                // 필터링된 데이터를 LiveData에 업데이트
+                _products.value = filteredProducts
+                Log.d("test111", "Filtered products: $filteredProducts")
             } catch (e: Exception) {
                 Log.e("UserHomeViewModel", "Error loading products: ${e.message}", e)
             }
         }
     }
+
 
     fun getBannerProduct(): List<TempBanner> {
         val banners = Storage.bannerList

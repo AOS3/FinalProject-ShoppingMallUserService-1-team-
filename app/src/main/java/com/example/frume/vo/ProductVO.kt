@@ -74,6 +74,7 @@ class ProductVO {
         productModel.productTimeStamp = productTimeStamp
         productModel.productSalesCount = productSalesCount
         productModel.productCategory3 = productCategory3
+        productModel.productHomeCategory = productHomeCategory
 
         when(productType){
             ProductType.PRODUCT_TYPE_FRESH.num->{productModel.productType =ProductType.PRODUCT_TYPE_FRESH}
@@ -87,14 +88,14 @@ class ProductVO {
             ProductSellingState.PRODUCT_STATE_ABNORMAL.num->{ProductSellingState.PRODUCT_STATE_ABNORMAL}
         }
 
-        when(productHomeCategory){
-            CategoryType.CATEGORY_HOME_MAIN.number -> {CategoryType.CATEGORY_HOME_MAIN}
-            CategoryType.CATEGORY_HOME_NEW.number -> {CategoryType.CATEGORY_HOME_NEW}
-            CategoryType.CATEGORY_HOME_BEST.number -> {CategoryType.CATEGORY_HOME_BEST}
-            CategoryType.CATEGORY_HOME_SALE.number -> {CategoryType.CATEGORY_HOME_SALE}
-            CategoryType.CATEGORY_HOME_SINGLE.number -> {CategoryType.CATEGORY_HOME_SINGLE}
-            CategoryType.CATEGORY_HOME_PACKAGE.number -> {CategoryType.CATEGORY_HOME_PACKAGE}
-        }
+//        when(productHomeCategory){
+//            //CategoryType.CATEGORY_HOME_MAIN.number -> {CategoryType.CATEGORY_HOME_MAIN}
+//            CategoryType.CATEGORY_HOME_NEW.number -> {CategoryType.CATEGORY_HOME_NEW}
+//            CategoryType.CATEGORY_HOME_BEST.number -> {CategoryType.CATEGORY_HOME_BEST}
+//            CategoryType.CATEGORY_HOME_SALE.number -> {CategoryType.CATEGORY_HOME_SALE}
+//            CategoryType.CATEGORY_HOME_SINGLE.number -> {CategoryType.CATEGORY_HOME_SINGLE}
+//            CategoryType.CATEGORY_HOME_PACKAGE.number -> {CategoryType.CATEGORY_HOME_PACKAGE}
+//        }
 
 
         return productModel
