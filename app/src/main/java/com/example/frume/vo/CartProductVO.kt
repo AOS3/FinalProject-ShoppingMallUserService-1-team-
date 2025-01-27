@@ -45,14 +45,14 @@ class CartProductVO {
     // 상태
     var cartProductState = 1 // 정상
 
-    // 단가 * 수량 가격
-    var cartProductPrice = 0
-
     // 이름
     var cartProductName = ""
 
     // 단가
     var cartProductUnitPrice = 0
+
+    // 단가 * 수량 가격
+    var cartProductPrice = cartItemProductQuantity * cartProductUnitPrice
 
 
 

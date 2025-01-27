@@ -48,14 +48,14 @@ class CartProductModel {
     // 상태
     var cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL // 1 : 정상
 
-    // 가격 수량*단가
-    var cartProductPrice = 0
-
     // 이름
     var cartProductName = ""
 
     // 단가
     var cartProductUnitPrice = 0
+
+    // 가격 수량*단가
+    var cartProductPrice = cartItemProductQuantity * cartProductUnitPrice
 
     fun toCartProductVO(): CartProductVO {
         val cartProductVO = CartProductVO()

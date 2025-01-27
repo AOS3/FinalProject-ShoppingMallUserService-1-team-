@@ -449,9 +449,6 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
         // ProductModel 데이터를 CartProductModel에 매핑
         cartProductModel.cartProductName = productModel.productName
-
-        cartProductModel.cartProductPrice = productModel.productPrice
-
         return@runBlocking cartProductModel
     }
 

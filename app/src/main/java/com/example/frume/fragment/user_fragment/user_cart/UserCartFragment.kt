@@ -66,13 +66,6 @@ class UserCartFragment() : Fragment(), CartClickListener {
         return fragmentUserCartBinding.root
     }
 
-    override fun onDestroy() {
-        Log.d("test100","onDestroyView")
-        Log.d("test100"," arg : ${args.deliveryAddressDocId}")
-        super.onDestroy()
-        // 화면 전환하면 null 상태로 만들어 다시 화면 들어올 때 다시 기본 배송지를 가져올 수 있도록 한다.
-    }
-
     private fun setLayout() {
         // 배송지 정보를 가져와 deliverySpot에 설정해주는 메서드 호출
         getReceiverData()
@@ -240,6 +233,8 @@ class UserCartFragment() : Fragment(), CartClickListener {
                     // 어뎁터
                     recyclerViewUserCart.adapter = RecyclerViewCartAdapter()
                 }
+                // 전체 예상결제 금액 구하는 메서드 호출
+                showSumPrice()
             }
         }
     }
@@ -377,6 +372,8 @@ class UserCartFragment() : Fragment(), CartClickListener {
                     // RecyclerView 갱신
                     refreshRecyclerView()
                 }
+                // 전체 가격 구하는 메서드 호출
+                showSumPrice()
             }
         }
     }
@@ -396,6 +393,9 @@ class UserCartFragment() : Fragment(), CartClickListener {
         // "전체 선택" 체크박스 상태 업데이트
         fragmentUserCartBinding.checkboxUserCartSelectAll.isChecked =
             (checkedCount == cartProductList.size)
+
+        // 총 결제 예상금액 메서드 호출
+        showSumPrice()
     }
 
     // 문서 선택 삭제 리스너
@@ -436,9 +436,29 @@ class UserCartFragment() : Fragment(), CartClickListener {
         }
     }
 
+    // 리스트를 다시 가져와서, 리사이클러뷰를 다시 생성함
     fun settingListAndRecyclerView() {
         settingCartProductList()
         settingRecyclerView()
+    }
+
+    // 총 결제 예상 금액 구하는 메서드
+    fun calculationSumPrice() :Int{
+        var sumPrice = 0
+        cartProductList.forEach {
+            if (it.cartItemIsCheckState.bool) {
+                sumPrice+=it.cartProductPrice
+                Log.d("test1","it.docId : ${it.cartProductDocId}")
+                Log.d("test1","sumPrice : $sumPrice")
+            }
+        }
+        return sumPrice
+    }
+
+    // 총결제 예상금액 ui에 그리는 메서드
+    fun showSumPrice() {
+        val sumPrice = calculationSumPrice()
+        fragmentUserCartBinding.textViewUserCartDialogPrice.text = "${sumPrice} 원"
     }
 
 }
