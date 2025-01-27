@@ -14,6 +14,7 @@ import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoManageBinding
 import com.example.frume.login.LoginActivity
+import com.example.frume.model.UserModel
 import com.example.frume.service.UserService
 import com.example.frume.util.CustomerUserState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,6 +28,9 @@ class UserInfoManageFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var homeActivity: HomeActivity
+
+    // 사용자 정보를 담을 변수
+    lateinit var userModel: UserModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +54,7 @@ class UserInfoManageFragment : Fragment() {
         onClickButtonModifyPw()
         onClickToolbar()
         onClickButtonUserInfoManageWithdrawal()  // 탈퇴하기 버튼 클릭 리스너 추가
+        settingInputData()
     }
 
     // sehoon 정보 수정하기 클릭 메서드
@@ -127,5 +132,27 @@ class UserInfoManageFragment : Fragment() {
 
         // 탈퇴 완료 메시지
         Toast.makeText(requireContext(), "계정이 탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
+    }
+
+    // 데이터를 읽어와 입력 요소를 채워준다.
+    fun settingInputData(){
+        CoroutineScope(Dispatchers.Main).launch {
+            val work1 = async(Dispatchers.IO){
+                //UserService.selectUserDataByUserDocumentIdOne(boardActivity.loginUserDocumentId)
+                UserService.selectUserDataByuserDocumentId(homeActivity.loginUserDocumentId)
+            }
+            userModel = work1.await()
+
+            binding.apply {
+
+                textInputLayoutUserInfoModifyUserName.editText?.setText(userModel?.customerUserName ?: "")
+                textInputLayoutUserInfoModifyPhoneNumber.editText?.setText(userModel?.customerUserPhoneNumber ?: "")
+                textViewUserInfoModifyShowAddress.text = userModel.customerUserAddress["BasicAddress"]
+                textViewUserInfoModifyShowPostNumber.text = userModel.customerUserAddress["PostNumber"]
+                textInputLayoutUserInfoModifyDetailAddress.editText?.setText(userModel?.customerUserAddress?.get("DetailedAddress") ?: "")
+
+            }
+
+        }
     }
 }
