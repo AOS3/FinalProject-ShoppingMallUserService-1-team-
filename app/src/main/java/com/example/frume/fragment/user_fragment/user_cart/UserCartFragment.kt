@@ -454,7 +454,6 @@ class UserCartFragment() : Fragment(), CartClickListener {
 
     // 총 결제 예상 금액 구하는 메서드
     fun calculationSumPrice(): Int {
-
         if (cartProductList.isEmpty()) return 0
         var sumPrice = 0
         cartProductList.forEach {

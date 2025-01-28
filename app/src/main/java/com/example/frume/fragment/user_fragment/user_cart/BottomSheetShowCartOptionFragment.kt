@@ -192,20 +192,38 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
         return dateFormat.format(date)
     }
 
-
-    // 2025-01-29 형식을 TimeStamp 객체로 변환하기
-    private fun convertToTimestamp(dueDate: String): Timestamp {
-        val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
-
-        // 시간을 한국으로 바꿔 가져오면 날짜가 안맞음
-        // dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+    // 날짜 타입 변경 String-> Timestamp
+    // DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
+    // 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
+    // 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
+    fun convertToTimestamp(dueDate: String): Timestamp {
+        // 날짜 포맷터 생성
+        val dateFormatter = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREAN)
+        dateFormatter.timeZone = java.util.TimeZone.getTimeZone("Asia/Seoul")
 
         return try {
+            // 문자열을 Date 객체로 변환
             val parsedDate = dateFormatter.parse(dueDate)
-            if (parsedDate != null) Timestamp(parsedDate) else Timestamp.now()
+
+            if (parsedDate != null) {
+                // 시간을 오후 12시(정오)로 설정
+                val calendar = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("Asia/Seoul"))
+                calendar.time = parsedDate
+                calendar.set(java.util.Calendar.HOUR_OF_DAY, 12)
+                calendar.set(java.util.Calendar.MINUTE, 0)
+                calendar.set(java.util.Calendar.SECOND, 0)
+                calendar.set(java.util.Calendar.MILLISECOND, 0)
+
+                // 변경된 시간을 UTC로 변환하여 Timestamp 객체 생성
+                val utcCalendar = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC"))
+                utcCalendar.timeInMillis = calendar.timeInMillis
+                Timestamp(utcCalendar.time)
+            } else {
+                Timestamp.now()  // 날짜가 잘못된 경우 현재 시간을 반환
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            Timestamp.now()
+            Timestamp.now()  // 예외 발생 시 현재 시간 반환
         }
     }
 
@@ -253,6 +271,7 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
     private fun changeCartProductOption() {
         binding.apply {
             textViewBottomSheetShowCartOptionChangeProductOption.setOnClickListener{
+                Log.d("test100"," cartModel.dueDate : ${cartProductModel.cartItemDeliveryDueDate}")
                 // 수량 설정
                 cartProductModel.cartItemProductQuantity = editTextBottomSheetShowCartOptionProductCount.text.toString().toInt()
                 // 변경된 날짜 가져오기
@@ -273,7 +292,5 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
             }
         }
     }
-
-
 }
 
