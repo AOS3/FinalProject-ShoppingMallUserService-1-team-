@@ -51,8 +51,9 @@ class CartProductService {
         }
 
         // 장바구니에서 품목 제거
-        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId : MutableList<String>){
-            CartProductRepository.deleteCartProducts(cartDocId, selectedListDocId)
+        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId : MutableList<String>):Boolean{
+            val result = CartProductRepository.deleteCartProducts(cartDocId, selectedListDocId)
+            return result
         }
 
     }

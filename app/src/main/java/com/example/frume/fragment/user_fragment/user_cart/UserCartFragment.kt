@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -86,8 +89,27 @@ class UserCartFragment() : Fragment(), CartClickListener {
         // 문서 삭제 리스너 메서드 호출
         onClickTextDeleteProducts()
 
-
     }
+
+    // 장바구니 item 이 0일때 view
+    fun hideView() {
+        CoroutineScope(Dispatchers.Main).launch {
+            fragmentUserCartBinding.apply {
+                if (cartProductList.isEmpty()) {
+                    Log.d("hideView", "cartProductList size: ${cartProductList.size}")
+                    textViewUserCartDialogPriceLabel.visibility = View.GONE // 숨김
+                    buttonUserCartOrder.visibility = View.GONE // 숨김
+                    textViewUserCartDialogPrice.visibility = View.GONE // 숨김
+                } else {
+                    Log.d("hideView", "cartProductList size: ${cartProductList.size}")
+                    textViewUserCartDialogPriceLabel.visibility =View.VISIBLE
+                    buttonUserCartOrder.visibility =View.VISIBLE
+                    textViewUserCartDialogPrice.visibility =View.VISIBLE
+                }
+            }
+        }
+    }
+
 
     // 리사이클러뷰 다시 그리기
     private fun refreshRecyclerView() {
@@ -236,6 +258,8 @@ class UserCartFragment() : Fragment(), CartClickListener {
                 }
                 // 전체 예상결제 금액 구하는 메서드 호출
                 showSumPrice()
+                // 장바구니 아이템 없을때 적용하는 메서드 호출
+                hideView()
             }
         }
     }
@@ -332,11 +356,8 @@ class UserCartFragment() : Fragment(), CartClickListener {
     private fun convertToDate(timeStamp: Timestamp): String {
         // Firestore Timestamp를 Date 객체로 변환
         val date = timeStamp.toDate()
-
         // 원하는 형식으로 날짜 포맷
         val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
-
-
         return dateFormat.format(date)
     }
 
@@ -413,22 +434,27 @@ class UserCartFragment() : Fragment(), CartClickListener {
                     "네",
                     "",
                     fun() {
-                        deleteCartProductList(homeActivity.userCartDocId)
+                        // 삭제가 성공적으로 완료되면 true를 리턴받는다.
+                        val result = deleteCartProductList(homeActivity.userCartDocId)
                         // 전체 삭제하고 다시받아와야 settingCartProductList()에서 데이터를 부를때까지 대기할 수 있음
-                        cartProductList.removeAll(cartProductList)
-                        // DB에서 cartModel List 다시 받아오고 RecyclerView 세팅 메서드
-                        settingListAndRecyclerView()
+                        if (result) {
+                            cartProductList.removeAll(cartProductList)
+                            // DB에서 cartModel List 다시 받아오고 RecyclerView 세팅 메서드
+                            settingListAndRecyclerView()
+                        }
                     })
             }
         }
     }
 
     // 선택 삭제 서비스 메서드
-    fun deleteCartProductList(cartDocId: String) {
+    fun deleteCartProductList(cartDocId: String): Boolean {
         // 선택된 모델 List
         val selectedList = mutableListOf<CartProductModel>()
         // 선택된 Model items DocId List
         val selectedProductModelDocIdList = mutableListOf<String>()
+
+        // 체크된 항목 필터링
         cartProductList.forEach {
             if (it.cartItemIsCheckState == CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE) {
                 selectedList.add(it)
@@ -438,11 +464,12 @@ class UserCartFragment() : Fragment(), CartClickListener {
             selectedProductModelDocIdList.add(it.cartProductDocId)
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO) {
+        // 비동기 작업을 동기적으로 처리
+        return runBlocking {
+            val result = async(Dispatchers.IO) {
                 CartProductService.deleteCartProducts(cartDocId, selectedProductModelDocIdList)
             }
-            work1.join()
+            result.await() // 작업 결과 반환
         }
     }
 

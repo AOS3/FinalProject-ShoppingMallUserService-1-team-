@@ -117,7 +117,7 @@ class CartProductRepository {
         }
 
         // 장바구니에서 품목 제거
-        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId: MutableList<String>) {
+        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId: MutableList<String>): Boolean {
             val firestore = FirebaseFirestore.getInstance()
 
             // Firestore의 장바구니 데이터 접근
@@ -126,16 +126,19 @@ class CartProductRepository {
                 .collection("cartProductItems")
 
             // 각 문서를 삭제
-            selectedListDocId.forEach { cartProductDocId ->
-                try {
+            try {
+                selectedListDocId.forEach { cartProductDocId ->
                     // 문서 삭제
                     cartProductItemsRef.document(cartProductDocId).delete().await()
                     Log.d("deleteCartProducts", "삭제 성공 ID $cartProductDocId")
-                } catch (e: Exception) {
-                    Log.e("deleteCartProducts", "삭제 실패 $cartProductDocId", e)
                 }
+                return true // 모든 삭제 성공 시 true 반환
+            } catch (e: Exception) {
+                Log.e("deleteCartProducts", "삭제 중 오류 발생", e)
+                return false // 삭제 중 오류 발생 시 false 반환
             }
         }
+
 
 
     }
