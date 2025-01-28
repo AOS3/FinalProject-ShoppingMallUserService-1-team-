@@ -41,6 +41,7 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        homeActivity = activity as HomeActivity
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_bottom_sheet_show_cart_option,
@@ -184,16 +185,20 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
         // Firestore Timestamp를 Date 객체로 변환
         val date = timeStamp.toDate()
 
-        // 원하는 형식으로 날짜 포맷
+        // 한국 시간대 (Asia/Seoul)로 설정
         val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
+        dateFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
 
         return dateFormat.format(date)
     }
 
+
     // 2025-01-29 형식을 TimeStamp 객체로 변환하기
     private fun convertToTimestamp(dueDate: String): Timestamp {
         val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
-        dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+
+        // 시간을 한국으로 바꿔 가져오면 날짜가 안맞음
+        // dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Seoul")
 
         return try {
             val parsedDate = dateFormatter.parse(dueDate)

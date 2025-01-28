@@ -45,6 +45,7 @@ class CartProductService {
 
         // 내 장바구니 옵션 변경하기
         suspend fun changeCartProductOption(cartDocId: String, cartProductDocId: String, cartProductModel : CartProductModel) {
+            Log.d("test100","changeCartProductOption:${cartProductModel.cartItemDeliveryDueDate}")
             // 업데이트
             CartProductRepository.changeCartProductOption(cartDocId, cartProductDocId, cartProductModel.toCartProductVO())
         }
