@@ -253,7 +253,7 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
                 // 변경된 날짜 가져오기
                 val changedDate = textViewBottomSheetShowCartOptionDate.text.toString()
                 // 변경된 가격
-                val changedCartProductPrice = editTextBottomSheetShowCartOptionProductCount.text.toString().toInt() * cartProductModel.cartProductPrice
+                val changedCartProductPrice = textViewBottomSheetShowCartOptionPrice.text.toString().toInt()
                 // 예정일 설정
                 cartProductModel.cartItemDeliveryDueDate = convertToTimestamp(changedDate)
                 cartProductModel.cartProductPrice = changedCartProductPrice

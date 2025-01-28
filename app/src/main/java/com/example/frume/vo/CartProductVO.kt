@@ -52,7 +52,7 @@ class CartProductVO {
     var cartProductUnitPrice = 0
 
     // 단가 * 수량 가격
-    var cartProductPrice = cartItemProductQuantity * cartProductUnitPrice
+    var cartProductPrice = 0
 
 
 

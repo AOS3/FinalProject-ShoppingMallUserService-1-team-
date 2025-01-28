@@ -55,7 +55,7 @@ class CartProductModel {
     var cartProductUnitPrice = 0
 
     // 가격 수량*단가
-    var cartProductPrice = cartItemProductQuantity * cartProductUnitPrice
+    var cartProductPrice = 0
 
     fun toCartProductVO(): CartProductVO {
         val cartProductVO = CartProductVO()

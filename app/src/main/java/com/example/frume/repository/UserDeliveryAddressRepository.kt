@@ -29,7 +29,7 @@ class UserDeliveryAddressRepository {
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.d("test100","UserDeliveryAddressRepository -> gettingDefaultDeliveryAddress() catch(e)")
+                Log.d("test100","UserDeliveryAddressRepository -> gettingDefaultDeliveryAddress() catch($e)")
             }
             return result
         }

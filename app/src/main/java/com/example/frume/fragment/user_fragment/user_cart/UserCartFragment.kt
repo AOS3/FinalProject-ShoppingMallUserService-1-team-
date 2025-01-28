@@ -31,6 +31,8 @@ import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -96,12 +98,11 @@ class UserCartFragment() : Fragment(), CartClickListener {
 
     // 배송지를 유저정보에서 가져오지 않고, 배송지 DB에서 기본배송지를 가져오는 것으로 수정 hj 받는사람 이름도 DeliveryAddres Model 에 추가함
     private fun getReceiverData() {
+        // 배송지에서 기본 배송지를 가져온다
+        Log.d("test100", "args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
 
-    // 배송지에서 기본 배송지를 가져온다
-        Log.d("test100","args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
-
-        if(args.deliveryAddressDocId.equals("NONE")){
-            Log.d("test100","NONE -> args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
+        if (args.deliveryAddressDocId.equals("NONE")) {
+            Log.d("test100", "NONE -> args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
 
             CoroutineScope(Dispatchers.Main).launch {
                 val work1 = async(Dispatchers.IO) {
@@ -109,8 +110,8 @@ class UserCartFragment() : Fragment(), CartClickListener {
                 }
                 deliveryAddressSpot = work1.await()
             }
-        }else{
-            Log.d("test100","not None -> args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
+        } else {
+            Log.d("test100", "not None -> args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
 
             CoroutineScope(Dispatchers.Main).launch {
                 val work2 = async(Dispatchers.IO) {
@@ -274,7 +275,10 @@ class UserCartFragment() : Fragment(), CartClickListener {
                 val cartProductDocId =
                     cartProductList[viewHolderProductItem.adapterPosition].cartProductDocId
                 val action =
-                    UserCartFragmentDirections.actionNavigationCartToBottomSheetShowCartOptionFragment(cartDocId, cartProductDocId)
+                    UserCartFragmentDirections.actionNavigationCartToBottomSheetShowCartOptionFragment(
+                        cartDocId,
+                        cartProductDocId
+                    )
                 findNavController().navigate(action)
             }
 
@@ -374,6 +378,7 @@ class UserCartFragment() : Fragment(), CartClickListener {
                 }
                 // 전체 가격 구하는 메서드 호출
                 showSumPrice()
+
             }
         }
     }
@@ -394,7 +399,7 @@ class UserCartFragment() : Fragment(), CartClickListener {
         fragmentUserCartBinding.checkboxUserCartSelectAll.isChecked =
             (checkedCount == cartProductList.size)
 
-        // 총 결제 예상금액 메서드 호출
+        // 전체 가격 계산 보여주는 메서드 호출
         showSumPrice()
     }
 
@@ -402,13 +407,18 @@ class UserCartFragment() : Fragment(), CartClickListener {
     fun onClickTextDeleteProducts() {
         fragmentUserCartBinding.apply {
             textViewButtonUserCartDelete.setOnClickListener {
-                homeActivity.showConfirmationDialog("선택 상품 제거","선택하신 상품을 제거하시겠습니까?","네","",fun(){
-                    deleteCartProductList(homeActivity.userCartDocId)
-                    // 전체 삭제하고 다시받아와야 settingCartProductList()에서 데이터를 부를때까지 대기할 수 있음
-                    cartProductList.removeAll(cartProductList)
-                    // DB에서 cartModel List 다시 받아오고 RecyclerView 세팅 메서드
-                    settingListAndRecyclerView()
-                })
+                homeActivity.showConfirmationDialog(
+                    "선택 상품 제거",
+                    "선택하신 상품을 제거하시겠습니까?",
+                    "네",
+                    "",
+                    fun() {
+                        deleteCartProductList(homeActivity.userCartDocId)
+                        // 전체 삭제하고 다시받아와야 settingCartProductList()에서 데이터를 부를때까지 대기할 수 있음
+                        cartProductList.removeAll(cartProductList)
+                        // DB에서 cartModel List 다시 받아오고 RecyclerView 세팅 메서드
+                        settingListAndRecyclerView()
+                    })
             }
         }
     }
@@ -420,7 +430,7 @@ class UserCartFragment() : Fragment(), CartClickListener {
         // 선택된 Model items DocId List
         val selectedProductModelDocIdList = mutableListOf<String>()
         cartProductList.forEach {
-            if (it.cartItemIsCheckState == CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE){
+            if (it.cartItemIsCheckState == CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE) {
                 selectedList.add(it)
             }
         }
@@ -429,8 +439,8 @@ class UserCartFragment() : Fragment(), CartClickListener {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO){
-                CartProductService.deleteCartProducts(cartDocId,selectedProductModelDocIdList)
+            val work1 = async(Dispatchers.IO) {
+                CartProductService.deleteCartProducts(cartDocId, selectedProductModelDocIdList)
             }
             work1.join()
         }
@@ -443,22 +453,30 @@ class UserCartFragment() : Fragment(), CartClickListener {
     }
 
     // 총 결제 예상 금액 구하는 메서드
-    fun calculationSumPrice() :Int{
+    fun calculationSumPrice(): Int {
+
+        if (cartProductList.isEmpty()) return 0
         var sumPrice = 0
         cartProductList.forEach {
             if (it.cartItemIsCheckState.bool) {
-                sumPrice+=it.cartProductPrice
-                Log.d("test1","it.docId : ${it.cartProductDocId}")
-                Log.d("test1","sumPrice : $sumPrice")
+                sumPrice += it.cartProductPrice
+                Log.d("test1", "it.docId : ${it.cartProductDocId}")
+                Log.d("test1", "it.price : ${it.cartProductPrice}")
+                Log.d("test1", "it.unitPrice : ${it.cartProductUnitPrice}")
+                Log.d("test1", "sumPrice : $sumPrice")
             }
         }
         return sumPrice
     }
 
+
     // 총결제 예상금액 ui에 그리는 메서드
     fun showSumPrice() {
         val sumPrice = calculationSumPrice()
-        fragmentUserCartBinding.textViewUserCartDialogPrice.text = "${sumPrice} 원"
+        // UI 업데이트는 반드시 메인 스레드에서 해야 함
+        CoroutineScope(Dispatchers.Main).launch {
+            fragmentUserCartBinding.textViewUserCartDialogPrice.text = "${sumPrice} 원"
+        }
     }
 
 }

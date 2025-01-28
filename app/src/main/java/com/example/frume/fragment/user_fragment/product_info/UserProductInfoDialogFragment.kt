@@ -341,7 +341,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 }
             }
             if (isInMyCart) {
-                // 이미 존재하는 상품입니다. Dialog
+                // 이미 존재하는 상품입니다.
                 showConfirmationDialog("이미 존재하는 상품입니다.", "", "확인", "", fun() {}, fun() {})
                 return@launch
             }
@@ -433,6 +433,9 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         cartProductModel.cartItemProductDocId = productDocId
         cartProductModel.cartDocId = cartDocId
         cartProductModel.customerDocId = homeActivity.loginUserDocumentId
+
+        // 가격 설정
+        cartProductModel.cartProductPrice = cartProductModel.cartItemProductQuantity * cartProductModel.cartProductUnitPrice
 
         // 비구독 설정
         cartProductModel.cartItemIsSubscribed =

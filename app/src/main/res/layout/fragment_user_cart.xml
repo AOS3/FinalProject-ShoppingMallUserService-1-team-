@@ -142,7 +142,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="20dp"
-					android:text="15,000원"
+					android:text="0 원"
 					android:textSize="20sp"
 					app:layout_constraintBottom_toTopOf="@+id/buttonUserCartOrder"
 					app:layout_constraintEnd_toEndOf="parent"

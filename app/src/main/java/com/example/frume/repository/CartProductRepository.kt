@@ -10,6 +10,7 @@ class CartProductRepository {
     companion object{
         // 내장바구니에 상품 전체 목록 가져오기 hj
         suspend fun gettingMyCartProductItems(cartDocId: String) : MutableList<CartProductVO> {
+
             val result = mutableListOf<CartProductVO>()
             val firestore = FirebaseFirestore.getInstance()
 
@@ -24,8 +25,6 @@ class CartProductRepository {
                 val cartProduct = product.toObject(CartProductVO::class.java)
                 result.add(cartProduct)
             }
-            Log.d("test100","CartProductRepository->gettingMyCartProductItems : ${result}")
-
             return result
         }
 
@@ -50,7 +49,6 @@ class CartProductRepository {
             val result = documentSnapshot.toObject(CartProductVO::class.java)
                 ?: throw IllegalStateException("Failed to convert document to CartProductVO")
 
-            Log.d("test100", "CartProductRepository->gettingMyCartProductItem : $result")
             return result
         }
 
@@ -91,6 +89,7 @@ class CartProductRepository {
 
         // 내 장바구니 옵션 변경하기
         suspend fun changeCartProductOption(cartDocId: String, cartProductDocId: String, cartProductVO: CartProductVO) {
+
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("cartData")
             try {
