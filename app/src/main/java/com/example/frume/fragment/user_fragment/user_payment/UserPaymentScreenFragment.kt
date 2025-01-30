@@ -658,15 +658,6 @@ class UserPaymentScreenFragment : Fragment() {
                 // order 생성
 
                 val orderModel = OrderModel()
-
-                orderModel.
-
-
-
-
-
-                val orderDocId = OrderService.addMyOrder()
-
             }
             // orderProduct 생성
 
