@@ -45,9 +45,14 @@ class UserDeliveryAddressService {
             return UserDeliveryAddressRepository.addDeliveryAddress(customerUserDocId,addDeliveryAddressVO)
         }
 
-        suspend fun setDefaultStateToFalse(customerUserDocId: String,newDocId : String) {
-            // 기본 배송지를 false로 변경 hj
-            UserDeliveryAddressRepository.setDefaultStateToFalse(customerUserDocId, newDocId)
+        // 기본 배송지를 false로 변경하기
+        suspend fun changeDefaultStateToFalse(customerUserDocId: String, newDocId : String) {
+            UserDeliveryAddressRepository.changeDefaultStateToFalse(customerUserDocId, newDocId)
+        }
+
+        // 현재 배송지를 기본배송지로 변경하기
+        suspend fun changeDefaultStateToTrue(customerUserDocId: String,newDocId : String) {
+            UserDeliveryAddressRepository.changeDefaultStateToTrue(customerUserDocId, newDocId)
         }
     }
 }

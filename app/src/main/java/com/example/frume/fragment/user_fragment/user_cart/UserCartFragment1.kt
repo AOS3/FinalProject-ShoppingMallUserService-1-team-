@@ -41,7 +41,7 @@ class UserCartFragment1 : Fragment(){
     lateinit var homeActivity: HomeActivity
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
     var deliveryAddressSpot : DeliveryAddressModel? = null
-    // private val args: UserCartFragmentArgs by navArgs()
+    // private val args: UserCartFragmentArgs by nav()
     var cartProductList = mutableListOf<CartProductModel>()
 
     override fun onCreateView(
@@ -83,10 +83,10 @@ class UserCartFragment1 : Fragment(){
         settingCartProductList()
         // 날짜 선택을 위한 클릭 리스너 메서드 실행
         /*settingDateDialog()*/
-        // UserPaymentScreenFragment로 이동하는 메서드 실행
-        onClickCartOrderProduct()
-        // 배송지 변경 화면으로 이동하는 메서드 실행
-        onClickCartDeliverySpotChange()
+        /*// UserPaymentScreenFragment로 이동하는 메서드 실행
+        onClickCartOrderProduct()*/
+        /*// 배송지 변경 화면으로 이동하는 메서드 실행
+        onClickCartDeliverySpotChange()*/
         // RecyclerView 어뎁터 세팅 실행
          settingRecyclerView()
 
@@ -155,7 +155,7 @@ class UserCartFragment1 : Fragment(){
         }
     }*/
 
-    // 배송지 변경 버튼 클릭 시, UserAddressManageFragment로 이동하는 메서드
+    /*// 배송지 변경 버튼 클릭 시, UserAddressManageFragment로 이동하는 메서드
     private fun onClickCartDeliverySpotChange() {
         binding.buttonUserCartDialogModifyAddress.setOnClickListener {
             // 네비게이션을 통해 UserCartChoiceDeliveryAddressFragment로 이동
@@ -163,18 +163,18 @@ class UserCartFragment1 : Fragment(){
             val action = UserCartFragmentDirections.actionNavigationCartToUserCartChoiceDeliverAddress()
             findNavController().navigate(action)
         }
-    }
+    }*/
 
-    // 구매하기 버튼 클릭 시, UserPaymentScreenFragment로 이동하는 메서드
+    /*// 구매하기 버튼 클릭 시, UserPaymentScreenFragment로 이동하는 메서드
     private fun onClickCartOrderProduct() {
         binding.buttonUserCartOrder.setOnClickListener {
             // 네비게이션을 통해 UserPaymentScreenFragment로 이동
             val userDocId = activity as HomeActivity
             // sehoon 장바구니 -> 저장
-            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(userDocId.loginUserDocumentId)
+            val action = UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen()
             findNavController().navigate(action)
         }
-    }
+    }*/
 
     // 내 카트를 가져와, 카트 품목들을 가져온다
     // 품목을 cartProductList에 담는다

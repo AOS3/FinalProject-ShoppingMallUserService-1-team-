@@ -171,13 +171,13 @@ enum class OrderPaymentOption(val num: Int, val str: String){
     ORDER_PAYMENT_OPTION_NAVER_PAY(4,"네이버페이")
 }
 
-enum class OrderDeliveryOption(val num: Int, val str: String) {
+enum class DeliveryOption(val num: Int, val str: String) {
     DOOR_DELIVERY(1, "문앞배송"),
     PARCEL_LOCKER(2, "택배함"),
     SECURITY_OFFICE(3, "경비실")
 }
 
-enum class OrderIsOneTimeDeliveryBoolType(val bool: Boolean, val str: String) {
+enum class IsOneTimeDeliveryBoolType(val bool: Boolean, val str: String) {
     ONE_TIME_DELIVERY(true, "일회성배송"),
     REGULAR_DELIVERY(false, "정기배송")
 }

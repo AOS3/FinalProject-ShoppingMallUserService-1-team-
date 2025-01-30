@@ -134,17 +134,12 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
 
                     homeActivity.showConfirmationDialog("배송지 변경","${selectedAddressModel.deliveryAddressName}로 배송지를 변경하시겠습니다?","네","아니요",fun (){
                         val navOption = NavOptions.Builder()
-                            .setPopUpTo(R.id.navigation_category, inclusive = true)
+                            .setPopUpTo(R.id.user_payment_screen, inclusive = true)
                             .build()
 
-                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart(selectedAddressModel.deliveryAddressDocId)
+                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId)
                         findNavController().navigate(action,  navOption)
-
-                        /*val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToNavigationCart1("UserCartChoiceDeliverAddressFragment")
-                        findNavController().navigate(action,  navOption)*/
-
                     })
-
                 }
             }
         }

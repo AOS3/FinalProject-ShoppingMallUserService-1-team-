@@ -44,12 +44,8 @@ import java.util.TimeZone
 class UserCartFragment() : Fragment(), CartClickListener {
 
     lateinit var fragmentUserCartBinding: FragmentUserCartBinding
-    private val args: UserCartFragmentArgs by navArgs()
 
     lateinit var homeActivity: HomeActivity
-
-    // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
-    var deliveryAddressSpot: DeliveryAddressModel? = null
 
     // private val args: UserCartFragmentArgs by navArgs()
     var cartProductList = mutableListOf<CartProductModel>()
@@ -72,16 +68,12 @@ class UserCartFragment() : Fragment(), CartClickListener {
     }
 
     private fun setLayout() {
-        // 배송지 정보를 가져와 deliverySpot에 설정해주는 메서드 호출
-        getReceiverData()
-        // 배송지 정보를 토대로 레이아웃을 그리는 메서드 호출
-        settingReceiverInfo()
         // 카트 품목을 가져와 카트품목을 구하는 메서드 호출.
         settingCartProductList()
         // UserPaymentScreenFragment로 이동하는 메서드 호출
         onClickCartOrderProduct()
-        // 배송지 변경 화면으로 이동하는 메서드 호출
-        onClickCartDeliverySpotChange()
+        /*// 배송지 변경 화면으로 이동하는 메서드 호출
+        onClickCartDeliverySpotChange()*/
         // RecyclerView 어뎁터 세팅 호출
         settingRecyclerView()
         // 전체 체크박스 리스너 메서드 호출
@@ -102,14 +94,13 @@ class UserCartFragment() : Fragment(), CartClickListener {
                     textViewUserCartDialogPrice.visibility = View.GONE // 숨김
                 } else {
                     Log.d("hideView", "cartProductList size: ${cartProductList.size}")
-                    textViewUserCartDialogPriceLabel.visibility =View.VISIBLE
-                    buttonUserCartOrder.visibility =View.VISIBLE
-                    textViewUserCartDialogPrice.visibility =View.VISIBLE
+                    textViewUserCartDialogPriceLabel.visibility = View.VISIBLE
+                    buttonUserCartOrder.visibility = View.VISIBLE
+                    textViewUserCartDialogPrice.visibility = View.VISIBLE
                 }
             }
         }
     }
-
 
     // 리사이클러뷰 다시 그리기
     private fun refreshRecyclerView() {
@@ -118,92 +109,30 @@ class UserCartFragment() : Fragment(), CartClickListener {
         }
     }
 
-    // 배송지를 유저정보에서 가져오지 않고, 배송지 DB에서 기본배송지를 가져오는 것으로 수정 hj 받는사람 이름도 DeliveryAddres Model 에 추가함
-    private fun getReceiverData() {
-        // 배송지에서 기본 배송지를 가져온다
-        Log.d("test100", "args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
-
-        if (args.deliveryAddressDocId.equals("NONE")) {
-            Log.d("test100", "NONE -> args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
-
-            CoroutineScope(Dispatchers.Main).launch {
-                val work1 = async(Dispatchers.IO) {
-                    UserDeliveryAddressService.gettingDefaultDeliveryAddress(homeActivity.loginUserDocumentId)
-                }
-                deliveryAddressSpot = work1.await()
-            }
-        } else {
-            Log.d("test100", "not None -> args.deliveryAddressDocId: ${args.deliveryAddressDocId}")
-
-            CoroutineScope(Dispatchers.Main).launch {
-                val work2 = async(Dispatchers.IO) {
-                    UserDeliveryAddressService.gettingSelectedDeliveryAddress(args.deliveryAddressDocId)
-                }
-                deliveryAddressSpot = work2.await()
-            }
-        }
-
-
-    }
-
-    // 아마 mvvm liveData쓰면 코드 바뀔듯
-    // 배송지 정보를 토대로 배송지 정보를 입력한다.
-    private fun settingReceiverInfo() {
-        fragmentUserCartBinding.apply {
-            // CoroutineScope 사용
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    // 배송지 정보가 null이 아니거나 값이 설정될 때까지 반복 (2초 제한)
-                    withTimeout(2000) {  // 2000ms = 2초
-                        while (deliveryAddressSpot == null) {
-                            delay(500)  // 0.5초마다 확인
-                        }
-                    }
-
-                    // 배송지 정보가 null이 아니면 UI 업데이트
-                    deliveryAddressSpot?.let {
-                        val receiverName = it.deliveryAddressReceiverName
-                        val basicAddress = it.deliveryAddressBasicAddress
-                        val detailAddress = it.deliveryAddressDetailAddress
-                        val phoneNumber = it.deliveryAddressPhoneNumber
-
-                        // UI에 배송지 정보 입력
-                        textViewUserCartUserName.text = receiverName
-                        textViewUserCartUserAddress.text = "${basicAddress}  ${detailAddress}"
-                        textViewUserCartUserPhoneNumber.text = phoneNumber
-                    }
-                } catch (e: TimeoutCancellationException) {
-                    // 2초 이내에 배송지 정보가 로드되지 않으면 타임아웃 처리
-                    // 여기서 타임아웃 후 처리를 할 수 있음 (예: 로딩 실패 메시지 표시)
-                    textViewUserCartUserName.text = "배송지 로드 실패"
-                    textViewUserCartUserAddress.text = "배송지 정보를 불러올 수 없습니다."
-                    textViewUserCartUserPhoneNumber.text = "잠시 후 다시 시도해주세요."
-                }
-            }
-        }
-    }
-
-
-    // 배송지 변경 버튼 클릭 시, UserAddressManageFragment로 이동하는 메서드
-    private fun onClickCartDeliverySpotChange() {
-        fragmentUserCartBinding.buttonUserCartDialogModifyAddress.setOnClickListener {
-            // 네비게이션을 통해 UserCartChoiceDeliveryAddressFragment로 이동
-            // 이동화면 변경 hj
-            val action =
-                UserCartFragmentDirections.actionNavigationCartToUserCartChoiceDeliverAddress()
-            findNavController().navigate(action)
-        }
-    }
-
     // 구매하기 버튼 클릭 시, UserPaymentScreenFragment로 이동하는 메서드
     private fun onClickCartOrderProduct() {
         fragmentUserCartBinding.buttonUserCartOrder.setOnClickListener {
-            // 네비게이션을 통해 UserPaymentScreenFragment로 이동
-            val userDocId = activity as HomeActivity
-            // sehoon 장바구니 -> 저장
-            val action =
-                UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(userDocId.loginUserDocumentId)
-            findNavController().navigate(action)
+            CoroutineScope(Dispatchers.Main).launch {
+
+                val work1 =async (Dispatchers.IO){
+                    cartProductList.forEach {
+                        CartProductService.changeCartProductOption(
+                            homeActivity.userCartDocId,
+                            it.cartProductDocId,
+                            it
+                        )
+                    }
+                }
+                work1.join()
+
+                // 주문하기 버튼 누를 시 현재 리스트 전체 삭제
+                cartProductList.removeAll(cartProductList)
+
+                // sehoon 장바구니 -> 저장
+                val action =
+                    UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(null)
+                findNavController().navigate(action)
+            }
         }
     }
 

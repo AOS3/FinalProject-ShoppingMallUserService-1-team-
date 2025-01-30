@@ -281,15 +281,11 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             } else {
                 if (productCount == 1) {
                     val action =
-                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
-                            userDocId.loginUserDocumentId
-                        )
+                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(null)
                     findNavController().navigate(action)
                 } else {
                     val action =
-                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
-                            userDocId.loginUserDocumentId
-                        )
+                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(null)
                     findNavController().navigate(action)
                 }
             }
@@ -365,7 +361,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                     .setPopUpTo(R.id.navigation_category, inclusive = true)
                     .build()
                 val action =
-                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart("NONE")
+                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
                 findNavController().navigate(action, navOption)
             })
 

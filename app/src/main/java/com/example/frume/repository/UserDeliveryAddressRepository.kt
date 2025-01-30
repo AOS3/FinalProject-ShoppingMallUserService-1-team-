@@ -1,9 +1,7 @@
 package com.example.frume.repository
 
 import android.util.Log
-import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.vo.DeliveryAddressVO
-import com.example.frume.vo.ProductVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -105,7 +103,7 @@ class UserDeliveryAddressRepository {
         }
 
         // 기본배송지 추가할때 이미 등록된 기본 배송지 상태 변경하기 hj
-        suspend fun setDefaultStateToFalse(customerUserDocId: String, newDeliveryDocId: String?) {
+        suspend fun changeDefaultStateToFalse(customerUserDocId: String, newDeliveryDocId: String?) {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("deliveryAddressData")
 
@@ -133,6 +131,34 @@ class UserDeliveryAddressRepository {
                 Log.d("test100", "setDefaultStateToFalse() -> 오류 발생")
             }
         }
+
+
+        // 배송지를 기본 배송지로 변경하기
+        suspend fun changeDefaultStateToTrue(customerUserDocId: String, newDocId : String) {
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("deliveryAddressData")
+
+            try {
+                // 새로운 기본 배송지 설정
+                val newDefaultAddress = collectionReference
+                    .whereEqualTo("deliveryAddressUserDocId", customerUserDocId)
+                    .whereEqualTo("deliveryAddressDocId", newDocId)
+                    .get()
+                    .await()
+
+                if (newDefaultAddress.documents.isNotEmpty()) {
+                    newDefaultAddress.documents[0].reference.update("deliveryAddressIsDefaultAddress", true).await()
+                    Log.d("test100", "기본 배송지 상태를 true로 변경했습니다.")
+                } else {
+                    Log.d("test100", "해당하는 배송지를 찾을 수 없습니다.")
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("test100", "changeDefaultStateToTrue() -> 오류 발생")
+            }
+        }
+
 
     }
 }

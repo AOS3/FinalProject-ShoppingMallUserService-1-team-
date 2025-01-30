@@ -86,7 +86,7 @@ class UserAddressAddFragment : Fragment() {
                 val work1 = async (Dispatchers.IO){
                     // 현재 기본 배송지의 기본배송지 여부 값을 false로 바꿔줘야 함
                     // 리턴받았던 newDoc ID를 여기서 사용한다
-                    UserDeliveryAddressService.setDefaultStateToFalse(homeActivity.loginUserDocumentId, newDocId)
+                    UserDeliveryAddressService.changeDefaultStateToFalse(homeActivity.loginUserDocumentId, newDocId)
                 }
                 work1.await()
             }

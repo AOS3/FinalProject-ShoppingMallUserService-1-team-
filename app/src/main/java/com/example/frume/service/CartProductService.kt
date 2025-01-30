@@ -23,6 +23,14 @@ class CartProductService {
             return cartProductModelList
         }
 
+        // 내 장바구니에서 선택된 상품 목록 가져오기
+        suspend fun gettingMyCartProductCheckedItems(cartDocId: String): MutableList<CartProductModel> {
+            // 리스트를 받아서, 상태값이 true인것만 골라 리턴한다.
+           val checkedList = gettingMyCartProductItems(cartDocId).filter { it.cartItemIsCheckState.bool==true }.toMutableList()
+
+            return checkedList
+        }
+
         // 장바구니에 상품 넣기, 장바구니 서브컬렉션에 넣는다. hj
         suspend fun addMyCartProduct(cartDocId: String, cartProductModel: CartProductModel) {
             CartProductRepository.addMyCartProduct(cartDocId, cartProductModel)
@@ -45,7 +53,6 @@ class CartProductService {
 
         // 내 장바구니 옵션 변경하기
         suspend fun changeCartProductOption(cartDocId: String, cartProductDocId: String, cartProductModel : CartProductModel) {
-            Log.d("test100","changeCartProductOption:${cartProductModel.cartItemDeliveryDueDate}")
             // 업데이트
             CartProductRepository.changeCartProductOption(cartDocId, cartProductDocId, cartProductModel.toCartProductVO())
         }
