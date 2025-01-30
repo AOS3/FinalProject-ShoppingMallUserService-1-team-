@@ -1,12 +1,16 @@
 package com.example.frume.login
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -15,8 +19,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserSignUpBinding
 import com.example.frume.model.CartModel
+import com.example.frume.model.ReviewModel
 import com.example.frume.model.UserModel
 import com.example.frume.service.CartService
+import com.example.frume.service.ReviewService
 import com.example.frume.service.UserService
 import com.example.frume.util.CustomerUserGender
 import com.example.frume.util.CustomerUserState
@@ -25,14 +31,19 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.time.LocalDate
 
 
 class UserSignUpFragment : Fragment() {
     private var _binding: FragmentUserSignUpBinding? = null
     private val binding get() = _binding!!
+
+    // 전역 변수 선언 (이 변수에 주소를 저장)
+    private val customerUserAddress = mutableMapOf<String, String>()
 
     // 아이디 중복 확인 검사를 했는지 확인하는 변수
     var isCheckJoinCustomerUserIdExist = false
@@ -58,25 +69,6 @@ class UserSignUpFragment : Fragment() {
         setLayout()
     }
 
-    /*private fun getUserData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val userList = UserService.getUserInfo("1HyelFa2HUCNyfNCCIPx")
-                withContext(Dispatchers.Main) {
-                    // UI
-                    userList.forEach { item ->
-                        Log.d("test100", "${item.customerUserId}")
-                        Log.d("test100", "${item.customerUserPw}")
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "no data", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }*/
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLayout() {
         // 툴바 세팅(뒤로 가기)
@@ -84,12 +76,27 @@ class UserSignUpFragment : Fragment() {
         // 회원 가입 완료 및 홈화면으로 이동
         onClickSignUpButton()
         onClickIdValidateBtn()
-        // test()
+
+        // setAddressFieldClickListener()
+        setAddressFieldClickListener()
+
+    }
+
+    // 주소 선택 버튼 클릭 리스너
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setAddressFieldClickListener() {
+        binding.textFieldUserSignUpAddress.setOnClickListener {
+            // AddressActivity로 이동
+            val intent = Intent(requireContext(), AddressActivity::class.java)
+            getAddressResult.launch(intent)  // 주소 찾기 화면으로 이동
+        }
     }
 
     // sehoon 검사 후 db에 저장
     @RequiresApi(Build.VERSION_CODES.O)
     private fun insertDB() {
+
+
         // 아이디 중복 확인을 하지 않았다면
         if (!isCheckJoinCustomerUserIdExist) {
             // AlertDialog를 사용하여 다이얼로그 띄우기
@@ -142,11 +149,11 @@ class UserSignUpFragment : Fragment() {
         // 휴대폰 번호
         val customerUserPhoneNumber = binding.textFieldUserSignUpPhoneNumber.editText?.text.toString()
         // 회원 주소
-        val customerUserAddress = mutableMapOf(
+       /* val customerUserAddress = mutableMapOf(
             "BasicAddress" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
             "DetailedAddress" to binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim(),
             "PostNumber" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
-        )
+        )*/
 
         // 회원 상태 (CustomerUserState enum)
         val customerUserState = CustomerUserState.CUSTOMER_USER_STATE_ACTIVE
@@ -154,31 +161,46 @@ class UserSignUpFragment : Fragment() {
         val customerUserTimeStamp = Timestamp.now()
 
         // UserModel 객체 생성
-        val userModel = UserModel().apply {
-            this.customerUserId = customerUserId
-            this.customerUserPw = customerUserPw
-            this.customerUserEmail = customerUserEmail
-            this.customerUserName = customerUserName
-            this.customerUserRRNFirst = customerUserRRNFirst
-            this.customerUserRRNLast = customerUserRRNLast
-            this.customerUserAge = customerUserAge
-            this.customerUserGender = customerUserGender
-            this.customerUserPhoneNumber = customerUserPhoneNumber
-            this.customerUserAddress = customerUserAddress
-            this.customerUserState = customerUserState
-            this.customerUserTimeStamp = customerUserTimeStamp
-        }
+
 
         // 비동기적으로 데이터베이스에 저장하는 부분
         CoroutineScope(Dispatchers.Main).launch {
             try {
+                // address가 null이 아닐 때까지 최대 2초 대기
+                val address = withTimeout(2000) {
+                    var tempAddress: String? = null
+                    while (tempAddress == null) {
+                        tempAddress = this@UserSignUpFragment.customerUserAddress.toString()
+                        delay(100)  // 100ms 대기 후 다시 확인
+                    }
+                    tempAddress
+                }
+
+                // address 값이 null이 아니면 진행
+
+
+                val userModel = UserModel().apply {
+                    this.customerUserId = customerUserId
+                    this.customerUserPw = customerUserPw
+                    this.customerUserEmail = customerUserEmail
+                    this.customerUserName = customerUserName
+                    this.customerUserRRNFirst = customerUserRRNFirst
+                    this.customerUserRRNLast = customerUserRRNLast
+                    this.customerUserAge = customerUserAge
+                    this.customerUserGender = customerUserGender
+                    this.customerUserPhoneNumber = customerUserPhoneNumber
+                    // this.customerUserAddress = address
+                    this.customerUserState = customerUserState
+                    this.customerUserTimeStamp = customerUserTimeStamp
+                }
+
                 val work1 = async(Dispatchers.IO) {
                     // 실제 데이터 저장 메서드 호출
                     UserService.addCustomerUserData(userModel)
                 }
 
                 // 작업이 완료될 때까지 대기
-               val userDocId =  work1.await()
+                val userDocId =  work1.await()
 
                 // 회원가입시 장바구니 생성 hj
                 val work2 = async(Dispatchers.IO){
@@ -201,6 +223,49 @@ class UserSignUpFragment : Fragment() {
             }
         }
     }
+
+    // 주소 선택을 위한 결과 처리
+    /*@RequiresApi(Build.VERSION_CODES.O)
+    private val getAddressResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val address = result.data?.getStringExtra("data")
+
+                // 주소를 TextView에 반영
+                binding.textFieldUserSignUpAddress.setText(address)
+
+                // 주소 데이터를 customerUserAddress에 반영
+                val basicAddress = binding.textFieldUserSignUpAddress.text.toString().trim()
+                val detailedAddress = binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim()
+                val postNumber = binding.textFieldUserSignUpAddress.text.toString().trim()
+
+                val customerUserAddress = mutableMapOf(
+                    "BasicAddress" to basicAddress,
+                    "DetailedAddress" to detailedAddress,
+                    "PostNumber" to postNumber
+                )
+            }
+        }*/
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val getAddressResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val address = result.data?.getStringExtra("data")
+
+                // 주소를 TextView에 반영
+                binding.textFieldUserSignUpAddress.setText(address)
+
+                // 전역 변수에 주소 값 저장
+                customerUserAddress["DetailedAddress"] = binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim()
+                customerUserAddress["BasicAddress"] = address ?: ""
+                customerUserAddress["PostNumber"] = address ?: ""
+
+                // 디버깅 로그 출력
+                Log.d("test100", "customerUserAddress: $customerUserAddress")
+            }
+        }
 
     // 주민등록번호 앞 6자리와 뒷 1자리로 나이와 성별 추출하는 함수
     @RequiresApi(Build.VERSION_CODES.O)
@@ -264,6 +329,8 @@ class UserSignUpFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "일치하지 않습니다", Toast.LENGTH_SHORT).show()
             }
+
+            Log.d("test100", "${binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim()}")
         }
     }
 
@@ -314,7 +381,7 @@ class UserSignUpFragment : Fragment() {
     }
 
     // sehoon 주소 필드 유효성 검사
-    /*private fun validateAddressField(): Boolean {
+    private fun validateAddressField(): Boolean {
         val addressText = binding.textFieldUserSignUpAddress.text.toString().trim()
         return if (addressText.isEmpty() || addressText == "클릭해서 주소 설정") {
             // 에러 처리
@@ -325,7 +392,7 @@ class UserSignUpFragment : Fragment() {
         } else {
             true
         }
-    }*/
+    }
 
     // sehoon 입력 빈칸 확인
     private fun emptyEditText(): Boolean {
@@ -340,7 +407,7 @@ class UserSignUpFragment : Fragment() {
                 textFieldUserSignUpRRNLast.validateInput("주민번호 뒤 입력해 주세요."),
                 textFieldUserSignUpPhoneNumber.validateInput("전화번호를 입력해 주세요."),
                 textFieldUserSignUpDetailAddress.validateInput("상세주소를 입력해 주세요."),
-                // validateAddressField()
+                validateAddressField()
             ).all { it }
             return isValid
         }
