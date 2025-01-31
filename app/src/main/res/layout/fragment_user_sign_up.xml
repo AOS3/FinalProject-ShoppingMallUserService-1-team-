@@ -270,7 +270,7 @@
 					android:text="[클릭]"
 					app:layout_constraintBottom_toBottomOf="@id/checkBoxUserSignUpTerms"
 					app:layout_constraintStart_toEndOf="@id/checkBoxUserSignUpTerms"
-					app:layout_constraintTop_toTopOf="@id/checkBoxUserSignUpTerms" />
+					app:layout_constraintTop_toTopOf="@id/checkBoxUserSignUpTerms"/>
 
 				<androidx.appcompat.widget.AppCompatButton
 					android:id="@+id/buttonUserSignUp"
@@ -283,6 +283,12 @@
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@+id/checkBoxUserSignUpTerms" />
+
+				<WebView
+					android:id="@+id/webViewSignUpTerms"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:visibility="gone" />
 
 			</androidx.constraintlayout.widget.ConstraintLayout>
 		</androidx.core.widget.NestedScrollView>
