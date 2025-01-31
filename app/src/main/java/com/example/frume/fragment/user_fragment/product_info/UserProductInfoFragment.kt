@@ -1,19 +1,15 @@
 package com.example.frume.fragment.user_fragment.product_info
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.data.Storage
-import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserProductInfoBinding
 import com.google.android.material.tabs.TabLayoutMediator
 

@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.frume.data.Storage
-import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabSecondBinding
+import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.CoroutineScope
@@ -61,7 +61,7 @@ class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
 
 
 
-    private fun moveToProductInfo(product: TempProduct) {
+    private fun moveToProductInfo(product: ProductModel) {
         val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productName)
         findNavController().navigate(action)
     }
@@ -71,7 +71,7 @@ class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
         binding.recyclerViewUserHomeTabSecondProductList.adapter = adapter
     }
 
-    override fun onClickProductItem(product: TempProduct) {
+    override fun onClickProductItem(product: ProductModel) {
         Toast.makeText(requireContext(), product.productName, Toast.LENGTH_SHORT).show()
         moveToProductInfo(product)
     }

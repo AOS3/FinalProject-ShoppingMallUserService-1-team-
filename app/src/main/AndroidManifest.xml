@@ -23,7 +23,7 @@
 
 		<!-- 기존 로그인 액티비티 -->
 		<activity
-			android:name=".login.LoginActivity"
+			android:name=".activity.LoginActivity"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -33,13 +33,13 @@
 
 		<!-- 기존 홈 액티비티 -->
 		<activity
-			android:name=".home.HomeActivity"
+			android:name=".activity.HomeActivity"
 			android:windowSoftInputMode="adjustPan|adjustResize"
 			android:exported="false" />
 
 		<!-- AddressActivity 추가 -->
 		<activity
-			android:name=".login.AddressActivity"
+			android:name=".activity.AddressActivity"
 			android:exported="true" />
 
 	</application>

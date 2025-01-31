@@ -16,7 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserPaymentScreenBinding
 import com.example.frume.model.CartProductModel
@@ -35,7 +35,6 @@ import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
 import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderPaymentOption
-import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException

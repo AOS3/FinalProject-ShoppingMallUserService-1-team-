@@ -1,7 +1,6 @@
 package com.example.frume.fragment.user_fragment.product_info
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -26,12 +25,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoWriteReviewBinding
-import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDetailFragment.Companion
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.model.ReviewModel
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.service.ReviewService
-import com.example.frume.service.UserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

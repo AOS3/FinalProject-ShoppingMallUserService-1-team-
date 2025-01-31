@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDialogBinding
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.model.CartProductModel
 import com.example.frume.model.ProductModel
 import com.example.frume.service.CartProductService

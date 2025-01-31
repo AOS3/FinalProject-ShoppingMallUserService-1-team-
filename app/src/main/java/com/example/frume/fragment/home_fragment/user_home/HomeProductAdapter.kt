@@ -3,11 +3,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.frume.data.TempProduct
 import com.example.frume.databinding.ItemProductBinding
+import com.example.frume.model.ProductModel
 
 class HomeProductAdapter(
-    private val items: MutableList<TempProduct>,
+    private val items: MutableList<ProductModel>,
     private val listener: ProductItemClickListener
 ) : RecyclerView.Adapter<ProductViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -23,7 +23,7 @@ class HomeProductAdapter(
     }
 
     // 갱신 add(updateList: MutableList<TempProduct>)
-    fun add(updateList: MutableList<TempProduct>) {
+    fun add(updateList: MutableList<ProductModel>) {
 
         Log.d("test111", "!! updateList size: ${updateList.size}") // 업데이트 리스트 크기 확인
         Log.d("test111", "!! updateList contents: $updateList") // 업데이트 리스트 내용 확인
@@ -43,12 +43,12 @@ class ProductViewHolder(
     private val binding: ItemProductBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(product: TempProduct, listener: ProductItemClickListener) {
+    fun bind(product: ProductModel, listener: ProductItemClickListener) {
         itemView.setOnClickListener {
             listener.onClickProductItem(product) // 추후 데이터 삽입
         }
         with(binding) {
-            imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)
+            // imageViewItemProductThumbNail.setImageResource(product)
             textViewItemProductTitle.text = product.productName
             textViewItemProductDescription.text = product.productDescription
         }

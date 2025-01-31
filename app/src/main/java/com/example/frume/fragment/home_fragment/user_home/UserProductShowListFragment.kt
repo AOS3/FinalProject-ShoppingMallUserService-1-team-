@@ -8,11 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductShowListBinding
 import com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragmentArgs
-import com.example.frume.fragment.user_fragment.category.UserCategoryFragmentArgs
 
 
 class UserProductShowListFragment : Fragment() {

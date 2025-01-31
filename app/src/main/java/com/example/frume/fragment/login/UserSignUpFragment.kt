@@ -1,4 +1,4 @@
-package com.example.frume.login
+package com.example.frume.fragment.login
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.AddressActivity
 import com.example.frume.databinding.FragmentUserSignUpBinding
 import com.example.frume.model.CartModel
 import com.example.frume.model.UserModel

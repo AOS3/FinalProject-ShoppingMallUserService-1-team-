@@ -1,19 +1,14 @@
 package com.example.frume.fragment.user_fragment.category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCategoryBinding
-import com.example.frume.fragment.home_fragment.my_info.UserInfoFragmentDirections
-import com.example.frume.fragment.home_fragment.user_home.UserHomeFragmentDirections
-import com.example.frume.util.CategoryType
 import com.example.frume.util.ProductCategoryDetailType
 
 class UserCategoryFragment() : Fragment() {

@@ -1,4 +1,4 @@
-package com.example.frume.fragment.user_fragment.user_cart
+package com.example.frume.fragment.user_fragment.user_payment
 
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +13,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
-import com.example.frume.databinding.FragmentUserCartChoiceDeliveryAddressBinding
+import com.example.frume.databinding.FragmentUserPaymentChoiceDeliveryAddressBinding
 import com.example.frume.databinding.ItemDeliverySpotBinding
-import com.example.frume.fragment.user_fragment.user_payment.UserPaymentScreenFragmentArgs
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.UserDeliveryAddressService
 import kotlinx.coroutines.CoroutineScope
@@ -25,10 +24,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
-class UserCartChoiceDeliveryAddressFragment : Fragment() {
-    private val args: UserCartChoiceDeliveryAddressFragmentArgs by navArgs()
+class UserPaymentChoiceDeliveryAddressFragment : Fragment() {
+    private val args: UserPaymentChoiceDeliveryAddressFragmentArgs by navArgs()
     lateinit var homeActivity: HomeActivity
-    private var _binding: FragmentUserCartChoiceDeliveryAddressBinding? = null
+    private var _binding: FragmentUserPaymentChoiceDeliveryAddressBinding? = null
     private val binding get() = _binding!!
 
     // 회원 배송지 목록 리스트
@@ -41,7 +40,7 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
     ): View {
         homeActivity = activity as HomeActivity
         _binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart_choice_delivery_address, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_user_payment_choice_delivery_address, container, false)
         return binding.root
     }
 
@@ -139,7 +138,7 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
                             .setPopUpTo(R.id.user_payment_screen, inclusive = true)
                             .build()
 
-                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId,args.fromWhere)
+                        val action = UserPaymentChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId,args.fromWhere)
                         findNavController().navigate(action,  navOption)
                     })
                 }

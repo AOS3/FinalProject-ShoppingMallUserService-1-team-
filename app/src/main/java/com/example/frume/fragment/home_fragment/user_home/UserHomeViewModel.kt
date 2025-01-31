@@ -8,15 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.frume.R
 import com.example.frume.data.Storage
 import com.example.frume.data.TempBanner
-import com.example.frume.data.TempProduct
+import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class UserHomeViewModel : ViewModel() {
-    private val _products = MutableLiveData<List<TempProduct>>()
-    val products: LiveData<List<TempProduct>> get() = _products
+    private val _products = MutableLiveData<List<ProductModel>>()
+    val products: LiveData<List<ProductModel>> get() = _products
 
     private val _banners = MutableLiveData<List<TempBanner>>()
     val banner: LiveData<List<TempBanner>> get() = _banners
@@ -78,19 +78,19 @@ class UserHomeViewModel : ViewModel() {
                         )
                         productModel.productHomeCategory == categoryNumber // 필터 조건
                     }.map { productModel ->
-                        TempProduct(
+                       /* TempProduct(
                             productDocId = productModel.productDocId,
                             productImgResourceId = R.drawable.btn_background, // 예제 이미지 리소스 ID
                             productName = productModel.productName,
                             productPrice = productModel.productPrice,
                             productDescription = productModel.productDescription,
                             productCategory = productModel.productHomeCategory
-                        )
+                        )*/
                     }
                 }
 
-                // 필터링된 데이터를 LiveData에 업데이트
-                _products.value = filteredProducts
+              /*  // 필터링된 데이터를 LiveData에 업데이트
+                _products.value = filteredProducts*/
                 Log.d("test111", "Filtered products: $filteredProducts")
             } catch (e: Exception) {
                 Log.e("UserHomeViewModel", "Error loading products: ${e.message}", e)

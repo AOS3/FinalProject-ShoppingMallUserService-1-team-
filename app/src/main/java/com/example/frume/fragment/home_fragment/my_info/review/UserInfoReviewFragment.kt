@@ -12,7 +12,7 @@ import com.example.frume.R
 import com.example.frume.data.MyReviewParent
 import com.example.frume.databinding.FragmentUserInfoReviewBinding
 import com.example.frume.factory.ReviewViewModelFactory
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.util.showDialog
 import com.example.frume.util.showToast

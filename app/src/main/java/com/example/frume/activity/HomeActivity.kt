@@ -1,4 +1,4 @@
-package com.example.frume.home
+package com.example.frume.activity
 
 import android.content.DialogInterface
 import android.graphics.Rect

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,7 @@ import com.example.frume.databinding.FragmentUserProductInfoReviewBinding
 import com.example.frume.factory.ProductReviewViewModelFactory
 import com.example.frume.fragment.home_fragment.my_info.review.MyReviewParentAdapter
 import com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.util.showDialog
 import com.example.frume.util.showToast
