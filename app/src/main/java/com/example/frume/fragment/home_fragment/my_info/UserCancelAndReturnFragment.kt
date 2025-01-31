@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCancelAndReturnBinding
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 
 class UserCancelAndReturnFragment() : Fragment() {
     private var _binding: FragmentUserCancelAndReturnBinding? = null

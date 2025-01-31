@@ -16,7 +16,7 @@ import com.example.frume.factory.ReviewViewModelFactory
 import com.example.frume.fragment.home_fragment.my_info.review.MyReviewParentAdapter
 import com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener
 import com.example.frume.fragment.home_fragment.my_info.review.ReviewViewModel
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.util.showDialog
 import com.example.frume.util.showToast

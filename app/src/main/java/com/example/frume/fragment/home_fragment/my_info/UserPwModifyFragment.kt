@@ -7,12 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.R
-import com.example.frume.databinding.FragmentUserInfoManageBinding
 import com.example.frume.databinding.FragmentUserPwModifyBinding
 import com.example.frume.service.UserService
 import com.google.android.material.textfield.TextInputLayout

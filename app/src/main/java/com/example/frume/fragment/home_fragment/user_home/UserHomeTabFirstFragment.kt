@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
 import com.example.frume.data.Storage
-import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
 import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
@@ -67,10 +66,10 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
     }
 
     private fun setRecyclerView() {
-        lifecycleScope.launch(Dispatchers.Main) {
+       /* lifecycleScope.launch(Dispatchers.Main) {
             val products = withContext(Dispatchers.IO) {
                 ProductService.gettingProductAll().map { productModel ->
-                    TempProduct(
+               *//*     TempProduct(
                         productDocId = productModel.productDocId,
                         productImgResourceId = R.drawable.btn_background,
                         productName = productModel.productName,
@@ -78,12 +77,12 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
                         productDescription = productModel.productDescription,
                         productCategory = productModel.productHomeCategory // 임시 데이터
 
-                    )
+                    )*//*
                 }
             }
             val adapter = HomeProductAdapter(products.toMutableList(), this@UserHomeTabFirstFragment)
             binding.recyclerView.adapter = adapter
-        }
+        }*/
     }
 
 
@@ -112,7 +111,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
     }
 
     // 리싸이클러뷰 클릭 이벤트
-    override fun onClickProductItem(product: TempProduct) {
+    override fun onClickProductItem(product: ProductModel) {
         // 상세 정보로 이동
         Toast.makeText(requireContext(), product.productName, Toast.LENGTH_SHORT).show()
         // 보내 주고싶은 값을 파라미터로 전달

@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoManageBinding
-import com.example.frume.login.LoginActivity
+import com.example.frume.activity.LoginActivity
 import com.example.frume.model.UserModel
 import com.example.frume.service.UserService
 import com.example.frume.util.CustomerUserState

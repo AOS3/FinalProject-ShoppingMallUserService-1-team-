@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserPaymentChoiceDeliveryAddressBinding
 import com.example.frume.databinding.ItemDeliverySpotBinding
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.UserDeliveryAddressService
 import kotlinx.coroutines.CoroutineScope

@@ -14,7 +14,7 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.databinding.FragmentUserSearchBinding
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.util.ProductCategoryDetailType
 
 class UserSearchFragment : Fragment() {

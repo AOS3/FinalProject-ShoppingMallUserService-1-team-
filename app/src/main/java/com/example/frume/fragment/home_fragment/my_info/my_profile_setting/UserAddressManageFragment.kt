@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
-import com.example.frume.data_ye.DummyData
-import com.example.frume.data_ye.TempAddress
 import com.example.frume.databinding.FragmentUserAddressManageBinding
 import com.example.frume.databinding.ItemDeliverySpotBinding
+import com.example.frume.model.DeliveryAddressModel
 
 // sehoon 내 배송지 관리 화면
 class UserAddressManageFragment : Fragment() {
@@ -53,7 +52,8 @@ class UserAddressManageFragment : Fragment() {
     fun settingRecyclerViewUserAddressManage() {
         binding.apply {
             // 더미 데이터를 이용하여 RecyclerView의 어댑터에 주소 리스트 전달
-            recyclerViewUserOrderHistory.adapter = RecyclerViewUserAddressManageAdapter(DummyData.AddressList)
+            val list = mutableListOf<DeliveryAddressModel>()
+            recyclerViewUserOrderHistory.adapter = RecyclerViewUserAddressManageAdapter(list)
         }
     }
 
@@ -82,7 +82,7 @@ class UserAddressManageFragment : Fragment() {
     }
 
     // RecyclerView의 어댑터
-    inner class RecyclerViewUserAddressManageAdapter(private val addressList: List<TempAddress>) : RecyclerView.Adapter<RecyclerViewUserAddressManageAdapter.ViewHolderUserAddress>() {
+    inner class RecyclerViewUserAddressManageAdapter(private val addressList: List<DeliveryAddressModel>) : RecyclerView.Adapter<RecyclerViewUserAddressManageAdapter.ViewHolderUserAddress>() {
 
         // ViewHolder
         inner class ViewHolderUserAddress(val binding: ItemDeliverySpotBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -113,11 +113,11 @@ class UserAddressManageFragment : Fragment() {
             val item = addressList[position]
 
             holder.binding.apply {
-                // 주소 이름, 상세 주소, 우편번호, 아이콘 리소스를 각각 바인딩
+ /*               // 주소 이름, 상세 주소, 우편번호, 아이콘 리소스를 각각 바인딩
                 addressName.text = item.addressName
                 addressDetail.text = item.addressDetail
                 postalCode.text = item.postalCode
-                addressIcon.setImageResource(item.addressIconResId)
+                addressIcon.setImageResource(item.addressIconResId)*/
             }
         }
     }

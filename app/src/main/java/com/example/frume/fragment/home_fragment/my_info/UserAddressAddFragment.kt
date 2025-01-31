@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserAddressAddBinding
-import com.example.frume.home.HomeActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.util.DeliveryDefaultAddressBoolType

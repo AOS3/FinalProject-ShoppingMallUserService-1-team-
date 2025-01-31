@@ -1,4 +1,4 @@
-package com.example.frume.login
+package com.example.frume.fragment.login
 
 
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserLoginBinding
-import com.example.frume.home.HomeActivity
-import com.example.frume.model.UserModel
+import com.example.frume.activity.HomeActivity
+import com.example.frume.activity.LoginActivity
 import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import com.example.frume.util.LoginResult

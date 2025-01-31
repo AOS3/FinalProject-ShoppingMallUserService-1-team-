@@ -1,28 +1,21 @@
-package com.example.frume.login
+package com.example.frume.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 
 import androidx.navigation.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.ActivityLoginBinding
-import com.example.frume.home.HomeActivity
 import com.example.frume.service.UserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 
 class LoginActivity : AppCompatActivity() {
 

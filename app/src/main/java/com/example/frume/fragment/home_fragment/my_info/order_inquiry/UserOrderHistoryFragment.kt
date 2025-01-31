@@ -12,10 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
-import com.example.frume.data_hj.DummyData
+import com.example.frume.activity.HomeActivity
 import com.example.frume.databinding.FragmentUserOrderHistoryBinding
 import com.example.frume.databinding.ItemProductOrderBinding
-import com.example.frume.home.HomeActivity
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
@@ -129,13 +128,13 @@ class UserOrderHistoryFragment() : Fragment() {
                  return viewHolderItemOrderHistory
              }
              override fun getItemCount(): Int {
-                 return DummyData.dummyShippingItems.size
+                 return 2
              }
 
              override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
-                 holder.itemProductOrderBinding.textViewItemProductOrderOrderStatus.text = DummyData.dummyShippingItems[position].deliverState
+                /* holder.itemProductOrderBinding.textViewItemProductOrderOrderStatus.text = DummyData.dummyShippingItems[position].deliverState
                  holder.itemProductOrderBinding.textViewItemProductOrderProductName.text = DummyData.dummyShippingItems[position].productName
-                 holder.itemProductOrderBinding.imageViewItemProductOrderProduct.setImageResource(DummyData.dummyShippingItems[position].imgPath)
+                 holder.itemProductOrderBinding.imageViewItemProductOrderProduct.setImageResource(DummyData.dummyShippingItems[position].imgPath)*/
              }
          }
 

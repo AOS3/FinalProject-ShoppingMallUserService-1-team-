@@ -10,7 +10,6 @@ object Storage {
     val categoryList: List<String> = getCategoryData()
     val bannerList: List<TempBanner> = getBannerData()
     val detailList: List<String> = getDetailData()
-    val imgList: List<TempImg> = getImgData()
 
     private fun getCategoryData(): List<String> {
         return listOf(
@@ -33,15 +32,6 @@ object Storage {
             TempBanner(R.drawable.img_banner5)
         )
     }
-
-    private fun getImgData(): List<TempImg> {
-        return listOf(
-            TempImg(R.drawable.img_straw1_png),
-            TempImg(R.drawable.img_straw2_png),
-            TempImg(R.drawable.img_straw3_png),
-        )
-    }
-
     @Parcelize
     data class Test(
         val name: String,

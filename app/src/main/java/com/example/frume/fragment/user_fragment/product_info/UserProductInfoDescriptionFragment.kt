@@ -14,9 +14,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
 import com.example.frume.data.Storage
-import com.example.frume.data_hj.DummyData
 import com.example.frume.databinding.FragmentUserProductInfoDescriptionBinding
 import com.example.frume.databinding.ItemProductInfoImageCarouselBinding
+import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
 import com.example.frume.util.convertThreeDigitComma
 import com.google.android.material.carousel.CarouselLayoutManager
@@ -103,8 +103,8 @@ class UserProductInfoDescriptionFragment : Fragment() {
 
     // RecyclerView를 구성하는 메서드
     private fun settingRecyclerViewImage() {
-        val tempImgList = Storage.imgList
-        adapter = ProductImgAdapter(tempImgList.toMutableList())
+        val productModel = ProductModel()
+       // adapter = ProductImgAdapter(productModel.productImages[0])
         binding.recyclerViewUserProductInfoDescriptionDescriptionImage.adapter = adapter
 
     }
@@ -142,14 +142,13 @@ class UserProductInfoDescriptionFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return DummyData.dummyImages.size
-            Log.d("test100", "imageSize : ${DummyData.dummyImages.size}")
+            return 0 //Todo
         }
 
         override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
-            holder.itemProductInfoImageCarouselBinding.imageViewItemProductInfoImageCarousel.setImageResource(
-                DummyData.dummyImages[position]
-            )
+            /*holder.itemProductInfoImageCarouselBinding.imageViewItemProductInfoImageCarousel.setImageResource(
+
+            )*/
         }
     }
 

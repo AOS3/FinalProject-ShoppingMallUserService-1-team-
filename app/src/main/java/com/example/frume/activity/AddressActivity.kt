@@ -1,4 +1,4 @@
-package com.example.frume.login
+package com.example.frume.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.setContentView
 import com.example.frume.R
 
 
