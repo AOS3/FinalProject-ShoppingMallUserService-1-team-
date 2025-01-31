@@ -10,7 +10,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.home_fragment.my_info.UserInfoReviewFragment">
+		tools:context=".fragment.home_fragment.my_info.review.UserInfoReviewFragment">
 
 		<com.google.android.material.appbar.MaterialToolbar
 			android:id="@+id/toolbarUserInfoReview"
@@ -23,10 +23,10 @@
 			app:title="내 후기" />
 
 		<androidx.recyclerview.widget.RecyclerView
-			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 			android:id="@+id/recyclerViewUserInfoReview"
 			android:layout_width="0dp"
 			android:layout_height="0dp"
+			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"

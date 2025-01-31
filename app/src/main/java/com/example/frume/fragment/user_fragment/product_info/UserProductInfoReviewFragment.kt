@@ -1,28 +1,37 @@
 package com.example.frume.fragment.user_fragment.product_info
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
-import com.example.frume.data.Storage
-import com.example.frume.data.TempReview
+import com.example.frume.data.MyReviewParent
 import com.example.frume.databinding.FragmentUserProductInfoReviewBinding
+import com.example.frume.factory.ProductReviewViewModelFactory
+import com.example.frume.fragment.home_fragment.my_info.review.MyReviewParentAdapter
+import com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener
+import com.example.frume.home.HomeActivity
+import com.example.frume.repository.ReviewRepository
+import com.example.frume.util.showDialog
+import com.example.frume.util.showToast
 
 
 class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
     private var _binding: FragmentUserProductInfoReviewBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: ProductReviewAdapter
-    private var currentPage = 0
-    private val allReviews = Storage.reviewList // 전체 리뷰 데이터
-    private val currentReviews = mutableListOf<TempReview>() // 현재 표시 중인 데이터
-    private val pageSize = 10 // 한 페이지당 표시할 항목의 수
+    private lateinit var adapter: MyReviewParentAdapter
+
+    private val viewModel: ProductReviewViewModel by lazy {
+        val repository = ReviewRepository()
+        val factory = ProductReviewViewModelFactory(repository)
+        ViewModelProvider(this, factory)[ProductReviewViewModel::class.java]
+    }
+
     private var productDocId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +39,11 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
         arguments?.let {
             productDocId = it.getString(ARG_PRODUCT_DOC_ID)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadReview()
     }
 
     override fun onCreateView(
@@ -48,73 +62,42 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 어뎁터 설정
+        binding.lifecycleOwner = viewLifecycleOwner
         settingRecyclerView()
-
-        // 리뷰쓰기 화면전환 버튼
-        onClickButtonWriteReview()
-
-        onClickPageBtn()
+        observeData()
+        onClickBtn()
     }
 
-    // sehoon 리뷰작성 화면 이동 메서드
-    private fun onClickButtonWriteReview() {
+    private fun settingRecyclerView() {
+        val userDocId = activity as HomeActivity
+        adapter = MyReviewParentAdapter(userDocId.loginUserDocumentId, this)
+        binding.recyclerViewUserProductInfoReview.adapter = adapter
+    }
+
+    private fun observeData() {
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter.submitReview(it)
+        }
+        viewModel.currentPage.observe(viewLifecycleOwner) { page ->
+            binding.textViewUserProductInfoReviewNowPageNumber.text = "${page + 1}"
+        }
+        viewModel.maxPage.observe(viewLifecycleOwner) { maxPage ->
+            binding.textViewUserProductInfoReviewMaxPageNumber.text = "$maxPage"
+        }
+    }
+
+
+    // sehoon 클릭 메서드
+    private fun onClickBtn() {
         binding.buttonUserProductInfoReview.setOnClickListener {
-            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoWriteReview()
+            val action = UserProductInfoFragmentDirections.actionUserProductInfoToUserProductInfoWriteReview(productDocId!!)
             findNavController().navigate(action)
         }
-    }
-
-    // sehoon RecyclerView를 구성하는 메서드
-    private fun settingRecyclerView() {
-        adapter = ProductReviewAdapter(currentReviews.toMutableList(), this)
-        binding.recyclerViewUserProductInfoReview.adapter = adapter
-
-        loadPage(0) // 첫 번째 페이지
-        val maxPage = (allReviews.size + pageSize - 1) / pageSize
-        binding.textViewUserProductInfoReviewMaxPageNumber.text = "$maxPage"
-    }
-
-    // sehoon 리싸이클러뷰 10개 페이지 로드
-    private fun loadPage(page: Int) {
-        val start = page * pageSize
-        val end = (start + pageSize).coerceAtMost(allReviews.size)
-
-        if (start < end) {
-            val newItems = allReviews.subList(start, end)
-            currentReviews.clear() // 현재 데이터 비우기
-            currentReviews.addAll(allReviews.subList(start, end)) // 새 데이터 추가
-            adapter.setItems(newItems)
-            Log.d("newItems", currentReviews.toString())
-            currentPage = page // 현재 페이지 업데이트
-            binding.textViewUserProductInfoReviewNowPageNumber.text = "${currentPage + 1}" // 현재 페이지 UI 갱신
-
-            // RecyclerView 맨 위로 스크롤
-            binding.recyclerViewUserProductInfoReview.scrollToPosition(0)
-        } else {
-            // RecyclerView 맨 위로 스크롤
-            Toast.makeText(requireContext(), "마지막 페이지 입니다.", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // sehoon 이미지뷰 클릭 메서드
-    private fun onClickPageBtn() {
-        // "다음 페이지" 버튼
         binding.imageViewUserProductInfoReviewForward.setOnClickListener {
-            if ((currentPage + 1) * pageSize < allReviews.size) {
-                loadPage(currentPage + 1)
-            } else {
-                Toast.makeText(requireContext(), "마지막 페이지입니다.", Toast.LENGTH_SHORT).show()
-            }
+            viewModel.nextPage()
         }
-
-        // "이전 페이지" 버튼
         binding.imageViewUserProductInfoReviewBack.setOnClickListener {
-            if (currentPage > 0) {
-                loadPage(currentPage - 1)
-            } else {
-                Toast.makeText(requireContext(), "첫 번째 페이지입니다.", Toast.LENGTH_SHORT).show()
-            }
+            viewModel.previousPage()
         }
     }
 
@@ -132,7 +115,26 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
 
     }
 
-    override fun onClickProductItem(tempReview: TempReview) {
-        Toast.makeText(requireContext(), tempReview.reviewTitle, Toast.LENGTH_SHORT).show()
+    override fun onClickDelete(review: MyReviewParent) {
+        requireContext().showDialog(
+            title = "리뷰 삭제",
+            msg = "선택하신 리뷰를 삭제하시겠습니까?",
+            pos = "삭제",
+            nega = "취소"
+        ) { result ->
+            if (result) {
+                viewModel.removeReview(review.reviewDocId!!)
+            }
+        }
+        viewModel.isRemove.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    requireContext().showToast("삭제되었습니다.")
+                } else {
+                    requireContext().showToast("다시 확인해주세요.")
+                }
+                viewModel.resetRemove()
+            }
+        }
     }
 }

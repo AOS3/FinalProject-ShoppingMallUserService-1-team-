@@ -22,7 +22,7 @@ class ReviewVO {
 
     // 리뷰 사진들 경로
     var reviewImagesPath = mutableListOf<String>()
-
+    
     // 리뷰 별점
     var reviewRatingPoint = 0.0f
 
@@ -47,9 +47,14 @@ class ReviewVO {
         reviewModel.reviewRatingPoint = reviewRatingPoint
         reviewModel.reviewTimeStamp = reviewTimeStamp
         reviewModel.reviewAnswer = reviewAnswer
-        when(reviewState){
-            ReviewState.REVIEW_STATE_VISIBLE.num->{reviewModel.reviewState=ReviewState.REVIEW_STATE_VISIBLE}
-            ReviewState.REVIEW_STATE_HIDDEN.num->{reviewModel.reviewState = ReviewState.REVIEW_STATE_HIDDEN}
+        when (reviewState) {
+            ReviewState.REVIEW_STATE_VISIBLE.num -> {
+                reviewModel.reviewState = ReviewState.REVIEW_STATE_VISIBLE
+            }
+
+            ReviewState.REVIEW_STATE_HIDDEN.num -> {
+                reviewModel.reviewState = ReviewState.REVIEW_STATE_HIDDEN
+            }
         }
         return reviewModel
     }

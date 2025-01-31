@@ -40,27 +40,6 @@ class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
         _binding = null
     }
 
-    // 기존 tabLayout 연결
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        setLayout()
-//
-//        val number = arguments?.getInt(ARG_NUMBER) ?: 0
-//        val products = ProductService.gettingProductAll().filter {
-//            it.productCategory.number == number
-//        }
-//
-//        adapter.add(products.toMutableList())
-//
-//
-//        viewModel.updateData(number)
-//        Log.d("number", number.toString())
-//        viewModel.product.observe(viewLifecycleOwner) {
-//            adapter.add(it.toMutableList())
-//        }
-//
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()

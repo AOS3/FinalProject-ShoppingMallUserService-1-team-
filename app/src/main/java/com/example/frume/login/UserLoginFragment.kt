@@ -1,11 +1,11 @@
 package com.example.frume.login
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserLoginBinding
 import com.example.frume.home.HomeActivity
-import com.example.frume.model.UserModel
 import com.example.frume.service.UserService
 import com.example.frume.util.LoginResult
 import kotlinx.coroutines.CoroutineScope
@@ -24,18 +23,15 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
-
 class UserLoginFragment : Fragment() {
     private var _binding: FragmentUserLoginBinding? = null
     private val binding get() = _binding!!
-    lateinit var loginActivity: LoginActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_login, container, false)
-        loginActivity = activity as LoginActivity
         return binding.root
     }
 
@@ -50,12 +46,11 @@ class UserLoginFragment : Fragment() {
     }
 
     private fun setLayout() {
-
+        userAutoLoginProcessing()
         onClickLoginBtn()
         onClickSignUpBtn()
         onClickNonMemberLoginBtn()
         setupErrorResetListeners()
-
     }
 
     // sehoon 홈 화면 이동 메서드
@@ -63,7 +58,6 @@ class UserLoginFragment : Fragment() {
         val intent = Intent(requireContext(), HomeActivity::class.java)
         intent.putExtra("user_document_id", "noUser")
         startActivity(intent)
-        loginActivity.finish()
     }
 
     // sehoon 로그인 버튼 클릭 메서드
@@ -99,6 +93,7 @@ class UserLoginFragment : Fragment() {
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                         textFieldUserLoginId.error = null // 에러 초기화
                     }
+
                     override fun afterTextChanged(s: Editable?) {}
                 })
             }
@@ -110,6 +105,7 @@ class UserLoginFragment : Fragment() {
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                         textFieldUserLoginPw.error = null // 에러 초기화
                     }
+
                     override fun afterTextChanged(s: Editable?) {}
                 })
             }
@@ -117,7 +113,7 @@ class UserLoginFragment : Fragment() {
     }
 
     // 로그인 처리 메서드
-    fun proLogin() {
+    private fun proLogin() {
         binding.apply {
             // 입력 요소 검사
             if (binding.textFieldUserLoginId.editText?.text?.toString()?.isEmpty()!!) {
@@ -158,7 +154,7 @@ class UserLoginFragment : Fragment() {
                     }
 
                     LoginResult.LOGIN_RESULT_SUCCESS -> {
-                      
+
                         val work2 = async(Dispatchers.IO) {
                             UserService.selectUserDataByUserIdOne(loginUserId)
                         }
@@ -170,7 +166,7 @@ class UserLoginFragment : Fragment() {
 
                                 val work1 = async(Dispatchers.IO) {
                                     UserService.updateUserAutoLoginToken(
-                                        loginActivity,
+                                        requireContext(),
                                         loginUserModel.customerUserDocId
                                     )
                                 }
@@ -183,6 +179,33 @@ class UserLoginFragment : Fragment() {
                         startActivity(intent)
                         requireActivity().finish()
                     }
+                }
+            }
+        }
+    }
+
+    // hyeonseo 0123
+    // 자동 로그인 처리 메서드
+    private fun userAutoLoginProcessing() {
+        // Preference에 login token이 있는지 확인한다.
+        val sharedPreferences = requireContext().getSharedPreferences("LoginToken", Context.MODE_PRIVATE)
+        val loginToken = sharedPreferences.getString("token", null)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            if (loginToken != null) {
+                // 사용자 정보를 가져온다.
+                val work1 = async(Dispatchers.IO) {
+                    UserService.selectUserDataByLoginToken(loginToken)
+                }
+                val userVO = work1.await()
+
+                // 가져온 사용자 데이터가 있다면
+                if (userVO != null) {
+                    // BoardActivity를 실행하고 현재 Activity를 종료한다.
+                    val intent = Intent(requireContext(), HomeActivity::class.java)
+                    intent.putExtra("user_document_id", userVO.customerUserDocId)
+                    startActivity(intent)
+                    requireActivity().finish()
                 }
             }
         }
