@@ -121,9 +121,9 @@ enum class CartProductState(val num: Int, val str: String) {
     CART_PRODUCT_STATE_ABNORMAL(2,"비정상"),
 }
 
-enum class CartProductIsPurchasesBoolType(val bool: Boolean, val str: String) {
-    CART_PRODUCT_IS_PURCHASES_TRUE(true,"구매할 품목"),
-    CART_PRODUCT_IS_PURCHASES_FALSE(false,"구매하지 않을 품목"),
+enum class CartProductIsCheckStateBoolType(val bool: Boolean, val str: String) {
+    CART_PRODUCT_IS_CHECKED_TRUE(true,"체크된 품목"),
+    CART_PRODUCT_IS_CHECKED_FALSE(false,"체크 되지 않은 품목"),
 }
 
 enum class CartProductSubscribeState(val num: Int, val str: String) {
@@ -171,13 +171,13 @@ enum class OrderPaymentOption(val num: Int, val str: String){
     ORDER_PAYMENT_OPTION_NAVER_PAY(4,"네이버페이")
 }
 
-enum class OrderDeliveryOption(val num: Int, val str: String) {
+enum class DeliveryOption(val num: Int, val str: String) {
     DOOR_DELIVERY(1, "문앞배송"),
     PARCEL_LOCKER(2, "택배함"),
     SECURITY_OFFICE(3, "경비실")
 }
 
-enum class OrderIsOneTimeDeliveryBoolType(val bool: Boolean, val str: String) {
+enum class IsOneTimeDeliveryBoolType(val bool: Boolean, val str: String) {
     ONE_TIME_DELIVERY(true, "일회성배송"),
     REGULAR_DELIVERY(false, "정기배송")
 }

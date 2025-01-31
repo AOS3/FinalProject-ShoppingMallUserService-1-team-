@@ -10,9 +10,6 @@ class OrderProductModel {
     // 주문 상품 ID
     var orderProductDocId = ""
 
-    // 주문 회원 ID
-    var orderCustomerDocId = ""
-
     // 주문 ID
     var orderId = ""
 
@@ -43,14 +40,16 @@ class OrderProductModel {
     // 등록시간
     var orderProductTimeStamp = Timestamp.now()
 
-    // 배송된 날짜
-    var orderProductDeliveryCompletedDate = Timestamp.now()
+    // 주문 확정일
+    var orderFixedDate = Timestamp.now()
+
+    // 배송 예정일
+    var orderDeliveryDueDate = Timestamp.now()
 
     fun toOrderProductVO(): OrderProductVO {
         val orderProductVO = OrderProductVO()
 
         orderProductVO.orderProductDocId = orderProductDocId
-        orderProductVO.orderCustomerDocId = orderCustomerDocId
         orderProductVO.orderId = orderId
         orderProductVO.orderProductName = orderProductName
         orderProductVO.orderProductPrice = orderProductPrice
@@ -61,7 +60,9 @@ class OrderProductModel {
         orderProductVO.orderProductTotalPrice = orderProductTotalPrice
         orderProductVO.orderProductState = orderProductState.num
         orderProductVO.orderProductTimeStamp = orderProductTimeStamp
-        orderProductVO.orderProductDeliveryCompletedDate = orderProductDeliveryCompletedDate
+        orderProductVO.orderFixedDate = orderFixedDate
+        orderProductVO.orderDeliveryDueDate = orderDeliveryDueDate
+
 
         return orderProductVO
     }

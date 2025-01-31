@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.data_ye.TempCartProduct
 import com.example.frume.databinding.ItemUsercartListBinding
+import com.example.frume.model.CartProductModel
 import com.example.frume.util.applyNumberFormat
 
-class UserCartAdapter(
-    private val items: MutableList<TempCartProduct>,
-    private val listener: CartClickListener
-) : RecyclerView.Adapter<CartViewHolder>() {
+class UserCartAdapter(private val items: MutableList<TempCartProduct>, private val listener: CartClickListener) /*: RecyclerView.Adapter<CartViewHolder>() */{
+/*
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         return CartViewHolder.from(parent)
     }
@@ -73,35 +72,38 @@ class UserCartAdapter(
         return items.any { it.productCheck }
 
     }
+*/
 
 }
 
-class CartViewHolder(
+/*class CartViewHolder(
     private val binding: ItemUsercartListBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(cart: TempCartProduct, listener: CartClickListener) {
+    fun bind(cart: CartProductModel, listener: CartClickListener) {
         with(binding) {
             textViewRecyclerViewProductName.text = cart.productName
             textViewRecyclerViewProductPrice.applyNumberFormat(cart.productPrice * cart.quantity)
             imageViewRecyclerViewImage.setImageResource(cart.imageResId)
-            editTextProductCount.setText("${cart.quantity}")
+editTextProductCount.setText("${cart.quantity}")
+
             checkboxRecyclerViewSelect.isChecked = cart.productCheck
 
-            imageViewRecyclerViewAdd.setOnClickListener {
+    imageViewRecyclerViewAdd.setOnClickListener {
                 listener.onClickAdd(adapterPosition, cart)
             }
             imageViewRecyclerViewRemove.setOnClickListener {
                 listener.onClickMinus(adapterPosition, cart)
             }
+
             checkboxRecyclerViewSelect.setOnClickListener {
                 listener.onClickItemCheckBox(adapterPosition, cart)
             }
         }
-    }
+    }*/
 
 
-    companion object {
+/*    companion object {
         fun from(parent: ViewGroup): CartViewHolder {
             return CartViewHolder(
                 ItemUsercartListBinding.inflate(
@@ -111,5 +113,5 @@ class CartViewHolder(
                 )
             )
         }
-    }
-}
+    }*/
+

@@ -19,10 +19,11 @@ import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDialogBinding
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.CartProductModel
+import com.example.frume.model.ProductModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.ProductService
 import com.example.frume.service.CartService
-import com.example.frume.util.CartProductIsPurchasesBoolType
+import com.example.frume.util.CartProductIsCheckStateBoolType
 import com.example.frume.util.CartProductState
 import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
@@ -36,9 +37,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -275,10 +280,12 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
                 if (productCount == 1) {
-                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(userDocId.loginUserDocumentId)
+                    val action =
+                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(null)
                     findNavController().navigate(action)
                 } else {
-                    val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(userDocId.loginUserDocumentId)
+                    val action =
+                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(null)
                     findNavController().navigate(action)
                 }
             }
@@ -330,24 +337,32 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 }
             }
             if (isInMyCart) {
-                // 이미 존재하는 상품입니다. Dialog
+                // 이미 존재하는 상품입니다.
                 showConfirmationDialog("이미 존재하는 상품입니다.", "", "확인", "", fun() {}, fun() {})
                 return@launch
             }
 
             // cartProductModel 생성
-            val cartProductModel = convertToCartProduct(cartProductCount, dueDate, "${args.productDocId}", myCartModel.cartDocId)
+            val cartProductModel = convertToCartProduct(
+                cartProductCount,
+                dueDate,
+                "${args.productDocId}",
+                myCartModel.cartDocId
+            )
 
             // 내 cart 에 cartProduct 담기
             CartProductService.addMyCartProduct(myCartModel.cartDocId, cartProductModel)
 
             // 담았다면 내 장바구니로 이동할건지 체크
             showConfirmationDialog("장바구니로 이동하시겠습니까?", "장바구니에 상품을 담았습니다.", "네", "아니오", fun() {
+
+                //  이전 화면을 팝하고 새로운 화면으로 이동할 때 사용됩니다.
                 val navOption = NavOptions.Builder()
                     .setPopUpTo(R.id.navigation_category, inclusive = true)
                     .build()
-                val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
-                findNavController().navigate(action,  navOption)
+                val action =
+                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
+                findNavController().navigate(action, navOption)
             })
 
         }
@@ -373,42 +388,116 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         dueDate: String,
         productDocId: String,
         cartDocId: String
-    ): CartProductModel {
+    ): CartProductModel = runBlocking {
+        // runBlocking 사용
+        // mvvm 에서 mutableLiveData 사용할때 바뀔듯
         val cartProductModel = CartProductModel()
+        var productModel = ProductModel()
+        try {
+            // IO 스레드에서 비동기 데이터 로드
+            val work1 = async(Dispatchers.IO) {
+                ProductService.getProductInfo(productDocId).getOrNull(0) ?: ProductModel()
+            }
 
-        // dueDate를 Timestamp로 변환하여 할당
+            // 데이터 로드 완료 대기
+            productModel = work1.await()
+
+            // 시간 제한 설정 (2초)
+            withTimeout(2000L) {
+                while (productModel.productDocId.isEmpty()) {
+                    delay(500)  // 0.5초마다 확인
+                }
+            }
+        } catch (e: TimeoutCancellationException) {
+            // 타임아웃 발생 시 기본값 처리
+            productModel = ProductModel()
+        } catch (e: Exception) {
+            Log.e("test100", "예외 발생: ${e.message}")
+        }
+
+        // 데이터 유효성 확인
+        if (productModel.productDocId.isEmpty()) {
+            throw IllegalStateException("ProductModel이 유효하지 않습니다.")
+        }
+
+        // `dueDate`를 `Timestamp`로 변환하여 할당
         cartProductModel.cartItemDeliveryDueDate = convertToTimestamp(dueDate)
+        cartProductModel.cartProductUnitPrice = productModel.productPrice
 
         // 필요한 변환 작업 수행
         cartProductModel.cartItemProductQuantity = productCount.toIntOrNull() ?: 0
         cartProductModel.cartItemProductDocId = productDocId
         cartProductModel.cartDocId = cartDocId
         cartProductModel.customerDocId = homeActivity.loginUserDocumentId
-        // 비구독
-        cartProductModel.cartItemIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
-        // 등록시간
+
+        // 가격 설정
+        cartProductModel.cartProductPrice = cartProductModel.cartItemProductQuantity * cartProductModel.cartProductUnitPrice
+
+        // 비구독 설정
+        cartProductModel.cartItemIsSubscribed =
+            DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
+
+        // 등록 시간
         cartProductModel.cartItemDeliveryTimeStamp = Timestamp.now()
+
+        // 기본값 설정
         cartProductModel.cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_NONE
         cartProductModel.cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_NONE
-        cartProductModel.cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE
+        cartProductModel.cartItemIsCheckState = CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE
         cartProductModel.cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL
 
-        return cartProductModel
+        // ProductModel 데이터를 CartProductModel에 매핑
+        cartProductModel.cartProductName = productModel.productName
+        return@runBlocking cartProductModel
     }
 
-    // 2025-01-29 형식을 TimeStamp 객체로 변환하기
+    // 날짜 타입 변경 String-> Timestamp
+    // DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
+    // 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
+    // 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
     fun convertToTimestamp(dueDate: String): Timestamp {
+        // 날짜 포맷터 생성
         val dateFormatter = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREAN)
         dateFormatter.timeZone = java.util.TimeZone.getTimeZone("Asia/Seoul")
 
         return try {
+            // 문자열을 Date 객체로 변환
             val parsedDate = dateFormatter.parse(dueDate)
-            if (parsedDate != null) Timestamp(parsedDate) else Timestamp.now()
+
+            if (parsedDate != null) {
+                // 시간을 오후 12시(정오)로 설정
+                val calendar = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("Asia/Seoul"))
+                calendar.time = parsedDate
+                calendar.set(java.util.Calendar.HOUR_OF_DAY, 12)
+                calendar.set(java.util.Calendar.MINUTE, 0)
+                calendar.set(java.util.Calendar.SECOND, 0)
+                calendar.set(java.util.Calendar.MILLISECOND, 0)
+
+                // 변경된 시간을 UTC로 변환하여 Timestamp 객체 생성
+                val utcCalendar = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC"))
+                utcCalendar.timeInMillis = calendar.timeInMillis
+                Timestamp(utcCalendar.time)
+            } else {
+                Timestamp.now()  // 날짜가 잘못된 경우 현재 시간을 반환
+            }
         } catch (e: Exception) {
             e.printStackTrace()
-            Timestamp.now()
+            Timestamp.now()  // 예외 발생 시 현재 시간 반환
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // 다이얼로그를 통해 메시지를 보여주는 함수
     fun showConfirmationDialog(

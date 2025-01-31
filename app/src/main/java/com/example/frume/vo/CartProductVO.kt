@@ -1,9 +1,8 @@
 package com.example.frume.vo
 
 import com.example.frume.model.CartProductModel
-import com.example.frume.util.CartProductIsPurchasesBoolType
+import com.example.frume.util.CartProductIsCheckStateBoolType
 import com.example.frume.util.CartProductState
-import com.example.frume.util.CartProductSubscribeState
 import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
 import com.example.frume.util.DeliverySubscribeState
@@ -41,10 +40,19 @@ class CartProductVO {
     var cartItemDeliveryTimeStamp = Timestamp.now()
 
     // 구매 여부( 구매 할 물건인가?)
-    var cartItemIsPurchases = true // 구매할 품목임
+    var cartItemIsCheckState = true // 구매할 품목임
 
     // 상태
     var cartProductState = 1 // 정상
+
+    // 이름
+    var cartProductName = ""
+
+    // 단가
+    var cartProductUnitPrice = 0
+
+    // 단가 * 수량 가격
+    var cartProductPrice = 0
 
 
 
@@ -57,6 +65,9 @@ class CartProductVO {
         cartProductModel.cartItemProductQuantity = cartItemProductQuantity
         cartProductModel.cartItemDeliveryTimeStamp = cartItemDeliveryTimeStamp
         cartProductModel.cartItemDeliveryDueDate = cartItemDeliveryDueDate
+        cartProductModel.cartProductPrice = cartProductPrice
+        cartProductModel.cartProductName = cartProductName
+        cartProductModel.cartProductUnitPrice=cartProductUnitPrice
 
 
         when(cartItemIsSubscribed){
@@ -81,9 +92,9 @@ class CartProductVO {
             DeliveryCycleDays.DELIVERY_CYCLE_DAYS_SUNDAY.num->{cartProductModel.cartItemDeliveryCycleDay=DeliveryCycleDays.DELIVERY_CYCLE_DAYS_SUNDAY}
         }
 
-        when(cartItemIsPurchases){
-            CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE.bool->{cartProductModel.cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_TRUE}
-            CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_FALSE.bool->{cartProductModel.cartItemIsPurchases = CartProductIsPurchasesBoolType.CART_PRODUCT_IS_PURCHASES_FALSE}
+        when(cartItemIsCheckState){
+            CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE.bool->{cartProductModel.cartItemIsCheckState = CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE}
+            CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_FALSE.bool->{cartProductModel.cartItemIsCheckState = CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_FALSE}
             else->{}
         }
 

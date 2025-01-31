@@ -1,4 +1,4 @@
-  <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/nav_graph"
@@ -48,8 +48,8 @@
 			android:id="@+id/action_navigation_cart_to_user_payment_screen"
 			app:destination="@id/user_payment_screen" />
 		<action
-			android:id="@+id/action_navigation_cart_to_user_address_manage"
-			app:destination="@id/user_address_manage" />
+			android:id="@+id/action_navigation_cart_to_bottomSheetShowCartOptionFragment"
+			app:destination="@id/bottomSheetShowCartOptionFragment" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"
@@ -95,11 +95,12 @@
 			android:id="@+id/action_user_payment_screen_to_user_product_info"
 			app:destination="@id/user_product_info" />
 		<action
-			android:id="@+id/action_user_payment_screen_to_user_address_manage"
-			app:destination="@id/user_address_manage" />
+			android:id="@+id/action_user_payment_screen_to_user_cart_choice_Deliver_address"
+			app:destination="@id/user_cart_choice_Deliver_address" />
 		<argument
-			android:name="userDocId"
-			app:argType="string" />
+			android:name="deliveryAddressDocId"
+			app:argType="string"
+			app:nullable="true" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
@@ -211,6 +212,7 @@
 			android:name="productDocId"
 			app:argType="string" />
 	</fragment>
+
 	<fragment
 
 		android:id="@+id/user_product_show_list"
@@ -255,7 +257,6 @@
 		android:name="com.example.frume.fragment.home_fragment.my_info.UserPwModifyFragment"
 		android:label="비밀번호 변경"
 		tools:layout="@layout/fragment_user_pw_modify" />
-
 	<dialog
 		android:id="@+id/user_product_info_dialog"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDialogFragment"
@@ -271,13 +272,37 @@
 		<action
 			android:id="@+id/action_user_product_info_dialog_to_navigation_cart"
 			app:destination="@id/navigation_cart" />
-	</dialog>
 
+
+	</dialog>
 	<fragment
 		android:id="@+id/user_info_review"
-		android:name="com.example.frume.fragment.home_fragment.my_info.review.UserInfoReviewFragment"
+		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoReviewFragment"
 		android:label="유저 내 후기"
 		tools:layout="@layout/fragment_user_info_review" />
 
+	<fragment
+		android:id="@+id/user_cart_choice_Deliver_address"
+		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartChoiceDeliveryAddressFragment"
+		android:label="배송지 선택"
+		tools:layout="@layout/fragment_user_cart_choice_delivery_address">
+		<action
+			android:id="@+id/action_user_cart_choice_Deliver_address_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+	</fragment>
+
+	<dialog
+		android:id="@+id/bottomSheetShowCartOptionFragment"
+		android:name="com.example.frume.fragment.user_fragment.user_cart.BottomSheetShowCartOptionFragment"
+		android:label="상품정보 변경 바텀시트"
+		tools:layout="@layout/fragment_bottom_sheet_show_cart_option"
+		>
+		<argument
+			android:name="cartDocId"
+			app:argType="string" />
+		<argument
+			android:name="cartProductDocId"
+			app:argType="string" />
+	</dialog>
 
 </navigation>

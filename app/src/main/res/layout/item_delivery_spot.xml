@@ -27,7 +27,9 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_home_24px" /> <!-- 접근성용 설명 -->
+                    android:src="@drawable/ic_home_24px"
+                    android:visibility="gone"
+                    /> <!-- 접근성용 설명 -->
 
                 <!-- 주소지 이름 -->
                 <TextView

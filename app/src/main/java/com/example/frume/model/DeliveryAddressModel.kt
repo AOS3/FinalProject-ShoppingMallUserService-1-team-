@@ -38,6 +38,9 @@ class DeliveryAddressModel {
     // 상태
     var deliveryAddressState = DeliveryAddressState.DELIVERY_ADDRESS_STATE_NORMAL // 1: 정상
 
+    // 받는사람 이름
+    var deliveryAddressReceiverName = ""
+
     fun toDeliverAddressVO(): DeliveryAddressVO {
         val deliveryAddressVO = DeliveryAddressVO()
 
@@ -51,6 +54,7 @@ class DeliveryAddressModel {
         deliveryAddressVO.deliveryAddressIsDefaultAddress = deliveryAddressIsDefaultAddress.bool
         deliveryAddressVO.deliveryAddressTimeStamp = deliveryAddressTimeStamp
         deliveryAddressVO.deliveryAddressState = deliveryAddressState.num
+        deliveryAddressVO.deliveryAddressReceiverName = deliveryAddressReceiverName
 
         return deliveryAddressVO
 

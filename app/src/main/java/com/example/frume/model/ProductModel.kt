@@ -46,7 +46,6 @@ class ProductModel {
     // 등록 시간
     var productTimeStamp = Timestamp.now()
 
-    // 안드감
     // 판매량
     var productSalesCount = 0
 

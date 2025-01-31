@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserLoginBinding
 import com.example.frume.home.HomeActivity
+import com.example.frume.model.UserModel
+import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import com.example.frume.util.LoginResult
 import kotlinx.coroutines.CoroutineScope
@@ -26,12 +29,14 @@ import kotlinx.coroutines.launch
 class UserLoginFragment : Fragment() {
     private var _binding: FragmentUserLoginBinding? = null
     private val binding get() = _binding!!
+    lateinit var loginActivity: LoginActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_login, container, false)
+        loginActivity = activity as LoginActivity
         return binding.root
     }
 
@@ -46,11 +51,12 @@ class UserLoginFragment : Fragment() {
     }
 
     private fun setLayout() {
-        userAutoLoginProcessing()
+
         onClickLoginBtn()
         onClickSignUpBtn()
         onClickNonMemberLoginBtn()
         setupErrorResetListeners()
+
     }
 
     // sehoon 홈 화면 이동 메서드
@@ -58,6 +64,7 @@ class UserLoginFragment : Fragment() {
         val intent = Intent(requireContext(), HomeActivity::class.java)
         intent.putExtra("user_document_id", "noUser")
         startActivity(intent)
+        loginActivity.finish()
     }
 
     // sehoon 로그인 버튼 클릭 메서드
@@ -93,7 +100,6 @@ class UserLoginFragment : Fragment() {
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                         textFieldUserLoginId.error = null // 에러 초기화
                     }
-
                     override fun afterTextChanged(s: Editable?) {}
                 })
             }
@@ -105,7 +111,6 @@ class UserLoginFragment : Fragment() {
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                         textFieldUserLoginPw.error = null // 에러 초기화
                     }
-
                     override fun afterTextChanged(s: Editable?) {}
                 })
             }
@@ -113,7 +118,7 @@ class UserLoginFragment : Fragment() {
     }
 
     // 로그인 처리 메서드
-    private fun proLogin() {
+    fun proLogin() {
         binding.apply {
             // 입력 요소 검사
             if (binding.textFieldUserLoginId.editText?.text?.toString()?.isEmpty()!!) {
@@ -154,11 +159,16 @@ class UserLoginFragment : Fragment() {
                     }
 
                     LoginResult.LOGIN_RESULT_SUCCESS -> {
-
+                      
                         val work2 = async(Dispatchers.IO) {
                             UserService.selectUserDataByUserIdOne(loginUserId)
                         }
                         val loginUserModel = work2.await()
+
+                        val work3 = async(Dispatchers.IO){
+                            CartService.gettingMyCart(loginUserModel.customerUserDocId)
+                        }
+                        val cartDocId = work3.await().cartDocId
 
                         // 만약 자동로그인이 체크되어 있다면
                         if (binding.checkBoxUserLoginAuto.isChecked) {
@@ -166,7 +176,7 @@ class UserLoginFragment : Fragment() {
 
                                 val work1 = async(Dispatchers.IO) {
                                     UserService.updateUserAutoLoginToken(
-                                        requireContext(),
+                                        loginActivity,
                                         loginUserModel.customerUserDocId
                                     )
                                 }
@@ -176,6 +186,7 @@ class UserLoginFragment : Fragment() {
                         // HomeActivity를 실행하고 현재 Activity를 종료한다.
                         val intent = Intent(requireContext(), HomeActivity::class.java)
                         intent.putExtra("user_document_id", loginUserModel.customerUserDocId)
+                        intent.putExtra("user_cart_document_id", cartDocId)
                         startActivity(intent)
                         requireActivity().finish()
                     }
