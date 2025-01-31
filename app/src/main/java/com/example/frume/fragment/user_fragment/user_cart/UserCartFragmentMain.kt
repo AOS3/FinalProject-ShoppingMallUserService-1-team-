@@ -124,7 +124,7 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
 
                 // sehoon 장바구니 -> 저장
                 val action =
-                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null)
+                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null,"Cart")
                 findNavController().navigate(action)
             }
         }
