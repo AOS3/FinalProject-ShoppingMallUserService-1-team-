@@ -22,12 +22,6 @@ class OrderProductVO {
     // 상품 이미지
     var orderProductImagePath = ""
 
-    // 적립금 사용값
-    var orderProductReward = 0
-
-    // 배송비
-    var orderProductDeliveryCost = 0
-
     // 최종 가격
     var orderProductTotalPrice = 0
 
@@ -52,8 +46,6 @@ class OrderProductVO {
         orderProductVO.orderProductPrice = orderProductPrice
         orderProductVO.orderProductCount = orderProductCount
         orderProductVO.orderProductImagePath = orderProductImagePath
-        orderProductVO.orderProductReward = orderProductReward
-        orderProductVO.orderProductDeliveryCost = orderProductDeliveryCost
         orderProductVO.orderProductTotalPrice = orderProductTotalPrice
         orderProductVO.orderProductTimeStamp = orderProductTimeStamp
         orderProductVO.orderFixedDate = orderFixedDate

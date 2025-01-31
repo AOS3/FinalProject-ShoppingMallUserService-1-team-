@@ -9,11 +9,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCartChoiceDeliveryAddressBinding
 import com.example.frume.databinding.ItemDeliverySpotBinding
+import com.example.frume.fragment.user_fragment.user_payment.UserPaymentScreenFragmentArgs
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.UserDeliveryAddressService
@@ -24,7 +26,7 @@ import kotlinx.coroutines.launch
 
 
 class UserCartChoiceDeliveryAddressFragment : Fragment() {
-
+    private val args: UserCartChoiceDeliveryAddressFragmentArgs by navArgs()
     lateinit var homeActivity: HomeActivity
     private var _binding: FragmentUserCartChoiceDeliveryAddressBinding? = null
     private val binding get() = _binding!!
@@ -137,7 +139,7 @@ class UserCartChoiceDeliveryAddressFragment : Fragment() {
                             .setPopUpTo(R.id.user_payment_screen, inclusive = true)
                             .build()
 
-                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId)
+                        val action = UserCartChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId,args.fromWhere)
                         findNavController().navigate(action,  navOption)
                     })
                 }
