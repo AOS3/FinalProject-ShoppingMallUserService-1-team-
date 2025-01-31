@@ -118,6 +118,8 @@ class CartProductRepository {
 
         // 장바구니에서 품목 제거
         suspend fun deleteCartProducts(cartDocId: String, selectedListDocId: MutableList<String>): Boolean {
+            Log.d("test100","CartProductRepository ->deleteCartProducts()")
+
             val firestore = FirebaseFirestore.getInstance()
 
             // Firestore의 장바구니 데이터 접근

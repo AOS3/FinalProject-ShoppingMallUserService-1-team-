@@ -145,6 +145,16 @@ class UserCartFragment : Fragment() {
                     textViewUserCartUserAddress.text = "배송지 정보를 불러올 수 없습니다."
                     textViewUserCartUserPhoneNumber.text = "잠시 후 다시 시도해주세요."
                 }
+
+                work1.join()
+
+                // 주문하기 버튼 누를 시 현재 리스트 전체 삭제
+                cartProductList.removeAll(cartProductList)
+
+                // sehoon 장바구니 -> 저장
+                val action =
+                    UserCartFragmentDirections.actionNavigationCartToUserPaymentScreen(null,"Cart")
+                findNavController().navigate(action)
             }
         }
     }

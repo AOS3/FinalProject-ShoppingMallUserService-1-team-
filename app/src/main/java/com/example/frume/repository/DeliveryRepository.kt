@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class DeliveryRepository {
     companion object{
         // 배송 추가 메서드
-        fun addUserDelivery(deliveryVO: DeliveryVO): Boolean {
+        fun addUserDelivery(deliveryVO: DeliveryVO): String {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("deliveryData")
             val documentReference = collectionReference.document()
@@ -21,11 +21,11 @@ class DeliveryRepository {
                 documentReference.set(addDeliveryVO)
 
                 // 데이터 저장 성공 시 true 반환
-                true
+                documentReference.id
             } catch (e: Exception) {
                 // 예외 발생 시 false 반환
                 Log.e("addUserDelivery", "에러 발생: ${e.message}", e)
-                false
+                "false"
             }
         }
     }

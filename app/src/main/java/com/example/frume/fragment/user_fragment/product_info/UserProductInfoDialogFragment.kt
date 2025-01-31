@@ -275,19 +275,15 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
     private fun onClickPaymentBtn() {
         binding.buttonUserProductInfoDialogBuy.setOnClickListener {
-            val userDocId = activity as HomeActivity
             if (binding.textViewUserProductInfoDialogDeliveryDate.text == "배송 예정일 선택") {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
-                if (productCount == 1) {
-                    val action =
-                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(null)
-                    findNavController().navigate(action)
-                } else {
-                    val action =
-                        UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(null)
-                    findNavController().navigate(action)
-                }
+                val action =
+                    UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
+                        null,"productInfo"
+                    )
+                findNavController().navigate(action)
+
             }
         }
     }
@@ -431,7 +427,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         cartProductModel.customerDocId = homeActivity.loginUserDocumentId
 
         // 가격 설정
-        cartProductModel.cartProductPrice = cartProductModel.cartItemProductQuantity * cartProductModel.cartProductUnitPrice
+        cartProductModel.cartProductPrice =
+            cartProductModel.cartItemProductQuantity * cartProductModel.cartProductUnitPrice
 
         // 비구독 설정
         cartProductModel.cartItemIsSubscribed =
@@ -443,7 +440,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         // 기본값 설정
         cartProductModel.cartItemDeliveryCycleWeek = DeliveryCycleWeeks.DELIVERY_CYCLE_WEEKS_NONE
         cartProductModel.cartItemDeliveryCycleDay = DeliveryCycleDays.DELIVERY_CYCLE_DAYS_NONE
-        cartProductModel.cartItemIsCheckState = CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE
+        cartProductModel.cartItemIsCheckState =
+            CartProductIsCheckStateBoolType.CART_PRODUCT_IS_CHECKED_TRUE
         cartProductModel.cartProductState = CartProductState.CART_PRODUCT_STATE_NORMAL
 
         // ProductModel 데이터를 CartProductModel에 매핑
@@ -466,7 +464,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
             if (parsedDate != null) {
                 // 시간을 오후 12시(정오)로 설정
-                val calendar = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("Asia/Seoul"))
+                val calendar =
+                    java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("Asia/Seoul"))
                 calendar.time = parsedDate
                 calendar.set(java.util.Calendar.HOUR_OF_DAY, 12)
                 calendar.set(java.util.Calendar.MINUTE, 0)
@@ -474,7 +473,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 calendar.set(java.util.Calendar.MILLISECOND, 0)
 
                 // 변경된 시간을 UTC로 변환하여 Timestamp 객체 생성
-                val utcCalendar = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC"))
+                val utcCalendar =
+                    java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC"))
                 utcCalendar.timeInMillis = calendar.timeInMillis
                 Timestamp(utcCalendar.time)
             } else {
@@ -485,18 +485,6 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             Timestamp.now()  // 예외 발생 시 현재 시간 반환
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     // 다이얼로그를 통해 메시지를 보여주는 함수
