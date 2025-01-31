@@ -11,6 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -21,7 +24,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserSignUpBinding
 import com.example.frume.model.CartModel
-import com.example.frume.model.ReviewModel
 import com.example.frume.model.UserModel
 import com.example.frume.service.CartService
 import com.example.frume.service.UserService
@@ -35,13 +37,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import java.time.LocalDate
 
 
 class UserSignUpFragment : Fragment() {
     private var _binding: FragmentUserSignUpBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var webView: WebView
 
     // 전역 변수 선언 (이 변수에 주소를 저장)
     private val getCustomerUserAddress = mutableMapOf<String, String>()
@@ -68,6 +71,57 @@ class UserSignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+
+        // WebView와 TextView 초기화
+        webView = binding.webViewSignUpTerms
+
+        binding.textViewUserSignUpTermsClick.setOnClickListener {
+            openWebView("https://kue0911.github.io/SignUpTerms/")
+        }
+
+        // WebView 설정
+        setUpWebView()
+        // hideWebView()
+    }
+
+    // WebView 설정을 위한 메서드
+    private fun setUpWebView() {
+        webView.webViewClient = WebViewClient()  // 링크 클릭 시 새 창이 뜨지 않도록 설정
+        webView.settings.javaScriptEnabled = true  // JavaScript 활성화
+
+        // JavaScript 인터페이스 설정
+        webView.addJavascriptInterface(object : Any() {
+            @JavascriptInterface
+            fun hideWebView() {
+                // 3초 후에 WebView를 숨기도록 CoroutineScope 사용
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(500)  // 3초 대기
+                    webView.visibility = View.GONE  // WebView 숨기기
+                }
+            }
+
+            @JavascriptInterface
+            fun syncCheckbox(isChecked: Boolean) {
+                // Fragment의 체크박스를 동기화
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.checkBoxUserSignUpTerms.isChecked = isChecked
+                }
+            }
+        }, "Android")
+    }
+
+    // TextView 클릭 시 웹페이지 로드하고 WebView 보이게 하는 메서드
+    private fun openWebView(url: String) {
+        // URL 로드
+        webView.loadUrl(url)
+
+        // WebView 보이게 하기
+        webView.visibility = View.VISIBLE
+    }
+
+    // WebView 숨기기
+    private fun hideWebView() {
+        webView.visibility = View.GONE
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -153,11 +207,11 @@ class UserSignUpFragment : Fragment() {
         // 휴대폰 번호
         val customerUserPhoneNumber = binding.textFieldUserSignUpPhoneNumber.editText?.text.toString()
         // 회원 주소
-       /* val customerUserAddress = mutableMapOf(
-            "BasicAddress" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
-            "DetailedAddress" to binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim(),
-            "PostNumber" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
-        )*/
+        /* val customerUserAddress = mutableMapOf(
+             "BasicAddress" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
+             "DetailedAddress" to binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim(),
+             "PostNumber" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
+         )*/
 
         // 회원 상태 (CustomerUserState enum)
         val customerUserState = CustomerUserState.CUSTOMER_USER_STATE_ACTIVE
@@ -461,7 +515,7 @@ class UserSignUpFragment : Fragment() {
             override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
-           override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
                 val phoneNumber = charSequence.toString()
 
                 // 전화번호가 11자리를 넘지 않도록 제한

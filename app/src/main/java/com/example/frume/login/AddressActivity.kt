@@ -35,7 +35,7 @@ class AddressActivity : AppCompatActivity() {
         setContentView(browser)
 
         // 웹 페이지 로드
-        browser.loadUrl("https://youngeunww2.blogspot.com/2025/01/api-test-window.html")
+        browser.loadUrl("https://kue0911.github.io/Address/")
     }
 
     // JavaScript 인터페이스 클래스
