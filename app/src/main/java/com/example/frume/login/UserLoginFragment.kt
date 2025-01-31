@@ -1,6 +1,7 @@
 package com.example.frume.login
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -23,7 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-
 
 
 class UserLoginFragment : Fragment() {
@@ -84,10 +84,7 @@ class UserLoginFragment : Fragment() {
     // sehoon 회원가입 버튼 클릭 메서드
     private fun onClickSignUpBtn() {
         binding.textViewUserLoginSignUpButton.setOnClickListener {
-            Log.d("test100","UserLoginFragment 111111111111111onClickSignUpBtn()")
             val action = UserLoginFragmentDirections.actionUserLoginToUserSignup()
-            Log.d("test100","UserLoginFragment 22222222222222222222222222onClickSignUpBtn()")
-
             findNavController().navigate(action)
         }
     }
@@ -190,10 +187,36 @@ class UserLoginFragment : Fragment() {
                         val intent = Intent(requireContext(), HomeActivity::class.java)
                         intent.putExtra("user_document_id", loginUserModel.customerUserDocId)
                         intent.putExtra("user_cart_document_id", cartDocId)
-
                         startActivity(intent)
                         requireActivity().finish()
                     }
+                }
+            }
+        }
+    }
+
+    // hyeonseo 0123
+    // 자동 로그인 처리 메서드
+    private fun userAutoLoginProcessing() {
+        // Preference에 login token이 있는지 확인한다.
+        val sharedPreferences = requireContext().getSharedPreferences("LoginToken", Context.MODE_PRIVATE)
+        val loginToken = sharedPreferences.getString("token", null)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            if (loginToken != null) {
+                // 사용자 정보를 가져온다.
+                val work1 = async(Dispatchers.IO) {
+                    UserService.selectUserDataByLoginToken(loginToken)
+                }
+                val userVO = work1.await()
+
+                // 가져온 사용자 데이터가 있다면
+                if (userVO != null) {
+                    // BoardActivity를 실행하고 현재 Activity를 종료한다.
+                    val intent = Intent(requireContext(), HomeActivity::class.java)
+                    intent.putExtra("user_document_id", userVO.customerUserDocId)
+                    startActivity(intent)
+                    requireActivity().finish()
                 }
             }
         }

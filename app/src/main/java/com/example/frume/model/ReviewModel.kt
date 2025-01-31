@@ -50,6 +50,4 @@ class ReviewModel {
         reviewVO.reviewState = reviewState.num
         return reviewVO
     }
-
-
 }

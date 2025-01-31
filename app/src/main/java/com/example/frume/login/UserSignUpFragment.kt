@@ -1,13 +1,18 @@
 package com.example.frume.login
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -16,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserSignUpBinding
 import com.example.frume.model.CartModel
+import com.example.frume.model.ReviewModel
 import com.example.frume.model.UserModel
 import com.example.frume.service.CartService
 import com.example.frume.service.UserService
@@ -26,14 +32,19 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.time.LocalDate
 
 
 class UserSignUpFragment : Fragment() {
     private var _binding: FragmentUserSignUpBinding? = null
     private val binding get() = _binding!!
+
+    // 전역 변수 선언 (이 변수에 주소를 저장)
+    private val getCustomerUserAddress = mutableMapOf<String, String>()
 
     // 아이디 중복 확인 검사를 했는지 확인하는 변수
     var isCheckJoinCustomerUserIdExist = false
@@ -42,7 +53,6 @@ class UserSignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("test100","UserSignUpFragment -> onCreateView()")
 
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_sign_up, container, false)
         return binding.root
@@ -56,30 +66,9 @@ class UserSignUpFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.d("test100","UserSignUpFragment -> onViewCreated()")
-
         super.onViewCreated(view, savedInstanceState)
         setLayout()
     }
-
-    /*private fun getUserData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val userList = UserService.getUserInfo("1HyelFa2HUCNyfNCCIPx")
-                withContext(Dispatchers.Main) {
-                    // UI
-                    userList.forEach { item ->
-                        Log.d("test100", "${item.customerUserId}")
-                        Log.d("test100", "${item.customerUserPw}")
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "no data", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }*/
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setLayout() {
@@ -88,12 +77,30 @@ class UserSignUpFragment : Fragment() {
         // 회원 가입 완료 및 홈화면으로 이동
         onClickSignUpButton()
         onClickIdValidateBtn()
-        // test()
+
+        // setAddressFieldClickListener()
+        setAddressFieldClickListener()
+
+        // 전화번호 11자리 제한
+        setPhoneNumberLimit()
+
+    }
+
+    // 주소 선택 버튼 클릭 리스너
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setAddressFieldClickListener() {
+        binding.textFieldUserSignUpAddress.setOnClickListener {
+            // AddressActivity로 이동
+            val intent = Intent(requireContext(), AddressActivity::class.java)
+            getAddressResult.launch(intent)  // 주소 찾기 화면으로 이동
+        }
     }
 
     // sehoon 검사 후 db에 저장
     @RequiresApi(Build.VERSION_CODES.O)
     private fun insertDB() {
+
+
         // 아이디 중복 확인을 하지 않았다면
         if (!isCheckJoinCustomerUserIdExist) {
             // AlertDialog를 사용하여 다이얼로그 띄우기
@@ -146,11 +153,11 @@ class UserSignUpFragment : Fragment() {
         // 휴대폰 번호
         val customerUserPhoneNumber = binding.textFieldUserSignUpPhoneNumber.editText?.text.toString()
         // 회원 주소
-        val customerUserAddress = mutableMapOf(
+       /* val customerUserAddress = mutableMapOf(
             "BasicAddress" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
             "DetailedAddress" to binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim(),
             "PostNumber" to (binding.textFieldUserSignUpAddress.editableText?.toString()?.trim() ?: ""),
-        )
+        )*/
 
         // 회원 상태 (CustomerUserState enum)
         val customerUserState = CustomerUserState.CUSTOMER_USER_STATE_ACTIVE
@@ -158,31 +165,42 @@ class UserSignUpFragment : Fragment() {
         val customerUserTimeStamp = Timestamp.now()
 
         // UserModel 객체 생성
-        val userModel = UserModel().apply {
-            this.customerUserId = customerUserId
-            this.customerUserPw = customerUserPw
-            this.customerUserEmail = customerUserEmail
-            this.customerUserName = customerUserName
-            this.customerUserRRNFirst = customerUserRRNFirst
-            this.customerUserRRNLast = customerUserRRNLast
-            this.customerUserAge = customerUserAge
-            this.customerUserGender = customerUserGender
-            this.customerUserPhoneNumber = customerUserPhoneNumber
-            this.customerUserAddress = customerUserAddress
-            this.customerUserState = customerUserState
-            this.customerUserTimeStamp = customerUserTimeStamp
-        }
+        val basicAdderTest = binding.textFieldUserSignUpAddress.text
+        val detailAddress = binding.textFieldUserSignUpDetailAddress.editText?.text
+        val postNumber = 12345
+
+        val getCustomerUserAddress = mutableMapOf<String, String>()
+        // val customerUserAddress: MutableMap<String, String> = mutableMapOf()
+
+        getCustomerUserAddress["BasicAddress"] = "$basicAdderTest"
+        getCustomerUserAddress["DetailedAddress"] = "$detailAddress"
+        getCustomerUserAddress["PostNumber"] = "$postNumber"
 
         // 비동기적으로 데이터베이스에 저장하는 부분
         CoroutineScope(Dispatchers.Main).launch {
             try {
+                val userModel = UserModel().apply {
+                    this.customerUserId = customerUserId
+                    this.customerUserPw = customerUserPw
+                    this.customerUserEmail = customerUserEmail
+                    this.customerUserName = customerUserName
+                    this.customerUserRRNFirst = customerUserRRNFirst
+                    this.customerUserRRNLast = customerUserRRNLast
+                    this.customerUserAge = customerUserAge
+                    this.customerUserGender = customerUserGender
+                    this.customerUserPhoneNumber = customerUserPhoneNumber
+                    this.customerUserAddress = getCustomerUserAddress
+                    this.customerUserState = customerUserState
+                    this.customerUserTimeStamp = customerUserTimeStamp
+                }
+
                 val work1 = async(Dispatchers.IO) {
                     // 실제 데이터 저장 메서드 호출
                     UserService.addCustomerUserData(userModel)
                 }
 
                 // 작업이 완료될 때까지 대기
-               val userDocId =  work1.await()
+                val userDocId =  work1.await()
 
                 // 회원가입시 장바구니 생성 hj
                 val work2 = async(Dispatchers.IO){
@@ -205,6 +223,27 @@ class UserSignUpFragment : Fragment() {
             }
         }
     }
+
+    // 주소 선택을 위한 결과 처리
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val getAddressResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val address = result.data?.getStringExtra("data")
+                // val postNumber = result.data?.getStringExtra("postData")
+
+                // 주소를 TextView에 반영
+                binding.textFieldUserSignUpAddress.setText(address)
+
+                // 전역 변수에 주소 값 저장
+                getCustomerUserAddress["DetailedAddress"] = binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim()
+                getCustomerUserAddress["BasicAddress"] = address ?: ""
+                getCustomerUserAddress["PostNumber"] = address ?: ""
+
+                // 디버깅 로그 출력
+                Log.d("test100", "customerUserAddress: $getCustomerUserAddress")
+            }
+        }
 
     // 주민등록번호 앞 6자리와 뒷 1자리로 나이와 성별 추출하는 함수
     @RequiresApi(Build.VERSION_CODES.O)
@@ -318,7 +357,7 @@ class UserSignUpFragment : Fragment() {
     }
 
     // sehoon 주소 필드 유효성 검사
-    /*private fun validateAddressField(): Boolean {
+    private fun validateAddressField(): Boolean {
         val addressText = binding.textFieldUserSignUpAddress.text.toString().trim()
         return if (addressText.isEmpty() || addressText == "클릭해서 주소 설정") {
             // 에러 처리
@@ -329,7 +368,7 @@ class UserSignUpFragment : Fragment() {
         } else {
             true
         }
-    }*/
+    }
 
     // sehoon 입력 빈칸 확인
     private fun emptyEditText(): Boolean {
@@ -344,7 +383,7 @@ class UserSignUpFragment : Fragment() {
                 textFieldUserSignUpRRNLast.validateInput("주민번호 뒤 입력해 주세요."),
                 textFieldUserSignUpPhoneNumber.validateInput("전화번호를 입력해 주세요."),
                 textFieldUserSignUpDetailAddress.validateInput("상세주소를 입력해 주세요."),
-                // validateAddressField()
+                validateAddressField()
             ).all { it }
             return isValid
         }
@@ -413,5 +452,28 @@ class UserSignUpFragment : Fragment() {
         val isPwMatched = validatePwCheck() // 비밀번호 일치 검사
 
         return isPwValid && isPwMatched
+    }
+
+    // 전화번호 11자리 제한을 위한 메서드
+    private fun setPhoneNumberLimit() {
+        binding.textFieldUserSignUpPhoneNumber.editText?.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+           override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+                val phoneNumber = charSequence.toString()
+
+                // 전화번호가 11자리를 넘지 않도록 제한
+                if (phoneNumber.length > 11) {
+                    // 11자리 이후로는 더 이상 입력되지 않도록 자르기
+                    binding.textFieldUserSignUpPhoneNumber.editText?.setText(phoneNumber.substring(0, 11))
+                    binding.textFieldUserSignUpPhoneNumber.editText?.setSelection(11) // 커서 위치를 마지막에 맞추기
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
     }
 }
