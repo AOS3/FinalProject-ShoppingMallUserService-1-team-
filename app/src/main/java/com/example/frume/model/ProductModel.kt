@@ -53,6 +53,9 @@ class ProductModel {
     // 세부 카테고리
     var productCategory3 = ""
 
+    // 홈화면 탭바 카테고리 필터링
+    var productHomeCategory = 0
+
 
     fun toProductVO(): ProductVO {
         val productVO = ProductVO()
@@ -72,6 +75,8 @@ class ProductModel {
         productVO.productTimeStamp = productTimeStamp
         productVO.productSalesCount = productSalesCount
         productVO.productCategory3 = productCategory3
+        productVO.productHomeCategory = productHomeCategory
+
 
         return productVO
 

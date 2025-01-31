@@ -11,12 +11,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
+
 import androidx.navigation.findNavController
 import com.example.frume.R
 import com.example.frume.databinding.ActivityLoginBinding
 import com.example.frume.home.HomeActivity
 import com.example.frume.service.UserService
-import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
 class LoginActivity : AppCompatActivity() {
+
     private lateinit var activityLoginBinding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +36,39 @@ class LoginActivity : AppCompatActivity() {
         activityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(activityLoginBinding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fragmentContainerViewUser)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        // userAutoLoginProcessing()
+    }
+
+    fun userAutoLoginProcessing() {
+        val pref = getSharedPreferences("LoginToken", Context.MODE_PRIVATE)
+        val loginToken = pref.getString("token", null)
+
+        CoroutineScope(Dispatchers.Main).launch {
+            if (loginToken != null) {
+                val work1 = async(Dispatchers.IO) {
+                    UserService.selectUserDataByLoginToken(loginToken)
+                }
+                val userVO = work1.await()
+
+                if (userVO != null) {
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    intent.putExtra("user_document_id", userVO.customerUserDocId)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    findNavController(R.id.fragmentContainerViewUser)
+                        .navigate(R.id.user_login)
+                }
+            } else {
+                findNavController(R.id.fragmentContainerViewUser)
+                    .navigate(R.id.user_login)
+            }
+        }
     }
 }
+

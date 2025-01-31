@@ -1,4 +1,5 @@
 package com.example.frume.fragment.home_fragment.user_home
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,11 +24,19 @@ class HomeProductAdapter(
 
     // 갱신 add(updateList: MutableList<TempProduct>)
     fun add(updateList: MutableList<TempProduct>) {
-        val posStart = items.size
-        items.clear()
-        items.addAll(updateList)
-        notifyItemRangeChanged(posStart,updateList.size-posStart)
+
+        Log.d("test111", "!! updateList size: ${updateList.size}") // 업데이트 리스트 크기 확인
+        Log.d("test111", "!! updateList contents: $updateList") // 업데이트 리스트 내용 확인
+
+        items.clear() // 기존 데이터를 초기화
+        items.addAll(updateList) // 새로운 데이터를 추가
+        notifyDataSetChanged() // 전체 데이터 변경 알림
+
+        // 디버깅 로그
+        Log.d("test111", "Updated items: $items")
     }
+
+
 }
 
 class ProductViewHolder(

@@ -98,6 +98,35 @@ class UserService {
             }
         }
 
+
+        // 사용자의 상태를 변경하는 메서드
+        suspend fun updateUserState(customerUserDocId:String, newState:CustomerUserState){
+            UserRepository.updateUserState(customerUserDocId, newState)
+        }
+
+        // 사용자의 데이터를 수정하는 메서드 : 내정보 -> 내정보 관리 -> 수정
+        suspend fun updateUserData(userModel: UserModel){
+            val userVO = userModel.toUserVO()
+            // repository 연결
+            UserRepository.updateUserData(userVO, userModel.customerUserDocId)
+        }
+
+        // 사용자의 비밀번호를 수정하는 메서드 :  내정보 -> 내정보 관리 -> 비밀번호 수정
+        suspend fun updateUserPassword(customerUserDocId:String, newPassword : String){
+            UserRepository.updateUserPassword(customerUserDocId,newPassword)
+        }
+
+        // 사용자의 현재 비밀번호만 가져오는 메서드  :  내정보 -> 내정보 관리 -> 비밀번호 수정
+        suspend fun selectUserPasswordByUserDocId(customerUserDocId:String): String? {
+            return UserRepository.selectUserPasswordByUserDocId(customerUserDocId)
+        }
+
+        // customerUserDocId로 사용자에 대한 정보를 불러오는 메서드 :  내정보 -> 내정보 관리
+        suspend fun selectUserDataByuserDocumentId(customerUserDocId:String) : UserModel{
+            val userVO = UserRepository.selectUserDataByuserDocumentId(customerUserDocId)
+            val userModel = userVO.toUserModel()
+            return userModel
+        }
     }
 
 }
