@@ -35,6 +35,16 @@
 		<item name="android:textColor">@color/white</item>
 	</style>
 
+	<!--    font 2레벨	-->
+	<style name="AppText2">
+		<item name="fontFamily">@font/nanumsquareneo_2</item>
+		<item name="android:textColor">@color/black</item>
+	</style>
+
+	<style name="AppText2.S14">
+		<item name="android:textSize">14sp</item>
+	</style>
+
 	<!--    font 3레벨	-->
 	<style name="AppText3">
 		<item name="fontFamily">@font/nanumsquareneo_3</item>

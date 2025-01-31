@@ -6,10 +6,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class UserRepository {
-    companion object{
+    companion object {
         // 사용자 정보를 추가하는 메서드, userDocID를 리턴해야함 장바구니 생성을 위해
-        fun addCustomerUserData(userVO: UserVO):String{
-
+        fun addCustomerUserData(userVO: UserVO): String {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("userData")
             val documentReference = collectionReference.document()
@@ -20,7 +19,6 @@ class UserRepository {
         }
 
         // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드
-
         suspend fun selectUserDataByCustomerUserId(customerUserId: String): MutableList<UserVO> {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("userData")
@@ -31,13 +29,8 @@ class UserRepository {
             return userVoList
         }
 
-
-
-
-        
         // 자동 로그인 토큰 값으로 사용자 정보를 가져오는 메서드
-        suspend fun selectUserDataByLoginToken(customerUserLocalToken:String) : UserVO?{
-
+        suspend fun selectUserDataByLoginToken(customerUserLocalToken: String): UserVO? {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("userData")
             val resultList = collectionReference.whereEqualTo("customerUserLocalToken", customerUserLocalToken).get().await()
@@ -45,8 +38,8 @@ class UserRepository {
 
             return if (userVOList.isNotEmpty()) userVOList[0] else null
         }
-          
-        
+
+
         // 사용자 아이디를 통해 사용자 데이터를 가져오는 메서드
         suspend fun selectUserDataByUserId(customerUserId: String): MutableList<UserVO> {
             val firestore = FirebaseFirestore.getInstance()
@@ -69,7 +62,7 @@ class UserRepository {
 
         // 토큰 관련
         // 자동로그인 토큰값을 갱신하는 메서드
-        suspend fun updateUserAutoLoginToken(customerUserDocId:String, customerUserLocalToken:String){
+        suspend fun updateUserAutoLoginToken(customerUserDocId: String, customerUserLocalToken: String) {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("userData")
             val documentReference = collectionReference.document(customerUserDocId)
@@ -100,7 +93,8 @@ class UserRepository {
                 e.printStackTrace()
             }
             return userResult
-
         }
+
+
     }
 }

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
@@ -285,7 +286,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-     fun addToCategory() {
+    fun addToCategory() {
         // 담는 경우라면
         CoroutineScope(Dispatchers.Main).launch {
 
@@ -330,21 +331,23 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             }
             if (isInMyCart) {
                 // 이미 존재하는 상품입니다. Dialog
-                showConfirmationDialog("이미 존재하는 상품입니다.","","확인","",fun(){},fun(){})
+                showConfirmationDialog("이미 존재하는 상품입니다.", "", "확인", "", fun() {}, fun() {})
                 return@launch
             }
 
             // cartProductModel 생성
-            val cartProductModel = convertToCartProduct(cartProductCount,dueDate,"${args.productDocId}",myCartModel.cartDocId)
+            val cartProductModel = convertToCartProduct(cartProductCount, dueDate, "${args.productDocId}", myCartModel.cartDocId)
 
             // 내 cart 에 cartProduct 담기
             CartProductService.addMyCartProduct(myCartModel.cartDocId, cartProductModel)
 
             // 담았다면 내 장바구니로 이동할건지 체크
-            showConfirmationDialog("장바구니로 이동하시겠습니까?","장바구니에 상품을 담았습니다.","네","아니오",fun(){
-
+            showConfirmationDialog("장바구니로 이동하시겠습니까?", "장바구니에 상품을 담았습니다.", "네", "아니오", fun() {
+                val navOption = NavOptions.Builder()
+                    .setPopUpTo(R.id.navigation_category, inclusive = true)
+                    .build()
                 val action = UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
-                findNavController().navigate(action)
+                findNavController().navigate(action,  navOption)
             })
 
         }
@@ -355,11 +358,15 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         binding.buttonUserProductInfoDialogCart.setOnClickListener {
 
             // 담을지 말지 다이얼로그 띄운다.
-            showConfirmationDialog("장바구니에 담으시겠습니까?","","네","아니오",fun(){
-                addToCategory()
-            },)
+            showConfirmationDialog(
+                "장바구니에 담으시겠습니까?", "", "네", "아니오",
+                fun() {
+                    addToCategory()
+                },
+            )
         }
     }
+
     // cartProduct로 변환하기
     fun convertToCartProduct(
         productCount: String,
