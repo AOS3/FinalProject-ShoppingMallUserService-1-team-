@@ -41,7 +41,7 @@ class ProductService {
 
             productVOList.forEach {
                 productModelList.add(it.toProductModel())
-                Log.d("test100", "")
+                //Log.d("test123","${it.productHomeCategory}")
             }
             return productModelList
         }

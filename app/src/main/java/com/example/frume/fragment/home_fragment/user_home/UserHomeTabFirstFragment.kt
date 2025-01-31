@@ -76,7 +76,7 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
                         productName = productModel.productName,
                         productPrice = productModel.productPrice,
                         productDescription = productModel.productDescription,
-                        productCategory = productModel.productCategory1 // 임시 데이터
+                        productCategory = productModel.productHomeCategory // 임시 데이터
 
                     )
                 }
