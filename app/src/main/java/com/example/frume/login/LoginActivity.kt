@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        userAutoLoginProcessing()
+        // userAutoLoginProcessing()
     }
 
     fun userAutoLoginProcessing() {
