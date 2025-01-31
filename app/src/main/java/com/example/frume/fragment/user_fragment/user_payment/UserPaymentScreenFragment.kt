@@ -31,12 +31,16 @@ import com.example.frume.service.OrderService
 import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
+import com.example.frume.util.OrderPaymentOption
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -48,6 +52,7 @@ class UserPaymentScreenFragment : Fragment() {
     private val binding get() = _binding!!
     private val args: UserPaymentScreenFragmentArgs by navArgs()
     lateinit var homeActivity: HomeActivity
+    private var paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT
 
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
     var deliveryAddressSpot: DeliveryAddressModel? = null
@@ -212,6 +217,7 @@ class UserPaymentScreenFragment : Fragment() {
                             textViewUserPaymentCard.visibility = View.GONE
                             textViewUserPaymentStar.visibility = View.GONE
                         }
+                        paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT
                     }
 
                     R.id.buttonUserPaymentPaymentMethodCard -> {
@@ -225,6 +231,8 @@ class UserPaymentScreenFragment : Fragment() {
                             textViewUserPaymentCard.visibility = View.VISIBLE
                             textViewUserPaymentStar.visibility = View.VISIBLE
                         }
+                        paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_CARD
+
 
                     }
 
@@ -239,6 +247,8 @@ class UserPaymentScreenFragment : Fragment() {
                             textViewUserPaymentCard.visibility = View.GONE
                             textViewUserPaymentStar.visibility = View.GONE
                         }
+                        paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_KAKAO_PAY
+
                     }
 
                     R.id.buttonUserPaymentPaymentMethodNaverPay -> {
@@ -252,6 +262,7 @@ class UserPaymentScreenFragment : Fragment() {
                             textViewUserPaymentCard.visibility = View.GONE
                             textViewUserPaymentStar.visibility = View.GONE
                         }
+                        paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_NAVER_PAY
                     }
                 }
             }
@@ -667,6 +678,52 @@ class UserPaymentScreenFragment : Fragment() {
 
     fun addOrderProduct() {
         val orderProductModel = OrderProductModel()
+
+    }
+
+    // 주문 넣기 메서드
+    suspend fun addOrder(): String {
+        return withContext(Dispatchers.Main) { // 메인 스레드에서 실행
+            val work1 = async(Dispatchers.IO) { // 백그라운드 작업
+                val orderModel = OrderModel()
+                orderModel.orderCustomerDocId = homeActivity.loginUserDocumentId
+                orderModel.orderPaymentOption = paymentOptionState
+
+                // 배송 DocID 생성
+                val deliverDocId = "your_generated_deliver_doc_id" // 예시 값
+                deliverDocId // 반환
+            }
+            work1.await() // 결과 반환
+        }
+    }
+
+    suspend fun addDeliver():String{
+        return withContext(Dispatchers.Main) { // 메인 스레드에서 실행
+            val work1 = async(Dispatchers.IO) { // 백그라운드 작업
+                val deliveryModel = DeliveryModel()
+
+                deliveryModel.deliveryAddressDocId= ""
+                // deliveryModel.deliveryOption =
+
+                // 배송지 문서 ID
+                var deliveryAddressDocId = ""
+                // 배송 방식
+                var deliveryOption = 1 // 문앞배송
+                // 정기배송여부
+                var deliveryIsSubscribed = 0 // 0 : 비구독
+                // 기타사항
+                var deliveryEtc = ""
+                // 등록시간
+                var deliveryTimeStamp = Timestamp.now()
+                // 배송 상태
+                var deliveryState = 0 // 0 : 출고 준비중
+
+                // 배송 DocID 생성
+                val deliverDocId = "your_generated_deliver_doc_id" // 예시 값
+                deliverDocId // 반환
+            }
+            work1.await() // 결과 반환
+        }
 
     }
 
