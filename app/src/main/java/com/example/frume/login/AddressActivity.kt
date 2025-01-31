@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Button
-import android.widget.EditText
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
 import com.example.frume.R
@@ -52,72 +49,15 @@ class AddressActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    // 우편번호 데이터를 받아오는 메서드
+    /*@JavascriptInterface
+    fun processPostData(postData: String?) {
+        // 자바스크립트로부터 우편번호 데이터를 받음
+        val intent = Intent()
+        intent.putExtra("postData", postData)
+        setResult(RESULT_OK, intent)
+        finish()
+    }*/
 }
-
-
-
-/*import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Dialog
-import android.content.Intent
-import android.os.Bundle
-import android.os.Message
-import android.view.WindowManager
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
-import com.example.frume.R
-
-class AddressActivity : AppCompatActivity() {
-
-    private var webView: WebView? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_address)
-
-        webView = findViewById(R.id.webView)
-
-        webView!!.apply {
-            settings.javaScriptEnabled = true
-            settings.javaScriptCanOpenWindowsAutomatically = true
-            settings.setSupportMultipleWindows(true)
-            webViewClient = client
-            webChromeClient = object : WebChromeClient() {
-                override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message): Boolean {
-                    val newWebView = WebView(this@AddressActivity)
-                    newWebView.settings.javaScriptEnabled = true
-                    val dialog = Dialog(this@AddressActivity).apply {
-                        setContentView(newWebView)
-                    }
-                    dialog.show()
-                    val lp = WindowManager.LayoutParams().apply {
-                        copyFrom(dialog.window!!.attributes)
-                        width = WindowManager.LayoutParams.MATCH_PARENT
-                        height = WindowManager.LayoutParams.MATCH_PARENT
-                    }
-                    dialog.window!!.attributes = lp
-                    newWebView.webChromeClient = object : WebChromeClient() {
-                        override fun onCloseWindow(window: WebView) {
-                            dialog.dismiss()
-                        }
-                    }
-                    (resultMsg.obj as WebView.WebViewTransport).webView = newWebView
-                    resultMsg.sendToTarget()
-                    return true
-                }
-            }
-        }
-
-        webView!!.loadUrl("https://youngeunww2.blogspot.com/2025/01/api-test-window.html")
-    }
-
-    private val client: WebViewClient = object : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-            return false
-        }
-    }
-}*/
 
