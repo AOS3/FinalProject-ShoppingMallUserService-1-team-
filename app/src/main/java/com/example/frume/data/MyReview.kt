@@ -13,8 +13,10 @@ data class MyReviewParent(
     var reviewAnswer: String?,
     var reviewDocId: String?,
     var reviewCustomerDocId: String?,
+    var reviewProductDocId: String?,  // 추가됨
+    var reviewState: Int?
 ) {
-    constructor() : this("noTitle", "noContent", 2.0f, Timestamp.now(), listOf(), "noAnswer", "", "")
+    constructor() : this("noTitle", "noContent", 2.0f, Timestamp.now(), listOf(), "noAnswer", "", "", "", 1)
 }
 
 

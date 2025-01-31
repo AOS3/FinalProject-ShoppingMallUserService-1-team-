@@ -1,5 +1,6 @@
 package com.example.frume.vo
 
+import android.net.Uri
 import com.example.frume.model.ReviewModel
 import com.example.frume.util.ReviewState
 import com.google.firebase.Timestamp
@@ -22,7 +23,7 @@ class ReviewVO {
 
     // 리뷰 사진들 경로
     var reviewImagesPath = mutableListOf<String>()
-    
+
     // 리뷰 별점
     var reviewRatingPoint = 0.0f
 

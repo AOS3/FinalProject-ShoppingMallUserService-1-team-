@@ -5,24 +5,34 @@
 	android:id="@+id/nav_graph"
 	app:startDestination="@id/user_login">
 
+	<!-- 로그인 화면 -->
 	<fragment
 		android:id="@+id/user_login"
 		android:name="com.example.frume.login.UserLoginFragment"
 		android:label="로그인"
-		tools:layout="@layout/fragment_user_login"
-		>
+		tools:layout="@layout/fragment_user_login">
 		<action
 			android:id="@+id/action_user_login_to_user_signup"
-			app:destination="@id/user_signup" />
+			app:destination="@id/user_signup"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
+
+	<!-- 회원가입 화면 -->
 	<fragment
 		android:id="@+id/user_signup"
 		android:name="com.example.frume.login.UserSignUpFragment"
 		android:label="회원가입"
-		tools:layout="@layout/fragment_user_sign_up"
-		>
+		tools:layout="@layout/fragment_user_sign_up">
 		<action
 			android:id="@+id/action_user_signup_to_user_login"
-			app:destination="@id/user_login" />
+			app:destination="@id/user_login"
+			app:enterAnim="@anim/slide_in_left"
+			app:exitAnim="@anim/slide_out_right"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
+
 </navigation>

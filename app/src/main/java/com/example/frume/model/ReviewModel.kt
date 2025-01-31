@@ -1,5 +1,6 @@
 package com.example.frume.model
 
+import android.net.Uri
 import com.example.frume.util.ReviewState
 import com.example.frume.vo.ReviewVO
 import com.google.firebase.Timestamp

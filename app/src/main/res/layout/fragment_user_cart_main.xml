@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+
+	</data>
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolbarUserCart"
+			style="@style/AppToolbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:title="장바구니" />
+
+		<com.google.android.material.tabs.TabLayout
+			android:id="@+id/tabBarUserCart"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			app:layout_constraintTop_toBottomOf="@id/toolbarUserCart">
+
+			<com.google.android.material.tabs.TabItem
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="1회 구매" />
+
+			<com.google.android.material.tabs.TabItem
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="정기 구독" />
+		</com.google.android.material.tabs.TabLayout>
+
+
+		<com.google.android.material.checkbox.MaterialCheckBox
+			android:id="@+id/checkboxUserCartSelectAll"
+			style="@style/AppText3.S14"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="15sp"
+			android:text="전체 선택"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/tabBarUserCart" />
+
+		<TextView
+			android:id="@+id/textViewButtonUserCartDelete"
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="20dp"
+			android:text="선택삭제"
+			app:layout_constraintBottom_toBottomOf="@id/checkboxUserCartSelectAll"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="@id/checkboxUserCartSelectAll" />
+
+
+		<androidx.core.widget.NestedScrollView
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/checkboxUserCartSelectAll">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+
+				<androidx.recyclerview.widget.RecyclerView
+					android:id="@+id/recycler_view_user_cart"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:layout_marginTop="8dp"
+					android:nestedScrollingEnabled="false"
+					app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+					app:layout_constraintBottom_toTopOf="@+id/textViewUserCartDialogPriceLabel"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
+
+				<TextView
+					android:id="@+id/textViewUserCartDialogPriceLabel"
+					style="@style/AppText3.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="20dp"
+					android:layout_marginTop="30dp"
+					android:text="총 결제 예상 금액"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/recycler_view_user_cart" />
+
+				<TextView
+					android:id="@+id/textViewUserCartDialogPrice"
+					style="@style/AppText3.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="20dp"
+					android:text="0 원"
+					app:layout_constraintBottom_toBottomOf="@id/textViewUserCartDialogPriceLabel"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toTopOf="@id/textViewUserCartDialogPriceLabel" />
+
+				<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/buttonUserCartOrder"
+					style="@style/CustomButtonStyle"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_margin="20dp"
+					android:text="주문하기"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/textViewUserCartDialogPriceLabel" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</androidx.core.widget.NestedScrollView>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

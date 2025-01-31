@@ -1,11 +1,16 @@
 package com.example.frume.repository
 
+import android.net.Uri
 import android.util.Log
 import com.example.frume.data.MyReviewParent
 import com.example.frume.vo.ReviewVO
+import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class ReviewRepository {
     companion object {
@@ -19,7 +24,30 @@ class ReviewRepository {
             return reviewVO.reviewDocId
         }
 
+        // 이미지 저장하기
+        suspend fun setUserReviewImg(uris: MutableList<Uri?>): MutableList<String> {
+            val storage = Firebase.storage
+            val storageRef = storage.getReference("review_img")
+            val uploadedUrls = mutableListOf<String>()
+            for (uri in uris) {
+                val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(Date())
+                val imageRef = storageRef.child("${fileName}.png")
+
+                try {
+                    if (uri != null) {
+                        imageRef.putFile(uri).await()
+                    }
+                    val downloadUrl = imageRef.downloadUrl.await()
+                    uploadedUrls.add(downloadUrl.toString())
+                } catch (_: Exception) {
+
+                }
+            }
+            return uploadedUrls
+        }
+
     }
+
 
     // sehoon userDocID로 리뷰 정보 가져오기
     suspend fun getAllReview(): List<MyReviewParent> {
