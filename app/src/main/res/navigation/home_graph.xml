@@ -208,7 +208,11 @@
 		<action
 			android:id="@+id/action_user_product_info_write_review_to_user_product_info"
 			app:destination="@id/user_product_info" />
+		<argument
+			android:name="productDocId"
+			app:argType="string" />
 	</fragment>
+
 	<fragment
 
 		android:id="@+id/user_product_show_list"
