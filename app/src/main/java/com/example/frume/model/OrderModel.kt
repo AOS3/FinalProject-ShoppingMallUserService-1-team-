@@ -25,6 +25,12 @@ class OrderModel {
     // 주문 상태
     var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING // 1 : 결제 대기중
 
+    // 배송비
+    var orderDeliveryCost = 0
+
+    // 적립금 사용액
+    var usedReward = 0
+
 
     fun toOrderVO(): OrderVO {
 
@@ -35,6 +41,8 @@ class OrderModel {
         orderVO.orderTimeStamp = orderTimeStamp
         orderVO.orderState = orderState.num
         orderVO.deliverDocId=deliverDocId
+        orderVO.orderDeliveryCost = orderDeliveryCost
+        orderVO.usedReward = usedReward
 
         return orderVO
 

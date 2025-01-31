@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class DeliveryService {
     companion object{
         // 배송 추가 메서드
-        fun addUserDelivery(deliveryModel: DeliveryModel): Boolean {
+        fun addUserDelivery(deliveryModel: DeliveryModel): String {
          return DeliveryRepository.addUserDelivery(deliveryModel.toDeliverVO())
         }
     }

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import android.widget.RadioButton
-import androidx.core.widget.addTextChangedListener
 
 
 import androidx.databinding.DataBindingUtil
@@ -20,24 +19,27 @@ import androidx.navigation.fragment.navArgs
 import com.example.frume.home.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserPaymentScreenBinding
+import com.example.frume.model.CartProductModel
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.model.DeliveryModel
 import com.example.frume.model.OrderModel
 import com.example.frume.model.OrderProductModel
 import com.example.frume.model.UserModel
-import com.example.frume.repository.OrderRepository
 import com.example.frume.service.CartProductService
+import com.example.frume.service.DeliveryService
+import com.example.frume.service.OrderProductService
 import com.example.frume.service.OrderService
+import com.example.frume.service.ProductService
 import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
+import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderPaymentOption
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -102,6 +104,8 @@ class UserPaymentScreenFragment : Fragment() {
         checkUseRewardAll()
         // 총 결제 금액 표시 메서드 호출
         settingViewTotalCost()
+        // 주문 완료 버튼 클릭 시 처리 메서드 호출
+        onClickButtonButtonUserCartOrder()
 
         return binding.root
     }
@@ -151,33 +155,6 @@ class UserPaymentScreenFragment : Fragment() {
                 .show()
         }
     }
-
-
-    // sehoon test
-//        private fun sehoonTest() {
-//            // 배달비 x
-//            var totalPrice = args.userDocId
-//            lifecycleScope.launch(Dispatchers.IO) {
-//                withContext(Dispatchers.Main) {
-//
-//                }
-//            }
-//            binding.textViewProductTotalPrice.applyNumberFormat(totalPrice)
-//            if (args.productPriceMethod > 50000) {
-//                binding.buttonUserCartOrder.text = totalPrice.convertThreeDigitComma()
-//                binding.textViewUserPaymentDeliveryCharge.applyNumberFormat(0)
-//                binding.textViewUserPaymentFinalPayment.applyNumberFormat(totalPrice)
-//                binding.textViewUserPaymentTotalPayment.applyNumberFormat(totalPrice)
-//            } else {
-//                totalPrice += 3000
-//                binding.buttonUserCartOrder.text = totalPrice.convertThreeDigitComma()
-//                binding.textViewUserPaymentDeliveryCharge.applyNumberFormat(3000)
-//                binding.textViewUserPaymentFinalPayment.applyNumberFormat(totalPrice)
-//                binding.textViewUserPaymentTotalPayment.applyNumberFormat(totalPrice)
-//            }
-//
-//
-//        }
 
     // 결제 방식 버튼을 단일 선택만 가능하도록 하는 메서드
     private fun setupPaymentMethodButtons() {
@@ -305,7 +282,7 @@ class UserPaymentScreenFragment : Fragment() {
         binding.imageViewUserPaymentAddressModify.setOnClickListener {
             // 배송지 수정 버튼 클릭 시, 배송지 관리 화면으로 이동
             val action =
-                UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserCartChoiceDeliverAddress()
+                UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserCartChoiceDeliverAddress(args.fromWhere)
             findNavController().navigate(action)
         }
     }
@@ -383,7 +360,7 @@ class UserPaymentScreenFragment : Fragment() {
     private fun getReceiverData() {
         // 기본 배송지를 가져온다
         if (args.deliveryAddressDocId == null) {
-            Log.d("test100", "args == null ")
+            Log.d("test100", "args.deliveryAddressDocId == null ")
             CoroutineScope(Dispatchers.Main).launch {
                 val work1 = async(Dispatchers.IO) {
                     UserDeliveryAddressService.gettingDefaultDeliveryAddress(homeActivity.loginUserDocumentId)
@@ -470,27 +447,6 @@ class UserPaymentScreenFragment : Fragment() {
             work2.join()
         }
 
-    }
-
-    // 배송 문서 생성
-    fun addDelivery(orderId: String, deliverAddressDocId: String) {
-        binding.apply {
-            // 배송 방식 받아주고
-            var deliverOption = DeliveryOption.DOOR_DELIVERY
-
-            when (radioGroupUserPaymentDeliveryMethod.checkedRadioButtonId) {
-                R.id.buttonUserPaymentDeliveryMethodBox -> {
-                    deliverOption = DeliveryOption.PARCEL_LOCKER
-                }
-
-                R.id.buttonUserPaymentDeliveryMethodOffice -> {
-                    deliverOption = DeliveryOption.SECURITY_OFFICE
-                }
-            }
-
-            // 기타 요청사항 받아주고
-            val etc = textInputLayoutUserPaymentRequest.editText?.text
-        }
     }
 
     // 적립금 전액 사용 체크
@@ -655,77 +611,183 @@ class UserPaymentScreenFragment : Fragment() {
         }
     }
 
-    // 주문 완료 버튼
+    // 주문 완료 버튼 클릭 시 처리
     fun onClickButtonButtonUserCartOrder() {
-        CoroutineScope(Dispatchers.Main).launch {
+        binding.buttonUserCartOrder.setOnClickListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                // 장바구니에서 주문화면으로 도달한 경우
+                if(args.fromWhere == "Cart"){
+                    // 1. 배송 정보 추가
+                    val deliveryDocId = addDelivery()
 
+                    // 2. 주문 추가 (배송 문서 ID 전달)
+                    val orderDocId = addOrder(deliveryDocId)
 
-            val work1= async(Dispatchers.IO){
-                val deliverModel = DeliveryModel()
+                    // 3. 주문 상품 추가 (주문 문서 ID 전달)
+                    val result = addOrderProduct(orderDocId)
+
+                    // 4. 결과에 따라 주소 변경
+                    if (result) {
+                        changeBasicDeliverAddress()
+                        // 5. 주문 후 장바구니에서 구매했던 품목은 삭제처리하기
+                        deleteCartProductAfterPurchase()
+                    }
+                }else{
+                    // 상품 정보에서 바로 구매하러 온 경우
+
+                }
             }
-
-
-            val work2 = async(Dispatchers.IO){
-                // order 생성
-
-                val orderModel = OrderModel()
-            }
-            // orderProduct 생성
-
         }
-
     }
 
-    fun addOrderProduct() {
-        val orderProductModel = OrderProductModel()
 
+    // 배송 문서 생성
+    suspend fun addDelivery(): String {
+        return withContext(Dispatchers.IO) {
+            // IO 디스패처에서 백그라운드 작업 수행
+            val result: String
+            val addDeliveryModel = DeliveryModel()
+
+            withContext(Dispatchers.Main) {
+                binding.apply {
+                    // 배송 방식 받아오기
+                    val deliverOption =
+                        when (radioGroupUserPaymentDeliveryMethod.checkedRadioButtonId) {
+                            R.id.buttonUserPaymentDeliveryMethodDoor -> DeliveryOption.DOOR_DELIVERY // 문앞 배송
+                            R.id.buttonUserPaymentDeliveryMethodBox -> DeliveryOption.PARCEL_LOCKER // 택배 보관함
+                            R.id.buttonUserPaymentDeliveryMethodOffice -> DeliveryOption.SECURITY_OFFICE // 보안실 배송
+                            else -> DeliveryOption.DOOR_DELIVERY // 기본값: 문앞 배송
+                        }
+
+                    // 배송지 문서 ID 설정
+                    addDeliveryModel.deliveryAddressDocId =
+                        deliveryAddressSpot?.deliveryAddressDocId ?: "null"
+
+                    // 배송 방식 설정
+                    addDeliveryModel.deliveryOption = deliverOption
+
+                    // 정기배송 여부 설정 (비구독 상태로 설정)
+                    addDeliveryModel.deliveryIsSubscribed =
+                        DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE // 0 : 비구독
+
+                    // 기타 요청 사항 입력값 받기
+                    addDeliveryModel.deliveryEtc =
+                        textInputLayoutUserPaymentRequest.editText?.text.toString()
+                }
+            }
+
+            // 배송이 추가되었음을 나타내는 메시지 반환
+            // 배송 서비스 호출
+            result = DeliveryService.addUserDelivery(addDeliveryModel)
+
+            // 배송 DocId 리턴
+            result // 결과 문자열 반환
+        }
     }
+
 
     // 주문 넣기 메서드
-    suspend fun addOrder(): String {
-        return withContext(Dispatchers.Main) { // 메인 스레드에서 실행
-            val work1 = async(Dispatchers.IO) { // 백그라운드 작업
-                val orderModel = OrderModel()
-                orderModel.orderCustomerDocId = homeActivity.loginUserDocumentId
-                orderModel.orderPaymentOption = paymentOptionState
+    suspend fun addOrder(addDeliverDocId: String): String {
+        return withContext(Dispatchers.IO) {
+            // IO 디스패처에서 백그라운드 작업 수행
+            val result: String
+            val addOrderModel = OrderModel()
 
-                // 배송 DocID 생성
-                val deliverDocId = "your_generated_deliver_doc_id" // 예시 값
-                deliverDocId // 반환
+            withContext(Dispatchers.Main) {
+                binding.apply {
+
+                    addOrderModel.orderCustomerDocId = homeActivity.loginUserDocumentId
+
+                    // 배송 DocID
+                    addOrderModel.deliverDocId = addDeliverDocId
+
+                    // 배송비
+                    addOrderModel.orderDeliveryCost =
+                        textViewUserPaymentDeliveryCharge.text.toString().replace("원", "")
+                            .toInt()
+                    // 적립금 사용액
+
+                    addOrderModel.usedReward =
+                        textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "")
+                            .toInt()
+                    // 결제 방식
+                    addOrderModel.orderPaymentOption = when (paymentOptionState) {
+                        OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT -> OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT
+                        OrderPaymentOption.ORDER_PAYMENT_OPTION_CARD -> OrderPaymentOption.ORDER_PAYMENT_OPTION_CARD
+                        OrderPaymentOption.ORDER_PAYMENT_OPTION_KAKAO_PAY -> OrderPaymentOption.ORDER_PAYMENT_OPTION_KAKAO_PAY
+                        OrderPaymentOption.ORDER_PAYMENT_OPTION_NAVER_PAY -> OrderPaymentOption.ORDER_PAYMENT_OPTION_NAVER_PAY
+                    }
+
+                    // 배송 서비스 호출
+                    result = OrderService.addMyOrder(addOrderModel)
+                }
             }
-            work1.await() // 결과 반환
+
+            result // 결과 문자열 반환
         }
     }
 
-    suspend fun addDeliver():String{
-        return withContext(Dispatchers.Main) { // 메인 스레드에서 실행
-            val work1 = async(Dispatchers.IO) { // 백그라운드 작업
-                val deliveryModel = DeliveryModel()
+    suspend fun addOrderProduct(addOrderId: String): Boolean {
+        val orderProductList = mutableListOf<OrderProductModel>()
+        val cartProductList =
+            CartProductService.gettingMyCartProductCheckedItems(homeActivity.userCartDocId)
 
-                deliveryModel.deliveryAddressDocId= ""
-                // deliveryModel.deliveryOption =
+        binding.apply {
+            cartProductList.forEach {
+                val orderProductModel = OrderProductModel()
+                // order ID
+                orderProductModel.orderId = addOrderId
+                // 주문상품 이름
+                orderProductModel.orderProductName = it.cartProductName
+                // 주문상품 수량
+                orderProductModel.orderProductCount = it.cartItemProductQuantity
+                // 주문상품 예정일
+                orderProductModel.orderDeliveryDueDate = it.cartItemDeliveryDueDate
+                // 주문상품 문서 ID
+                orderProductModel.orderProductDocId = it.cartItemProductDocId
+                // 주문상품 이미지 받아오기
+                val productModel = ProductService.getProductInfo(it.cartItemProductDocId)[0]
+                val imgPath = productModel.productImages
+                // 주문상품 이미지 설정
+                orderProductModel.orderProductImagePath = imgPath[0]
+                // 주문상품 단가
+                orderProductModel.orderProductPrice = it.cartProductUnitPrice
+                // 주문상품 가격
+                orderProductModel.orderProductTotalPrice = it.cartProductPrice
 
-                // 배송지 문서 ID
-                var deliveryAddressDocId = ""
-                // 배송 방식
-                var deliveryOption = 1 // 문앞배송
-                // 정기배송여부
-                var deliveryIsSubscribed = 0 // 0 : 비구독
-                // 기타사항
-                var deliveryEtc = ""
-                // 등록시간
-                var deliveryTimeStamp = Timestamp.now()
-                // 배송 상태
-                var deliveryState = 0 // 0 : 출고 준비중
-
-                // 배송 DocID 생성
-                val deliverDocId = "your_generated_deliver_doc_id" // 예시 값
-                deliverDocId // 반환
+                orderProductList.add(orderProductModel)
             }
-            work1.await() // 결과 반환
-        }
 
+            // 배송 상품 추가 서비스 호출
+            val result = OrderProductService.addOrderProduct(addOrderId, orderProductList)
+
+            // 반환 값에 따라 처리 (예: 성공시 true, 실패시 false)
+            return result // 이 부분은 OrderProductService의 반환 값을 기반으로 true/false 반환
+        }
     }
 
+    // 주문 후 장바구니에서 구매품목 삭제
+    fun deleteCartProductAfterPurchase() {
+        Log.d("test100", "UserPaymentScreenFragment -> deleteCartProductAfterPurchase()")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val list: MutableList<CartProductModel> = withContext(Dispatchers.IO) {
+                CartProductService.gettingMyCartProductCheckedItems(homeActivity.userCartDocId)
+            }
+
+            if (list.isEmpty()) {
+                Log.d("test100", "UserPaymentScreenFragment -> checked == true 인 품목 없음.")
+                return@launch
+            }
+
+            val deleteList = mutableListOf<String>()
+            list.forEach {
+                deleteList.add(it.cartProductDocId)
+            }
+
+            // 구매 품목 장바구니에서 제거
+            CartProductService.deleteCartProducts(homeActivity.userCartDocId, deleteList)
+        }
+    }
 
 }
