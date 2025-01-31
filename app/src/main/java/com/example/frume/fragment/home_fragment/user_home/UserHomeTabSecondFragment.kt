@@ -13,6 +13,11 @@ import com.example.frume.data.Storage
 import com.example.frume.data.TempProduct
 import com.example.frume.databinding.FragmentUserHomeTabSecondBinding
 import com.example.frume.service.ProductService
+import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
@@ -60,15 +65,20 @@ class UserHomeTabSecondFragment : Fragment(), ProductItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
 
-        val number = arguments?.getInt(ARG_NUMBER) ?: 0
-        viewModel.updateData(number)
+        // 카테고리 번호 가져오기
+        val categoryNumber = arguments?.getInt(ARG_NUMBER) ?: 0
+        Log.d("test111", "전달된 카테고리 번호 : $categoryNumber") // 전달된 카테고리 번호 확인
 
-        // ViewModel에서 필터링된 데이터를 관찰
+        // ViewModel로 카테고리 번호 전달
+        viewModel.updateData(categoryNumber)
+
+        // ViewModel의 데이터 관찰하여 RecyclerView 업데이트
         viewModel.products.observe(viewLifecycleOwner) { products ->
+            Log.d("test111", "관찰된 데이터 확인 : $products")
             adapter.add(products.toMutableList())
-            binding.recyclerViewUserHomeTabSecondProductList.adapter?.notifyDataSetChanged()
         }
     }
+
 
 
 
