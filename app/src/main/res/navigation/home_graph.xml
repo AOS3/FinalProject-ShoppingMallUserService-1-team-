@@ -5,17 +5,21 @@
 	app:startDestination="@id/navigation_home">
 
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.frume.fragment.home_fragment.user_home.UserHomeFragment"
-        android:label="홈"
-        tools:layout="@layout/fragment_user_home">
-        <action
-            android:id="@+id/action_navigation_home_to_user_search"
-            app:destination="@id/user_search" />
-        <action
-            android:id="@+id/action_navigation_home_to_user_product_info"
-            app:destination="@id/user_product_info" />
+	<fragment
+		android:id="@+id/navigation_home"
+		android:name="com.example.frume.fragment.home_fragment.user_home.UserHomeFragment"
+		android:label="홈"
+		tools:layout="@layout/fragment_user_home">
+		<action
+			android:id="@+id/action_navigation_home_to_user_search"
+			app:destination="@id/user_search" />
+		<action
+			android:id="@+id/action_navigation_home_to_user_product_info"
+			app:destination="@id/user_product_info"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 
 
@@ -26,27 +30,47 @@
 		tools:layout="@layout/fragment_user_info">
 		<action
 			android:id="@+id/action_navigation_profile_to_user_order_history"
-			app:destination="@id/user_order_history" />
+			app:destination="@id/user_order_history"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_navigation_profile_to_userAddressManageFragment"
-			app:destination="@id/user_address_manage" />
+			app:destination="@id/user_address_manage"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_navigation_profile_to_user_info_manage"
-			app:destination="@id/user_info_manage" />
+			app:destination="@id/user_info_manage"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_navigation_profile_to_userInfoReviewFragment"
-			app:destination="@id/user_info_review" />
+			app:destination="@id/user_info_review"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 
 
 	<fragment
 		android:id="@+id/navigation_cart"
-		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartFragment"
+		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartFragmentMain"
 		android:label="장바구니"
-		tools:layout="@layout/fragment_user_cart">
+		tools:layout="@layout/fragment_user_cart_main">
 		<action
 			android:id="@+id/action_navigation_cart_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
+			app:destination="@id/user_payment_screen"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_navigation_cart_to_bottomSheetShowCartOptionFragment"
 			app:destination="@id/bottomSheetShowCartOptionFragment" />
@@ -70,21 +94,29 @@
 		tools:layout="@layout/fragment_user_product_info">
 		<action
 			android:id="@+id/action_user_product_info_to_userProductInfoDescriptionFragment"
-			app:destination="@id/user_product_info_description" />
+			app:destination="@id/user_product_info_description"
+
+			/>
 		<action
 			android:id="@+id/action_user_product_info_to_user_product_info_write_review"
-			app:destination="@id/user_product_info_write_review" />
+			app:destination="@id/user_product_info_write_review"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_user_product_info_to_navigation_home"
 			app:destination="@id/navigation_home" />
 
+		<action
+			android:id="@+id/action_user_product_info_to_user_product_info_dialog"
+			app:destination="@id/user_product_info_dialog"
+
+			/>
+
 		<argument
 			android:name="selectedProductDocId"
 			app:argType="string" />
-
-		<action
-			android:id="@+id/action_user_product_info_to_user_product_info_dialog"
-			app:destination="@id/user_product_info_dialog" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_payment_screen"
@@ -93,10 +125,15 @@
 		tools:layout="@layout/fragment_user_payment_screen">
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_product_info"
-			app:destination="@id/user_product_info" />
+			app:destination="@id/user_product_info"
+			/>
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_cart_choice_Deliver_address"
-			app:destination="@id/user_cart_choice_Deliver_address" />
+			app:destination="@id/user_cart_choice_Deliver_address"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<argument
 			android:name="deliveryAddressDocId"
 			app:argType="string"
@@ -109,7 +146,11 @@
 		tools:layout="@layout/fragment_user_order_history">
 		<action
 			android:id="@+id/action_user_order_history_to_user_order_detail"
-			app:destination="@id/user_order_detail" />
+			app:destination="@id/user_order_detail"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_user_order_history_to_user_navigation_profile"
 			app:destination="@+id/navigation_profile" />
@@ -121,10 +162,18 @@
 		tools:layout="@layout/fragment_user_address_manage">
 		<action
 			android:id="@+id/action_user_address_manage_to_user_address_add"
-			app:destination="@id/user_address_add" />
+			app:destination="@id/user_address_add"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_user_address_manage_to_userAddressModifyFragment"
-			app:destination="@id/user_address_modify" />
+			app:destination="@id/user_address_modify"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_add"
@@ -176,7 +225,11 @@
 			app:destination="@id/user_cancel_and_return" />
 		<action
 			android:id="@+id/action_user_order_detail_to_user_cancel_and_return"
-			app:destination="@id/user_cancel_and_return" />
+			app:destination="@id/user_cancel_and_return"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 
 	</fragment>
 	<fragment
@@ -188,7 +241,13 @@
 		android:id="@+id/user_product_info_description"
 		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"
 		android:label="상품 설명"
-		tools:layout="@layout/fragment_user_product_info_description"/>
+		tools:layout="@layout/fragment_user_product_info_description">
+		<action
+			android:id="@+id/action_user_product_info_description_to_user_product_info"
+			app:destination="@id/user_product_info"
+
+			/>
+	</fragment>
 
 	<fragment
 		android:id="@+id/user_product_info_review"
@@ -224,19 +283,22 @@
 			app:destination="@id/user_search" />
 	</fragment>
 	<fragment
-
 		android:id="@+id/navigation_category"
 		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryFragment"
 		android:label="카테고리"
 		tools:layout="@layout/fragment_user_category">
 		<action
 			android:id="@+id/action_navigation_category_to_userCategoryDetailFragment"
-			app:destination="@id/user_category_detail" />
+			app:destination="@id/user_category_detail"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<argument
 			android:name="categoryArgs"
 			app:argType="com.example.frume.util.ProductCategoryDetailType" />
 	</fragment>
-	 <fragment
+	<fragment
 		android:id="@+id/user_category_detail"
 		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragment"
 		android:label="상품 리스트"
@@ -250,7 +312,11 @@
 			app:nullable="true" />
 		<action
 			android:id="@+id/action_user_category_detail_to_user_product_info"
-			app:destination="@id/user_product_info" />
+			app:destination="@id/user_product_info"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_pw_modify"
@@ -268,7 +334,7 @@
 		<argument
 			android:name="productDocId"
 			app:argType="string"
-			app:nullable="true" />    
+			app:nullable="true" />
 		<action
 			android:id="@+id/action_user_product_info_dialog_to_navigation_cart"
 			app:destination="@id/navigation_cart" />
@@ -295,8 +361,7 @@
 		android:id="@+id/bottomSheetShowCartOptionFragment"
 		android:name="com.example.frume.fragment.user_fragment.user_cart.BottomSheetShowCartOptionFragment"
 		android:label="상품정보 변경 바텀시트"
-		tools:layout="@layout/fragment_bottom_sheet_show_cart_option"
-		>
+		tools:layout="@layout/fragment_bottom_sheet_show_cart_option">
 		<argument
 			android:name="cartDocId"
 			app:argType="string" />

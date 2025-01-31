@@ -1,87 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:padding="16dp">
 
-        <!-- 상품 이미지 (좌측에 배치) -->
-        <ImageView
-            android:id="@+id/imageViewItemProductOrderProduct"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:contentDescription="Product Image"
-            android:src="@drawable/img_fruit" />
+		<!-- 상품 이미지 (좌측에 배치) -->
+		<ImageView
+			android:id="@+id/imageViewItemProductOrderProduct"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:contentDescription="Product Image"
+			android:src="@drawable/img_fruit" />
 
-        <!-- 주문 상태와 상품 이름을 나누어 배치하는 LinearLayout -->
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingStart="16dp">
+		<!-- 주문 상태와 상품 이름을 나누어 배치하는 LinearLayout -->
+		<LinearLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:orientation="vertical"
+			android:paddingStart="16dp">
 
-            <!-- 주문 상태 -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start">
+			<!-- 주문 상태 -->
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="start"
+				android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewItemProductOrderOrderStatusLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주문 상태: "
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black"
-                    android:fontFamily="@font/nanumsquareneo_5"
-                    android:gravity="start" />
+				<TextView
+					android:id="@+id/textViewItemProductOrderOrderStatusLabel"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="start"
+					android:text="주문 상태: "
+					android:textColor="@android:color/black" />
 
-                <TextView
-                    android:id="@+id/textViewItemProductOrderOrderStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="배송중"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/black"
-                    android:fontFamily="@font/nanumsquareneo_5"
-                    android:gravity="start" />
-            </LinearLayout>
+				<TextView
+					android:id="@+id/textViewItemProductOrderOrderStatus"
+					style="@style/AppText5.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:gravity="start"
+					android:text="배송중"
+					android:textColor="@android:color/black" />
+			</LinearLayout>
 
-            <!-- 상품 이름 -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start">
+			<!-- 상품 이름 -->
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:gravity="start"
+				android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewItemProductOrderProductNameLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="상품 이름: "
-                    android:textSize="16sp"
-                    android:fontFamily="@font/nanumsquareneo_3"
-                    android:gravity="start"
-                    android:layout_marginBottom="4dp" />
+				<TextView
+					android:id="@+id/textViewItemProductOrderProductNameLabel"
+					style="@style/AppText3.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="4dp"
+					android:gravity="start"
+					android:text="상품 이름: " />
 
-                <TextView
-                    android:id="@+id/textViewItemProductOrderProductName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="상품명 1"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/nanumsquareneo_3"
-                    android:gravity="start"
-                    android:layout_marginBottom="4dp" />
-            </LinearLayout>
+				<TextView
+					android:id="@+id/textViewItemProductOrderProductName"
+					style="@style/AppText3.S17"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="4dp"
+					android:gravity="start"
+					android:text="상품명 1" />
+			</LinearLayout>
 
-        </LinearLayout>
+		</LinearLayout>
 
-    </LinearLayout>
+	</LinearLayout>
 
 </layout>

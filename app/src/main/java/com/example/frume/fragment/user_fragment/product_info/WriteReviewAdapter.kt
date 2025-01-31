@@ -39,7 +39,7 @@ class WriteReviewAdapter(
     fun getImage(): MutableList<Review> {
         val stringList = imageList.map { uri ->
             Review(
-                reviewImage = uri.toString()
+                reviewImage = uri
             )
         }
         return stringList.toMutableList()

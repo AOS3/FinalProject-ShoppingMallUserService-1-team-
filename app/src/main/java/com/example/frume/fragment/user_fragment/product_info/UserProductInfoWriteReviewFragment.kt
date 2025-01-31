@@ -1,14 +1,24 @@
 package com.example.frume.fragment.user_fragment.product_info
 
+import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +29,7 @@ import com.example.frume.databinding.FragmentUserProductInfoWriteReviewBinding
 import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDetailFragment.Companion
 import com.example.frume.home.HomeActivity
 import com.example.frume.model.ReviewModel
+import com.example.frume.repository.ReviewRepository
 import com.example.frume.service.ReviewService
 import com.example.frume.service.UserService
 import kotlinx.coroutines.Dispatchers
@@ -140,31 +151,67 @@ class UserProductInfoWriteReviewFragment : Fragment(), WriteReviewClickListener 
 
     private fun onClickConfirm() {
         binding.buttonUserProductInfoReviewConfirm.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            if (imageCount != 0) {
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                val layout = LinearLayout(requireContext()).apply {
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.CENTER
+                    setBackgroundColor(ContextCompat.getColor(context, R.color.white)) // `colors.xml`에 정의된 색상 사용
+                    setPadding(50, 50, 50, 50)
+                }
+                val progressBar = ProgressBar(requireContext()).apply {
+                    indeterminateTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green50))
+                }
+                // 텍스트뷰 추가
+                val textView = TextView(requireContext()).apply {
+                    text = "이미지를 저장하는 중이에요! 뒤로 가시면 저장이 안 될 수 있어요. 🥲"
+                    textSize = 16f
+                    setTextColor(Color.BLACK)
+                    gravity = Gravity.CENTER
+                    setPadding(0, 20, 0, 0)
+                }
+                layout.addView(progressBar)
+                layout.addView(textView)
+
+                dialog.setContentView(layout)
+                dialog.setCanceledOnTouchOutside(false)
+                dialog.setOnCancelListener {
+                    findNavController().navigateUp()
+                }
+                dialog.show()
+            }
+
+
             val reviewTitle = binding.editTextUserProductInfoWriteReviewTitle.editText?.text.toString()
             val imageList = adapter.getImage()
-            val imageStringList = imageList.map { it.reviewImage.orEmpty() }.toMutableList()
 
             val ratingPoint = binding.ratingBarUserProductInfoWriteReview.rating
             val reviewContent = binding.editTextUserProductInfoWriteReview.editText?.text.toString()
             val userDocId = activity as HomeActivity
             val productDocId = args.productDocId
-            if (reviewTitle.isEmpty() || imageList.isEmpty() || reviewContent.isEmpty()) {
+
+            if (reviewTitle.isEmpty() || reviewContent.isEmpty()) {
                 Toast.makeText(requireContext(), "빈칸을 모두 기입해주세요", Toast.LENGTH_SHORT).show()
             } else {
                 lifecycleScope.launch(Dispatchers.IO) {
+                    val imageUris = imageList.map { it.reviewImage }.toMutableList()
+                    val uploadedImageUrls = ReviewRepository.setUserReviewImg(imageUris)
                     Log.d("ratingPoint", "$ratingPoint")
 
                     val reviewModel = ReviewModel().apply {
                         this.reviewCustomerDocId = userDocId.loginUserDocumentId
                         this.reviewTitle = reviewTitle
                         this.reviewProductDocId = productDocId
-                        this.reviewImagesPath = imageStringList
+                        this.reviewImagesPath = uploadedImageUrls
                         this.reviewRatingPoint = ratingPoint
                         this.reviewContent = reviewContent
                     }
                     ReviewService.setUserReview(reviewModel)
 
                     withContext(Dispatchers.Main) {
+                        dialog.dismiss()
                         findNavController().navigateUp()
                     }
                 }
