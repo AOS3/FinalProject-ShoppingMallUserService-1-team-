@@ -25,16 +25,21 @@ import com.example.frume.R
 import com.example.frume.activity.AddressActivity
 import com.example.frume.databinding.FragmentUserSignUpBinding
 import com.example.frume.model.CartModel
+import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.model.UserModel
 import com.example.frume.service.CartService
+import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.service.UserService
 import com.example.frume.util.CustomerUserGender
 import com.example.frume.util.CustomerUserState
+import com.example.frume.util.DeliveryDefaultAddressBoolType
 import com.example.frume.util.validateInput
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -249,22 +254,27 @@ class UserSignUpFragment : Fragment() {
                     this.customerUserTimeStamp = customerUserTimeStamp
                 }
 
-                val work1 = async(Dispatchers.IO) {
-                    // 실제 데이터 저장 메서드 호출
-                    UserService.addCustomerUserData(userModel)
+                val results = coroutineScope {
+                    val work1 = async(Dispatchers.IO) {
+                        UserService.addCustomerUserData(userModel)
+                    }
+
+                    val userDocId = work1.await() // userDocId 필요
+
+                    val work2 = async(Dispatchers.IO) {
+                        val cartModel = CartModel()
+                        cartModel.customerDocId = userDocId
+                        CartService.addMyCart(cartModel)
+                    }
+
+                    awaitAll(work1, work2) // 두 작업이 모두 끝날 때까지 기다림
+                    userDocId
                 }
 
-                // 작업이 완료될 때까지 대기
-                val userDocId =  work1.await()
-
-                // 회원가입시 장바구니 생성 hj
-                val work2 = async(Dispatchers.IO){
-                    val cartModel = CartModel()
-                    cartModel.customerDocId = userDocId
-                    CartService.addMyCart(cartModel)
-                }
-                // 장바구니 생성 작업 대기
-                work2.join()
+                val userDocId = results // userDocId 저장
+                
+                // work1과 work2가 끝난 후 실행
+                addBasicAddress(userDocId)
 
                 // 저장 완료 후 토스트 메시지 표시
                 Toast.makeText(requireContext(), "가입이 완료되었습니다. 로그인해 주세요", Toast.LENGTH_LONG).show()
@@ -273,7 +283,7 @@ class UserSignUpFragment : Fragment() {
                 moveToLogin()
 
             } catch (e: Exception) {
-                // 예외 처리: 데이터베이스 저장 실패 등의 경우
+                // 예외 처리
                 Toast.makeText(requireContext(), "회원 가입에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show()
             }
         }
@@ -530,5 +540,17 @@ class UserSignUpFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
+    }
+
+    private suspend fun addBasicAddress(userDocId:String) {
+        val deliveryAddressModel = DeliveryAddressModel()
+        deliveryAddressModel.deliveryAddressBasicAddress = getCustomerUserAddress["BasicAddress"]!!
+        deliveryAddressModel.deliveryAddressUserDocId = userDocId
+        deliveryAddressModel.deliveryAddressName = "집"
+        deliveryAddressModel.deliveryAddressDetailAddress = binding.textFieldUserSignUpDetailAddress.editText?.text.toString()
+        deliveryAddressModel.deliveryAddressPhoneNumber = binding.textFieldUserSignUpPhoneNumber.editText?.text.toString()
+        deliveryAddressModel.deliveryAddressIsDefaultAddress = DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT
+        deliveryAddressModel.deliveryAddressReceiverName = binding.textFieldUserSignUpName.editText?.text.toString()
+        UserDeliveryAddressService.addDeliveryAddress(userDocId,deliveryAddressModel)
     }
 }

@@ -28,11 +28,12 @@
 				android:layout_marginTop="40dp"
 				android:fontFamily="@font/nanumsquareneo_5"
 				android:gravity="start"
-				android:text="김과일님"
+				android:text=""
 				android:textColor="@color/white"
 				android:textSize="25sp"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="@id/textViewUserInfoHeader" />
+				app:layout_constraintTop_toTopOf="@id/textViewUserInfoHeader"
+				/>
 
 			<TextView
 				android:id="@+id/textViewUserInfoSubtitle"

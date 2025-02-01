@@ -182,6 +182,16 @@ enum class IsOneTimeDeliveryBoolType(val bool: Boolean, val str: String) {
     REGULAR_DELIVERY(false, "정기배송")
 }
 
+enum class OrderSearchPeriod(val num: Int, val str: String) {
+    ORDER_SEARCH_PERIOD_ALL(1, "전체"),
+    ORDER_SEARCH_PERIOD_15DAYS(2, "15일"),
+    ORDER_SEARCH_PERIOD_ONE_MONTH(3, "1개월"),
+    ORDER_SEARCH_PERIOD_THREE_MONTH(4, "1개월"),
+    ORDER_SEARCH_PERIOD_SIX_MONTH(5, "1개월"),
+
+
+}
+
 enum class OrderState(val num: Int, val str: String) {
     ORDER_STATE_PAYMENT_PENDING(1, "결제대기중"),
     ORDER_STATE_PAYMENT_COMPLETED(2, "결제 완료"),

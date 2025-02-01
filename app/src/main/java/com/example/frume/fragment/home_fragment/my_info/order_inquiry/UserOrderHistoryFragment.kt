@@ -15,20 +15,28 @@ import com.example.frume.R
 import com.example.frume.activity.HomeActivity
 import com.example.frume.databinding.FragmentUserOrderHistoryBinding
 import com.example.frume.databinding.ItemProductOrderBinding
+import com.example.frume.model.OrderProductModel
 import com.google.android.material.divider.MaterialDividerItemDecoration
 
 
 class UserOrderHistoryFragment() : Fragment() {
 
-    lateinit var userOrderHistoryBinding : FragmentUserOrderHistoryBinding
+    lateinit var userOrderHistoryBinding: FragmentUserOrderHistoryBinding
     lateinit var homeActivity: HomeActivity
+
+    var showOrderProductList = mutableListOf<OrderProductModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        userOrderHistoryBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_user_order_history,container,false)
+        userOrderHistoryBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_user_order_history,
+            container,
+            false
+        )
         homeActivity = activity as HomeActivity
 
         // 뒤로가기 메서드 실행
@@ -42,27 +50,18 @@ class UserOrderHistoryFragment() : Fragment() {
 
     // 뒤로가기 버튼 리스너
     fun onClickNavigationIcon() {
-        userOrderHistoryBinding.toolbarUserOrderHistory.setNavigationOnClickListener{
+        userOrderHistoryBinding.toolbarUserOrderHistory.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
 
     // 주문 상태 드롭다운 메뉴 버튼 리스너
     private fun setupOrderStateDropdown() {
-        val autoCompleteOrderStateTextView = userOrderHistoryBinding.autoCompleteTextViewUserOrderHistoryOrderState
-        val autoCompleteSearchPeriodTextView= userOrderHistoryBinding.autoCompleteTextViewUserOrderHistorySearchPeriod
-        // 드롭다운 데이터 정의
-        val orderStates = listOf("전체", "출고 준비중", "출고 완료", "배송 준비중", "배송 완료", "결제 대기중", "결제 완료", "취소", "반품"," 교환")
+        val autoCompleteSearchPeriodTextView =
+            userOrderHistoryBinding.autoCompleteTextViewUserOrderHistorySearchPeriod
 
-        val searchPeriods = listOf("15일", "1개월", "3개월", "6개월")
+        val searchPeriods = listOf("전체", "15일", "1개월", "3개월", "6개월")
 
-
-        // ArrayAdapter 생성 (autoCompleteOrderStateTextView에 데이터를 연결)
-        val adapterOrderState = ArrayAdapter(
-            homeActivity,
-            android.R.layout.simple_dropdown_item_1line,
-            orderStates
-        )
 
         // ArrayAdapter 생성 (autoCompleteSearchPeriodTextView에 데이터를 연결)
         val adapterSearchPeriodState = ArrayAdapter(
@@ -71,71 +70,70 @@ class UserOrderHistoryFragment() : Fragment() {
             searchPeriods
         )
 
-        // autoCompleteOrderStateTextView에 어댑터 연결
-        autoCompleteOrderStateTextView.setAdapter(adapterOrderState)
 
         // autoCompleteSearchPeriodTextView에 어댑터 연결
         autoCompleteSearchPeriodTextView.setAdapter(adapterSearchPeriodState)
 
-        // autoCompleteOrderStateTextView 항목 선택 이벤트 리스너 설정
-        autoCompleteOrderStateTextView.setOnItemClickListener { parent, view, position, id ->
-            val selectedOrderState = parent.getItemAtPosition(position).toString()
-            // 선택된 항목 처리
-            Toast.makeText(requireContext(), "선택된 상태: $selectedOrderState", Toast.LENGTH_SHORT).show()
-        }
-
         // autoCompleteSearchPeriodTextView에 항목 선택 이벤트 리스너 설정
-        autoCompleteSearchPeriodTextView.setOnItemClickListener{parent, view, position, id ->
+        autoCompleteSearchPeriodTextView.setOnItemClickListener { parent, view, position, id ->
             val selectedSearchPeriod = parent.getItemAtPosition(position).toString()
             // 선택된 항목 처리
-            Toast.makeText(requireContext(), "선택된 상태: $selectedSearchPeriod", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "선택된 상태: $selectedSearchPeriod", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
 
-
     // RecyclerView를 구성하는 메서드
-         fun settingRecyclerView(){
-         userOrderHistoryBinding.apply {
-                 // 어뎁터
-                 recyclerViewUserOrderHistory.adapter = RecyclerViewOrderHistoryAdapter()
-                 // LayoutManager
-                 recyclerViewUserOrderHistory.layoutManager = LinearLayoutManager(homeActivity)
-                 // 구분선
-                 val deco = MaterialDividerItemDecoration(homeActivity, MaterialDividerItemDecoration.VERTICAL)
-                 recyclerViewUserOrderHistory.addItemDecoration(deco)
-             }
-         }
+    fun settingRecyclerView() {
+        userOrderHistoryBinding.apply {
+            // 어뎁터
+            recyclerViewUserOrderHistory.adapter = RecyclerViewOrderHistoryAdapter()
+            // LayoutManager
+            recyclerViewUserOrderHistory.layoutManager = LinearLayoutManager(homeActivity)
+            // 구분선
+            val deco =
+                MaterialDividerItemDecoration(homeActivity, MaterialDividerItemDecoration.VERTICAL)
+            recyclerViewUserOrderHistory.addItemDecoration(deco)
+        }
+    }
 
-         // RecyclerView의 어뎁터
-         inner class RecyclerViewOrderHistoryAdapter : RecyclerView.Adapter<RecyclerViewOrderHistoryAdapter.ViewHolderMain>(){
-             // ViewHolder
-             inner class ViewHolderMain(val itemProductOrderBinding: ItemProductOrderBinding) : RecyclerView.ViewHolder(itemProductOrderBinding.root),
-                 View.OnClickListener {
-                 override fun onClick(v: View?) {
+    // RecyclerView의 어뎁터
+    inner class RecyclerViewOrderHistoryAdapter :
+        RecyclerView.Adapter<RecyclerViewOrderHistoryAdapter.ViewHolderMain>() {
+        // ViewHolder
+        inner class ViewHolderMain(val itemProductOrderBinding: ItemProductOrderBinding) :
+            RecyclerView.ViewHolder(itemProductOrderBinding.root),
+            View.OnClickListener {
+            override fun onClick(v: View?) {
 
-                     // 주문 상세 내역(USerOrderHistoryFragment)으로 이동
-                     val action = UserOrderHistoryFragmentDirections.actionUserOrderHistoryToUserOrderDetail()
-                     findNavController().navigate(action)
-                 }
-             }
+                // 주문 상세 내역(USerOrderHistoryFragment)으로 이동
+                val action =
+                    UserOrderHistoryFragmentDirections.actionUserOrderHistoryToUserOrderDetail()
+                findNavController().navigate(action)
+            }
+        }
 
-             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMain {
-                 val itemProductOrderBinding = ItemProductOrderBinding.inflate(layoutInflater, parent, false)
-                 val viewHolderItemOrderHistory = ViewHolderMain(itemProductOrderBinding)
-                 // 리스너를 설정해준다.
-                 itemProductOrderBinding.root.setOnClickListener(viewHolderItemOrderHistory)
-                 return viewHolderItemOrderHistory
-             }
-             override fun getItemCount(): Int {
-                 return 2
-             }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderMain {
+            val itemProductOrderBinding =
+                ItemProductOrderBinding.inflate(layoutInflater, parent, false)
+            val viewHolderItemOrderHistory = ViewHolderMain(itemProductOrderBinding)
+            // 리스너를 설정해준다.
+            itemProductOrderBinding.root.setOnClickListener(viewHolderItemOrderHistory)
+            return viewHolderItemOrderHistory
+        }
 
-             override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
-                /* holder.itemProductOrderBinding.textViewItemProductOrderOrderStatus.text = DummyData.dummyShippingItems[position].deliverState
-                 holder.itemProductOrderBinding.textViewItemProductOrderProductName.text = DummyData.dummyShippingItems[position].productName
-                 holder.itemProductOrderBinding.imageViewItemProductOrderProduct.setImageResource(DummyData.dummyShippingItems[position].imgPath)*/
-             }
-         }
+        override fun getItemCount(): Int {
+            return 2
+        }
+
+        override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
+            /* holder.itemProductOrderBinding.textViewItemProductOrderOrderStatus.text = DummyData.dummyShippingItems[position].deliverState
+             holder.itemProductOrderBinding.textViewItemProductOrderProductName.text = DummyData.dummyShippingItems[position].productName
+             holder.itemProductOrderBinding.imageViewItemProductOrderProduct.setImageResource(DummyData.dummyShippingItems[position].imgPath)*/
+        }
+    }
+
+    // 리스트 가져오기
 
 }

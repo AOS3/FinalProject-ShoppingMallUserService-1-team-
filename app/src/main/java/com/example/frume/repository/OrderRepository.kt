@@ -30,5 +30,15 @@ class OrderRepository {
             }
         }
 
+        suspend fun gettingMyOrder(customerUserId: String) :MutableList<OrderVO>{
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("orderData")
+            val result = collectionReference.whereEqualTo("customerDocId", customerUserId).get().await()
+            val userOrderVoList = result.toObjects(OrderVO::class.java)
+
+            return userOrderVoList
+
+        }
+
     }
 }

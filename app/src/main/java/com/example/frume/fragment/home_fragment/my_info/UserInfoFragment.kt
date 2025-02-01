@@ -16,6 +16,13 @@ import com.example.frume.activity.HomeActivity
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserInfoBinding
 import com.example.frume.activity.LoginActivity
+import com.example.frume.model.UserModel
+import com.example.frume.service.ReviewService
+import com.example.frume.service.UserService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class UserInfoFragment() : Fragment() {
 
@@ -35,6 +42,8 @@ class UserInfoFragment() : Fragment() {
         onClickTextViewUserReview()
         // 로그아웃 리스너 실행
         onClickLogout()
+        // 유저 정보 가져오는 메서드 호출
+        getUserInfo()
         return fragmentUserInfoBinding.root
     }
 
@@ -116,7 +125,31 @@ class UserInfoFragment() : Fragment() {
             val action = UserInfoFragmentDirections.actionNavigationProfileToUserInfoManage()
             findNavController().navigate(action)
         }
+    }
 
+    private fun getUserInfo() {
+        CoroutineScope(Dispatchers.Main).launch {
+            var userModel = UserModel()
+
+            val work0 = async(Dispatchers.IO){
+                ReviewService.getUserReviewCount(homeActivity.loginUserDocumentId)
+            }
+            val reviewCnt = work0.await()
+
+
+            val work1 = async(Dispatchers.IO){
+                userModel = UserService.getUserInfo(homeActivity.loginUserDocumentId)[0]
+
+            }
+            work1.join()
+
+
+            fragmentUserInfoBinding.textViewTitleUserInfo.text = "${userModel.customerUserName}님"
+
+            fragmentUserInfoBinding.reWardCostTextViewUserInfo.text = "${userModel.customerUserReward} 원"
+
+            fragmentUserInfoBinding.reviewCostTextViewUserInfo.text = "${reviewCnt} 건"
+        }
     }
 
 

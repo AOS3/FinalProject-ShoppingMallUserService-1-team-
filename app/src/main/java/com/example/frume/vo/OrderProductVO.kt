@@ -1,6 +1,8 @@
 package com.example.frume.vo
 
+import com.example.frume.model.OrderProductModel
 import com.example.frume.util.OrderProductState
+import com.example.frume.util.OrderState
 import com.google.firebase.Timestamp
 
 class OrderProductVO {
@@ -32,31 +34,40 @@ class OrderProductVO {
     var orderProductTimeStamp = Timestamp.now()
 
     // 주문 확정일
-    var orderFixedDate = Timestamp.now()
+    var orderFixedDate:Timestamp? = null
 
     // 배송 예정일
     var orderDeliveryDueDate = Timestamp.now()
 
-    fun toOrderProductVO(): OrderProductVO {
-        val orderProductVO = OrderProductVO()
 
-        orderProductVO.orderProductDocId = orderProductDocId
-        orderProductVO.orderId = orderId
-        orderProductVO.orderProductName = orderProductName
-        orderProductVO.orderProductPrice = orderProductPrice
-        orderProductVO.orderProductCount = orderProductCount
-        orderProductVO.orderProductImagePath = orderProductImagePath
-        orderProductVO.orderProductTotalPrice = orderProductTotalPrice
-        orderProductVO.orderProductTimeStamp = orderProductTimeStamp
-        orderProductVO.orderFixedDate = orderFixedDate
-        orderProductVO.orderDeliveryDueDate = orderDeliveryDueDate
+    // 주문 상태 (결제 대기, 완료, 취소, 반품, 교환)
+    var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING // 결제 대기
+
+    fun toOrderProductModel(): OrderProductModel {
+        val orderProductModel = OrderProductModel()
+
+        orderProductModel.orderProductDocId = orderProductDocId
+        orderProductModel.orderId = orderId
+        orderProductModel.orderProductName = orderProductName
+        orderProductModel.orderProductPrice = orderProductPrice
+        orderProductModel.orderProductCount = orderProductCount
+        orderProductModel.orderProductImagePath = orderProductImagePath
+        orderProductModel.orderProductTotalPrice = orderProductTotalPrice
+        orderProductModel.orderProductTimeStamp = orderProductTimeStamp
+        orderProductModel.orderFixedDate = orderFixedDate
+        orderProductModel.orderDeliveryDueDate = orderDeliveryDueDate
+
+
+
 
         when (orderProductState) {
             OrderProductState.ORDER_PRODUCT_STATE_NORMAL.num->{OrderProductState.ORDER_PRODUCT_STATE_NORMAL}
             OrderProductState.ORDER_PRODUCT_STATE_ABNORMAL.num->{OrderProductState.ORDER_PRODUCT_STATE_ABNORMAL}
         }
 
-        return orderProductVO
+
+
+        return orderProductModel
     }
 
 
