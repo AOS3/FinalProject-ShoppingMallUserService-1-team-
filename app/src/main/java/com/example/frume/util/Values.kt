@@ -253,5 +253,12 @@ enum class LoginResult(val number: Int, val str: String) {
     LOGIN_RESULT_SIGN_OUT_MEMBER(4, "탈퇴한 회원"),
 }
 
-
+// sehoon 0202
+// sort Method
+enum class SortType{
+    SALES_ASC,  // 판매량 오름차순 (적은순)
+    SALES_DESC, // 판매량 내림차순 (많은순)
+    PRICE_ASC,  // 가격 오름차순 (낮은순)
+    PRICE_DESC  // 가격 내림차순 (높은순)
+}
 

@@ -22,7 +22,6 @@ class ProductService {
         // sehoon productDocId로 제품의 정보를 가져온다
         suspend fun getProductInfo(productId: String): Product {
             val product = ProductRepository.getProductInfo(productId)
-
             return product
         }
 
@@ -31,6 +30,16 @@ class ProductService {
         suspend fun gettingProductOneByDocId(productDocID: String): ProductModel {
             val selectedProductVO = ProductRepository.gettingProductOneByDocId(productDocID)
             return selectedProductVO.toProductModel()
+        }
+
+        suspend fun getSearchProductInfo(searchProduct: String): MutableList<ProductModel> {
+            val productModelList = mutableListOf<ProductModel>()
+
+            val productVOList = ProductRepository.getSearchProductInfo(searchProduct)
+            productVOList.forEach {
+                productModelList.add(it.toProductModel())
+            }
+            return productModelList
         }
 
     }
