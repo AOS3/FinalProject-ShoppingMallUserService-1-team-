@@ -1,6 +1,7 @@
 package com.example.frume.model
 
 import com.example.frume.util.OrderProductState
+import com.example.frume.util.OrderState
 import com.example.frume.vo.OrderProductVO
 import com.google.firebase.Timestamp
 
@@ -12,6 +13,9 @@ class OrderProductModel {
 
     // 주문 ID
     var orderId = ""
+
+    // 상품 문서 ID , 추가 hj
+    var productDocId = ""
 
     // 상품 이름
     var orderProductName = ""
@@ -35,16 +39,20 @@ class OrderProductModel {
     var orderProductTimeStamp = Timestamp.now()
 
     // 주문 확정일
-    var orderFixedDate = Timestamp.now()
+    var orderFixedDate :Timestamp? = null
 
     // 배송 예정일
     var orderDeliveryDueDate = Timestamp.now()
+
+    // 주문 상태 (결제 대기, 완료, 취소, 반품, 교환)
+    var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING // 결제 대기
 
     fun toOrderProductVO(): OrderProductVO {
         val orderProductVO = OrderProductVO()
 
         orderProductVO.orderProductDocId = orderProductDocId
         orderProductVO.orderId = orderId
+        orderProductVO.productDocId = productDocId
         orderProductVO.orderProductName = orderProductName
         orderProductVO.orderProductPrice = orderProductPrice
         orderProductVO.orderProductCount = orderProductCount

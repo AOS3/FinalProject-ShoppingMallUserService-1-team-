@@ -3,6 +3,7 @@ package com.example.frume.repository
 import android.util.Log
 import com.example.frume.vo.DeliveryVO
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class DeliveryRepository {
     companion object{
@@ -26,6 +27,32 @@ class DeliveryRepository {
                 // 예외 발생 시 false 반환
                 Log.e("addUserDelivery", "에러 발생: ${e.message}", e)
                 "false"
+            }
+        }
+
+        // 해당 주문 가져오기
+        suspend fun gettingDeliveryByDocId(deliveryDocId: String): DeliveryVO {
+            Log.d("test100", "DeliveryRepository->gettingDeliveryByDocId() 호출됨")
+
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("deliveryData")
+
+            return try {
+                // orderDocId에 해당하는 문서를 가져옴
+                val documentSnapshot = collectionReference.document(deliveryDocId).get().await()
+                // 문서를 OrderVO 객체로 변환
+                val deliveryVO = documentSnapshot.toObject(DeliveryVO::class.java)
+
+                if (deliveryVO == null) {
+                    Log.e("test100", "DeliveryRepository->gettingDeliveryByDocId() : DeliveryVO 변환 실패, null 값 반환")
+                    throw Exception("OrderVO 변환 실패 - orderDocId: $deliveryDocId")
+                } else {
+                    Log.d("test100", "DeliveryRepository->gettingDeliveryByDocId() : 주문 데이터 가져오기 성공")
+                }
+                deliveryVO
+            } catch (e: Exception) {
+                Log.e("test100", "DeliveryRepository->gettingDeliveryByDocId() 오류: ${e.message}")
+                throw e  // 호출하는 곳에서 에러를 처리할 수 있도록 예외 재던짐
             }
         }
     }

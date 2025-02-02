@@ -12,5 +12,12 @@ class ReviewService {
             val reviewDocId = ReviewRepository.setUserReview(reviewVO)
             return reviewDocId
         }
+
+
+        suspend fun getUserReviewCount(userDocId : String) :Int{
+            val result = ReviewRepository.getMyReviewCount(userDocId)
+            return result
+
+        }
     }
 }

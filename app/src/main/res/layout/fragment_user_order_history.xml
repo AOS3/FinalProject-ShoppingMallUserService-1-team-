@@ -18,49 +18,16 @@
 			app:layout_constraintTop_toTopOf="parent"
 			app:title="주문내역 및 배송조회" />
 
-
-		<TextView
-			android:id="@+id/textViewUserOrderHistoryOrderFilterText"
-			style="@style/AppText5.S20"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="40dp"
-			android:layout_marginTop="45dp"
-			android:text="주문 상태"
-			app:layout_constraintEnd_toStartOf="@id/textInputLayoutUserOrderHistoryOrderStateFilter"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/toolbarUserOrderHistory" />
-
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/textInputLayoutUserOrderHistoryOrderStateFilter"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:entries="@array/item_user_order_state_order_state"
-			app:endIconMode="dropdown_menu"
-			app:layout_constraintBottom_toBottomOf="@id/textViewUserOrderHistoryOrderFilterText"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@id/textViewUserOrderHistoryOrderFilterText"
-			app:layout_constraintTop_toTopOf="@id/textViewUserOrderHistoryOrderFilterText">
-
-			<AutoCompleteTextView
-				android:id="@+id/autoCompleteTextViewUserOrderHistoryOrderState"
-				android:layout_width="150dp"
-				android:layout_height="wrap_content"
-				android:gravity="center"
-				android:hint="주문 상태"
-				android:inputType="none" />
-		</com.google.android.material.textfield.TextInputLayout>
-
-
 		<TextView
 			android:id="@+id/textViewUserOrderHistorySearchPeriod"
 			style="@style/AppText5.S20"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_marginStart="40dp"
 			android:layout_marginTop="45dp"
 			android:text="조회 기간"
-			app:layout_constraintStart_toStartOf="@id/textViewUserOrderHistoryOrderFilterText"
-			app:layout_constraintTop_toBottomOf="@id/textViewUserOrderHistoryOrderFilterText" />
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/toolbarUserOrderHistory" />
 
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/textInputLayoutUserOrderHistorySearchPeriodFilter"
@@ -70,15 +37,14 @@
 			app:layout_constraintBottom_toBottomOf="@id/textViewUserOrderHistorySearchPeriod"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toEndOf="@id/textViewUserOrderHistorySearchPeriod"
-			app:layout_constraintTop_toTopOf="@+id/textViewUserOrderHistorySearchPeriod">
+			app:layout_constraintTop_toTopOf="@id/textViewUserOrderHistorySearchPeriod">
 
 			<AutoCompleteTextView
 				android:id="@+id/autoCompleteTextViewUserOrderHistorySearchPeriod"
 				android:layout_width="150dp"
 				android:layout_height="wrap_content"
-				android:entries="@array/item_user_order_state_order_state"
 				android:gravity="center"
-				android:hint="조회 기간"
+				android:hint="전체"
 				android:inputType="none" />
 		</com.google.android.material.textfield.TextInputLayout>
 
@@ -91,7 +57,6 @@
 			android:backgroundTint="@color/gray50"
 			app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserOrderHistorySearchPeriodFilter" />
 
-
 		<TextView
 			android:id="@+id/textViewUserOrderHistoryFilteredFrontPeriod"
 			style="@style/AppText5.S17"
@@ -100,10 +65,8 @@
 			android:layout_marginStart="20dp"
 			android:layout_marginTop="20dp"
 			android:text="2024.12.5"
-			app:layout_constraintEnd_toStartOf="@id/textViewUserOrderHistoryTilde"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@id/divider_top" />
-
 
 		<TextView
 			android:id="@+id/textViewUserOrderHistoryTilde"
@@ -133,7 +96,6 @@
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@id/textViewUserOrderHistoryFilteredFrontPeriod"
 			tools:listitem="@layout/item_product_order" />
-
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 

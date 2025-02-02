@@ -22,6 +22,8 @@ class ReviewRepository {
             reviewVO.reviewDocId = documentReference.id
             documentReference.set(reviewVO)
             return reviewVO.reviewDocId
+
+
         }
 
         // 이미지 저장하기
@@ -45,6 +47,27 @@ class ReviewRepository {
             }
             return uploadedUrls
         }
+
+        suspend fun getMyReviewCount(userDocId: String): Int {
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("reviewData")
+
+            return try {
+                val reviewSnapshot = collectionReference
+                    .whereEqualTo("userDocId", userDocId) // 특정 유저의 리뷰만 필터링
+                    .orderBy("reviewTimeStamp", Query.Direction.DESCENDING)
+                    .get()
+                    .await()
+
+                Log.d("Firestore", "사용자($userDocId)의 리뷰 개수: ${reviewSnapshot.documents.size}")
+
+                reviewSnapshot.documents.size // 문서 개수 반환
+            } catch (e: Exception) {
+                e.printStackTrace()
+                0 // 오류 발생 시 0 반환
+            }
+        }
+
 
     }
 
