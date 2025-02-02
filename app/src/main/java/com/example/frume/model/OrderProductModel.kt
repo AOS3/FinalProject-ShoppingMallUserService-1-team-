@@ -14,6 +14,9 @@ class OrderProductModel {
     // 주문 ID
     var orderId = ""
 
+    // 상품 문서 ID , 추가 hj
+    var productDocId = ""
+
     // 상품 이름
     var orderProductName = ""
 
@@ -49,6 +52,7 @@ class OrderProductModel {
 
         orderProductVO.orderProductDocId = orderProductDocId
         orderProductVO.orderId = orderId
+        orderProductVO.productDocId = productDocId
         orderProductVO.orderProductName = orderProductName
         orderProductVO.orderProductPrice = orderProductPrice
         orderProductVO.orderProductCount = orderProductCount

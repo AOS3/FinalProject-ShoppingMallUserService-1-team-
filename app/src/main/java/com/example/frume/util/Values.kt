@@ -186,8 +186,8 @@ enum class OrderSearchPeriod(val num: Int, val str: String) {
     ORDER_SEARCH_PERIOD_ALL(1, "전체"),
     ORDER_SEARCH_PERIOD_15DAYS(2, "15일"),
     ORDER_SEARCH_PERIOD_ONE_MONTH(3, "1개월"),
-    ORDER_SEARCH_PERIOD_THREE_MONTH(4, "1개월"),
-    ORDER_SEARCH_PERIOD_SIX_MONTH(5, "1개월"),
+    ORDER_SEARCH_PERIOD_THREE_MONTH(4, "3개월"),
+    ORDER_SEARCH_PERIOD_SIX_MONTH(5, "6개월"),
 
 
 }

@@ -7,6 +7,10 @@ import com.example.frume.util.OrderState
 import com.example.frume.vo.OrderProductVO
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 
@@ -55,11 +59,15 @@ class OrderProductRepository {
         }
 
         suspend fun gettingMyOrderProductItems(
-            ordersDocId: List<String>,
+            ordersDocIdList: List<String>,
             orderSearchPeriod: OrderSearchPeriod
         ): MutableList<OrderProductVO> {
             val orderProductModelList = mutableListOf<OrderProductVO>()
             val firestore = FirebaseFirestore.getInstance()
+
+            Log.d("test100", "OrderProductRepository->gettingMyOrderProductItems() 호출됨")
+            Log.d("test100", "입력된 주문 ID 목록: $ordersDocIdList")
+            Log.d("test100", "검색 기간: $orderSearchPeriod")
 
             // 🔹 조회 기간 설정 (현재 시간 기준)
             val calendar = Calendar.getInstance().apply {
@@ -72,51 +80,71 @@ class OrderProductRepository {
                 }
             }
             val searchStartDate = Timestamp(calendar.time)
+            Log.d("test100", "검색 시작 날짜 (Timestamp): $searchStartDate")
 
             try {
-                // 🔹 orderData 컬렉션에서 날짜 필터링하여 해당 주문 ID 가져오기
-                val orderQuerySnapshot = if (orderSearchPeriod == OrderSearchPeriod.ORDER_SEARCH_PERIOD_ALL) {
-                    firestore.collection("orderData").get().await() // 전체 조회
-                } else {
-                    firestore.collection("orderData")
-                        .whereGreaterThanOrEqualTo("orderTimeStamp", searchStartDate) // 🔥 날짜 필터 적용
-                        .get()
-                        .await()
-                }
+                val deferredList = ordersDocIdList.map { orderId ->
+                    CoroutineScope(Dispatchers.IO).async {
+                        Log.d("test100", "🔥 주문 ID 처리 중: $orderId")
 
-                for (orderDocument in orderQuerySnapshot.documents) {
-                    val orderId = orderDocument.id
-                    val getOrderState = orderDocument.get("orderState") ?: 0 // 🔥 orderState 값 가져오기 (기본값 0)
+                        val orderDocRef = firestore.collection("orderData").document(orderId)
+                        val orderDoc = orderDocRef.get().await()
 
-                    // 해당 주문의 상태를 주문상품의 상태에 집어넣기 위한 작업
-                    val orderStateNum: Int = when (getOrderState) {
-                        OrderState.ORDER_STATE_PAYMENT_PENDING.num -> OrderState.ORDER_STATE_PAYMENT_PENDING.num
-                        OrderState.ORDER_STATE_PAYMENT_COMPLETED.num -> OrderState.ORDER_STATE_PAYMENT_COMPLETED.num
-                        OrderState.ORDER_STATE_CANCELLED.num -> OrderState.ORDER_STATE_CANCELLED.num
-                        OrderState.ORDER_STATE_RETURNED.num -> OrderState.ORDER_STATE_RETURNED.num
-                        else -> OrderState.ORDER_STATE_EXCHANGED.num
-                    }
+                        if (!orderDoc.exists()) {
+                            Log.w("test100", "🚨 주문 문서 없음: $orderId")
+                            return@async emptyList<OrderProductVO>()
+                        }
 
-                    val orderProductRef = firestore.collection("orderData")
-                        .document(orderId)
-                        .collection("orderProductItems")
+                        val orderTimestamp = orderDoc.getTimestamp("orderTimeStamp")
+                        if (orderTimestamp == null) {
+                            Log.w("test100", "🚨 주문 타임스탬프 없음: $orderId")
+                            return@async emptyList<OrderProductVO>()
+                        }
 
-                    val querySnapshot = orderProductRef.get().await()
-                    for (document in querySnapshot.documents) {
-                        val orderProduct = document.toObject(OrderProductVO::class.java)
-                        orderProduct?.let {
-                            /*it.orderState = orderStateNum // 🔥 orderState 값을 orderProduct에 설정
-                            orderProductModelList.add()*/
+                        Log.d("test100", "✔ 주문 타임스탬프: $orderTimestamp")
+
+                        if (orderSearchPeriod != OrderSearchPeriod.ORDER_SEARCH_PERIOD_ALL &&
+                            orderTimestamp < searchStartDate) {
+                            Log.d("test100", "⏳ 주문 $orderId 검색 제외 (검색 기간 초과)")
+                            return@async emptyList<OrderProductVO>()
+                        }
+
+                        // 🔥 orderState 가져오기
+                        val getOrderState = orderDoc.get("orderState") ?: 0
+                        val orderStateNum = when (getOrderState) {
+                            OrderState.ORDER_STATE_PAYMENT_PENDING.num -> OrderState.ORDER_STATE_PAYMENT_PENDING.num
+                            OrderState.ORDER_STATE_PAYMENT_COMPLETED.num -> OrderState.ORDER_STATE_PAYMENT_COMPLETED.num
+                            OrderState.ORDER_STATE_CANCELLED.num -> OrderState.ORDER_STATE_CANCELLED.num
+                            OrderState.ORDER_STATE_RETURNED.num -> OrderState.ORDER_STATE_RETURNED.num
+                            else -> OrderState.ORDER_STATE_EXCHANGED.num
+                        }
+
+                        Log.d("test100", "✔ 주문 상태: $orderStateNum")
+
+                        val orderProductRef = orderDocRef.collection("orderProductItems")
+                        val querySnapshot = orderProductRef.get().await()
+
+                        Log.d("test100", "📦 주문 상품 개수: ${querySnapshot.documents.size}")
+
+                        querySnapshot.documents.mapNotNull { document ->
+                            document.toObject(OrderProductVO::class.java)?.apply {
+                                this.orderState = orderStateNum // 주문 상태 설정
+                            }
                         }
                     }
                 }
+
+                // 모든 비동기 작업 완료 후 리스트 합치기
+                val results = deferredList.awaitAll()
+                orderProductModelList.addAll(results.flatten())
+
+                Log.d("test100", "✅ 최종 주문 상품 개수: ${orderProductModelList.size}")
             } catch (e: Exception) {
-                Log.e("FirebaseError", "Error fetching order products: ${e.message}")
+                Log.e("test100", "🚨 Firebase 오류: ${e.message}")
             }
 
             return orderProductModelList
         }
-
 
 
 

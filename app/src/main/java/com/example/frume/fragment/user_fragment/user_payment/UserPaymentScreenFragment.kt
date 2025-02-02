@@ -672,6 +672,7 @@ class UserPaymentScreenFragment : Fragment() {
                     // 기타 요청 사항 입력값 받기
                     addDeliveryModel.deliveryEtc =
                         textInputLayoutUserPaymentRequest.editText?.text.toString()
+
                 }
             }
 
@@ -742,8 +743,8 @@ class UserPaymentScreenFragment : Fragment() {
                 orderProductModel.orderProductCount = it.cartItemProductQuantity
                 // 주문상품 예정일
                 orderProductModel.orderDeliveryDueDate = it.cartItemDeliveryDueDate
-                // 주문상품 문서 ID
-                orderProductModel.orderProductDocId = it.cartItemProductDocId
+                // 주문상품 문서 ID 수정 hj orderProductDocId -> productDocId 수정함
+                orderProductModel.productDocId= it.cartItemProductDocId
                 // 주문상품 이미지 받아오기
                 val productModel = ProductService.getProductInfo(it.cartItemProductDocId)[0]
                 val imgPath = productModel.productImages
@@ -753,6 +754,7 @@ class UserPaymentScreenFragment : Fragment() {
                 orderProductModel.orderProductPrice = it.cartProductUnitPrice
                 // 주문상품 가격
                 orderProductModel.orderProductTotalPrice = it.cartProductPrice
+
 
                 orderProductList.add(orderProductModel)
             }
