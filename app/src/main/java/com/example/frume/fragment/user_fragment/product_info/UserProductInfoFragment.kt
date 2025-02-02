@@ -49,7 +49,7 @@ class UserProductInfoFragment : Fragment() {
     // sehoon 뷰 페이저 함수 생성
     private fun setViewPager() {
         val detailList = Storage.detailList
-        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId!!)
+        binding.viewPagerUserProductInfo.adapter = ProductTabAdapter(this, detailList, args.selectedProductDocId)
         TabLayoutMediator(binding.tabLayoutUserProductInfo, binding.viewPagerUserProductInfo) { tab, pos ->
             tab.text = detailList[pos]
         }.attach()

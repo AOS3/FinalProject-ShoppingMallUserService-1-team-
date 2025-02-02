@@ -4,22 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDetailBinding
-import com.example.frume.service.ProductService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.frume.factory.ProductDetailModelFactory
+import com.example.frume.repository.ProductRepository
 
 
 class UserProductInfoDetailFragment : Fragment() {
     private var _binding: FragmentUserProductInfoDetailBinding? = null
     private val binding get() = _binding!!
     private var productDocId: String? = null
+    private val viewModel: ProductDetailViewModel by lazy {
+        val repository = ProductRepository()
+        val factory = ProductDetailModelFactory(repository)
+        ViewModelProvider(this, factory)[ProductDetailViewModel::class.java]
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,34 +46,17 @@ class UserProductInfoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setLayout()
+        observeData()
     }
 
-    private fun setLayout() {
-        getProductData()
-    }
-
-
-    private fun getProductData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val productList = ProductService.getProductInfo(productDocId!!)
-                withContext(Dispatchers.Main) {
-                    // UI
-                    productList.forEach { item ->
-                        with(binding) {
-                            textViewProductInfoDetailBreed.text = item.productCategory2
-                            textViewProductInfoDetailWeight.text = "${item.productVolume}${item.productUnit}"
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "no data", Toast.LENGTH_SHORT).show()
-                }
-            }
+    private fun observeData() {
+        viewModel.loadProduct(productDocId!!)
+        viewModel.items.observe(viewLifecycleOwner) {
+            binding.textViewProductInfoDetailBreed.text = it.productCategory2
+            binding.textViewProductInfoDetailWeight.text = "${it.productVolume}${it.productUnit}"
         }
     }
+
 
     companion object {
         private const val ARG_PRODUCT_DOC_ID = "product_doc_id"

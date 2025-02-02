@@ -746,10 +746,10 @@ class UserPaymentScreenFragment : Fragment() {
                 // 주문상품 문서 ID 수정 hj orderProductDocId -> productDocId 수정함
                 orderProductModel.productDocId= it.cartItemProductDocId
                 // 주문상품 이미지 받아오기
-                val productModel = ProductService.getProductInfo(it.cartItemProductDocId)[0]
-                val imgPath = productModel.productImages
+              //  val productModel = ProductService.getProductInfo(it.cartItemProductDocId)[0]
+              //  val imgPath = productModel.productImages
                 // 주문상품 이미지 설정
-                orderProductModel.orderProductImagePath = imgPath[0]
+               // orderProductModel.orderProductImagePath = imgPath[0]
                 // 주문상품 단가
                 orderProductModel.orderProductPrice = it.cartProductUnitPrice
                 // 주문상품 가격

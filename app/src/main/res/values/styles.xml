@@ -41,6 +41,10 @@
 		<item name="android:textColor">@color/black</item>
 	</style>
 
+	<style name="AppText2.S12">
+		<item name="android:textSize">12sp</item>
+	</style>
+
 	<style name="AppText2.S14">
 		<item name="android:textSize">14sp</item>
 	</style>
@@ -49,6 +53,14 @@
 	<style name="AppText3">
 		<item name="fontFamily">@font/nanumsquareneo_3</item>
 		<item name="android:textColor">@color/black</item>
+	</style>
+
+	<style name="AppText3.S10">
+		<item name="android:textSize">10sp</item>
+	</style>
+
+	<style name="AppText3.S10.White">
+		<item name="android:textColor">@color/white</item>
 	</style>
 
 	<style name="AppText3.S12">
@@ -153,7 +165,7 @@
 
 	<!-- Image Style -->
 	<style name="AppRoundedImage">
-		<item name="cornerSize">10dp</item>
+		<item name="cornerSize">12dp</item>
 	</style>
 
 	<style name="ThemeOverlay.Questionnaire.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">

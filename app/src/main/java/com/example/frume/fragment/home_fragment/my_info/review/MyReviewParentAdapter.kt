@@ -43,9 +43,6 @@ class ReviewParentViewHolder(
     }
 
     fun bind(item: MyReviewParent, userDocId: String, listener: ReviewClickListener) {
-        Log.d("bind1", item.reviewCustomerDocId.toString())
-        Log.d("bind2", userDocId)
-
         binding.myReview = item
         nestedAdapter.add(item.reviewImagesPath)
         binding.listener = listener

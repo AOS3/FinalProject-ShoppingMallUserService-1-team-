@@ -2,9 +2,7 @@ package com.example.frume.data
 
 import android.os.Parcelable
 import com.example.frume.R
-import com.example.frume.util.CategoryType
 import kotlinx.parcelize.Parcelize
-import java.util.Date
 
 object Storage {
     val categoryList: List<String> = getCategoryData()

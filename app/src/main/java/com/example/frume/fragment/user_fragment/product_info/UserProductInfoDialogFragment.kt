@@ -10,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductInfoDialogBinding
 import com.example.frume.activity.HomeActivity
@@ -29,6 +31,7 @@ import com.example.frume.util.DeliveryCycleDays
 import com.example.frume.util.DeliveryCycleWeeks
 import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.applyNumberFormat
+import com.example.frume.util.showToast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.CalendarConstraints
@@ -119,16 +122,17 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         val productDocId = args.productDocId
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val productList = productDocId?.let { ProductService.getProductInfo(it) }
+                val productList = productDocId?.let { ProductService.gettingProductOneByDocId(it) }
                 withContext(Dispatchers.Main) {
                     // UI
-                    productList?.forEach { item ->
-                        productPrice = item.productPrice
-                        with(binding) {
-                            textViewProductName.text = item.productName
-                            textViewProductDescription.text = item.productDescription
-                            textViewUserProductInfoDialogPrice.applyNumberFormat(item.productPrice)
-                        }
+                    productPrice = productList?.productPrice!!
+                    with(binding) {
+                        Glide.with(requireContext())
+                            .load(productList.productImages[0])
+                            .into(imageViewUserProductDialogThumbNail)
+                        textViewProductName.text = productList.productName
+                        textViewProductDescription.text = productList.productDescription
+                        textViewUserProductInfoDialogPrice.applyNumberFormat(productList.productPrice)
                     }
                 }
             } catch (e: Exception) {
@@ -210,24 +214,17 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                     when {
                         productCount > 10 -> {
                             // 최대 개수 초과 처리
-                            Toast.makeText(
-                                requireContext(),
-                                "최대 구매 개수는 10개 입니다",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            requireContext().showToast("최대 구매 개수는 10개 입니다")
+
                             productCount = 10
                             binding.editTextProductInfoDialogCount.setText("$productCount")
                             binding.editTextProductInfoDialogCount.setSelection(productCount.toString().length)
                         }
 
-                        productCount < 0 -> {
+                        productCount < 1 -> {
                             // 음수 값 처리
-                            Toast.makeText(
-                                requireContext(),
-                                "구매 개수는 0개 이상이어야 합니다",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            productCount = 0
+                            requireContext().showToast("최소 개수는 1개 입니다.")
+                            productCount = 1
                             binding.editTextProductInfoDialogCount.setText("$productCount")
                             binding.editTextProductInfoDialogCount.setSelection(productCount.toString().length)
                         }
@@ -280,7 +277,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             } else {
                 val action =
                     UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
-                        null,"productInfo"
+                        null, "productInfo"
                     )
                 findNavController().navigate(action)
 
@@ -392,11 +389,11 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         try {
             // IO 스레드에서 비동기 데이터 로드
             val work1 = async(Dispatchers.IO) {
-                ProductService.getProductInfo(productDocId).getOrNull(0) ?: ProductModel()
+                ProductService.getProductInfo(productDocId) ?: ProductModel()
             }
 
             // 데이터 로드 완료 대기
-            productModel = work1.await()
+            productModel = work1.await() as ProductModel
 
             // 시간 제한 설정 (2초)
             withTimeout(2000L) {
@@ -450,9 +447,9 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     }
 
     // 날짜 타입 변경 String-> Timestamp
-    // DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
-    // 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
-    // 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
+// DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
+// 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
+// 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
     fun convertToTimestamp(dueDate: String): Timestamp {
         // 날짜 포맷터 생성
         val dateFormatter = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREAN)
