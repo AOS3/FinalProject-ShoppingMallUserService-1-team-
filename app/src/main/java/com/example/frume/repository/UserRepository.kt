@@ -121,7 +121,9 @@ class UserRepository {
                 // 휴대폰 번호
                 "customerUserPhoneNumber" to userVO.customerUserPhoneNumber,
                 // 사용자 주소 (주소 웹뷰 연결 및 저장) + 상세 주소
-                "customerUserAddress" to userVO.customerUserAddress
+                "customerUserAddress" to userVO.customerUserAddress,
+                // 사용자 적립금
+                "customerUserReward" to userVO.customerUserReward
             )
 
             // 수정할 문서에 접근할 수 있는 객체를 가져온다.

@@ -24,6 +24,7 @@ import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.model.DeliveryModel
 import com.example.frume.model.OrderModel
 import com.example.frume.model.OrderProductModel
+import com.example.frume.model.ProductModel
 import com.example.frume.model.UserModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.DeliveryService
@@ -281,7 +282,9 @@ class UserPaymentScreenFragment : Fragment() {
         binding.imageViewUserPaymentAddressModify.setOnClickListener {
             // 배송지 수정 버튼 클릭 시, 배송지 관리 화면으로 이동
             val action =
-                UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserCartChoiceDeliverAddress(args.fromWhere)
+                UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserCartChoiceDeliverAddress(
+                    args.fromWhere
+                )
             findNavController().navigate(action)
         }
     }
@@ -615,7 +618,7 @@ class UserPaymentScreenFragment : Fragment() {
         binding.buttonUserCartOrder.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 // 장바구니에서 주문화면으로 도달한 경우
-                if(args.fromWhere == "Cart"){
+                if (args.fromWhere == "Cart") {
                     // 1. 배송 정보 추가
                     val deliveryDocId = addDelivery()
 
@@ -627,11 +630,17 @@ class UserPaymentScreenFragment : Fragment() {
 
                     // 4. 결과에 따라 주소 변경
                     if (result) {
-                        changeBasicDeliverAddress()
+                        if(binding.checkboxUserPaymentDefaultAddress.isChecked){
+                            // 기본 배송지로 설정을 체크했다면
+                            changeBasicDeliverAddress()
+                        }
                         // 5. 주문 후 장바구니에서 구매했던 품목은 삭제처리하기
                         deleteCartProductAfterPurchase()
+                        // 사용자 적립금 차감 메서드 호출
+                        updateUserReward()
+
                     }
-                }else{
+                } else {
                     // 상품 정보에서 바로 구매하러 온 경우
 
                 }
@@ -744,12 +753,12 @@ class UserPaymentScreenFragment : Fragment() {
                 // 주문상품 예정일
                 orderProductModel.orderDeliveryDueDate = it.cartItemDeliveryDueDate
                 // 주문상품 문서 ID 수정 hj orderProductDocId -> productDocId 수정함
-                orderProductModel.productDocId= it.cartItemProductDocId
+                orderProductModel.productDocId = it.cartItemProductDocId
                 // 주문상품 이미지 받아오기
-              //  val productModel = ProductService.getProductInfo(it.cartItemProductDocId)[0]
-              //  val imgPath = productModel.productImages
+                val productModel: ProductModel =ProductService.gettingProductOneByDocId(it.cartItemProductDocId)
+                val imgPath = productModel.productImages[0]
                 // 주문상품 이미지 설정
-               // orderProductModel.orderProductImagePath = imgPath[0]
+                orderProductModel.orderProductImagePath = imgPath
                 // 주문상품 단가
                 orderProductModel.orderProductPrice = it.cartProductUnitPrice
                 // 주문상품 가격
@@ -790,5 +799,27 @@ class UserPaymentScreenFragment : Fragment() {
             CartProductService.deleteCartProducts(homeActivity.userCartDocId, deleteList)
         }
     }
+
+    // 사용자 적립금 차감 메서드
+    fun updateUserReward() {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val userModel = UserService.getUserInfo(homeActivity.loginUserDocumentId)[0]
+                var usedReward = 0
+                var leftReward = userModel.customerUserReward
+
+                val rewardInputText = binding.textInputLayoutUserPaymentSaving.editText?.text?.toString()
+                if (!rewardInputText.isNullOrEmpty()) {
+                    usedReward = rewardInputText.toInt()
+                    leftReward -= usedReward
+                }
+
+                userModel.customerUserReward = leftReward
+                UserService.updateUserData(userModel)
+
+            }
+        }
+    }
+
 
 }

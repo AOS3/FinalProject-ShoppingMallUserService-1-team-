@@ -2,8 +2,8 @@ package com.example.frume.service
 
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
-import com.example.frume.model.ReviewModel
 import com.example.frume.model.UserModel
 import com.example.frume.repository.UserRepository
 import com.example.frume.util.CustomerUserState
@@ -64,11 +64,18 @@ class UserService {
 
         // sehoon productDocId로 제품의 정보를 가져온다
         suspend fun getUserInfo(userDocId: String): MutableList<UserModel> {
+            Log.d("UserService", "getUserInfo() 호출됨, userDocId: $userDocId")
+
             val userModelList = mutableListOf<UserModel>()
             val userVoList = UserRepository.getUserInfo(userDocId)
+
+            Log.d("UserService", "가져온 유저 데이터 개수: ${userVoList.size}")
+
             userVoList.forEach {
                 userModelList.add(it.toUserModel())
+                Log.d("UserService", "변환된 UserModel: ${it.customerUserReward}")
             }
+
             return userModelList
         }
 
@@ -122,7 +129,7 @@ class UserService {
         }
 
         // customerUserDocId로 사용자에 대한 정보를 불러오는 메서드 :  내정보 -> 내정보 관리
-        suspend fun selectUserDataByuserDocumentId(customerUserDocId:String) : UserModel{
+        suspend fun selectUserDataByUserDocumentId(customerUserDocId:String) : UserModel{
             val userVO = UserRepository.selectUserDataByuserDocumentId(customerUserDocId)
             val userModel = userVO.toUserModel()
             return userModel

@@ -72,14 +72,30 @@ class ProductRepository {
 
 
         // 홈화면 탭바 별로 가져오기(신제품, 특가, 베스트, 1인, 패키지)
-        // 상품 문서 ID로 상품 한개 Model 가져오기 hj
+// 상품 문서 ID로 상품 한 개 Model 가져오기
         suspend fun gettingProductOneByDocId(selectProductDocId: String): ProductVO {
+            Log.d("ProductRepository", "gettingProductOneByDocId() 호출됨, selectProductDocId: $selectProductDocId")
+
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("productData")
 
-            val querySnapshot = collectionReference.whereEqualTo("productDocId", selectProductDocId).get().await()
-            val selectedProductVO = querySnapshot.toObjects(ProductVO::class.java)
-            return selectedProductVO[0]
+            return try {
+                val querySnapshot = collectionReference.whereEqualTo("productDocId", selectProductDocId).get().await()
+                val selectedProductVOList = querySnapshot.toObjects(ProductVO::class.java)
+
+                Log.d("ProductRepository", "Firestore 결과 개수: ${selectedProductVOList.size}")
+
+                if (selectedProductVOList.isNotEmpty()) {
+                    Log.d("ProductRepository", "가져온 상품 정보: ${selectedProductVOList[0]}")
+                    selectedProductVOList[0] // 첫 번째 항목 반환
+                } else {
+                    Log.d("ProductRepository", "해당 productDocId에 대한 상품이 없음")
+                    ProductVO()
+                }
+            } catch (e: Exception) {
+                Log.e("ProductRepository", "Firestore에서 상품 조회 중 오류 발생: ${e.message}", e)
+                ProductVO()
+            }
         }
 
         // productDocId로 상품 정보 가져오기
