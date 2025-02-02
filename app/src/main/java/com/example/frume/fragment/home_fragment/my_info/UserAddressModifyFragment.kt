@@ -1,28 +1,53 @@
 package com.example.frume.fragment.home_fragment.my_info
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.AddressActivity
+import com.example.frume.activity.HomeActivity
 import com.example.frume.databinding.FragmentUserAddressModifyBinding
 import com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserAddressManageFragmentDirections
+import com.example.frume.model.DeliveryAddressModel
+import com.example.frume.model.UserModel
+import com.example.frume.service.DeliveryService
+import com.example.frume.service.UserDeliveryAddressService
+import com.example.frume.service.UserService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class UserAddressModifyFragment : Fragment() {
     private var _binding: FragmentUserAddressModifyBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var homeActivity: HomeActivity
+    // 사용자 정보를 담을 변수
+    lateinit var deliveryAddressModel: DeliveryAddressModel
+
+    // 전역 변수 선언 (이 변수에 주소를 저장)
+    private val getCustomerUserAddressModify = mutableMapOf<String, String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View { homeActivity = activity as HomeActivity
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_address_modify, container, false)
         return binding.root
     }
@@ -32,6 +57,7 @@ class UserAddressModifyFragment : Fragment() {
         _binding = null
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 뒤로 가기 버튼 호출
@@ -42,6 +68,10 @@ class UserAddressModifyFragment : Fragment() {
         setTextChangeListener()
         // 툴바 메뉴 삭제 버튼 클릭
         onClickAddressDeleteBtn()
+
+        // settingInputData()
+
+        setAddressFieldModifyClickListener()
     }
 
     // 네비게이션 뒤로가기 메서드
@@ -58,8 +88,40 @@ class UserAddressModifyFragment : Fragment() {
 
             if (validateInputs()) {
                 // 유효한 경우, 저장 및 네비게이션
+                // saveDeliveryAddress()
                 findNavController().navigateUp()
             }
+        }
+    }
+
+    // 주소 선택을 위한 결과 처리
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val getAddressModifyResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val address = result.data?.getStringExtra("data")
+                // val postNumber = result.data?.getStringExtra("postData")
+
+                // 주소를 TextView에 반영
+                binding.textViewUserAddressModifyShowAddress.setText(address)
+
+                // 전역 변수에 주소 값 저장
+                getCustomerUserAddressModify["DetailedAddress"] = binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString().trim()
+                getCustomerUserAddressModify["BasicAddress"] = address ?: ""
+                getCustomerUserAddressModify["PostNumber"] = address ?: ""
+
+                // 디버깅 로그 출력
+                Log.d("test100", "customerUserAddress: $getCustomerUserAddressModify")
+            }
+        }
+
+    // 주소 선택 버튼 클릭 리스너
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setAddressFieldModifyClickListener() {
+        binding.textViewUserAddressModifyShowAddress.setOnClickListener {
+            // AddressActivity로 이동
+            val intent = Intent(requireContext(), AddressActivity::class.java)
+            getAddressModifyResult.launch(intent)  // 주소 찾기 화면으로 이동
         }
     }
 

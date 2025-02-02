@@ -222,14 +222,14 @@ class UserSignUpFragment : Fragment() {
         // UserModel 객체 생성
         val basicAdderTest = binding.textFieldUserSignUpAddress.text
         val detailAddress = binding.textFieldUserSignUpDetailAddress.editText?.text
-        val postNumber = 12345
+        // val postNumber = 12345
 
         val getCustomerUserAddress = mutableMapOf<String, String>()
         // val customerUserAddress: MutableMap<String, String> = mutableMapOf()
 
         getCustomerUserAddress["BasicAddress"] = "$basicAdderTest"
         getCustomerUserAddress["DetailedAddress"] = "$detailAddress"
-        getCustomerUserAddress["PostNumber"] = "$postNumber"
+        // getCustomerUserAddress["PostNumber"] = "$postNumber"
 
         // 비동기적으로 데이터베이스에 저장하는 부분
         CoroutineScope(Dispatchers.Main).launch {
@@ -293,7 +293,7 @@ class UserSignUpFragment : Fragment() {
                 // 전역 변수에 주소 값 저장
                 getCustomerUserAddress["DetailedAddress"] = binding.textFieldUserSignUpDetailAddress.editText?.text.toString().trim()
                 getCustomerUserAddress["BasicAddress"] = address ?: ""
-                getCustomerUserAddress["PostNumber"] = address ?: ""
+                // getCustomerUserAddress["PostNumber"] = address ?: ""
 
                 // 디버깅 로그 출력
                 Log.d("test100", "customerUserAddress: $getCustomerUserAddress")

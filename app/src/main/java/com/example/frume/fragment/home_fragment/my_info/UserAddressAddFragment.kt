@@ -1,14 +1,22 @@
 package com.example.frume.fragment.home_fragment.my_info
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.AddressActivity
 import com.example.frume.databinding.FragmentUserAddressAddBinding
 import com.example.frume.activity.HomeActivity
 import com.example.frume.model.DeliveryAddressModel
@@ -26,6 +34,8 @@ class UserAddressAddFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var homeActivity: HomeActivity
 
+    // 전역 변수 선언 (이 변수에 주소를 저장)
+    private val getCustomerUserAddressAdd = mutableMapOf<String, String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,9 +58,11 @@ class UserAddressAddFragment : Fragment() {
         setLayout()
     }
 
+    @SuppressLint("NewApi")
     private fun setLayout() {
         onClickToolbar()
         onClickSaveButton()
+        setAddressFieldAddClickListener()
     }
 
     // sehoon 툴바 클릭 메서드
@@ -60,17 +72,50 @@ class UserAddressAddFragment : Fragment() {
         }
     }
 
-    // sehoon 저장버튼 클릭 메서드
+    // 주소 선택을 위한 결과 처리
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val getAddressAddResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val address = result.data?.getStringExtra("data")
+                // val postNumber = result.data?.getStringExtra("postData")
+
+                // 주소를 TextView에 반영
+                binding.textViewUserAddressModifyShowAddress.setText(address)
+
+                // 전역 변수에 주소 값 저장
+                getCustomerUserAddressAdd["DetailedAddress"] = binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString().trim()
+                getCustomerUserAddressAdd["BasicAddress"] = address ?: ""
+                getCustomerUserAddressAdd["PostNumber"] = address ?: ""
+
+                // 디버깅 로그 출력
+                Log.d("test100", "customerUserAddress: $getCustomerUserAddressAdd")
+            }
+        }
+
+    // 주소 선택 버튼 클릭 리스너
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setAddressFieldAddClickListener() {
+        binding.textViewUserAddressModifyShowAddress.setOnClickListener {
+            // AddressActivity로 이동
+            val intent = Intent(requireContext(), AddressActivity::class.java)
+            getAddressAddResult.launch(intent)  // 주소 찾기 화면으로 이동
+        }
+    }
+
+    // 저장 버튼 클릭 메서드
     private fun onClickConfirmBtn() {
         val isCheckedState = binding.checkboxUserAddressModifyDefaultAddress.isChecked
+
+        // val postNumber = 12345
 
         val deliveryAddressModel = DeliveryAddressModel().apply {
             deliveryAddressReceiverName = binding.textInputLayoutUserAddressModifyUserName.editText?.text.toString()
             deliveryAddressName = binding.textInputLayoutUserAddressModifyArrivalName.editText?.text.toString()
-            deliveryAddressBasicAddress = "test Basic Addr"
+            deliveryAddressBasicAddress = binding.textViewUserAddressModifyShowAddress.text.toString()
             deliveryAddressDetailAddress = binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()
             deliveryAddressPhoneNumber = binding.textInputLayoutUserAddressModifyPhoneNumber.editText?.text.toString()
-            deliveryAddressPostNumber = binding.textViewUserAddressModifyShowPostNumber.text.toString()
+            // deliveryAddressPostNumber = binding.textViewUserAddressModifyShowPostNumber.text.toString()
             deliveryAddressIsDefaultAddress = if (isCheckedState) {
                 DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT
             } else {
@@ -93,7 +138,7 @@ class UserAddressAddFragment : Fragment() {
         }
     }
 
-    // 입력값(배송지 이름, 이름, 휴대폰 번호, 상세주로) 유효성 검사
+    // 입력값(배송지 이름, 이름, 휴대폰 번호, 주소, 상세 주소) 유효성 검사
     private fun onClickSaveButton() {
         binding.buttonUserAddressModifyArrivalAdd.setOnClickListener {
             var isValid = true
@@ -125,6 +170,15 @@ class UserAddressAddFragment : Fragment() {
                 binding.textInputLayoutUserAddressModifyPhoneNumber.error = null
             }
 
+            // 주소 유효성 검사
+            val address = binding.textViewUserAddressModifyShowAddress.text.toString()
+            if (address.isBlank()){
+                binding.textViewUserAddressModifyShowAddress.error = "주소를 입력해주세요."
+                isValid = false
+            } else {
+                binding.textViewUserAddressModifyShowAddress.error = null
+            }
+
             // 상세주소 유효성 검사
             val detailAddress = binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()
             if(detailAddress.isBlank()) {
@@ -136,7 +190,6 @@ class UserAddressAddFragment : Fragment() {
 
             // 모든 입력값이 유효한 경우 저장 처리
             if (isValid) {
-
                 onClickConfirmBtn()
                 Toast.makeText(requireContext(), "저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                 // 저장 로직 추가
