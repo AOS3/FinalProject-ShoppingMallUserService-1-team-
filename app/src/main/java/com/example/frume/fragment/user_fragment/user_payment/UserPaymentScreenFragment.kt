@@ -557,7 +557,7 @@ class UserPaymentScreenFragment : Fragment() {
                 }
                 val product = work1.await()
                 val productCost = product.productPrice * args.productCountDirectPurchase
-                if(productCost>=5000){
+                if(productCost>=50000){
                     binding.textViewUserPaymentDeliveryCharge.text = "0원"
                 }else{
                     binding.textViewUserPaymentDeliveryCharge.text = "3000원"
