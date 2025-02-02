@@ -13,11 +13,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCategoryDetailBinding
 import com.example.frume.databinding.ItemProductBinding
 import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
+import com.example.frume.util.convertThreeDigitComma
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -215,16 +217,13 @@ class UserCategoryDetailFragment : Fragment() {
 
         CoroutineScope(Dispatchers.Main).launch {
             val work1 = async(Dispatchers.IO) {
-                //  mutableList<productModel> 가져온다
                 ProductService.gettingProductByCategory(category)
             }
-            recyclerViewListByCategoryList = work1.await()
-
-            binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-
-            recyclerViewListByCategoryList.forEach {
-                // Log.d("test100", "${it.productName} ${it.productSalesCount}")
+            work1.await().forEach {
+                Log.d("await", it.productCategory3)
             }
+            recyclerViewListByCategoryList = work1.await()
+            binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
         }
     }
 
@@ -257,75 +256,15 @@ class UserCategoryDetailFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+            Glide.with(requireContext())
+                .load(recyclerViewListByCategoryList[position].productImages[0])
+                .into(holder.itemProductBinding.imageViewItemProductThumbNail)
             holder.itemProductBinding.textViewItemProductTitle.text =
                 recyclerViewListByCategoryList[position].productName
             // Log.d("test100", "recyclerViewListByCategoryList[${position}].productName : ${recyclerViewListByCategoryList[position].productName}")
             holder.itemProductBinding.textViewItemProductDescription.text =
                 recyclerViewListByCategoryList[position].productDescription
+            holder.itemProductBinding.textViewItemProductPrice.text = recyclerViewListByCategoryList[position].productPrice.convertThreeDigitComma()
         }
     }
-
-
-
-   /* // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
-    fun refreshMainRecyclerView(){
-        Log.d("test100","UserProductShowListFragment : refreshMainRecyclerView")
-
-        CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO){
-                //  mutableList<productModel> 가져온다
-                ProductService.gettingProductByCategory("딸기")
-            }
-            recyclerViewListByCategory = work1.await()
-           // settingRecyclerView(recyclerViewListByCategory)
-            Log.d("test 100","recyclerViewListByCategory : ${recyclerViewListByCategory}")
-        }
-    }*/
-
 }
-
-
-/*
-class ProductRecyclerViewAdapter(
-    private val productList: List<ProductModel>, // 데이터 리스트
-    private val onItemClick: (ProductModel) -> Unit // 클릭 리스너
-) : RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductViewHolder>() {
-
-    // ViewHolder 클래스
-    inner class ProductViewHolder(val itemProductBinding: ItemProductBinding) :
-        RecyclerView.ViewHolder(itemProductBinding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        // DataBinding 초기화
-        val binding = DataBindingUtil.inflate<ItemProductBinding>(
-            LayoutInflater.from(parent.context),
-            R.layout.item_product,
-            parent,
-            false
-        )
-        val viewHolder = ProductViewHolder(binding)
-
-        // 클릭 리스너 설정
-        binding.root.setOnClickListener {
-            val position = viewHolder.adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                onItemClick(productList[position])
-            }
-        }
-
-        return viewHolder
-    }
-
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = productList[position]
-        holder.itemProductBinding.apply {
-            textViewItemProductTitle.text = product.productName
-            textViewItemProductDescription.text = product.productDescription
-            */
-/*imageViewItemProductThumbNail.setImageResource(product.productImgResourceId)*//*
-
-        }
-    }
-
-    override fun getItemCount(): Int = productList.size
-}*/

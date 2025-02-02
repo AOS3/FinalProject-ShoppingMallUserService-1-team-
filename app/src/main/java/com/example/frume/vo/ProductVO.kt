@@ -22,6 +22,9 @@ class ProductVO {
     // 부카테고리
     var productCategory2 = ""
 
+    // 세부 카테고리
+    var productCategory3 = ""
+
     //상품 설명
     var productDescription = ""
 
@@ -46,13 +49,8 @@ class ProductVO {
     // 등록 시간
     var productTimeStamp = Timestamp.now()
 
-    // 안드감
-
     // 판매량
     var productSalesCount = 0
-
-    // 세부 카테고리
-    var productCategory3 = ""
 
     // 홈화면 탭바 카테고리 필터링
     var productHomeCategory = 0
@@ -66,6 +64,7 @@ class ProductVO {
         productModel.productPrice = productPrice
         productModel.productCategory1 = productCategory1
         productModel.productCategory2 = productCategory2
+        productModel.productCategory3 = productCategory3
         productModel.productDescription = productDescription
         productModel.productVariety = productVariety
         productModel.productUnit = productUnit
@@ -73,19 +72,34 @@ class ProductVO {
         productModel.productVolume = productVolume
         productModel.productTimeStamp = productTimeStamp
         productModel.productSalesCount = productSalesCount
-        productModel.productCategory3 = productCategory3
         productModel.productHomeCategory = productHomeCategory
 
-        when(productType){
-            ProductType.PRODUCT_TYPE_FRESH.num->{productModel.productType =ProductType.PRODUCT_TYPE_FRESH}
-            ProductType.PRODUCT_TYPE_OTHER.num->{productModel.productType =ProductType.PRODUCT_TYPE_OTHER}
-            ProductType.PRODUCT_TYPE_MIXED.num->{productModel.productType =ProductType.PRODUCT_TYPE_MIXED}
-            ProductType.PRODUCT_TYPE_PROCESSED.num->{productModel.productType =ProductType.PRODUCT_TYPE_PROCESSED}
+        when (productType) {
+            ProductType.PRODUCT_TYPE_FRESH.num -> {
+                productModel.productType = ProductType.PRODUCT_TYPE_FRESH
+            }
+
+            ProductType.PRODUCT_TYPE_OTHER.num -> {
+                productModel.productType = ProductType.PRODUCT_TYPE_OTHER
+            }
+
+            ProductType.PRODUCT_TYPE_MIXED.num -> {
+                productModel.productType = ProductType.PRODUCT_TYPE_MIXED
+            }
+
+            ProductType.PRODUCT_TYPE_PROCESSED.num -> {
+                productModel.productType = ProductType.PRODUCT_TYPE_PROCESSED
+            }
         }
 
         when (productSellingState) {
-            ProductSellingState.PRODUCT_STATE_NORMAL.num->{ProductSellingState.PRODUCT_STATE_NORMAL}
-            ProductSellingState.PRODUCT_STATE_ABNORMAL.num->{ProductSellingState.PRODUCT_STATE_ABNORMAL}
+            ProductSellingState.PRODUCT_STATE_NORMAL.num -> {
+                ProductSellingState.PRODUCT_STATE_NORMAL
+            }
+
+            ProductSellingState.PRODUCT_STATE_ABNORMAL.num -> {
+                ProductSellingState.PRODUCT_STATE_ABNORMAL
+            }
         }
 
 //        when(productHomeCategory){

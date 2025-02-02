@@ -5,36 +5,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.frume.R
+import com.example.frume.data.Product
 import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
-import com.example.frume.model.ProductModel
-import com.example.frume.service.ProductService
-import com.example.frume.vo.AdminSalesVO
-import com.example.frume.vo.CartVO
-import com.example.frume.vo.OrderProductVO
-import com.example.frume.vo.OrderVO
-import com.example.frume.vo.ProductVO
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
+import com.example.frume.factory.HomeViewModelFactory
+import com.example.frume.repository.ProductRepository
 
 
 class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
     private var _binding: FragmentUserHomeTabFirstBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: HomeViewModel by lazy {
+        val repository = ProductRepository()
+        val factory = HomeViewModelFactory(repository)
+        ViewModelProvider(this, factory)[HomeViewModel::class.java]
+    }
+    private lateinit var adapter: HomeProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,33 +48,22 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
         setLayout()
 
     }
 
     private fun setLayout() {
-        setRecyclerView()
         setBanner()
+        observeData()
     }
 
-    private fun setRecyclerView() {
-       /* lifecycleScope.launch(Dispatchers.Main) {
-            val products = withContext(Dispatchers.IO) {
-                ProductService.gettingProductAll().map { productModel ->
-               *//*     TempProduct(
-                        productDocId = productModel.productDocId,
-                        productImgResourceId = R.drawable.btn_background,
-                        productName = productModel.productName,
-                        productPrice = productModel.productPrice,
-                        productDescription = productModel.productDescription,
-                        productCategory = productModel.productHomeCategory // 임시 데이터
-
-                    )*//*
-                }
-            }
-            val adapter = HomeProductAdapter(products.toMutableList(), this@UserHomeTabFirstFragment)
+    private fun observeData() {
+        viewModel.loadProduct()
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter = HomeProductAdapter(it.toMutableList(), this)
             binding.recyclerView.adapter = adapter
-        }*/
+        }
     }
 
 
@@ -110,21 +91,15 @@ class UserHomeTabFirstFragment : Fragment(), ProductItemClickListener {
         }
     }
 
-    // 리싸이클러뷰 클릭 이벤트
-    override fun onClickProductItem(product: ProductModel) {
-        // 상세 정보로 이동
-        Toast.makeText(requireContext(), product.productName, Toast.LENGTH_SHORT).show()
-        // 보내 주고싶은 값을 파라미터로 전달
-        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productDocId)
-
-        findNavController().navigate(action)
-    }
-
-
     companion object {
         fun newInstance(): UserHomeTabFirstFragment {
             return UserHomeTabFirstFragment().apply {
             }
         }
+    }
+
+    override fun onClickProductItem(product: Product) {
+        val action = UserHomeFragmentDirections.actionNavigationHomeToUserProductInfo(product.productDocId)
+        findNavController().navigate(action)
     }
 }

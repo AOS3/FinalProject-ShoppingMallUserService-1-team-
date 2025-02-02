@@ -9,14 +9,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.frume.R
 import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserProductInfoDescriptionBinding
 import com.example.frume.databinding.ItemProductInfoImageCarouselBinding
+import com.example.frume.factory.ProductInfoModelFactory
 import com.example.frume.model.ProductModel
+import com.example.frume.repository.ProductRepository
 import com.example.frume.service.ProductService
 import com.example.frume.util.convertThreeDigitComma
 import com.google.android.material.carousel.CarouselLayoutManager
@@ -30,7 +34,14 @@ class UserProductInfoDescriptionFragment : Fragment() {
     private var _binding: FragmentUserProductInfoDescriptionBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ProductImgAdapter
+    private lateinit var adapter2: ProductCarouselAdapter
+
     private var productDocId: String? = null
+    private val viewModel: ProductInfoViewModel by lazy {
+        val repository = ProductRepository()
+        val factory = ProductInfoModelFactory(repository)
+        ViewModelProvider(this, factory)[ProductInfoViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +54,7 @@ class UserProductInfoDescriptionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        // Inflate the layout for this fragment
-
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info_description, container, false)
-
         return binding.root
     }
 
@@ -58,38 +65,16 @@ class UserProductInfoDescriptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
         setLayout()
     }
 
 
     private fun setLayout() {
-        settingRecyclerViewCarousel()
-        settingRecyclerViewImage()
-        // recyclerViewImage 실행
+        val snapHelper = CarouselSnapHelper()
+        snapHelper.attachToRecyclerView(binding.recyclerViewUserProductInfoDescriptionCarouselImage)
+        observeData()
         onClickBuyBtn()
-        getProductData()
-    }
-
-    private fun getProductData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val productList = ProductService.getProductInfo(productDocId!!)
-                withContext(Dispatchers.Main) {
-                    // UI
-                    productList.forEach { item ->
-                        with(binding) {
-                            textViewUserProductInfoDescriptionName.text = item.productName
-                            textViewUserProductInfoDescription.text = item.productDescription
-                            textViewUserProductInfoDescriptionPrice.text = item.productPrice.convertThreeDigitComma()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(requireContext(), "no data", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 
     // 구매버튼 리스너
@@ -101,54 +86,17 @@ class UserProductInfoDescriptionFragment : Fragment() {
     }
 
 
-    // RecyclerView를 구성하는 메서드
-    private fun settingRecyclerViewImage() {
-        val productModel = ProductModel()
-       // adapter = ProductImgAdapter(productModel.productImages[0])
-        binding.recyclerViewUserProductInfoDescriptionDescriptionImage.adapter = adapter
+    private fun observeData() {
+        viewModel.loadProduct(productDocId!!)
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter = ProductImgAdapter(it.productImages)
+            binding.recyclerViewUserProductInfoDescriptionDescriptionImage.adapter = adapter
+            binding.textViewUserProductInfoDescriptionName.text = it.productName
+            binding.textViewUserProductInfoDescriptionPrice.text = it.productPrice.convertThreeDigitComma()
+            binding.textViewUserProductInfoDescription.text = it.productDescription
 
-    }
-
-
-    // 카로셀 어뎁터 적용
-    // carousel 실행
-    private fun settingRecyclerViewCarousel() {
-        binding.apply {
-            recyclerViewUserProductInfoDescriptionCarouselImage.adapter = RecyclerViewCarouselAdapter()
-            // 회전 목마용 LayoutManager
-            recyclerViewUserProductInfoDescriptionCarouselImage.layoutManager =
-                CarouselLayoutManager()
-
-            val snapHelper = CarouselSnapHelper()
-            snapHelper.attachToRecyclerView(recyclerViewUserProductInfoDescriptionCarouselImage)
-        }
-    }
-
-    // 카로셀 어뎁터 클래스
-    inner class RecyclerViewCarouselAdapter : RecyclerView.Adapter<RecyclerViewCarouselAdapter.CarouselViewHolder>() {
-        inner class CarouselViewHolder(val itemProductInfoImageCarouselBinding: ItemProductInfoImageCarouselBinding) :
-            RecyclerView.ViewHolder(itemProductInfoImageCarouselBinding.root),
-            OnClickListener {
-            override fun onClick(v: View?) {
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
-            val itemProductInfoImageCarouselBinding =
-                ItemProductInfoImageCarouselBinding.inflate(layoutInflater, parent, false)
-            val carouselViewHolder = CarouselViewHolder(itemProductInfoImageCarouselBinding)
-            itemProductInfoImageCarouselBinding.root.setOnClickListener(carouselViewHolder)
-            return carouselViewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return 0 //Todo
-        }
-
-        override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
-            /*holder.itemProductInfoImageCarouselBinding.imageViewItemProductInfoImageCarousel.setImageResource(
-
-            )*/
+            adapter2 = ProductCarouselAdapter(it.productImages)
+            binding.recyclerViewUserProductInfoDescriptionCarouselImage.adapter = adapter2
         }
     }
 

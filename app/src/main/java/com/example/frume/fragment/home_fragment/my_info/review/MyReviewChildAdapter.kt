@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.databinding.ItemAddImageBinding
 
 class MyReviewChildAdapter(
-
 ) : RecyclerView.Adapter<ReviewChildViewHolder>() {
     private val childList = mutableListOf<String>()
 
@@ -37,7 +36,6 @@ class ReviewChildViewHolder(
         binding.image = item
         binding.imageViewRemoveBtn.visibility = View.GONE
     }
-
 
     companion object {
         fun from(parent: ViewGroup): ReviewChildViewHolder {

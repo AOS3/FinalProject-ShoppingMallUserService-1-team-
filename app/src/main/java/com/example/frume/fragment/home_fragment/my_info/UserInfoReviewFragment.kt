@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.HomeActivity
 import com.example.frume.data.MyReviewParent
 import com.example.frume.databinding.FragmentUserInfoReviewBinding
 import com.example.frume.factory.ReviewViewModelFactory
 import com.example.frume.fragment.home_fragment.my_info.review.MyReviewParentAdapter
 import com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener
 import com.example.frume.fragment.home_fragment.my_info.review.ReviewViewModel
-import com.example.frume.activity.HomeActivity
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.util.showDialog
 import com.example.frume.util.showToast

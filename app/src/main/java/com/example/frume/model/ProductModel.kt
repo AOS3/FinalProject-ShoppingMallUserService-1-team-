@@ -22,6 +22,9 @@ class ProductModel {
     // 부카테고리
     var productCategory2 = ""
 
+    // 세부 카테고리
+    var productCategory3 = ""
+
     //상품 설명
     var productDescription = ""
 
@@ -49,8 +52,6 @@ class ProductModel {
     // 판매량
     var productSalesCount = 0
 
-    // 세부 카테고리
-    var productCategory3 = ""
 
     // 홈화면 탭바 카테고리 필터링
     var productHomeCategory = 0
@@ -64,6 +65,7 @@ class ProductModel {
         productVO.productPrice = productPrice
         productVO.productCategory1 = productCategory1
         productVO.productCategory2 = productCategory2
+        productVO.productCategory3 = productCategory3
         productVO.productDescription = productDescription
         productVO.productVariety = productVariety
         productVO.productUnit = productUnit
@@ -73,7 +75,6 @@ class ProductModel {
         productVO.productSellingState = productSellingState.num
         productVO.productTimeStamp = productTimeStamp
         productVO.productSalesCount = productSalesCount
-        productVO.productCategory3 = productCategory3
         productVO.productHomeCategory = productHomeCategory
 
 
