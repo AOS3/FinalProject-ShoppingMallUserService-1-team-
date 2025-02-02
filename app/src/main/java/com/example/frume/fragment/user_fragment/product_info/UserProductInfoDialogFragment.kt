@@ -275,9 +275,15 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             if (binding.textViewUserProductInfoDialogDeliveryDate.text == "배송 예정일 선택") {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
+                val dueDate = binding.textViewUserProductInfoDialogDeliveryDate.text.toString()
+                val deliverySubscribeState = when {
+                    binding.radioButtonProductInfoDialogSubscribe.isChecked -> DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE
+                    else-> DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
+                }
+                val productCount = binding.editTextProductInfoDialogCount.text.toString().toInt()
                 val action =
                     UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
-                        null, "productInfo"
+                        null, "productInfo",args.productDocId,dueDate,deliverySubscribeState, productCountDirectPurchase = productCount
                     )
                 findNavController().navigate(action)
 

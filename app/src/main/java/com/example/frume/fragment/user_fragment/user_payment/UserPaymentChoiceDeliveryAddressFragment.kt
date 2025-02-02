@@ -16,6 +16,7 @@ import com.example.frume.R
 import com.example.frume.databinding.FragmentUserPaymentChoiceDeliveryAddressBinding
 import com.example.frume.databinding.ItemDeliverySpotBinding
 import com.example.frume.activity.HomeActivity
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDialogFragmentDirections
 import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.UserDeliveryAddressService
 import kotlinx.coroutines.CoroutineScope
@@ -138,8 +139,11 @@ class UserPaymentChoiceDeliveryAddressFragment : Fragment() {
                             .setPopUpTo(R.id.user_payment_screen, inclusive = true)
                             .build()
 
-                        val action = UserPaymentChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId,args.fromWhere)
+                        val action = UserPaymentChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId,args.fromWhere,args.productDocIdDirectPurchase,args.dueDateDirectPurchase,args.deliverySubscribeStateDirectPurchase, args.productCountDirectPurchase)
                         findNavController().navigate(action,  navOption)
+
+
+
                     })
                 }
             }

@@ -18,8 +18,7 @@ class DeliveryModel {
     // 배송 방식
     var deliveryOption = DeliveryOption.DOOR_DELIVERY
 
-    // 정기배송여부
-    var deliveryIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE // 0 : 비구독
+
 
     // 기타사항
     var deliveryEtc = ""
@@ -37,7 +36,6 @@ class DeliveryModel {
         deliverVO.deliveryDocId = deliveryDocId
         deliverVO.deliveryAddressDocId = deliveryAddressDocId
         deliverVO.deliveryOption = deliveryOption.num
-        deliverVO.deliveryIsSubscribed = deliveryIsSubscribed.num
         deliverVO.deliveryEtc = deliveryEtc
         deliverVO.deliveryTimeStamp = deliveryTimeStamp
         deliverVO.deliveryState = deliveryState.num

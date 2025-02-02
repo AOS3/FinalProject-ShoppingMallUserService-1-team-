@@ -115,7 +115,6 @@ class UserRepository {
 
             // 수정할 데이터를 담을 맵
             val userMap = mapOf(
-
                 // 이름
                 "customerUserName" to userVO.customerUserName,
                 // 휴대폰 번호

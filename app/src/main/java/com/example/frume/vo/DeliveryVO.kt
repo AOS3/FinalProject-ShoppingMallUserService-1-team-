@@ -4,6 +4,7 @@ import com.example.frume.model.DeliveryModel
 import com.example.frume.util.DeliveryOption
 import com.example.frume.util.DeliveryState
 import com.example.frume.util.DeliverySubscribeState
+import com.example.frume.util.IsOneTimeDeliveryBoolType
 import com.google.firebase.Timestamp
 
 class DeliveryVO {
@@ -16,8 +17,7 @@ class DeliveryVO {
     // 배송 방식
     var deliveryOption = 1 // 문앞배송
 
-    // 정기배송여부
-    var deliveryIsSubscribed = 0 // 0 : 비구독
+
 
     // 기타사항
     var deliveryEtc = ""
@@ -35,10 +35,6 @@ class DeliveryVO {
         deliverModel.deliveryEtc = deliveryEtc
         deliverModel.deliveryTimeStamp = deliveryTimeStamp
 
-        when(deliveryIsSubscribed){
-            DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE.num->{deliverModel.deliveryIsSubscribed=DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE}
-            DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE.num->{deliverModel.deliveryIsSubscribed=DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE}
-        }
 
         when(deliveryState){
             DeliveryState.DELIVERY_STATE_READY_FOR_SHIPMENT.num->{deliverModel.deliveryState=DeliveryState.DELIVERY_STATE_READY_FOR_SHIPMENT}

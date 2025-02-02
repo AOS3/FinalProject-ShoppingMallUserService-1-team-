@@ -141,6 +141,22 @@
 		<argument
 			android:name="fromWhere"
 			app:argType="string" />
+		<argument
+			android:name="productDocIdDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
+		<argument
+			android:name="deliverySubscribeStateDirectPurchase"
+			app:argType="com.example.frume.util.DeliverySubscribeState"
+			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE" />
+		<argument
+			android:name="productCountDirectPurchase"
+			app:argType="integer"
+			android:defaultValue="0" />
+		<argument
+			android:name="dueDateDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
@@ -367,6 +383,22 @@
 		<argument
 			android:name="fromWhere"
 			app:argType="string" />
+		<argument
+			android:name="productDocIdDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
+		<argument
+			android:name="deliverySubscribeStateDirectPurchase"
+			app:argType="com.example.frume.util.DeliverySubscribeState"
+			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE" />
+		<argument
+			android:name="productCountDirectPurchase"
+			app:argType="integer"
+			android:defaultValue="0" />
+		<argument
+			android:name="dueDateDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
 	</fragment>
 
 	<dialog
