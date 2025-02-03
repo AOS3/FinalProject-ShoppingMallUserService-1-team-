@@ -30,16 +30,20 @@ import com.example.frume.model.UserModel
 import com.example.frume.service.DeliveryService
 import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.service.UserService
+import com.example.frume.util.DeliveryDefaultAddressBoolType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 
 class UserAddressModifyFragment : Fragment() {
-    private val args : UserAddressModifyFragmentArgs by navArgs()
+    private val args: UserAddressModifyFragmentArgs by navArgs()
     private var _binding: FragmentUserAddressModifyBinding? = null
     private val binding get() = _binding!!
 
@@ -102,17 +106,15 @@ class UserAddressModifyFragment : Fragment() {
     // 저장 버튼 클릭 처리
     private fun onClickConfirmBtn() {
         binding.buttonUserAddressModifyArrivalAdd.setOnClickListener {
-            Log.d("test100","UserAddressModifyFragment ->onClickConfirmBtn()")
+            Log.d("test100", "UserAddressModifyFragment ->onClickConfirmBtn()")
             clearErrors()
             if (validateInputs()) {
-                Log.d("test100","UserAddressModifyFragment ->validateInputs() == true")
+                Log.d("test100", "UserAddressModifyFragment ->validateInputs() == true")
                 saveUserInfo()
                 // 유효한 경우, 저장 및 네비게이션
                 findNavController().navigateUp()
             }
-            Log.d("test100","UserAddressModifyFragment ->onClickConfirmBtn()-> End")
-
-
+            Log.d("test100", "UserAddressModifyFragment ->onClickConfirmBtn()-> End")
         }
     }
 
@@ -152,13 +154,13 @@ class UserAddressModifyFragment : Fragment() {
         if (binding.textInputLayoutUserAddressModifyArrivalName.editText?.text.toString()
                 .isEmpty()
         ) {
-            Log.d("test100","1111111111validateInputs -> FALSE")
+            Log.d("test100", "1111111111validateInputs -> FALSE")
             binding.textInputLayoutUserAddressModifyArrivalName.error = "배송지 이름을 입력해 주세요"
             isValid = false
         }
 
         if (binding.textInputLayoutUserAddressModifyUserName.editText?.text.toString().isEmpty()) {
-            Log.d("test100","222222222222222validateInputs -> FALSE")
+            Log.d("test100", "222222222222222validateInputs -> FALSE")
 
             binding.textInputLayoutUserAddressModifyUserName.error = "이름을 입력해 주세요"
             isValid = false
@@ -167,12 +169,12 @@ class UserAddressModifyFragment : Fragment() {
         val phoneNumber =
             binding.textInputLayoutUserAddressModifyPhoneNumber.editText?.text.toString()
         if (phoneNumber.isEmpty()) {
-            Log.d("test100","3333333333333333333333validateInputs -> FALSE")
+            Log.d("test100", "3333333333333333333333validateInputs -> FALSE")
 
             binding.textInputLayoutUserAddressModifyPhoneNumber.error = "휴대폰 번호를 입력해 주세요"
             isValid = false
         } else if (phoneNumber.length != 11) {
-            Log.d("test100","66666666666666666666666666 -> FALSE")
+            Log.d("test100", "66666666666666666666666666 -> FALSE")
 
             isValid = false
         }
@@ -180,7 +182,7 @@ class UserAddressModifyFragment : Fragment() {
         if (binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()
                 .isEmpty()
         ) {
-            Log.d("test100","4444444444444444validateInputs -> FALSE")
+            Log.d("test100", "4444444444444444validateInputs -> FALSE")
             binding.textInputLayoutUserModifyAddressAddDetailAddress.error = "상세 주소를 입력해 주세요"
             isValid = false
         }
@@ -303,6 +305,7 @@ class UserAddressModifyFragment : Fragment() {
                     showDeleteConfirmationDialog()  // 아이템 클릭 시 다이얼로그 띄우기
                     return@setOnMenuItemClickListener true
                 }
+
                 else -> true
             }
         }
@@ -319,7 +322,8 @@ class UserAddressModifyFragment : Fragment() {
                     // 배송지 상태를 2로 변경하는 함수 호출
                     deliveryAddressModel?.let {
                         UserDeliveryAddressService.markDeliveryAddressAsInvalid(
-                            it.deliveryAddressDocId)
+                            it.deliveryAddressDocId
+                        )
                     }
 
                     // 처리 후, 화면에서 나가거나 적절히 목록 갱신
@@ -334,29 +338,59 @@ class UserAddressModifyFragment : Fragment() {
     }
 
     private fun saveUserInfo() {
-        // 입력받은 데이터
-        val addressArrivalName = binding.textInputLayoutUserAddressModifyArrivalName.editText?.text.toString()
-        val addressUserName = binding.textInputLayoutUserAddressModifyUserName.editText?.text.toString()
-        val phoneNumber = binding.textInputLayoutUserAddressModifyPhoneNumber.editText?.text.toString()
-        val basicAdderTest = binding.textViewUserAddressModifyShowAddress.text.toString()
-        val detailAddress = binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()
-        // val postNumber = 12345
+        runBlocking {
+            // 입력받은 데이터
+            val addressArrivalName =
+                binding.textInputLayoutUserAddressModifyArrivalName.editText?.text.toString()
+            val addressUserName =
+                binding.textInputLayoutUserAddressModifyUserName.editText?.text.toString()
+            val phoneNumber =
+                binding.textInputLayoutUserAddressModifyPhoneNumber.editText?.text.toString()
+            val basicAdderTest = binding.textViewUserAddressModifyShowAddress.text.toString()
+            val detailAddress =
+                binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()
 
-        // 수정할 데이터를 VO에 담는다
-        val deliveryModel = DeliveryAddressModel().apply {
-            deliveryAddressUserDocId = homeActivity.loginUserDocumentId
-            deliveryAddressName = addressArrivalName
-            deliveryAddressReceiverName = addressUserName
-            deliveryAddressPhoneNumber = phoneNumber
-            deliveryAddressBasicAddress = basicAdderTest
-            deliveryAddressDetailAddress = detailAddress
-        }
+            // 수정할 데이터를 VO에 담는다
+            val deliveryModel = DeliveryAddressModel().apply {
+                deliveryAddressDocId = deliveryAddressModel!!.deliveryAddressDocId
+                deliveryAddressUserDocId = homeActivity.loginUserDocumentId
+                deliveryAddressName = addressArrivalName
+                deliveryAddressReceiverName = addressUserName
+                deliveryAddressPhoneNumber = phoneNumber
+                deliveryAddressBasicAddress = basicAdderTest
+                deliveryAddressDetailAddress = detailAddress
+            }
 
-        // Firestore 저장
-        CoroutineScope(Dispatchers.IO).launch {
-            UserDeliveryAddressService.updateUserDeliveryAddress(deliveryModel, deliveryAddressModel!!.deliveryAddressDocId)
+            // 비동기 작업 처리
+            if (binding.checkboxUserAddressModifyDefaultAddress.isChecked) {
+                //  추가할 배송지 기본 배송지 상태를 true로 변경한다
+                deliveryModel.deliveryAddressIsDefaultAddress =
+                    DeliveryDefaultAddressBoolType.DELIVERY_ADDRESS_TYPE_IS_DEFAULT
+                // 지금 기본 배송지를 false로 변경
+                withContext(Dispatchers.IO) {
+                    // work1
+                    UserDeliveryAddressService.changeDefaultStateToFalse(
+                        homeActivity.loginUserDocumentId,
+                        deliveryModel.deliveryAddressDocId
+                    )
+                    // work2
+                    UserDeliveryAddressService.updateUserDeliveryAddress(
+                        deliveryModel,
+                        deliveryAddressModel!!.deliveryAddressDocId
+                    )
+                }
+            } else {
+                // 기본 배송지 변경이 아니면 그냥 업데이트만 처리
+                withContext(Dispatchers.IO) {
+                    UserDeliveryAddressService.updateUserDeliveryAddress(
+                        deliveryModel,
+                        deliveryAddressModel!!.deliveryAddressDocId
+                    )
+                }
+            }
         }
     }
+
 
     // 데이터를 읽어와 입력 요소를 채워준다.
     /*fun settingInputData(){
@@ -382,6 +416,7 @@ class UserAddressModifyFragment : Fragment() {
     fun settingInputData() {
         CoroutineScope(Dispatchers.Main).launch {
             val work1 = async(Dispatchers.IO) {
+                Log.d("test100", "args.docId : ${args.addressDocId}")
                 UserDeliveryAddressService.gettingSelectedDeliveryAddress(args.addressDocId)
             }
             deliveryAddressModel = work1.await()
@@ -396,12 +431,32 @@ class UserAddressModifyFragment : Fragment() {
 
                 // 배송지 정보가 null이 아니면 데이터 설정
                 binding.apply {
-                    textInputLayoutUserAddressModifyArrivalName.editText?.setText(deliveryAddressModel?.deliveryAddressName ?: "")
-                    textInputLayoutUserAddressModifyUserName.editText?.setText(deliveryAddressModel?.deliveryAddressReceiverName ?: "")
-                    textInputLayoutUserAddressModifyPhoneNumber.editText?.setText(deliveryAddressModel?.deliveryAddressPhoneNumber ?: "")
-                    textViewUserAddressModifyShowAddress.text = deliveryAddressModel?.deliveryAddressBasicAddress
+                    // 받아온 모델이 기본배송지라면
+                    if(deliveryAddressModel!!.deliveryAddressIsDefaultAddress.bool){
+                        // 체크박스 숨기기
+                        checkboxUserAddressModifyDefaultAddress.visibility = View.GONE
+                        // 툴바 메뉴 숨기기
+                        val menu = toolBarUserAddressModify.menu
+                        val menuItem = menu.findItem(R.id.menu_user_address_manage_delete) // 메뉴 아이템의 ID로 찾기
+                        menuItem?.isVisible = false  // 메뉴 숨기기
+
+                    }
+
+                    textInputLayoutUserAddressModifyArrivalName.editText?.setText(
+                        deliveryAddressModel?.deliveryAddressName ?: ""
+                    )
+                    textInputLayoutUserAddressModifyUserName.editText?.setText(
+                        deliveryAddressModel?.deliveryAddressReceiverName ?: ""
+                    )
+                    textInputLayoutUserAddressModifyPhoneNumber.editText?.setText(
+                        deliveryAddressModel?.deliveryAddressPhoneNumber ?: ""
+                    )
+                    textViewUserAddressModifyShowAddress.text =
+                        deliveryAddressModel?.deliveryAddressBasicAddress
                     // textViewUserAddressModifyShowPostNumber.text = deliveryAddressModel?.deliveryAddressPostNumber
-                    textInputLayoutUserModifyAddressAddDetailAddress.editText?.setText(deliveryAddressModel?.deliveryAddressDetailAddress ?: "")
+                    textInputLayoutUserModifyAddressAddDetailAddress.editText?.setText(
+                        deliveryAddressModel?.deliveryAddressDetailAddress ?: ""
+                    )
                 }
             } catch (e: TimeoutCancellationException) {
                 // 2초 이내에 데이터가 null인 경우
@@ -409,6 +464,8 @@ class UserAddressModifyFragment : Fragment() {
             }
         }
     }
+
+
 }
 
 
