@@ -34,7 +34,7 @@ class DeliveryAddressVO {
     var deliveryAddressTimeStamp = Timestamp.now()
 
     // 상태
-    var deliveryAddressState = 0 // 0: 정상
+    var deliveryAddressState = 1 // 1: 정상
 
     // 받는사람 이름
     var deliveryAddressReceiverName = ""

@@ -140,8 +140,5 @@ class CartProductRepository {
                 return false // 삭제 중 오류 발생 시 false 반환
             }
         }
-
-
-
     }
 }

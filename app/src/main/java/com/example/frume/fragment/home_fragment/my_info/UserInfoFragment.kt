@@ -131,27 +131,26 @@ class UserInfoFragment() : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             var userModel = UserModel()
 
-            val work0 = async(Dispatchers.IO){
+            // 리뷰 개수 가져오는 비동기 작업
+            val work0 = async(Dispatchers.IO) {
                 ReviewService.getUserReviewCount(homeActivity.loginUserDocumentId)
             }
-            val reviewCnt = work0.await()
+            val reviewCnt = work0.await() // 리뷰 개수 받기
 
+            // 리뷰 개수 로그 출력
+            Log.d("test200", "getUserInfo에서 받은 리뷰 개수: $reviewCnt")
 
-            val work1 = async(Dispatchers.IO){
+            // 유저 정보 가져오는 비동기 작업
+            val work1 = async(Dispatchers.IO) {
                 userModel = UserService.getUserInfo(homeActivity.loginUserDocumentId)[0]
-
             }
-            work1.join()
+            work1.join() // 유저 정보 가져오는 작업이 끝날 때까지 대기
 
-
+            // UI 업데이트
             fragmentUserInfoBinding.textViewTitleUserInfo.text = "${userModel.customerUserName}님"
-
             fragmentUserInfoBinding.reWardCostTextViewUserInfo.text = "${userModel.customerUserReward} 원"
-
             fragmentUserInfoBinding.reviewCostTextViewUserInfo.text = "${reviewCnt} 건"
         }
     }
-
-
 
 }
