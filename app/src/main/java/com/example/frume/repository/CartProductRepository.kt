@@ -9,21 +9,28 @@ import kotlinx.coroutines.tasks.await
 class CartProductRepository {
     companion object{
         // 내장바구니에 상품 전체 목록 가져오기 hj
-        suspend fun gettingMyCartProductItems(cartDocId: String) : MutableList<CartProductVO> {
-
+        suspend fun gettingMyCartProductItems(cartDocId: String): MutableList<CartProductVO> {
             val result = mutableListOf<CartProductVO>()
             val firestore = FirebaseFirestore.getInstance()
 
-            // 선택된 장바구니 문서에서 cartProductItems 서브컬렉션을 가져오기
-            val cartProductItems = firestore.collection("cartData")
-                .document(cartDocId)
-                .collection("cartProductItems")
-                .get()
-                .await()
+            try {
+                // 선택된 장바구니 문서에서 cartProductItems 서브컬렉션을 가져오기
+                val cartProductItems = firestore.collection("cartData")
+                    .document(cartDocId)
+                    .collection("cartProductItems")
+                    .get()
+                    .await()
 
-            for (product in cartProductItems) {
-                val cartProduct = product.toObject(CartProductVO::class.java)
-                result.add(cartProduct)
+                // 문서가 존재하지 않는 경우는 빈 결과로 처리
+                if (!cartProductItems.isEmpty) {
+                    for (product in cartProductItems) {
+                        val cartProduct = product.toObject(CartProductVO::class.java)
+                        result.add(cartProduct)
+                    }
+                }
+            } catch (e: Exception) {
+                // 예외 발생 시 처리 (로그를 남기거나 빈 목록을 반환)
+                Log.e("CartError", "Error fetching cart product items: ${e.message}")
             }
             return result
         }
@@ -140,8 +147,5 @@ class CartProductRepository {
                 return false // 삭제 중 오류 발생 시 false 반환
             }
         }
-
-
-
     }
 }

@@ -88,9 +88,9 @@ class UserOrderDetailFragment : Fragment() {
     // 반품 교환 및 취소 화면 연결
     private fun moveToCancelAndReturn() {
         binding.buttonUserOrderDetailCancel.setOnClickListener {
-            val action =
+            /*val action =
                 UserOrderDetailFragmentDirections.actionUserOrderDetailToUserCancelAndReturn()
-            findNavController().navigate(action)
+            findNavController().navigate(action)*/
         }
     }
 
