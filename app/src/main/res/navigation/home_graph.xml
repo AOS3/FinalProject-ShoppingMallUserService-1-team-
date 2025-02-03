@@ -202,6 +202,9 @@
 		<action
 			android:id="@+id/action_user_address_add_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
+		<action
+			android:id="@+id/action_user_address_add_to_user_cart_choice_Deliver_address"
+			app:destination="@id/user_cart_choice_Deliver_address" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_modify"
@@ -402,6 +405,9 @@
 			android:name="dueDateDirectPurchase"
 			app:argType="string"
 			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_cart_choice_Deliver_address_to_user_address_add"
+			app:destination="@id/user_address_add" />
 	</fragment>
 
 	<dialog

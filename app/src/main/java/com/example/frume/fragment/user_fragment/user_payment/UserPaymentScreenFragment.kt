@@ -36,6 +36,7 @@ import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
 import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderPaymentOption
+import com.example.frume.util.convertThreeDigitComma
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -291,8 +292,6 @@ class UserPaymentScreenFragment : Fragment() {
                     args.deliverySubscribeStateDirectPurchase,
                     args.productCountDirectPurchase
                 )
-
-
             findNavController().navigate(action)
         }
     }
@@ -465,12 +464,11 @@ class UserPaymentScreenFragment : Fragment() {
             while (userModel == null) {
                 delay(500) // 500ms 대기 후 다시 확인
             }
-
             val userReward = userModel?.customerUserReward ?: 0
 
             binding.checkboxUserPaymentUseSavingAll.setOnClickListener {
                 binding.textInputLayoutUserPaymentSaving.editText?.setText(
-                    if (binding.checkboxUserPaymentUseSavingAll.isChecked) userReward.toString() else ""
+                    if (binding.checkboxUserPaymentUseSavingAll.isChecked) userReward.toString() else "0"
                 )
                 // 적립금 사용액 표시 메서드 호출
                 settingViewReward()
@@ -486,34 +484,56 @@ class UserPaymentScreenFragment : Fragment() {
         binding.apply {
             textInputLayoutUserPaymentSaving.editText?.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
+                    // 상품 가격
+                    val productCost =
+                        textViewProductTotalPrice.text.toString().replace("원", "").replace(",","").toInt()
                     val userReward = userModel?.customerUserReward ?: -1 // 보유 리워드 (없으면 0)
                     val inputText = s.toString()
 
                     // 입력값이 숫자인지 확인 후 비교
                     val inputValue = inputText.toIntOrNull() ?: 0
 
-                    if (inputValue > userReward) {
+                    // 상품 가격의 20% 계산 (한도)
+                    val maxRewardLimit = (productCost * 0.2).toInt()
+                    val rewardLimit = minOf(userReward, maxRewardLimit) // 적립금 사용 한도
+
+                    // 0으로 시작하지 못하도록 방지 0123원은 없으니 문자길이가 2이상인데 앞글자가 0이면 0을 없애줌
+                    if (inputText.length > 1 && inputText[0] == '0') {
+                        val newText = inputText.toIntOrNull()?.toString() ?: "0"
+                        textInputLayoutUserPaymentSaving.editText?.setText(newText)
+                        // 커서를 뒤로 옮기기
+                        textInputLayoutUserPaymentSaving.editText?.setSelection(newText.length)
+                    }
+
+                    if (inputText.length == 0) {
+                        val newText = inputText.toIntOrNull()?.toString() ?: "0"
+                        textInputLayoutUserPaymentSaving.editText?.setText(newText)
+                        // 커서를 뒤로 옮기기
+                        textInputLayoutUserPaymentSaving.editText?.setSelection(newText.length)
+                    }
+
+                    if (inputValue > rewardLimit) {
                         // 보유 리워드보다 크면 자동으로 보유 리워드 값으로 설정
-                        textInputLayoutUserPaymentSaving.editText?.setText(userReward.toString())
+                        textInputLayoutUserPaymentSaving.editText?.setText(rewardLimit.toString())
+                        // 커서를 뒤로 옮기기
+                        textInputLayoutUserPaymentSaving.editText?.setSelection(rewardLimit.toString().length)
                     }
 
 
                     if (inputText.isNotEmpty()) {
-                        // 전체 체크 상태에서 값을 변경할때 발생하는 리스너
-                        if (inputText.toInt() != userReward) {
-                            checkboxUserPaymentUseSavingAll.isChecked = false
-                        }
-
                         // 값을 변경할때 값과 보유 리워드와 같으면 발생하는 리스너
-                        if (inputText.toInt() == userReward) {
+                        if (inputText.toInt() >= rewardLimit) {
                             checkboxUserPaymentUseSavingAll.isChecked = true
+                        } else {
+                            // 전체 체크 상태에서 값을 변경할때 발생하는 리스너
+                            checkboxUserPaymentUseSavingAll.isChecked = false
+
                         }
 
                         // 적립금 사용금 표시 메서드 호출
                         settingViewReward()
                         // 총 결제 금액 표시
                         settingViewTotalCost()
-                        // 총 결제 금액 ui 변경
                     }
                 }
 
@@ -546,21 +566,21 @@ class UserPaymentScreenFragment : Fragment() {
                 if (sumPrice >= 50000) {
                     binding.textViewUserPaymentDeliveryCharge.text = "0원"
                 } else {
-                    binding.textViewUserPaymentDeliveryCharge.text = "3000원"
+                    binding.textViewUserPaymentDeliveryCharge.text = "3,000원"
                 }
             }
-        } else{
+        } else {
             // 상품에서 바로 구매한 경우
             CoroutineScope(Dispatchers.Main).launch {
-                val work1 = async(Dispatchers.IO){
+                val work1 = async(Dispatchers.IO) {
                     ProductService.gettingProductOneByDocId(args.productDocIdDirectPurchase!!)
                 }
                 val product = work1.await()
                 val productCost = product.productPrice * args.productCountDirectPurchase
-                if(productCost>=50000){
+                if (productCost >= 50000) {
                     binding.textViewUserPaymentDeliveryCharge.text = "0원"
-                }else{
-                    binding.textViewUserPaymentDeliveryCharge.text = "3000원"
+                } else {
+                    binding.textViewUserPaymentDeliveryCharge.text = "3,000원"
                 }
             }
         }
@@ -576,7 +596,7 @@ class UserPaymentScreenFragment : Fragment() {
             // userModel이 null이 아니면 UI 업데이트
             binding.apply {
                 textViewUserPaymentRequestPresentSaving.text =
-                    "보유 적립금 : ${userModel?.customerUserReward ?: -1}"
+                    "보유 적립금 : ${(userModel?.customerUserReward ?: -1).convertThreeDigitComma()}"
             }
         }
     }
@@ -588,7 +608,7 @@ class UserPaymentScreenFragment : Fragment() {
             delay(0)
             binding.apply {
                 textViewUserPaymentTotalSavingInfo.text =
-                    "${textInputLayoutUserPaymentSaving.editText?.text.toString()}원"
+                    "${textInputLayoutUserPaymentSaving.editText?.text.toString().toInt().convertThreeDigitComma()}"
             }
         }
     }
@@ -608,7 +628,7 @@ class UserPaymentScreenFragment : Fragment() {
                     }
 
                     binding.apply {
-                        textViewProductTotalPrice.text = "${sumPrice}원"
+                        textViewProductTotalPrice.text = "${sumPrice.convertThreeDigitComma()}"
                     }
                 }
             }
@@ -622,7 +642,7 @@ class UserPaymentScreenFragment : Fragment() {
                     val sumPrice = productModel.productPrice * args.productCountDirectPurchase
 
                     binding.apply {
-                        textViewProductTotalPrice.text = "${sumPrice}원"
+                        textViewProductTotalPrice.text = "${sumPrice.convertThreeDigitComma()}"
                     }
                 }
             }
@@ -637,21 +657,21 @@ class UserPaymentScreenFragment : Fragment() {
             binding.apply {
                 // 상품 가격
                 val productPrice =
-                    textViewProductTotalPrice.text.toString().replace("원", "").trim().toIntOrNull()
+                    textViewProductTotalPrice.text.toString().replace("원", "").replace(",","").trim().toIntOrNull()
                         ?: 0
 
                 // 적립금
                 val usedReward =
-                    textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "").trim()
+                    textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "").replace(",","").trim()
                         .toIntOrNull() ?: 0
 
                 // 배송비
                 val shipmentCost =
-                    textViewUserPaymentDeliveryCharge.text.toString().replace("원", "").trim()
+                    textViewUserPaymentDeliveryCharge.text.toString().replace("원", "").replace(",","").trim()
                         .toIntOrNull() ?: 0
 
                 val totalCost = productPrice + shipmentCost - usedReward
-                textViewUserPaymentTotalPayment.text = "${totalCost}원"
+                textViewUserPaymentTotalPayment.text = "${totalCost.convertThreeDigitComma()}"
             }
         }
     }
@@ -752,10 +772,10 @@ class UserPaymentScreenFragment : Fragment() {
                         textViewUserPaymentDeliveryCharge.text.toString().replace("원", "")
                             .toInt()
                     // 적립금 사용액
-
-                    addOrderModel.usedReward =
-                        textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "")
-                            .toInt()
+                    addOrderModel.usedReward =if(textViewUserPaymentTotalSavingInfo.text.toString() ==""){0}else{
+                            textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "")
+                                .toInt()
+                        }
                     // 결제 방식
                     addOrderModel.orderPaymentOption = when (paymentOptionState) {
                         OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT -> OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT
@@ -837,7 +857,7 @@ class UserPaymentScreenFragment : Fragment() {
         }
     }
 
-    // 사용자 적립금 차감 메서드
+    // 사용자 적립금 관련 메서드
     fun updateUserReward() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
@@ -852,9 +872,16 @@ class UserPaymentScreenFragment : Fragment() {
                     leftReward -= usedReward
                 }
 
+                // 사용 적립금 차감
                 userModel.customerUserReward = leftReward
                 UserService.updateUserData(userModel)
 
+                // 물건 가격의 1퍼센트 적립
+                val productCost = binding.textViewProductTotalPrice.text.toString().replace("원","").toInt()
+                val getReward = (productCost *0.01).toInt()
+
+                userModel.customerUserReward += getReward
+                UserService.updateUserData(userModel)
             }
         }
     }

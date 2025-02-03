@@ -89,3 +89,8 @@ fun setFormattedDate(textView: TextView, timestamp: Timestamp?) {
 fun setVisibilityBasedOnText(view: View, text: String?) {
     view.visibility = if (text.isNullOrEmpty()) View.GONE else View.VISIBLE
 }
+
+fun Number.convertDigitCommaToString(): String {
+    val decimalFormat = DecimalFormat("#") // 천 단위 구분자 없이 포맷
+    return decimalFormat.format(this)
+}

@@ -188,7 +188,6 @@ class UserDeliveryAddressRepository {
                 Log.d("test100", "changeDefaultStateToTrue() -> 오류 발생")
             }
         }
-
         // 배송지 상태를 비정상으로 업데이트하기
         suspend fun markDeliveryAddressAsInvalid(deliveryAddressDocId: String) {
             val firestore = FirebaseFirestore.getInstance()
@@ -239,5 +238,6 @@ class UserDeliveryAddressRepository {
            val deliveryAddressVO = result.toObject(DeliveryAddressVO::class.java)
            return deliveryAddressVO
        }*/
+
     }
 }

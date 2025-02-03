@@ -16,6 +16,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_user_payment_choice_delivery_address"
             app:title="나의 배송지" />
 
         <androidx.recyclerview.widget.RecyclerView
