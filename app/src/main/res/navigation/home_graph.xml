@@ -214,6 +214,9 @@
 		<action
 			android:id="@+id/action_user_address_modify_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
+		<argument
+			android:name="addressDocId"
+			app:argType="string" />
 
 	</fragment>
 	<fragment

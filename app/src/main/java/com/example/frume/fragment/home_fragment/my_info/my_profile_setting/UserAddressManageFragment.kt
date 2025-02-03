@@ -26,8 +26,10 @@ class UserAddressManageFragment : Fragment() {
     private var _binding: FragmentUserAddressManageBinding? = null
     private val binding get() = _binding!!
     lateinit var homeActivity: HomeActivity
+    // private val args: UserAddressManageFragmentArgs by navArgs()
 
     var addressList = mutableListOf<DeliveryAddressModel>()
+    // lateinit var deliveryAddressModel: DeliveryAddressModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +44,7 @@ class UserAddressManageFragment : Fragment() {
                 container,
                 false
             )
+
         return binding.root
     }
 
@@ -155,7 +158,7 @@ class UserAddressManageFragment : Fragment() {
                     // 클릭된 항목의 position을 사용하여 UserAddressModifyFragment로 이동
                     val address = addressList[adapterPosition]
                     val action =
-                        UserAddressManageFragmentDirections.actionUserAddressManageToUserAddressModifyFragment() // 여기서 address를 인자로 전달
+                        UserAddressManageFragmentDirections.actionUserAddressManageToUserAddressModifyFragment(address.deliveryAddressDocId) // 여기서 address를 인자로 전달
                     findNavController().navigate(action)
                 }
             }
