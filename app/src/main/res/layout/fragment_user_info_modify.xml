@@ -86,7 +86,7 @@
 				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
 				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyPhoneNumber" />
 
-			<TextView
+			<!--<TextView
 				android:id="@+id/textViewUserInfoModifyShowPostNumber"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
 				android:text="우편번호 "
 				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
 				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress" />
+				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress" />-->
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/textInputLayoutUserInfoModifyDetailAddress"
@@ -111,7 +111,7 @@
 				app:endIconMode="clear_text"
 				app:layout_constraintEnd_toEndOf="@id/viewUserInfoModifyShowInfo"
 				app:layout_constraintStart_toStartOf="@id/viewUserInfoModifyShowInfo"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowPostNumber">
+				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"

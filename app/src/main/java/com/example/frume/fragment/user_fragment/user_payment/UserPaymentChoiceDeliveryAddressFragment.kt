@@ -168,7 +168,7 @@ class UserPaymentChoiceDeliveryAddressFragment : Fragment() {
                 // 주소 이름, 상세 주소, 우편번호, 아이콘 리소스를 각각 바인딩
                 addressName.text = item.deliveryAddressName
                 addressDetail.text = item.deliveryAddressBasicAddress +" ${item.deliveryAddressDetailAddress}"
-                postalCode.text = item.deliveryAddressPostNumber
+                // postalCode.text = item.deliveryAddressPostNumber
 
                 // 기본 배송지 값이 true 일 때
                 if(item.deliveryAddressIsDefaultAddress.bool){

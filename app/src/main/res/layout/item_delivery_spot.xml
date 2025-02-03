@@ -55,13 +55,13 @@
 
 
         <!-- 우측 우편번호 부분 -->
-        <TextView
+        <!--<TextView
             android:id="@+id/postalCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="end"
             android:text="12456"
-            android:textSize="14sp" />
+            android:textSize="14sp" />-->
     </LinearLayout>
 </layout>

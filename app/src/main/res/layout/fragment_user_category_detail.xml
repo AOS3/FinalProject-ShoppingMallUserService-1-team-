@@ -64,6 +64,18 @@
 			app:spanCount="2"
 			tools:listitem="@layout/item_product" />
 
+		<TextView
+			android:id="@+id/textViewUserCategoryDetailNoSearch"
+			style="@style/AppText5.S25"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="검색 결과가 없습니다."
+			android:visibility="gone"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,13 +1,21 @@
 package com.example.frume.fragment.home_fragment.my_info.my_profile_setting
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.AddressActivity
 import com.example.frume.databinding.FragmentUserInfoModifyBinding
 import com.example.frume.activity.HomeActivity
 import com.example.frume.model.UserModel
@@ -27,6 +35,9 @@ class UserInfoModifyFragment : Fragment() {
     lateinit var homeActivity: HomeActivity
     // 사용자 정보를 담을 변수
     lateinit var userModel: UserModel
+
+    // 전역 변수 선언 (이 변수에 주소를 저장)
+    private val getCustomerUserAddressModify = mutableMapOf<String, String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,10 +62,12 @@ class UserInfoModifyFragment : Fragment() {
     }
 
     // sehoon 여기에 모든 메서드 넣어주세요
+    @SuppressLint("NewApi")
     private fun setLayout() {
         settingInputData()
         onClickButtonSubmit()
         onClickNavigationIcon()
+        setAddressFieldModifyClickListener()
     }
 
     // 네비게이션 아이콘 클릭 리스너
@@ -74,6 +87,37 @@ class UserInfoModifyFragment : Fragment() {
 
             saveUserInfo() // 사용자 정보 저장
             findNavController().navigateUp()
+        }
+    }
+
+    // 주소 선택을 위한 결과 처리
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val getAddressModifyResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val address = result.data?.getStringExtra("data")
+                // val postNumber = result.data?.getStringExtra("postData")
+
+                // 주소를 TextView에 반영
+                binding.textViewUserInfoModifyShowAddress.setText(address)
+
+                // 전역 변수에 주소 값 저장
+                getCustomerUserAddressModify["DetailedAddress"] = binding.textInputLayoutUserInfoModifyDetailAddress.editText?.text.toString().trim()
+                getCustomerUserAddressModify["BasicAddress"] = address ?: ""
+                getCustomerUserAddressModify["PostNumber"] = address ?: ""
+
+                // 디버깅 로그 출력
+                Log.d("test100", "customerUserAddress: $getCustomerUserAddressModify")
+            }
+        }
+
+    // 주소 선택 버튼 클릭 리스너
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setAddressFieldModifyClickListener() {
+        binding.textViewUserInfoModifyShowAddress.setOnClickListener {
+            // AddressActivity로 이동
+            val intent = Intent(requireContext(), AddressActivity::class.java)
+            getAddressModifyResult.launch(intent)  // 주소 찾기 화면으로 이동
         }
     }
 
@@ -128,6 +172,8 @@ class UserInfoModifyFragment : Fragment() {
         val userName = binding.textInputLayoutUserInfoModifyUserName.editText?.text.toString()
         val phoneNumber = binding.textInputLayoutUserInfoModifyPhoneNumber.editText?.text.toString()
         val detailAddress = binding.textInputLayoutUserInfoModifyDetailAddress.editText?.text.toString()
+        val basicAdderTest = binding.textViewUserInfoModifyShowAddress.text.toString()
+        // val postNumber = 12345
 
         // 수정할 데이터를 VO에 담는다
         val userModel = UserModel().apply {
@@ -135,6 +181,8 @@ class UserInfoModifyFragment : Fragment() {
             customerUserName = userName
             customerUserPhoneNumber = phoneNumber
             customerUserAddress["DetailedAddress"] = detailAddress
+            customerUserAddress["BasicAddress"] = basicAdderTest
+            // customerUserAddress["PostNumber"] = "$postNumber"
         }
 
         // Firestore 저장
@@ -158,7 +206,7 @@ class UserInfoModifyFragment : Fragment() {
                 textInputLayoutUserInfoModifyUserName.editText?.setText(userModel?.customerUserName ?: "")
                 textInputLayoutUserInfoModifyPhoneNumber.editText?.setText(userModel?.customerUserPhoneNumber ?: "")
                 textViewUserInfoModifyShowAddress.text = userModel.customerUserAddress["BasicAddress"]
-                textViewUserInfoModifyShowPostNumber.text = userModel.customerUserAddress["PostNumber"]
+                // textViewUserInfoModifyShowPostNumber.text = userModel.customerUserAddress["PostNumber"]
                 textInputLayoutUserInfoModifyDetailAddress.editText?.setText(userModel?.customerUserAddress?.get("DetailedAddress") ?: "")
 
             }

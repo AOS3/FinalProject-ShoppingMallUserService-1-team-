@@ -2,6 +2,7 @@ package com.example.frume.repository
 
 import android.util.Log
 import com.example.frume.vo.DeliveryAddressVO
+import com.example.frume.vo.UserVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -158,7 +159,5 @@ class UserDeliveryAddressRepository {
                 Log.d("test100", "changeDefaultStateToTrue() -> 오류 발생")
             }
         }
-
-
     }
 }

@@ -148,7 +148,7 @@ class UserInfoManageFragment : Fragment() {
                 textInputLayoutUserInfoModifyUserName.editText?.setText(userModel?.customerUserName ?: "")
                 textInputLayoutUserInfoModifyPhoneNumber.editText?.setText(userModel?.customerUserPhoneNumber ?: "")
                 textViewUserInfoModifyShowAddress.text = userModel.customerUserAddress["BasicAddress"]
-                textViewUserInfoModifyShowPostNumber.text = userModel.customerUserAddress["PostNumber"]
+                // textViewUserInfoModifyShowPostNumber.text = userModel.customerUserAddress["PostNumber"]
                 textInputLayoutUserInfoModifyDetailAddress.editText?.setText(userModel?.customerUserAddress?.get("DetailedAddress") ?: "")
 
             }

@@ -28,6 +28,7 @@ class ProductService {
 
             Log.d("ProductService", "getProductInfo() 완료, 반환된 product: $product")
 
+
             return product
         }
 
@@ -36,6 +37,16 @@ class ProductService {
         suspend fun gettingProductOneByDocId(productDocID: String): ProductModel {
             val selectedProductVO = ProductRepository.gettingProductOneByDocId(productDocID)
             return selectedProductVO.toProductModel()
+        }
+
+        suspend fun getSearchProductInfo(searchProduct: String): MutableList<ProductModel> {
+            val productModelList = mutableListOf<ProductModel>()
+
+            val productVOList = ProductRepository.getSearchProductInfo(searchProduct)
+            productVOList.forEach {
+                productModelList.add(it.toProductModel())
+            }
+            return productModelList
         }
 
     }
