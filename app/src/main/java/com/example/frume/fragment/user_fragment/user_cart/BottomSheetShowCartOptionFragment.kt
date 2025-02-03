@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.databinding.FragmentBottomSheetShowCartOptionBinding
@@ -286,6 +288,8 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
                         CartProductService.changeCartProductOption(args.cartDocId,args.cartProductDocId,cartProductModel)
                     }
                     work1.join()
+                    val result = "result from BottomSheet"
+                    setFragmentResult("requestKey", bundleOf("bundleKey" to result))
                     dismiss()
                 }
             }

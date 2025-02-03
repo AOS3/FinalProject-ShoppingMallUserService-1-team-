@@ -102,13 +102,17 @@ class UserAddressModifyFragment : Fragment() {
     // 저장 버튼 클릭 처리
     private fun onClickConfirmBtn() {
         binding.buttonUserAddressModifyArrivalAdd.setOnClickListener {
+            Log.d("test100","UserAddressModifyFragment ->onClickConfirmBtn()")
             clearErrors()
-
             if (validateInputs()) {
+                Log.d("test100","UserAddressModifyFragment ->validateInputs() == true")
                 saveUserInfo()
                 // 유효한 경우, 저장 및 네비게이션
                 findNavController().navigateUp()
             }
+            Log.d("test100","UserAddressModifyFragment ->onClickConfirmBtn()-> End")
+
+
         }
     }
 
@@ -148,11 +152,14 @@ class UserAddressModifyFragment : Fragment() {
         if (binding.textInputLayoutUserAddressModifyArrivalName.editText?.text.toString()
                 .isEmpty()
         ) {
+            Log.d("test100","1111111111validateInputs -> FALSE")
             binding.textInputLayoutUserAddressModifyArrivalName.error = "배송지 이름을 입력해 주세요"
             isValid = false
         }
 
         if (binding.textInputLayoutUserAddressModifyUserName.editText?.text.toString().isEmpty()) {
+            Log.d("test100","222222222222222validateInputs -> FALSE")
+
             binding.textInputLayoutUserAddressModifyUserName.error = "이름을 입력해 주세요"
             isValid = false
         }
@@ -160,15 +167,20 @@ class UserAddressModifyFragment : Fragment() {
         val phoneNumber =
             binding.textInputLayoutUserAddressModifyPhoneNumber.editText?.text.toString()
         if (phoneNumber.isEmpty()) {
+            Log.d("test100","3333333333333333333333validateInputs -> FALSE")
+
             binding.textInputLayoutUserAddressModifyPhoneNumber.error = "휴대폰 번호를 입력해 주세요"
             isValid = false
         } else if (phoneNumber.length != 11) {
+            Log.d("test100","66666666666666666666666666 -> FALSE")
+
             isValid = false
         }
 
         if (binding.textInputLayoutUserModifyAddressAddDetailAddress.editText?.text.toString()
                 .isEmpty()
         ) {
+            Log.d("test100","4444444444444444validateInputs -> FALSE")
             binding.textInputLayoutUserModifyAddressAddDetailAddress.error = "상세 주소를 입력해 주세요"
             isValid = false
         }
@@ -331,7 +343,7 @@ class UserAddressModifyFragment : Fragment() {
         // val postNumber = 12345
 
         // 수정할 데이터를 VO에 담는다
-        val deliveryAddressModel = DeliveryAddressModel().apply {
+        val deliveryModel = DeliveryAddressModel().apply {
             deliveryAddressUserDocId = homeActivity.loginUserDocumentId
             deliveryAddressName = addressArrivalName
             deliveryAddressReceiverName = addressUserName
@@ -342,7 +354,7 @@ class UserAddressModifyFragment : Fragment() {
 
         // Firestore 저장
         CoroutineScope(Dispatchers.IO).launch {
-            UserDeliveryAddressService.updateUserDeliveryAddress(deliveryAddressModel)
+            UserDeliveryAddressService.updateUserDeliveryAddress(deliveryModel, deliveryAddressModel!!.deliveryAddressDocId)
         }
     }
 

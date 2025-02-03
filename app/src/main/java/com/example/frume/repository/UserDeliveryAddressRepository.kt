@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.frume.vo.DeliveryAddressVO
 import com.example.frume.vo.UserVO
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.tasks.await
 
 class UserDeliveryAddressRepository {
@@ -206,30 +207,33 @@ class UserDeliveryAddressRepository {
 
 
         // 배송지 데이터를 수정하는 메서드
-        suspend fun updateUserDeliveryAddress(deliveryAddressVO: DeliveryAddressVO, deliveryAddressDocId: String){
+        suspend fun updateUserDeliveryAddress(deliveryAddressVO: DeliveryAddressVO, deliveryAddressDocId: String) {
+            try {
+                Log.d("test100", "UserAddressDeliveryRepository ->updateUserDeliveryAddress 호출됨")
+                Log.d("test100", "UserAddressDeliveryRepository ->전달된 문서 ID: $deliveryAddressDocId")
+                Log.d("test100", "UserAddressDeliveryRepository ->수정할 데이터: $deliveryAddressVO")
 
-            // 수정할 데이터를 담을 맵
-            val userDeliveryAddressMap = mapOf(
-                // 배송지 이름
-                "deliveryAddressName" to deliveryAddressVO.deliveryAddressName,
-                // 이름
-                "deliveryAddressReceiverName" to deliveryAddressVO.deliveryAddressReceiverName,
-                // 휴대폰 번호
-                "deliveryAddressPhoneNumber" to deliveryAddressVO.deliveryAddressPhoneNumber,
-                // 사용자 주소
-                "deliveryAddressBasicAddress" to deliveryAddressVO.deliveryAddressBasicAddress,
-                // 우편 번호
-                // "deliveryAddressPostNumber" to deliveryAddressVO.deliveryAddressPostNumber,
-                // 상세 주소
-                "deliveryAddressDetailAddress" to deliveryAddressVO.deliveryAddressDetailAddress,
-            )
+                // 문서 ID가 비어 있는지 확인
+                if (deliveryAddressDocId.isBlank()) {
+                    Log.e("test100", "문서 ID가 비어 있음")
+                    return
+                }
 
-            // 수정할 문서에 접근할 수 있는 객체를 가져온다.
-            val firestore = FirebaseFirestore.getInstance()
-            val collectionReference = firestore.collection("deliveryAddressData")
-            val documentReference = collectionReference.document(deliveryAddressDocId)
-            documentReference.update(userDeliveryAddressMap).await()
+                // Firestore 인스턴스 가져오기
+                val firestore = FirebaseFirestore.getInstance()
+                val documentReference = firestore.collection("deliveryAddressData").document(deliveryAddressDocId)
+
+                // 데이터 업데이트 수행
+                documentReference.set(deliveryAddressVO).await()
+
+                Log.d("test100", "UserAddressDeliveryRepository ->배송지 정보 업데이트 성공: $deliveryAddressDocId")
+            } catch (e: FirebaseFirestoreException) {
+                Log.e("test100", "UserAddressDeliveryRepository ->Firestore 오류 발생: ${e.message}", e)
+            } catch (e: Exception) {
+                Log.e("test100", "UserAddressDeliveryRepository ->알 수 없는 오류 발생: ${e.message}", e)
+            }
         }
+
 
         /*suspend fun selectUserAddressByuserDocumentId(deliveryAddressDocId:String) : DeliveryAddressVO{
            val firestore = FirebaseFirestore.getInstance()
