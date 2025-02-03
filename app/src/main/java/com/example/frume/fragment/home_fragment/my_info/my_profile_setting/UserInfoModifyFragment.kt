@@ -197,7 +197,7 @@ class UserInfoModifyFragment : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             val work1 = async(Dispatchers.IO){
                 //UserService.selectUserDataByUserDocumentIdOne(boardActivity.loginUserDocumentId)
-                UserService.selectUserDataByuserDocumentId(homeActivity.loginUserDocumentId)
+                UserService.selectUserDataByUserDocumentId(homeActivity.loginUserDocumentId)
             }
             userModel = work1.await()
 

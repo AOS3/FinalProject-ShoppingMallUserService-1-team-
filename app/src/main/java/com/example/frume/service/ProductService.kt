@@ -1,5 +1,6 @@
 package com.example.frume.service
 
+import android.util.Log
 import com.example.frume.data.Product
 import com.example.frume.model.ProductModel
 import com.example.frume.repository.ProductRepository
@@ -21,7 +22,13 @@ class ProductService {
 
         // sehoon productDocId로 제품의 정보를 가져온다
         suspend fun getProductInfo(productId: String): Product {
+            Log.d("ProductService", "getProductInfo() 호출됨, productId: $productId")
+
             val product = ProductRepository.getProductInfo(productId)
+
+            Log.d("ProductService", "getProductInfo() 완료, 반환된 product: $product")
+
+
             return product
         }
 
@@ -43,4 +50,6 @@ class ProductService {
         }
 
     }
+
+
 }

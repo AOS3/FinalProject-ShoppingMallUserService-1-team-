@@ -1,5 +1,6 @@
 package com.example.frume.model
 
+import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderProductState
 import com.example.frume.util.OrderState
 import com.example.frume.vo.OrderProductVO
@@ -47,6 +48,9 @@ class OrderProductModel {
     // 주문 상태 (결제 대기, 완료, 취소, 반품, 교환)
     var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING // 결제 대기
 
+    // 정기배송여부
+    var deliveryIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE // 0 : 비구독
+
     fun toOrderProductVO(): OrderProductVO {
         val orderProductVO = OrderProductVO()
 
@@ -62,6 +66,8 @@ class OrderProductModel {
         orderProductVO.orderProductTimeStamp = orderProductTimeStamp
         orderProductVO.orderFixedDate = orderFixedDate
         orderProductVO.orderDeliveryDueDate = orderDeliveryDueDate
+        orderProductVO.deliveryIsSubscribed = deliveryIsSubscribed.num
+
 
 
         return orderProductVO

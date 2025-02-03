@@ -275,9 +275,15 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
             if (binding.textViewUserProductInfoDialogDeliveryDate.text == "배송 예정일 선택") {
                 Toast.makeText(requireContext(), "배송일을 선택해주세요", Toast.LENGTH_SHORT).show()
             } else {
+                val dueDate = binding.textViewUserProductInfoDialogDeliveryDate.text.toString()
+                val deliverySubscribeState = when {
+                    binding.radioButtonProductInfoDialogSubscribe.isChecked -> DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE
+                    else-> DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
+                }
+                val productCount = binding.editTextProductInfoDialogCount.text.toString().toInt()
                 val action =
                     UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
-                        null, "productInfo"
+                        null, "productInfo",args.productDocId,dueDate,deliverySubscribeState, productCountDirectPurchase = productCount
                     )
                 findNavController().navigate(action)
 
@@ -335,6 +341,8 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 return@launch
             }
 
+            Log.d("test100","args.productDocId: ${args.productDocId}")
+
             // cartProductModel 생성
             val cartProductModel = convertToCartProduct(
                 cartProductCount,
@@ -351,7 +359,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
                 //  이전 화면을 팝하고 새로운 화면으로 이동할 때 사용됩니다.
                 val navOption = NavOptions.Builder()
-                    .setPopUpTo(R.id.navigation_category, inclusive = true)
+                    .setPopUpTo(R.id.navigation_home, inclusive = true) // navigation_cart 에서 home으로 변경
                     .build()
                 val action =
                     UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToNavigationCart()
@@ -389,11 +397,11 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         try {
             // IO 스레드에서 비동기 데이터 로드
             val work1 = async(Dispatchers.IO) {
-                ProductService.getProductInfo(productDocId) ?: ProductModel()
+                ProductService.gettingProductOneByDocId(args.productDocId!!)
             }
 
             // 데이터 로드 완료 대기
-            productModel = work1.await() as ProductModel
+            productModel = work1.await()
 
             // 시간 제한 설정 (2초)
             withTimeout(2000L) {
@@ -447,9 +455,9 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
     }
 
     // 날짜 타입 변경 String-> Timestamp
-// DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
-// 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
-// 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
+    // DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
+    // 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
+    // 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
     fun convertToTimestamp(dueDate: String): Timestamp {
         // 날짜 포맷터 생성
         val dateFormatter = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREAN)

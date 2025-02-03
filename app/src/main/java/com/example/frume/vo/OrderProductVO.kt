@@ -1,6 +1,7 @@
 package com.example.frume.vo
 
 import com.example.frume.model.OrderProductModel
+import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderProductState
 import com.example.frume.util.OrderState
 import com.google.firebase.Timestamp
@@ -45,6 +46,9 @@ class OrderProductVO {
     // 주문 상태 (결제 대기, 완료, 취소, 반품, 교환)
     var orderState = OrderState.ORDER_STATE_PAYMENT_PENDING.num // 결제 대기
 
+    // 정기배송여부
+    var deliveryIsSubscribed = DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE.num
+
     fun toOrderProductModel(): OrderProductModel {
         val orderProductModel = OrderProductModel()
 
@@ -71,6 +75,11 @@ class OrderProductVO {
             OrderState.ORDER_STATE_CANCELLED.num->{OrderState.ORDER_STATE_CANCELLED}
             OrderState.ORDER_STATE_RETURNED.num->{OrderState.ORDER_STATE_RETURNED}
             OrderState.ORDER_STATE_EXCHANGED.num->{OrderState.ORDER_STATE_EXCHANGED}
+        }
+
+        when(deliveryIsSubscribed){
+            DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE.num->{orderProductModel.deliveryIsSubscribed=DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE}
+            DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE.num->{orderProductModel.deliveryIsSubscribed=DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE}
         }
 
 

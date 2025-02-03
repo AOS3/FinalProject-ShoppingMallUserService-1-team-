@@ -24,6 +24,7 @@ import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.model.DeliveryModel
 import com.example.frume.model.OrderModel
 import com.example.frume.model.OrderProductModel
+import com.example.frume.model.ProductModel
 import com.example.frume.model.UserModel
 import com.example.frume.service.CartProductService
 import com.example.frume.service.DeliveryService
@@ -35,6 +36,7 @@ import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
 import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderPaymentOption
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
@@ -44,10 +46,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 // 결제 화면
 class UserPaymentScreenFragment : Fragment() {
-
 
     private var _binding: FragmentUserPaymentScreenBinding? = null
     private val binding get() = _binding!!
@@ -61,8 +66,6 @@ class UserPaymentScreenFragment : Fragment() {
     // 주문자 정보 담을 변수
     var userModel: UserModel? = null
 
-    // 배송 정보 담을 변수
-    var deliveryModel: DeliveryModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,9 +77,9 @@ class UserPaymentScreenFragment : Fragment() {
             R.layout.fragment_user_payment_screen,
             container,
             false
+
         )
         homeActivity = activity as HomeActivity
-
 
         // 툴바 뒤로가기
         onClickToolbarNavigationBtn()
@@ -281,7 +284,15 @@ class UserPaymentScreenFragment : Fragment() {
         binding.imageViewUserPaymentAddressModify.setOnClickListener {
             // 배송지 수정 버튼 클릭 시, 배송지 관리 화면으로 이동
             val action =
-                UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserCartChoiceDeliverAddress(args.fromWhere)
+                UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserCartChoiceDeliverAddress(
+                    args.fromWhere,
+                    args.productDocIdDirectPurchase,
+                    args.dueDateDirectPurchase,
+                    args.deliverySubscribeStateDirectPurchase,
+                    args.productCountDirectPurchase
+                )
+
+
             findNavController().navigate(action)
         }
     }
@@ -521,21 +532,37 @@ class UserPaymentScreenFragment : Fragment() {
 
     // 배송비 설정
     fun settingViewDeliverCost() {
-        // 장바구니에 있는 물건들 총 가격 구매 여부가 true인것들 합계 구하기
-        CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO) {
-                CartProductService.gettingMyCartProductCheckedItems(homeActivity.userCartDocId)
-            }
-            val checkedList = work1.await()
-            var sumPrice = 0
-            checkedList.forEach { sumPrice += it.cartProductPrice }
+        // 장바구니 루트로 온 경우
+        if (args.fromWhere == "Cart") {
+            // 장바구니에 있는 물건들 총 가격 구매 여부가 true인것들 합계 구하기
+            CoroutineScope(Dispatchers.Main).launch {
+                val work1 = async(Dispatchers.IO) {
+                    CartProductService.gettingMyCartProductCheckedItems(homeActivity.userCartDocId)
+                }
+                val checkedList = work1.await()
+                var sumPrice = 0
+                checkedList.forEach { sumPrice += it.cartProductPrice }
 
-            if (sumPrice >= 50000) {
-                binding.textViewUserPaymentDeliveryCharge.text = "0원"
-            } else {
-                binding.textViewUserPaymentDeliveryCharge.text = "3000원"
+                if (sumPrice >= 50000) {
+                    binding.textViewUserPaymentDeliveryCharge.text = "0원"
+                } else {
+                    binding.textViewUserPaymentDeliveryCharge.text = "3000원"
+                }
             }
-
+        } else{
+            // 상품에서 바로 구매한 경우
+            CoroutineScope(Dispatchers.Main).launch {
+                val work1 = async(Dispatchers.IO){
+                    ProductService.gettingProductOneByDocId(args.productDocIdDirectPurchase!!)
+                }
+                val product = work1.await()
+                val productCost = product.productPrice * args.productCountDirectPurchase
+                if(productCost>=50000){
+                    binding.textViewUserPaymentDeliveryCharge.text = "0원"
+                }else{
+                    binding.textViewUserPaymentDeliveryCharge.text = "3000원"
+                }
+            }
         }
     }
 
@@ -568,26 +595,45 @@ class UserPaymentScreenFragment : Fragment() {
 
     // 상품 가격 표시
     fun settingViewProductsPrice() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO) {
-                CartProductService.gettingMyCartProductCheckedItems(homeActivity.userCartDocId)
-            }
-            val checkedList = work1.await()
-            var sumPrice = 0
-            checkedList.forEach {
-                sumPrice += it.cartProductPrice
+        when (args.fromWhere) {
+            "Cart" -> {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val work1 = async(Dispatchers.IO) {
+                        CartProductService.gettingMyCartProductCheckedItems(homeActivity.userCartDocId)
+                    }
+                    val checkedList = work1.await()
+                    var sumPrice = 0
+                    checkedList.forEach {
+                        sumPrice += it.cartProductPrice
+                    }
+
+                    binding.apply {
+                        textViewProductTotalPrice.text = "${sumPrice}원"
+                    }
+                }
             }
 
-            binding.apply {
-                textViewProductTotalPrice.text = "${sumPrice}원"
+            else -> {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val work1 = async(Dispatchers.IO) {
+                        ProductService.gettingProductOneByDocId(args.productDocIdDirectPurchase!!)
+                    }
+                    val productModel = work1.await()
+                    val sumPrice = productModel.productPrice * args.productCountDirectPurchase
+
+                    binding.apply {
+                        textViewProductTotalPrice.text = "${sumPrice}원"
+                    }
+                }
             }
         }
+
     }
 
     // 총 결제 금액 표시
     fun settingViewTotalCost() {
         CoroutineScope(Dispatchers.Main).launch {
-            delay(150)
+            delay(300)
             binding.apply {
                 // 상품 가격
                 val productPrice =
@@ -614,26 +660,32 @@ class UserPaymentScreenFragment : Fragment() {
     fun onClickButtonButtonUserCartOrder() {
         binding.buttonUserCartOrder.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
+                // 주문 성공 여부 변수
+                var result = true
+                // 1. 배송 정보 추가
+                val deliveryDocId = addDelivery()
+
+                // 2. 주문 추가 (배송 문서 ID 전달)
+                val orderDocId = addOrder(deliveryDocId)
+
                 // 장바구니에서 주문화면으로 도달한 경우
-                if(args.fromWhere == "Cart"){
-                    // 1. 배송 정보 추가
-                    val deliveryDocId = addDelivery()
-
-                    // 2. 주문 추가 (배송 문서 ID 전달)
-                    val orderDocId = addOrder(deliveryDocId)
-
+                result = if (args.fromWhere == "Cart") {
                     // 3. 주문 상품 추가 (주문 문서 ID 전달)
-                    val result = addOrderProduct(orderDocId)
-
-                    // 4. 결과에 따라 주소 변경
-                    if (result) {
-                        changeBasicDeliverAddress()
-                        // 5. 주문 후 장바구니에서 구매했던 품목은 삭제처리하기
-                        deleteCartProductAfterPurchase()
-                    }
-                }else{
+                    addOrderProduct(orderDocId)
+                } else {
                     // 상품 정보에서 바로 구매하러 온 경우
-
+                    addOrderProductWhenDirectPurchase(orderDocId)
+                }
+                // 4. 결과에 따라 주소 변경
+                if (result) {
+                    if (binding.checkboxUserPaymentDefaultAddress.isChecked) {
+                        // 기본 배송지로 설정을 체크했다면
+                        changeBasicDeliverAddress()
+                    }
+                    // 5. 주문 후 장바구니에서 구매했던 품목은 삭제처리하기
+                    deleteCartProductAfterPurchase()
+                    // 사용자 적립금 차감 메서드 호출
+                    updateUserReward()
                 }
             }
         }
@@ -665,23 +717,17 @@ class UserPaymentScreenFragment : Fragment() {
                     // 배송 방식 설정
                     addDeliveryModel.deliveryOption = deliverOption
 
-                    // 정기배송 여부 설정 (비구독 상태로 설정)
-                    addDeliveryModel.deliveryIsSubscribed =
-                        DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE // 0 : 비구독
-
                     // 기타 요청 사항 입력값 받기
                     addDeliveryModel.deliveryEtc =
                         textInputLayoutUserPaymentRequest.editText?.text.toString()
-
                 }
             }
 
-            // 배송이 추가되었음을 나타내는 메시지 반환
             // 배송 서비스 호출
             result = DeliveryService.addUserDelivery(addDeliveryModel)
 
             // 배송 DocId 리턴
-            result // 결과 문자열 반환
+            result
         }
     }
 
@@ -718,12 +764,11 @@ class UserPaymentScreenFragment : Fragment() {
                         OrderPaymentOption.ORDER_PAYMENT_OPTION_NAVER_PAY -> OrderPaymentOption.ORDER_PAYMENT_OPTION_NAVER_PAY
                     }
 
-                    // 배송 서비스 호출
+                    // 주문 추가 서비스 호출
                     result = OrderService.addMyOrder(addOrderModel)
                 }
             }
-
-            result // 결과 문자열 반환
+            result // orderDocId 문자열 반환
         }
     }
 
@@ -744,22 +789,23 @@ class UserPaymentScreenFragment : Fragment() {
                 // 주문상품 예정일
                 orderProductModel.orderDeliveryDueDate = it.cartItemDeliveryDueDate
                 // 주문상품 문서 ID 수정 hj orderProductDocId -> productDocId 수정함
-                orderProductModel.productDocId= it.cartItemProductDocId
+                orderProductModel.productDocId = it.cartItemProductDocId
                 // 주문상품 이미지 받아오기
-              //  val productModel = ProductService.getProductInfo(it.cartItemProductDocId)[0]
-              //  val imgPath = productModel.productImages
+                val productModel: ProductModel =
+                    ProductService.gettingProductOneByDocId(it.cartItemProductDocId)
+                val imgPath = productModel.productImages[0]
                 // 주문상품 이미지 설정
-               // orderProductModel.orderProductImagePath = imgPath[0]
+                orderProductModel.orderProductImagePath = imgPath
                 // 주문상품 단가
                 orderProductModel.orderProductPrice = it.cartProductUnitPrice
                 // 주문상품 가격
                 orderProductModel.orderProductTotalPrice = it.cartProductPrice
-
-
+                // 구독상품
+                orderProductModel.deliveryIsSubscribed = it.cartItemIsSubscribed
                 orderProductList.add(orderProductModel)
             }
 
-            // 배송 상품 추가 서비스 호출
+            // 주문 상품 추가 서비스 호출
             val result = OrderProductService.addOrderProduct(addOrderId, orderProductList)
 
             // 반환 값에 따라 처리 (예: 성공시 true, 실패시 false)
@@ -788,6 +834,106 @@ class UserPaymentScreenFragment : Fragment() {
 
             // 구매 품목 장바구니에서 제거
             CartProductService.deleteCartProducts(homeActivity.userCartDocId, deleteList)
+        }
+    }
+
+    // 사용자 적립금 차감 메서드
+    fun updateUserReward() {
+        CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val userModel = UserService.getUserInfo(homeActivity.loginUserDocumentId)[0]
+                var usedReward = 0
+                var leftReward = userModel.customerUserReward
+
+                val rewardInputText =
+                    binding.textInputLayoutUserPaymentSaving.editText?.text?.toString()
+                if (!rewardInputText.isNullOrEmpty()) {
+                    usedReward = rewardInputText.toInt()
+                    leftReward -= usedReward
+                }
+
+                userModel.customerUserReward = leftReward
+                UserService.updateUserData(userModel)
+
+            }
+        }
+    }
+
+    suspend fun addOrderProductWhenDirectPurchase(addOrderId: String): Boolean {
+        // 상품 정보 가져오기 (비동기)
+        val product = withContext(Dispatchers.IO) {
+            ProductService.gettingProductOneByDocId(args.productDocIdDirectPurchase ?: "")
+        }
+
+        val dueDateTimeStamp = convertToTimestamp(args.dueDateDirectPurchase ?: "2024-01-01")
+
+        // 주문상품 모델 설정
+        val orderProductModel = OrderProductModel().apply {
+            // order ID
+            orderId = addOrderId
+            // 주문상품 이름
+            orderProductName = product.productName
+            // 주문상품 수량
+            orderProductCount = args.productCountDirectPurchase
+            // 주문상품 예정일
+            orderDeliveryDueDate = dueDateTimeStamp
+            // 주문상품 문서 ID 수정 hj orderProductDocId -> productDocId 수정함
+            productDocId = product.productDocId
+            // 주문상품 이미지 받아오기
+            val imgPath = product.productImages[0]
+            // 주문상품 이미지 설정
+            orderProductImagePath = imgPath
+            // 주문상품 단가
+            orderProductPrice = product.productPrice
+            // 주문상품 가격
+            orderProductTotalPrice = product.productPrice * args.productCountDirectPurchase
+            // 구독상품
+            deliveryIsSubscribed = args.deliverySubscribeStateDirectPurchase
+        }
+
+        // 주문 상품 목록에 추가
+        val orderProductList = mutableListOf(orderProductModel)
+
+        // 주문 상품 추가 서비스 호출
+        val result = OrderProductService.addOrderProduct(addOrderId, orderProductList)
+
+        // 결과 반환
+        return result // 이 부분은 OrderProductService의 반환 값을 기반으로 true/false 반환
+    }
+
+
+    // 날짜 타입 변경 String-> Timestamp
+    // DB에 넣을때 오후 12시로 넣기위해, kst(한국시간 오후 12시) -> utc(세계기준시간 으로 변환)
+    // 시간 기준이 달라서 31일을 저장해도 30일로 저장되는 문제를 해결
+    // 아마 00시면 분단위로 짤려서 날짜가 조정됨 그래서 안전하게 오후 12시로 저장함
+    fun convertToTimestamp(dueDate: String): Timestamp {
+        // 날짜 포맷터 생성
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
+        dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+
+        return try {
+            // 문자열을 Date 객체로 변환
+            val parsedDate = dateFormatter.parse(dueDate)
+
+            if (parsedDate != null) {
+                // 시간을 오후 12시(정오)로 설정
+                val calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"))
+                calendar.time = parsedDate
+                calendar.set(Calendar.HOUR_OF_DAY, 12)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.MILLISECOND, 0)
+
+                // 변경된 시간을 UTC로 변환하여 Timestamp 객체 생성
+                val utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                utcCalendar.timeInMillis = calendar.timeInMillis
+                Timestamp(utcCalendar.time)
+            } else {
+                Timestamp.now()  // 날짜가 잘못된 경우 현재 시간을 반환
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Timestamp.now()  // 예외 발생 시 현재 시간 반환
         }
     }
 

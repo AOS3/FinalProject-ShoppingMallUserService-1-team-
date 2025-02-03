@@ -14,6 +14,7 @@ import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCartMainBinding
 import com.example.frume.databinding.ItemUsercartListBinding
 import com.example.frume.activity.HomeActivity
+import com.example.frume.fragment.user_fragment.product_info.UserProductInfoDialogFragmentDirections
 import com.example.frume.model.CartModel
 import com.example.frume.model.CartProductModel
 import com.example.frume.service.CartProductService
@@ -122,7 +123,8 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
 
                 // sehoon 장바구니 -> 저장
                 val action =
-                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null,"Cart")
+                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null,"Cart",null,null)
+
                 findNavController().navigate(action)
             }
         }
