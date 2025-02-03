@@ -136,7 +136,7 @@ class UserOrderDetailFragment : Fragment() {
 
                 // 2. orderModel 가져오기 (orderProductModel에서 orderId 사용)
                 orderModel = withContext(Dispatchers.IO) { gettingOrderModel(orderProductModel!!.orderId) }
-                Log.d("test100", "orderModel 가져옴: $orderModel")
+                Log.d("test100", "orderModel 가져오기: $orderModel")
 
                 // 3. deliveryModel 가져오기 (orderModel에서 deliverDocId 사용)
                 deliveryModel = withContext(Dispatchers.IO) { gettingDeliveryModel(orderModel!!.deliverDocId) }
