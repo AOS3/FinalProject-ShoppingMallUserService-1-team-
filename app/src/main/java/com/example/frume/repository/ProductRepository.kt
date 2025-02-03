@@ -1,5 +1,6 @@
 package com.example.frume.repository
 
+import android.util.Log
 import com.example.frume.data.Product
 import com.example.frume.vo.ProductVO
 import com.google.firebase.firestore.FirebaseFirestore
@@ -7,6 +8,7 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 
 class ProductRepository {
+
     companion object {
         // 카테고리별 목록 가져오기
         suspend fun gettingProductByCategory(productCategoryType: String): MutableList<ProductVO> {
@@ -137,7 +139,6 @@ class ProductRepository {
             return resultSet.toMutableList() // Set을 List로 변환하여 반환
         }
     }
-
     // 홈화면 recyclerview 전체 가져오기
     // 카테고리별 목록 가져오기
     suspend fun gettingProductAll(): List<Product> {

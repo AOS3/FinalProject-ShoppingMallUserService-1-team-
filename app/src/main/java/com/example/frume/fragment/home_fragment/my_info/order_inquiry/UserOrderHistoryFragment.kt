@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.frume.R
 import com.example.frume.activity.HomeActivity
 import com.example.frume.databinding.FragmentUserOrderHistoryBinding
@@ -179,7 +180,11 @@ class UserOrderHistoryFragment() : Fragment() {
         override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
              holder.itemProductOrderBinding.textViewItemProductOrderOrderStatus.text = showOrderProductList[position].orderState.str
              holder.itemProductOrderBinding.textViewItemProductOrderProductName.text = showOrderProductList[position].orderProductName
-             // holder.itemProductOrderBinding.imageViewItemProductOrderProduct.setImageResource(DummyData.dummyShippingItems[position].imgPath)
+            Glide.with(holder.itemProductOrderBinding.imageViewItemProductOrderProduct.context)
+                .load(showOrderProductList[position].orderProductImagePath)
+                .into(holder.itemProductOrderBinding.imageViewItemProductOrderProduct)
+
+
         }
     }
 

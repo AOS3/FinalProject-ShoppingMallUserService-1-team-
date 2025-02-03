@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.frume.R
 import com.example.frume.activity.HomeActivity
 import com.example.frume.databinding.FragmentUserOrderDetailBinding
@@ -181,6 +182,11 @@ class UserOrderDetailFragment : Fragment() {
                     textViewUserOrderDetailPriceContent.text = "${orderProductModel!!.orderProductTotalPrice} 원"
                     textViewUserOrderDetailQuantityContent.text = "${orderProductModel!!.orderProductCount} 개"
                     textViewUserOrderDetailShippingAddressContent.text = "${deliverAddressModel!!.deliveryAddressBasicAddress} ${deliverAddressModel!!.deliveryAddressDetailAddress}"
+
+                    Glide.with(imageViewUserOrderDetailImage.context)
+                        .load(orderProductModel!!.orderProductImagePath)
+                        .into(imageViewUserOrderDetailImage)
+
 
                     // 날짜 변환
                     val deliveryDateString = convertToDate(deliveryModel!!.deliveryTimeStamp)
