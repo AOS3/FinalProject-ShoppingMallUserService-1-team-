@@ -57,6 +57,9 @@ class CartProductModel {
     // 가격 수량*단가
     var cartProductPrice = 0
 
+    // 이미지
+    var cartProductImg = ""
+
     fun toCartProductVO(): CartProductVO {
         val cartProductVO = CartProductVO()
         cartProductVO.cartProductDocId = cartProductDocId
@@ -74,6 +77,7 @@ class CartProductModel {
         cartProductVO.cartProductPrice=cartProductPrice
         cartProductVO.cartProductName=cartProductName
         cartProductVO.cartProductUnitPrice=cartProductUnitPrice
+        cartProductVO.cartProductImg = cartProductImg
 
         return cartProductVO
     }
