@@ -61,6 +61,8 @@ class UserPaymentChoiceDeliveryAddressFragment : Fragment() {
         onClickToolbar()
         // 주소지 목록 가져오기
         gettingAddressList(homeActivity.loginUserDocumentId)
+        // 네비게이션 클릭 메서드 (툴바의 주소 추가 버튼)
+        onClickToolbarMenu()
     }
 
     override fun onResume() {
@@ -123,6 +125,21 @@ class UserPaymentChoiceDeliveryAddressFragment : Fragment() {
         }
     }
 
+    // 네비게이션 클릭 메서드 (툴바의 주소 추가 버튼)
+    private fun onClickToolbarMenu() {
+        binding.toolbarUserCartChoiceDeliveryAddress.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.menu_user_payment_choice_delivery_address_add->{
+                    val action= UserPaymentChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserAddressAdd()
+                    findNavController().navigate(action)
+                    true
+                }
+
+                else -> {true}
+            }
+        }
+    }
+
     // RecyclerView의 어댑터
     inner class RecyclerViewUserChoiceAddressManageAdapter(private val addressList: MutableList<DeliveryAddressModel>) : RecyclerView.Adapter<RecyclerViewUserChoiceAddressManageAdapter.ViewHolderUserChoiceAddress>() {
 
@@ -141,8 +158,6 @@ class UserPaymentChoiceDeliveryAddressFragment : Fragment() {
 
                         val action = UserPaymentChoiceDeliveryAddressFragmentDirections.actionUserCartChoiceDeliverAddressToUserPaymentScreen(selectedAddressModel.deliveryAddressDocId,args.fromWhere,args.productDocIdDirectPurchase,args.dueDateDirectPurchase,args.deliverySubscribeStateDirectPurchase, args.productCountDirectPurchase)
                         findNavController().navigate(action,  navOption)
-
-
 
                     })
                 }
