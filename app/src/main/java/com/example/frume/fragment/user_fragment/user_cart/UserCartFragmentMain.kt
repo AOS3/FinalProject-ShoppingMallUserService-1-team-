@@ -77,19 +77,13 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
     }
 
     // 장바구니 item 이 0일때 view
-    fun hideView() {
+    private fun hideView() {
         CoroutineScope(Dispatchers.Main).launch {
             fragmentUserCartBinding.apply {
                 if (cartProductList.isEmpty()) {
-                    Log.d("hideView", "cartProductList size: ${cartProductList.size}")
-                    textViewUserCartDialogPriceLabel.visibility = View.GONE // 숨김
-                    buttonUserCartOrder.visibility = View.GONE // 숨김
-                    textViewUserCartDialogPrice.visibility = View.GONE // 숨김
+                    groupTotalPrice.visibility = View.GONE // 카트 아이템이 없으면 버튼, 텍스트 숨김
                 } else {
-                    Log.d("hideView", "cartProductList size: ${cartProductList.size}")
-                    textViewUserCartDialogPriceLabel.visibility = View.VISIBLE
-                    buttonUserCartOrder.visibility = View.VISIBLE
-                    textViewUserCartDialogPrice.visibility = View.VISIBLE
+                    groupTotalPrice.visibility = View.VISIBLE // 카트 아이템이 없으면 버튼, 텍스트 숨김
                 }
             }
         }
@@ -123,7 +117,7 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
 
                 // sehoon 장바구니 -> 저장
                 val action =
-                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null,"Cart",null,null)
+                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null, "Cart", null, null)
 
                 findNavController().navigate(action)
             }
@@ -165,7 +159,7 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
                     // 어뎁터
                     recyclerViewUserCart.adapter = RecyclerViewCartAdapter()
                     // LayoutManager
-                 //   recyclerViewUserCart.layoutManager = LinearLayoutManager(homeActivity)
+                    //   recyclerViewUserCart.layoutManager = LinearLayoutManager(homeActivity)
                     // 구분선
 //                    val deco = MaterialDividerItemDecoration(
 //                        homeActivity,

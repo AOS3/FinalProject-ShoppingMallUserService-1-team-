@@ -13,9 +13,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
-import com.example.frume.databinding.FragmentUserLoginBinding
 import com.example.frume.activity.HomeActivity
 import com.example.frume.activity.LoginActivity
+import com.example.frume.databinding.FragmentUserLoginBinding
 import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import com.example.frume.util.LoginResult
@@ -50,12 +50,11 @@ class UserLoginFragment : Fragment() {
     }
 
     private fun setLayout() {
-
         onClickLoginBtn()
         onClickSignUpBtn()
         onClickNonMemberLoginBtn()
         setupErrorResetListeners()
-
+        userAutoLoginProcessing()
     }
 
     // sehoon 홈 화면 이동 메서드
@@ -99,6 +98,7 @@ class UserLoginFragment : Fragment() {
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                         textFieldUserLoginId.error = null // 에러 초기화
                     }
+
                     override fun afterTextChanged(s: Editable?) {}
                 })
             }
@@ -110,6 +110,7 @@ class UserLoginFragment : Fragment() {
                     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                         textFieldUserLoginPw.error = null // 에러 초기화
                     }
+
                     override fun afterTextChanged(s: Editable?) {}
                 })
             }
@@ -158,13 +159,13 @@ class UserLoginFragment : Fragment() {
                     }
 
                     LoginResult.LOGIN_RESULT_SUCCESS -> {
-                      
+
                         val work2 = async(Dispatchers.IO) {
                             UserService.selectUserDataByUserIdOne(loginUserId)
                         }
                         val loginUserModel = work2.await()
 
-                        val work3 = async(Dispatchers.IO){
+                        val work3 = async(Dispatchers.IO) {
                             CartService.gettingMyCart(loginUserModel.customerUserDocId)
                         }
                         val cartDocId = work3.await().cartDocId

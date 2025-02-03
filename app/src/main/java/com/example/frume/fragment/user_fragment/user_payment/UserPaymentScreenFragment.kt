@@ -1,5 +1,6 @@
 package com.example.frume.fragment.user_fragment.user_payment
 
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,16 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import android.widget.RadioButton
-
-
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.frume.activity.HomeActivity
 import com.example.frume.R
+import com.example.frume.activity.HomeActivity
 import com.example.frume.databinding.FragmentUserPaymentScreenBinding
 import com.example.frume.model.CartProductModel
 import com.example.frume.model.DeliveryAddressModel
@@ -34,7 +32,6 @@ import com.example.frume.service.ProductService
 import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
-import com.example.frume.util.DeliverySubscribeState
 import com.example.frume.util.OrderPaymentOption
 import com.example.frume.util.convertThreeDigitComma
 import com.google.firebase.Timestamp
@@ -61,6 +58,9 @@ class UserPaymentScreenFragment : Fragment() {
     lateinit var homeActivity: HomeActivity
     private var paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT
 
+    // 스크롤 위치 저장 변수
+    private var scrollPotition = 0
+
     // 배송지를 담을 변수 처음엔 기본배송지를 담을 예정
     var deliveryAddressSpot: DeliveryAddressModel? = null
 
@@ -86,7 +86,6 @@ class UserPaymentScreenFragment : Fragment() {
         onClickToolbarNavigationBtn()
 
         // 카드 선택 -> 카드사 선택 드롭 다운
-        setupPaymentCardDropdown()
 
         setupPaymentMethodButtons()
         setupCheckBoxListeners()
@@ -121,7 +120,26 @@ class UserPaymentScreenFragment : Fragment() {
         setupDeliveryWayRadioButtons()  // 배송 방식 라디오 버튼 설정
         // 주문자 정보 가져와 view에 적용하는 메서드 호출
         gettingUserInfo()
-        // sehoonTest()
+        onClickTextView()
+        setAccountAndCard(1)
+    }
+
+    private fun onClickTextView() {
+        binding.scrollView.post {
+            binding.scrollView.scrollTo(0, scrollPotition)
+        }
+        // 배송 안내
+        binding.textViewUserPaymentGuide1.setOnClickListener {
+            scrollPotition = binding.scrollView.scrollY
+            val action = UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserPaymentWebView(0)
+            findNavController().navigate(action)
+        }
+        // 교환 안내
+        binding.textViewUserPaymentGuide2.setOnClickListener {
+            scrollPotition = binding.scrollView.scrollY
+            val action = UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserPaymentWebView(1)
+            findNavController().navigate(action)
+        }
     }
 
     // 툴바 내비게이션 버튼 클릭 리스너
@@ -153,9 +171,45 @@ class UserPaymentScreenFragment : Fragment() {
         // autoCompletePaymentCardTextView 항목 선택 이벤트 리스너 설정
         autoCompletePaymentCardTextView.setOnItemClickListener { parent, view, position, id ->
             val selectedCardType = parent.getItemAtPosition(position).toString()
-            // 선택된 항목 처리
-            Toast.makeText(requireContext(), "선택된 상태 : $selectedCardType", Toast.LENGTH_SHORT)
-                .show()
+        }
+    }
+
+    private fun setAccountAndCard(type: Int) {
+        when (type) {
+            1 -> {
+                with(binding) {
+                    textInputLayoutUserPaymentCard.visibility = View.VISIBLE
+                    textViewUserPaymentCard.visibility = View.VISIBLE
+                    textViewUserPaymentStar.visibility = View.VISIBLE
+
+                    textViewUserPaymentCard.text = "계좌 번호"
+                    textInputLayoutUserPaymentCard.hint = "계좌 번호"
+                    textInputLayoutUserPaymentCard.editText?.setText("푸르미(멋사) 20250106-20250206")
+                    textInputLayoutUserPaymentCard.isEnabled = false
+                }
+            }
+
+            2 -> {
+                with(binding) {
+                    textInputLayoutUserPaymentCard.visibility = View.VISIBLE
+                    textViewUserPaymentCard.visibility = View.VISIBLE
+                    textViewUserPaymentStar.visibility = View.VISIBLE
+
+                    textViewUserPaymentCard.text = "카드 선택"
+                    textInputLayoutUserPaymentCard.hint = "카드"
+                    textInputLayoutUserPaymentCard.editText?.setText("선택")
+                    textInputLayoutUserPaymentCard.isEnabled = true
+                    setupPaymentCardDropdown()
+                }
+            }
+
+            else -> {
+                with(binding) {
+                    textInputLayoutUserPaymentCard.visibility = View.GONE
+                    textViewUserPaymentCard.visibility = View.GONE
+                    textViewUserPaymentStar.visibility = View.GONE
+                }
+            }
         }
     }
 
@@ -188,60 +242,27 @@ class UserPaymentScreenFragment : Fragment() {
                 when (button.id) {
                     R.id.buttonUserPaymentPaymentMethodAccount -> {
                         // 계좌이체 버튼 선택 시 동작
-                        //Toast.makeText(requireContext(), "계좌이체 선택", Toast.LENGTH_SHORT).show()
-                        /*       collapseView(binding.textInputLayoutUserPaymentCard)
-                               collapseView(binding.textViewUserPaymentCard)
-                               collapseView(binding.textViewUserPaymentStar)*/
-                        binding.apply {
-                            textInputLayoutUserPaymentCard.visibility = View.GONE
-                            textViewUserPaymentCard.visibility = View.GONE
-                            textViewUserPaymentStar.visibility = View.GONE
-                        }
+                        setAccountAndCard(1)
                         paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_ACCOUNT
                     }
 
                     R.id.buttonUserPaymentPaymentMethodCard -> {
                         // 신용카드 버튼 선택 시 동작
-                        //Toast.makeText(requireContext(), "신용카드 선택", Toast.LENGTH_SHORT).show()
-                        /*expandView(binding.textInputLayoutUserPaymentCard)
-                        expandView(binding.textViewUserPaymentCard)
-                        expandView(binding.textViewUserPaymentStar)*/
-                        binding.apply {
-                            textInputLayoutUserPaymentCard.visibility = View.VISIBLE
-                            textViewUserPaymentCard.visibility = View.VISIBLE
-                            textViewUserPaymentStar.visibility = View.VISIBLE
-                        }
+                        setAccountAndCard(2)
                         paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_CARD
-
 
                     }
 
                     R.id.buttonUserPaymentPaymentMethodKakaoPay -> {
                         // 카카오페이 버튼 선택 시 동작
-                        //Toast.makeText(requireContext(), "카카오페이 선택", Toast.LENGTH_SHORT).show()
-                        /*  collapseView(binding.textInputLayoutUserPaymentCard)
-                          collapseView(binding.textViewUserPaymentCard)
-                          collapseView(binding.textViewUserPaymentStar)*/
-                        binding.apply {
-                            textInputLayoutUserPaymentCard.visibility = View.GONE
-                            textViewUserPaymentCard.visibility = View.GONE
-                            textViewUserPaymentStar.visibility = View.GONE
-                        }
+                        setAccountAndCard(3)
                         paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_KAKAO_PAY
 
                     }
 
                     R.id.buttonUserPaymentPaymentMethodNaverPay -> {
                         // 네이버페이 버튼 선택 시 동작
-                        //Toast.makeText(requireContext(), "네이버페이 선택", Toast.LENGTH_SHORT).show()
-                        /*      collapseView(binding.textInputLayoutUserPaymentCard)
-                              collapseView(binding.textViewUserPaymentCard)
-                              collapseView(binding.textViewUserPaymentStar)*/
-                        binding.apply {
-                            textInputLayoutUserPaymentCard.visibility = View.GONE
-                            textViewUserPaymentCard.visibility = View.GONE
-                            textViewUserPaymentStar.visibility = View.GONE
-                        }
+                        setAccountAndCard(4)
                         paymentOptionState = OrderPaymentOption.ORDER_PAYMENT_OPTION_NAVER_PAY
                     }
                 }
@@ -580,6 +601,7 @@ class UserPaymentScreenFragment : Fragment() {
                 if (productCost >= 50000) {
                     binding.textViewUserPaymentDeliveryCharge.text = "0원"
                 } else {
+
                     binding.textViewUserPaymentDeliveryCharge.text = "3,000원"
                 }
             }

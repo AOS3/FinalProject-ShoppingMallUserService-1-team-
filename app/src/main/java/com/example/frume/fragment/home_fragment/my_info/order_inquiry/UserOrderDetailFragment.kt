@@ -22,6 +22,7 @@ import com.example.frume.service.DeliveryService
 import com.example.frume.service.OrderProductService
 import com.example.frume.service.OrderService
 import com.example.frume.service.UserDeliveryAddressService
+import com.example.frume.util.convertThreeDigitComma
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -179,7 +180,8 @@ class UserOrderDetailFragment : Fragment() {
                 // 데이터가 준비되었으면 화면 업데이트
                 binding.apply {
                     textViewUserOrderDetailProductNameContent.text = orderProductModel!!.orderProductName
-                    textViewUserOrderDetailPriceContent.text = "${orderProductModel!!.orderProductTotalPrice} 원"
+                    //textViewUserOrderDetailPriceContent.text = "${orderProductModel!!.orderProductTotalPrice} 원"
+                    textViewUserOrderDetailPriceContent.text = orderProductModel!!.orderProductTotalPrice.convertThreeDigitComma()
                     textViewUserOrderDetailQuantityContent.text = "${orderProductModel!!.orderProductCount} 개"
                     textViewUserOrderDetailShippingAddressContent.text = "${deliverAddressModel!!.deliveryAddressBasicAddress} ${deliverAddressModel!!.deliveryAddressDetailAddress}"
 

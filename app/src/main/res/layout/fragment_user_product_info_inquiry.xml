@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-	<data>
 
-	</data>
+	<TextView
+		android:id="@+id/tv_product_inquiry"
+		style="@style/AppText5.S17"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="20dp"
+		android:text="상품문의"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
-	<androidx.constraintlayout.widget.ConstraintLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoInquiryFragment">
+	<com.google.android.material.checkbox.MaterialCheckBox
+		android:id="@+id/cb_product_inquiry"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="10dp"
+		android:layout_marginTop="5dp"
+		android:text="비밀글 제외"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/tv_product_inquiry" />
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:text="문의 하기 추후 예정" />
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/rv_product_inquiry"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/cb_product_inquiry"
+		tools:listitem="@layout/item_inquiry" />
 
-	</androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
