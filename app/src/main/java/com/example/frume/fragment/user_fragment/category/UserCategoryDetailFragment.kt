@@ -6,31 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserCategoryDetailBinding
-import com.example.frume.databinding.ItemProductBinding
 import com.example.frume.model.ProductModel
 import com.example.frume.service.ProductService
-import com.example.frume.util.convertThreeDigitComma
+import com.example.frume.util.SortType
+import com.example.frume.util.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-class UserCategoryDetailFragment : Fragment() {
+class UserCategoryDetailFragment : Fragment(), ProductCategoryItemClickListener {
     private var _binding: FragmentUserCategoryDetailBinding? = null
     private val binding get() = _binding!!
     private val args: UserCategoryDetailFragmentArgs by navArgs()
-    var recyclerViewListByCategoryList = mutableListOf<ProductModel>()
+    private lateinit var categoryAdapter: CategoryAdapter
+    private val recyclerViewListByCategoryList = mutableListOf<ProductModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +44,7 @@ class UserCategoryDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerViewUserCategoryDetail.adapter = null
         _binding = null
     }
 
@@ -59,13 +57,8 @@ class UserCategoryDetailFragment : Fragment() {
     private fun setLayout() {
         // 툴바 설정(상단이름 + 뒤로가기 구현)
         settingToolbar()
-        /* // RecyclerView 설정
-         settingRecyclerView()*/
         onClickToolbar()
-        // settingRecyclerView
         settingCategoryRecyclerView()
-        // 리사이클러뷰 갱신
-        refreshCategoryRecyclerView(args.categoryMethod.str)
         setupSortDropdown()
     }
 
@@ -73,8 +66,12 @@ class UserCategoryDetailFragment : Fragment() {
         // 과일 카테고리 이름을 가져와 툴바 바꾸기
         if (args.categoryMethod.str == "검색") {
             binding.toolbarUserCategoryDetail.title = args.searchMethod
+            Log.d("detail", "검색으로 진입")
+            refreshCategoryRecyclerView(1)
         } else {
             binding.toolbarUserCategoryDetail.title = args.categoryMethod.str
+            Log.d("detail", "카테고리로 진입")
+            refreshCategoryRecyclerView(2)
         }
     }
 
@@ -85,51 +82,23 @@ class UserCategoryDetailFragment : Fragment() {
         }
     }
 
-    /*   private fun settingRecyclerView() {
-           binding.apply {
-               recyclerViewUserCategoryDetail.adapter = ProductRecyclerViewAdapter(recyclerViewListByCategoryL) { product ->
-                   val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product.productDocId)
-                   findNavController().navigate(action)
-               }
-           }
-       }*/
-
     // 메인 RecyclerView 구성 메서드
     fun settingCategoryRecyclerView() {
-        binding.apply {
-            recyclerViewUserCategoryDetail.adapter = CategoryRecyclerViewAdapter()
+        categoryAdapter = CategoryAdapter(this)
+        binding.recyclerViewUserCategoryDetail.adapter = categoryAdapter
+    }
 
-            // 2열로 구성
-            recyclerViewUserCategoryDetail.layoutManager = GridLayoutManager(requireContext(), 2)
+    // 정렬 메서드
+    private fun sortList(sortType: SortType) {
+        val sortedList = when (sortType) {
+            SortType.SALES_ASC -> recyclerViewListByCategoryList.sortedBy { it.productSalesCount }
+            SortType.SALES_DESC -> recyclerViewListByCategoryList.sortedByDescending { it.productSalesCount }
+            SortType.PRICE_ASC -> recyclerViewListByCategoryList.sortedBy { it.productPrice }
+            SortType.PRICE_DESC -> recyclerViewListByCategoryList.sortedByDescending { it.productPrice }
         }
-    }
 
-    // 판매량 오름차 정렬
-    fun sortBySalesCount() {
-        recyclerViewListByCategoryList.sortBy { it.productSalesCount }
-
-        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-    }
-
-    // 판매량 내림차 정렬
-    fun sortDescendingBySalesCount() {
-        recyclerViewListByCategoryList.sortByDescending { it.productSalesCount }
-
-        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-    }
-
-    // 가격 오름차 정렬
-    fun sortByPrice() {
-        recyclerViewListByCategoryList.sortBy { it.productPrice }
-
-        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
-    }
-
-    // 가격 내림차 정렬
-    fun sortDescendingByPrice() {
-        recyclerViewListByCategoryList.sortByDescending { it.productPrice }
-
-        binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
+        // 정렬 후 리스트 갱신
+        categoryAdapter.updateList(sortedList)
     }
 
     // 정렬 드롭다운 메뉴 버튼 리스너
@@ -138,7 +107,6 @@ class UserCategoryDetailFragment : Fragment() {
             binding.autoCompleteTextViewUserCategoryDetailSalesCount
         // 드롭다운 데이터 정의
         val filterState = listOf("판매량 적은순", "판매량 많은순", "가격 낮은순", "가격 높은순")
-
 
         // ArrayAdapter 생성 (autoCompleteOrderStateTextView에 데이터를 연결)
         val adapterSalesCountState = ArrayAdapter(
@@ -152,119 +120,45 @@ class UserCategoryDetailFragment : Fragment() {
 
         // autoCompleteSearchPeriodTextView에 어댑터 연결
 
-        // autoCompleteOrderStateTextView 항목 선택 이벤트 리스너 설정
-        autoCompleteTextViewUserCategoryDetailFilterText.setOnItemClickListener { parent, view, position, id ->
-            val selectedProductSalesCountState = parent.getItemAtPosition(position).toString()
-            // 선택된 항목 처리
-            // 선택된 항목에 따라 메서드를 실행
-            when (position) {
-                0 -> {
-                    // 판매량 적은순 처리
-                    sortBySalesCount()
-                    Toast.makeText(
-                        requireContext(),
-                        "선택된 상태: 판매량 적은순",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        autoCompleteTextViewUserCategoryDetailFilterText.setAdapter(adapterSalesCountState)
 
-                1 -> {
-                    // 판매량 많은순 처리
-                    sortDescendingBySalesCount()
-                    Toast.makeText(
-                        requireContext(),
-                        "선택된 상태: 판매량 많은순",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                2 -> {
-                    // 가격 낮은순 처리
-                    sortByPrice()
-                    Toast.makeText(
-                        requireContext(),
-                        "선택된 상태: 가격 낮은순",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                3 -> {
-                    // 가격 높은순 처리
-                    sortDescendingByPrice()
-                    Toast.makeText(
-                        requireContext(),
-                        "선택된 상태: 가격 높은순",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-                else -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "알 수 없는 상태",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        autoCompleteTextViewUserCategoryDetailFilterText.setOnItemClickListener { parent, _, position, _ ->
+            val selectedSortType = when (position) {
+                0 -> SortType.SALES_ASC
+                1 -> SortType.SALES_DESC
+                2 -> SortType.PRICE_ASC
+                3 -> SortType.PRICE_DESC
+                else -> null
             }
+
+            selectedSortType?.let { sortList(it) } ?: requireContext().showToast("검색 결과가 없습니다")
         }
-
     }
-
 
     // 데이터를 가져와 MainRecyclerView를 갱신하는 메서드
-    fun refreshCategoryRecyclerView(category: String) {
-        // Log.d("test100", "UserProductShowListFragment : refreshMainRecyclerView")
-
+    private fun refreshCategoryRecyclerView(category: Int) {
         CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO) {
-                ProductService.gettingProductByCategory(category)
+            val resultList = withContext(Dispatchers.IO) {
+                when (category) {
+                    1 -> ProductService.getSearchProductInfo(args.searchMethod!!)
+                    else -> ProductService.gettingProductByCategory(args.categoryMethod.str)
+                }
             }
-            work1.await().forEach {
-                Log.d("await", it.productCategory3)
+
+            if (resultList.isEmpty()) {
+                binding.textViewUserCategoryDetailNoSearch.visibility = View.VISIBLE
+            } else {
+                binding.textViewUserCategoryDetailNoSearch.visibility = View.GONE
+                recyclerViewListByCategoryList.clear()
+                recyclerViewListByCategoryList.addAll(resultList)
             }
-            recyclerViewListByCategoryList = work1.await()
-            binding.recyclerViewUserCategoryDetail.adapter?.notifyDataSetChanged()
+            // 어댑터 갱신
+            categoryAdapter.updateList(recyclerViewListByCategoryList)
         }
     }
 
-
-    // CategoryRecyclerView의 어뎁터
-    inner class CategoryRecyclerViewAdapter :
-        RecyclerView.Adapter<CategoryRecyclerViewAdapter.CategoryViewHolder>() {
-        inner class CategoryViewHolder(val itemProductBinding: ItemProductBinding) :
-            RecyclerView.ViewHolder(itemProductBinding.root)
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-            val itemProductBinding = DataBindingUtil.inflate<ItemProductBinding>(
-                layoutInflater,
-                R.layout.item_product,
-                parent,
-                false
-            )
-            val categoryViewHolder = CategoryViewHolder(itemProductBinding)
-
-            itemProductBinding.root.setOnClickListener {
-                val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(recyclerViewListByCategoryList[categoryViewHolder.adapterPosition].productDocId)
-                findNavController().navigate(action)
-            }
-
-            return categoryViewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return recyclerViewListByCategoryList.size
-        }
-
-        override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-            Glide.with(requireContext())
-                .load(recyclerViewListByCategoryList[position].productImages[0])
-                .into(holder.itemProductBinding.imageViewItemProductThumbNail)
-            holder.itemProductBinding.textViewItemProductTitle.text =
-                recyclerViewListByCategoryList[position].productName
-            // Log.d("test100", "recyclerViewListByCategoryList[${position}].productName : ${recyclerViewListByCategoryList[position].productName}")
-            holder.itemProductBinding.textViewItemProductDescription.text =
-                recyclerViewListByCategoryList[position].productDescription
-            holder.itemProductBinding.textViewItemProductPrice.text = recyclerViewListByCategoryList[position].productPrice.convertThreeDigitComma()
-        }
+    override fun onClickProductItem(product: ProductModel) {
+        val action = UserCategoryDetailFragmentDirections.actionUserCategoryDetailToUserProductInfo(product.productDocId)
+        findNavController().navigate(action)
     }
 }

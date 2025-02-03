@@ -1,8 +1,6 @@
 package com.example.frume.repository
 
-import android.util.Log
 import com.example.frume.data.Product
-import com.example.frume.model.ProductModel
 import com.example.frume.vo.ProductVO
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -71,6 +69,16 @@ class ProductRepository {
         }
 
 
+        // productDocId로 상품 정보 가져오기
+        suspend fun getProductInfo(productID: String): Product {
+            val firestore = FirebaseFirestore.getInstance()
+            val collectionReference = firestore.collection("productData")
+
+            val product = collectionReference.whereEqualTo("productDocId", productID).get().await()
+
+            return product.documents[0].toObject(Product::class.java)!!
+        }
+
         // 홈화면 탭바 별로 가져오기(신제품, 특가, 베스트, 1인, 패키지)
         // 상품 문서 ID로 상품 한개 Model 가져오기 hj
         suspend fun gettingProductOneByDocId(selectProductDocId: String): ProductVO {
@@ -83,16 +91,35 @@ class ProductRepository {
         }
 
         // productDocId로 상품 정보 가져오기
-        suspend fun getProductInfo(productID: String): Product {
+        suspend fun getSearchProductInfo(searchKeyword: String): MutableList<ProductVO> {
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("productData")
 
-            val product = collectionReference.whereEqualTo("productDocId", productID).get().await()
+            val queries = listOf(
+                collectionReference.whereGreaterThanOrEqualTo("productName", searchKeyword)
+                    .whereLessThan("productName", searchKeyword + "\uf8ff"),
+                collectionReference.whereGreaterThanOrEqualTo("productCategory1", searchKeyword)
+                    .whereLessThan("productCategory1", searchKeyword + "\uf8ff"),
+                collectionReference.whereGreaterThanOrEqualTo("productCategory2", searchKeyword)
+                    .whereLessThan("productCategory2", searchKeyword + "\uf8ff"),
+                collectionReference.whereGreaterThanOrEqualTo("productCategory3", searchKeyword)
+                    .whereLessThan("productCategory3", searchKeyword + "\uf8ff")
+            )
 
-            return product.documents[0].toObject(Product::class.java)!!
+            val resultSet = mutableSetOf<ProductVO>() // 중복 방지를 위한 Set 사용
+            val seenProductIds = mutableSetOf<String>()  // 중복 확인용 productDocId Set
+
+            for (query in queries) {
+                val querySnapshot = query.get().await()
+                for (product in querySnapshot.toObjects(ProductVO::class.java)) {
+                    if (product.productDocId !in seenProductIds) {
+                        seenProductIds.add(product.productDocId) // ID 등록
+                        resultSet.add(product) // 중복 제거된 상품 추가
+                    }
+                }
+            }
+            return resultSet.toMutableList() // Set을 List로 변환하여 반환
         }
-
-
     }
 
     // 홈화면 recyclerview 전체 가져오기
