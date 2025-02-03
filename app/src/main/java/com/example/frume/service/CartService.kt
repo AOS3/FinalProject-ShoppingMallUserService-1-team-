@@ -1,11 +1,7 @@
 package com.example.frume.service
 
-import android.util.Log
 import com.example.frume.model.CartModel
 import com.example.frume.repository.CartRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class CartService {
     companion object{
@@ -24,8 +20,5 @@ class CartService {
             val myCartModel = cartVoList[0].toCartModel()
             return myCartModel
         }
-
-
-
     }
 }
