@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.frume.R
@@ -50,6 +52,7 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
     ): View {
         Log.d("test100", "onCreateView")
 
+
         homeActivity = activity as HomeActivity
 
         fragmentUserCartBinding =
@@ -57,7 +60,20 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
 
         setLayout()
 
+        // 바텀시트 프래그먼트에서 전송한 데이터 수신
+        setFragmentResultListener("requestKey") { _, bundle ->
+            val result = bundle.getString("bundleKey")
+            result?.let {
+                handleResult(it) // 바텀시트에서 보낸 데이터 기반으로 메서드 실행
+            }
+        }
         return fragmentUserCartBinding.root
+    }
+
+    private fun handleResult(data: String) {
+        // 바텀시트에서 받은 데이터 처리 (여기서 원하는 메서드 실행 가능)
+        Toast.makeText(requireContext(), "Received: $data", Toast.LENGTH_SHORT).show()
+        settingListAndRecyclerView()
     }
 
     private fun setLayout() {
@@ -117,7 +133,12 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
 
                 // sehoon 장바구니 -> 저장
                 val action =
-                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(null, "Cart", null, null)
+                    UserCartFragmentMainDirections.actionNavigationCartToUserPaymentScreen(
+                        null,
+                        "Cart",
+                        null,
+                        null
+                    )
 
                 findNavController().navigate(action)
             }
@@ -139,7 +160,6 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
             }
             // 장바구니 품목들을 가져온다.
             cartProductList = work2.await()
-
         }
     }
 
@@ -248,7 +268,8 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
                 cartProductList[position].cartProductName
             holder.itemCartListBinding.textViewRecyclerViewProductCount.text =
                 productQuantity.toString()
-            holder.itemCartListBinding.textViewRecyclerViewProductPrice.text = sumPrice.convertThreeDigitComma()
+            holder.itemCartListBinding.textViewRecyclerViewProductPrice.text =
+                sumPrice.convertThreeDigitComma()
             holder.itemCartListBinding.checkboxRecyclerViewSelect.isChecked =
                 cartProductList[position].cartItemIsCheckState.bool
             holder.itemCartListBinding.TextViewProductDueDate.text = dueDateToString
@@ -418,7 +439,8 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
         val sumPrice = calculationSumPrice()
         // UI 업데이트는 반드시 메인 스레드에서 해야 함
         CoroutineScope(Dispatchers.Main).launch {
-            fragmentUserCartBinding.textViewUserCartDialogPrice.text = sumPrice.convertThreeDigitComma()
+            fragmentUserCartBinding.textViewUserCartDialogPrice.text =
+                sumPrice.convertThreeDigitComma()
         }
     }
 

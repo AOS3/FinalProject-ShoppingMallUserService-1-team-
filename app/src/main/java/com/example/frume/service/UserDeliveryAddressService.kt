@@ -93,10 +93,11 @@ class UserDeliveryAddressService {
         }
 
         // 배송지를 수정하는 메서드
-        suspend fun updateUserDeliveryAddress(deliveryAddressModel: DeliveryAddressModel){
+        suspend fun updateUserDeliveryAddress(deliveryAddressModel: DeliveryAddressModel, deliveryAddressDocId : String){
             val deliveryAddressVO = deliveryAddressModel.toDeliverAddressVO()
+
             // repository 연결
-            UserDeliveryAddressRepository.updateUserDeliveryAddress(deliveryAddressVO, deliveryAddressModel.deliveryAddressDocId)
+            UserDeliveryAddressRepository.updateUserDeliveryAddress(deliveryAddressVO, deliveryAddressDocId)
         }
 
         /*suspend fun selectUserAddressByuserDocumentId(deliveryAddressDocId:String) : DeliveryAddressModel{
