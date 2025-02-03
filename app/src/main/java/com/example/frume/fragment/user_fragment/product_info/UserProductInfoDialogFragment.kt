@@ -424,6 +424,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
         // `dueDate`를 `Timestamp`로 변환하여 할당
         cartProductModel.cartItemDeliveryDueDate = convertToTimestamp(dueDate)
         cartProductModel.cartProductUnitPrice = productModel.productPrice
+        cartProductModel.cartProductImg = productModel.productImages[0]
 
         // 필요한 변환 작업 수행
         cartProductModel.cartItemProductQuantity = productCount.toIntOrNull() ?: 0

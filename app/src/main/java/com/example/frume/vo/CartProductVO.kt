@@ -54,6 +54,9 @@ class CartProductVO {
     // 단가 * 수량 가격
     var cartProductPrice = 0
 
+    // 이미지
+    var cartProductImg = ""
+
 
 
     fun toCartProductModel(): CartProductModel {
@@ -68,6 +71,7 @@ class CartProductVO {
         cartProductModel.cartProductPrice = cartProductPrice
         cartProductModel.cartProductName = cartProductName
         cartProductModel.cartProductUnitPrice=cartProductUnitPrice
+        cartProductModel.cartProductImg = cartProductImg
 
 
         when(cartItemIsSubscribed){
