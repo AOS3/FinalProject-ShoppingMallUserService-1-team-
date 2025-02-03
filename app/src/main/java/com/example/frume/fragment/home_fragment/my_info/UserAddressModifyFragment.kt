@@ -39,7 +39,7 @@ class UserAddressModifyFragment : Fragment() {
 
     lateinit var homeActivity: HomeActivity
     // 사용자 정보를 담을 변수
-    lateinit var deliveryAddressModel: DeliveryAddressModel
+     var deliveryAddressModel: DeliveryAddressModel? = null
 
     // 전역 변수 선언 (이 변수에 주소를 저장)
     private val getCustomerUserAddressModify = mutableMapOf<String, String>()

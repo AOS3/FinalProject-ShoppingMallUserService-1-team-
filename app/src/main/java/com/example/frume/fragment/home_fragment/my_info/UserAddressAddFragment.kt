@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.activity.AddressActivity
 import com.example.frume.databinding.FragmentUserAddressAddBinding
