@@ -44,6 +44,7 @@ class UserAddressManageFragment : Fragment() {
                 container,
                 false
             )
+        gettingAddressList(homeActivity.loginUserDocumentId)
 
         return binding.root
     }
@@ -60,13 +61,13 @@ class UserAddressManageFragment : Fragment() {
 
     // 화면 구성 메서드 (RecyclerView, 버튼 클릭 등 설정)
     private fun setLayout() {
+
         // RecyclerView 설정
         settingRecyclerViewUserAddressManage()
         // 배송지 추가 버튼 클릭 리스너 설정
         onClickAddressAddBtn()
         // 툴바 네비게이션 클릭 리스너 설정
         onClickToolbar()
-        gettingAddressList(homeActivity.loginUserDocumentId)
     }
 
     // RecyclerView를 구성하는 메서드
@@ -160,6 +161,7 @@ class UserAddressManageFragment : Fragment() {
                     val action =
                         UserAddressManageFragmentDirections.actionUserAddressManageToUserAddressModifyFragment(address.deliveryAddressDocId) // 여기서 address를 인자로 전달
                     findNavController().navigate(action)
+
                 }
             }
         }

@@ -103,7 +103,7 @@ class BottomSheetShowCartOptionFragment : BottomSheetDialogFragment() {
                     Log.d("test100","22222${cartProductModel.cartItemProductQuantity}")
                     var productQuantity = cartProductModel.cartItemProductQuantity
                     Log.d("test100","333333${productQuantity}")
-                    var productSumPrice = cartProductModel.cartProductPrice * productQuantity
+                    var productSumPrice = cartProductModel.cartProductUnitPrice * productQuantity
                     editTextBottomSheetShowCartOptionProductCount.setText(productQuantity.toString())
                     textViewBottomSheetShowCartOptionPrice.text = productSumPrice.toString()
                     textViewBottomSheetShowCartOptionDate.text =
