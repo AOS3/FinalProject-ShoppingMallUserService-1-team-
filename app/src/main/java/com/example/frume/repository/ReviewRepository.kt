@@ -69,21 +69,11 @@ class ReviewRepository {
         }
 
 
-
         // 내가 작성한 특정 상품에 대한 후기 수 가져오기
         suspend fun getMyReviewCountByProduct(productDocId: String, userId: String): Int {
 
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("reviewData")
-
-    }
-
-    // sehoon userDocID로 리뷰 정보 가져오기
-    suspend fun getAllReview(): List<MyReviewParent> {
-        val firestore = FirebaseFirestore.getInstance()
-        val collectionReference = firestore.collection("reviewData")
-        val reviewResult = mutableListOf<MyReviewParent>()
-
 
             return try {
                 val reviewSnapshot = collectionReference
@@ -100,6 +90,7 @@ class ReviewRepository {
                 e.printStackTrace()
                 0 // 오류 시 0 반환
             }
+
         }
 
         // 이 상품을 내가 주문한 횟수 가져오기
@@ -138,81 +129,81 @@ class ReviewRepository {
         }
 
     }
-        // sehoon userDocID로 리뷰 정보 가져오기
-        suspend fun getAllReview(): List<MyReviewParent> {
-            val firestore = FirebaseFirestore.getInstance()
-            val collectionReference = firestore.collection("reviewData")
-            val reviewResult = mutableListOf<MyReviewParent>()
+    // sehoon userDocID로 리뷰 정보 가져오기
+    suspend fun getAllReview(): List<MyReviewParent> {
+        val firestore = FirebaseFirestore.getInstance()
+        val collectionReference = firestore.collection("reviewData")
+        val reviewResult = mutableListOf<MyReviewParent>()
 
-            try {
-                val reviewSnapshot = collectionReference
-                    .orderBy("reviewTimeStamp", Query.Direction.DESCENDING) // Firestore에서 직접 정렬
-                    .get()
-                    .await()
+        try {
+            val reviewSnapshot = collectionReference
+                .orderBy("reviewTimeStamp", Query.Direction.DESCENDING) // Firestore에서 직접 정렬
+                .get()
+                .await()
 
-                Log.d("Firestore", "총 가져온 문서 개수: ${reviewSnapshot.documents.size}")
+            Log.d("Firestore", "총 가져온 문서 개수: ${reviewSnapshot.documents.size}")
 
-                for (document in reviewSnapshot) {
-                    Log.d("Firestore", "문서 데이터: ${document.data}")
+            for (document in reviewSnapshot) {
+                Log.d("Firestore", "문서 데이터: ${document.data}")
 
-                    val review = document.toObject(MyReviewParent::class.java)
-                    reviewResult.add(review)
-                    Log.d("Firestore", "변환된 객체: $review")
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                val review = document.toObject(MyReviewParent::class.java)
+                reviewResult.add(review)
+                Log.d("Firestore", "변환된 객체: $review")
             }
-            return reviewResult
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        return reviewResult
+    }
 
-        // sehoon userDocID로 리뷰 정보 가져오기
-        suspend fun getUserReview(userDocId: String): List<MyReviewParent> {
-            val firestore = FirebaseFirestore.getInstance()
-            val collectionReference = firestore.collection("reviewData")
-            val reviewResult = mutableListOf<MyReviewParent>()
+    // sehoon userDocID로 리뷰 정보 가져오기
+    suspend fun getUserReview(userDocId: String): List<MyReviewParent> {
+        val firestore = FirebaseFirestore.getInstance()
+        val collectionReference = firestore.collection("reviewData")
+        val reviewResult = mutableListOf<MyReviewParent>()
 
-            try {
-                val reviewSnapshot = collectionReference
-                    .whereEqualTo("reviewCustomerDocId", userDocId)
-                    .orderBy("reviewTimeStamp", Query.Direction.DESCENDING) // Firestore에서 직접 정렬
-                    .get()
-                    .await()
+        try {
+            val reviewSnapshot = collectionReference
+                .whereEqualTo("reviewCustomerDocId", userDocId)
+                .orderBy("reviewTimeStamp", Query.Direction.DESCENDING) // Firestore에서 직접 정렬
+                .get()
+                .await()
 
-                Log.d("Firestore", "총 가져온 문서 개수: ${reviewSnapshot.documents.size}")
+            Log.d("Firestore", "총 가져온 문서 개수: ${reviewSnapshot.documents.size}")
 
-                for (document in reviewSnapshot) {
-                    Log.d("Firestore", "문서 데이터: ${document.data}")
+            for (document in reviewSnapshot) {
+                Log.d("Firestore", "문서 데이터: ${document.data}")
 
-                    val review = document.toObject(MyReviewParent::class.java)
-                    reviewResult.add(review)
-                    Log.d("Firestore", "변환된 객체: $review")
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+                val review = document.toObject(MyReviewParent::class.java)
+                reviewResult.add(review)
+                Log.d("Firestore", "변환된 객체: $review")
             }
-            return reviewResult
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        return reviewResult
+    }
 
-        // sh reviewDocId가 일치하는 reviewData 제거
-        suspend fun removeUserReview(reviewDocId: String): Boolean {
-            val firebase = FirebaseFirestore.getInstance()
-            val collectionReference = firebase.collection("reviewData")
+    // sh reviewDocId가 일치하는 reviewData 제거
+    suspend fun removeUserReview(reviewDocId: String): Boolean {
+        val firebase = FirebaseFirestore.getInstance()
+        val collectionReference = firebase.collection("reviewData")
 
-            return try {
-                val documents =
-                    collectionReference.whereEqualTo("reviewDocId", reviewDocId).get().await()
+        return try {
+            val documents =
+                collectionReference.whereEqualTo("reviewDocId", reviewDocId).get().await()
 
-                if (documents.isEmpty) {
-                    return false
-                }
-                for (document in documents) {
-                    collectionReference.document(document.id).delete().await()
-                }
-                true
-            } catch (_: Exception) {
-                false
+            if (documents.isEmpty) {
+                return false
             }
+            for (document in documents) {
+                collectionReference.document(document.id).delete().await()
+            }
+            true
+        } catch (_: Exception) {
+            false
         }
+    }
 
 
 
