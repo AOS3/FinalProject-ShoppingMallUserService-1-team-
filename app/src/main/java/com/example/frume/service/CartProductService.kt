@@ -58,12 +58,19 @@ class CartProductService {
         }
 
         // 장바구니에서 품목 제거
-        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId : MutableList<String>):Boolean{
-            Log.d("test100","CartProductService ->deleteCartProducts()")
+        suspend fun deleteCartProducts(cartDocId: String, selectedListDocId: MutableList<String>): Boolean {
+            Log.d("test100", "CartProductService -> deleteCartProducts()")
+
+            selectedListDocId.forEach { docId ->
+                Log.d("test100", "CartProductRepository -> deleteCartProducts() deleting docId: $docId")
+            }
 
             val result = CartProductRepository.deleteCartProducts(cartDocId, selectedListDocId)
+
+            Log.d("test100", "CartProductRepository -> deleteCartProducts() result: $result")
             return result
         }
+
 
     }
 }

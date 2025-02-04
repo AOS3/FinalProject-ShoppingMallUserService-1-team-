@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.frume.R
 import com.example.frume.databinding.ActivityLoginBinding
 import com.example.frume.databinding.ActivityMainBinding
+import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +51,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 val userVO = work1.await()
 
+                val work3 = async(Dispatchers.IO) {
+                    CartService.gettingMyCart(userVO!!.customerUserDocId)
+                }
+                val cartDocId = work3.await().cartDocId
+
                 // 사용자 데이터를 성공적으로 가져온 경우
                 if (userVO != null) {
                     Log.d("AutoLogin", "자동 로그인 성공 - 사용자 정보: ${userVO.customerUserName}")
@@ -57,6 +63,7 @@ class MainActivity : AppCompatActivity() {
                     // HomeActivity로 이동
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
                     intent.putExtra("user_document_id", userVO.customerUserDocId)
+                    intent.putExtra("user_cart_document_id",cartDocId)
                     startActivity(intent)
                     finish()  // MainActivity 종료
                 } else {
