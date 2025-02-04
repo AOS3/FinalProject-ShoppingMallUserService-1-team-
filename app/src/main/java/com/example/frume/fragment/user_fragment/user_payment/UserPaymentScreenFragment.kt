@@ -791,11 +791,11 @@ class UserPaymentScreenFragment : Fragment() {
 
                     // 배송비
                     addOrderModel.orderDeliveryCost =
-                        textViewUserPaymentDeliveryCharge.text.toString().replace("원", "")
+                        textViewUserPaymentDeliveryCharge.text.toString().replace("원", "").replace(",","")
                             .toInt()
                     // 적립금 사용액
                     addOrderModel.usedReward =if(textViewUserPaymentTotalSavingInfo.text.toString() ==""){0}else{
-                            textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "")
+                            textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "").replace(",","")
                                 .toInt()
                         }
                     // 결제 방식
@@ -899,7 +899,7 @@ class UserPaymentScreenFragment : Fragment() {
                 UserService.updateUserData(userModel)
 
                 // 물건 가격의 1퍼센트 적립
-                val productCost = binding.textViewProductTotalPrice.text.toString().replace("원","").toInt()
+                val productCost = binding.textViewProductTotalPrice.text.toString().replace("원","").replace(",","").toInt()
                 val getReward = (productCost *0.01).toInt()
 
                 userModel.customerUserReward += getReward
