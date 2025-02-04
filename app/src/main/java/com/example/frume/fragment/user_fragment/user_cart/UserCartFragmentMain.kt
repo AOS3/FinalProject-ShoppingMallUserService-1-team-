@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -38,13 +39,10 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class UserCartFragmentMain() : Fragment(), CartClickListener {
+class UserCartFragmentMain : Fragment(), CartClickListener {
+    private lateinit var fragmentUserCartBinding: FragmentUserCartMainBinding
+    private lateinit var homeActivity: HomeActivity
 
-    lateinit var fragmentUserCartBinding: FragmentUserCartMainBinding
-
-    lateinit var homeActivity: HomeActivity
-
-    // private val args: UserCartFragmentArgs by navArgs()
     var cartProductList = mutableListOf<CartProductModel>()
 
     override fun onCreateView(
@@ -52,15 +50,11 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("test1001", "onCreateView")
-
-
         homeActivity = activity as HomeActivity
 
         fragmentUserCartBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_user_cart_main, container, false)
 
-        setLayout()
 
         // 바텀시트 프래그먼트에서 전송한 데이터 수신
         setFragmentResultListener("requestKey") { _, bundle ->
@@ -76,6 +70,21 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
         // 바텀시트에서 받은 데이터 처리 (여기서 원하는 메서드 실행 가능)
         Toast.makeText(requireContext(), "Received: $data", Toast.LENGTH_SHORT).show()
         settingListAndRecyclerView()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    moveToHome()
+                }
+            }
+        )
+        setLayout()
     }
 
     private fun setLayout() {
@@ -102,6 +111,10 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
                 }
             }
         }
+    }
+
+    private fun moveToHome() {
+        findNavController().navigateUp()
     }
 
     // 리사이클러뷰 다시 그리기

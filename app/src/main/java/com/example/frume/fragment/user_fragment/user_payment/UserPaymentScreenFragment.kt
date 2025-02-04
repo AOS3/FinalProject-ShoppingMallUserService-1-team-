@@ -1,6 +1,7 @@
 package com.example.frume.fragment.user_fragment.user_payment
 
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -46,7 +47,10 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
@@ -932,15 +936,23 @@ class UserPaymentScreenFragment : Fragment() {
     }
 
     private fun moveToPaymentDone() {
-        val totalPrice =
-            binding.textViewProductTotalPrice.text.toString().filter { it.isDigit() }.toInt()
+
+        val totalPrice = binding.textViewUserPaymentTotalPayment.text.toString().filter { it.isDigit() }.toInt()
         val payment = paymentOptionState.str
-        val date = args.dueDateDirectPurchase
-        val paymentDone = PaymentDone(payment, totalPrice, date!!)
-        val action =
-            UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserPaymentDoneFragment(
-                paymentDone
-            )
+        val date = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // API 26 이상: java.time.LocalDate 사용
+            val today = LocalDate.now()
+            today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        } else {
+            // API 24~25: java.util.Date & SimpleDateFormat 사용
+            val date = Date()
+            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            formatter.format(date)
+        }
+
+        val paymentDone = PaymentDone(payment, totalPrice, date)
+        val action = UserPaymentScreenFragmentDirections.actionUserPaymentScreenToUserPaymentDoneFragment(paymentDone)
+
         findNavController().navigate(action)
     }
 
