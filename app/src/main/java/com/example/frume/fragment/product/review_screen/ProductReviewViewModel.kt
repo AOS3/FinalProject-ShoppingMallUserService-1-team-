@@ -29,7 +29,7 @@ class ProductReviewViewModel(
     private val _isRemove = MutableLiveData<Boolean?>()
     val isRemove: LiveData<Boolean?> = _isRemove
 
-    // 리뷰 작성 버튼 가시성 제어
+    // 리뷰 작성 버튼 가시성 제어1
     private val _isReviewButtonVisible = MutableLiveData<Boolean>()
     val isReviewButtonVisible: LiveData<Boolean> get() = _isReviewButtonVisible
 
