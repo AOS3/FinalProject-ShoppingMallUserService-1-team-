@@ -43,7 +43,7 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadReview()
+        viewModel.loadReview(productDocId!!)
     }
 
     override fun onCreateView(
@@ -124,7 +124,7 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
             nega = "취소"
         ) { result ->
             if (result) {
-                viewModel.removeReview(review.reviewDocId!!)
+                viewModel.removeReview(review.reviewDocId!!,productDocId!!)
             }
         }
         viewModel.isRemove.observe(viewLifecycleOwner) {
