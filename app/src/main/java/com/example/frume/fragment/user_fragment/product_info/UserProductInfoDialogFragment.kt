@@ -278,12 +278,12 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 val dueDate = binding.textViewUserProductInfoDialogDeliveryDate.text.toString()
                 val deliverySubscribeState = when {
                     binding.radioButtonProductInfoDialogSubscribe.isChecked -> DeliverySubscribeState.DELIVERY_STATE_SUBSCRIBE
-                    else-> DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
+                    else -> DeliverySubscribeState.DELIVERY_STATE_NOT_SUBSCRIBE
                 }
                 val productCount = binding.editTextProductInfoDialogCount.text.toString().toInt()
                 val action =
                     UserProductInfoDialogFragmentDirections.actionUserProductInfoDialogToUserPaymentScreen(
-                        null, "productInfo",args.productDocId,dueDate,deliverySubscribeState, productCountDirectPurchase = productCount
+                        null, "productInfo", args.productDocId, dueDate, deliverySubscribeState, productCountDirectPurchase = productCount
                     )
                 findNavController().navigate(action)
 
@@ -341,7 +341,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
                 return@launch
             }
 
-            Log.d("test100","args.productDocId: ${args.productDocId}")
+            Log.d("test100", "args.productDocId: ${args.productDocId}")
 
             // cartProductModel 생성
             val cartProductModel = convertToCartProduct(
@@ -359,6 +359,7 @@ class UserProductInfoDialogFragment : BottomSheetDialogFragment() {
 
                 //  이전 화면을 팝하고 새로운 화면으로 이동할 때 사용됩니다.
                 val navOption = NavOptions.Builder()
+                    .setLaunchSingleTop(true) // 기존 프래그먼트를 재사용
                     .setPopUpTo(R.id.navigation_home, inclusive = true) // navigation_cart 에서 home으로 변경
                     .build()
                 val action =

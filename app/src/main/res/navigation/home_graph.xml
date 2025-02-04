@@ -125,8 +125,7 @@
 		tools:layout="@layout/fragment_user_payment_screen">
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_product_info"
-			app:destination="@id/user_product_info"
-			/>
+			app:destination="@id/user_product_info" />
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_cart_choice_Deliver_address"
 			app:destination="@id/user_cart_choice_Deliver_address"
@@ -147,12 +146,12 @@
 			app:nullable="true" />
 		<argument
 			android:name="deliverySubscribeStateDirectPurchase"
-			app:argType="com.example.frume.util.DeliverySubscribeState"
-			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE" />
+			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE"
+			app:argType="com.example.frume.util.DeliverySubscribeState" />
 		<argument
 			android:name="productCountDirectPurchase"
-			app:argType="integer"
-			android:defaultValue="0" />
+			android:defaultValue="0"
+			app:argType="integer" />
 		<argument
 			android:name="dueDateDirectPurchase"
 			app:argType="string"
@@ -160,6 +159,9 @@
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_payment_web_view"
 			app:destination="@id/user_payment_web_view" />
+		<action
+			android:id="@+id/action_user_payment_screen_to_userPaymentDoneFragment"
+			app:destination="@id/user_payment_done" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
@@ -398,12 +400,12 @@
 			app:nullable="true" />
 		<argument
 			android:name="deliverySubscribeStateDirectPurchase"
-			app:argType="com.example.frume.util.DeliverySubscribeState"
-			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE" />
+			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE"
+			app:argType="com.example.frume.util.DeliverySubscribeState" />
 		<argument
 			android:name="productCountDirectPurchase"
-			app:argType="integer"
-			android:defaultValue="0" />
+			android:defaultValue="0"
+			app:argType="integer" />
 		<argument
 			android:name="dueDateDirectPurchase"
 			app:argType="string"
@@ -429,10 +431,24 @@
 		android:id="@+id/user_payment_web_view"
 		android:name="com.example.frume.fragment.user_fragment.user_payment.UserPaymentWebViewFragment"
 		android:label="fragment_user_payment_web_view"
-		tools:layout="@layout/fragment_user_payment_web_view" >
+		tools:layout="@layout/fragment_user_payment_web_view">
 		<argument
 			android:name="webViewType"
 			app:argType="integer" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_payment_done"
+		android:name="com.example.frume.fragment.user_fragment.user_payment.UserPaymentDoneFragment"
+		android:label="fragment_user_payment_done"
+		tools:layout="@layout/fragment_user_payment_done">
+		<argument
+			android:name="paymentDone"
+			app:argType="com.example.frume.data.PaymentDone" />
+		<action
+			android:id="@+id/action_user_payment_done_to_navigation_home"
+			app:destination="@id/navigation_home"
+			app:popUpTo="@id/navigation_home"
+			app:popUpToInclusive="true" />
 	</fragment>
 
 </navigation>
