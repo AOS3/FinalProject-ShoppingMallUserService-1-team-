@@ -18,8 +18,11 @@ import com.example.frume.model.DeliveryAddressModel
 import com.example.frume.service.UserDeliveryAddressService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
 // sehoon 내 배송지 관리 화면
 class UserAddressManageFragment : Fragment() {
@@ -102,17 +105,36 @@ class UserAddressManageFragment : Fragment() {
     // 배송지 목록 가져오는 메서드
     fun gettingAddressList(userDocId: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            val work1 = async(Dispatchers.IO) {
-                // 데이터 로드
-                addressList = UserDeliveryAddressService.gettingDeliveryAddressList(userDocId)
-            }
-            work1.await()
+            var isValid = false
+            var retryCount = 0
+            val maxRetry = 3  // 최대 3번 재시도
 
-            // 디버깅 로그
-            Log.d(
-                "test10",
-                "UserCartChoiceDeliveryAddressFragment -> gettingAddressList() : $addressList"
-            )
+            while (!isValid && retryCount < maxRetry) {
+                val work1 = async(Dispatchers.IO) {
+                    UserDeliveryAddressService.gettingDeliveryAddressList(userDocId)
+                }
+                addressList = work1.await()
+
+                // 기본 배송지가 여러 개인지 확인
+                val defaultCount = addressList.count { it.deliveryAddressIsDefaultAddress.bool }
+
+                if (defaultCount <= 1) {
+                    isValid = true  // 유효하면 종료
+                } else {
+                    Log.w("test10", "기본 배송지가 2개 이상 감지됨. 재시도 중... ($retryCount/$maxRetry)")
+                    retryCount++
+
+                    try {
+                        withTimeout(2000) { delay(2000) }  // 2초 대기
+                    } catch (e: TimeoutCancellationException) {
+                        Log.e("test10", "재시도 대기 시간 초과")
+                    }
+                }
+            }
+
+            if (!isValid) {
+                Log.e("test10", "최대 재시도 횟수를 초과했습니다.")
+            }
 
             // 항상 기본배송지가 [0]에 가도록 하는 메서드
             settingUpToDefaultSpotAddressList()
