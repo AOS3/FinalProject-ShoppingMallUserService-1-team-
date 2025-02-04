@@ -23,7 +23,8 @@ fun TextInputLayout.validateInput(errorMessage: String): Boolean {
         this.isErrorEnabled = true
         this.error = errorMessage
         false
-    } else {
+    }
+    else {
         this.isErrorEnabled = false
         this.error = null
         true

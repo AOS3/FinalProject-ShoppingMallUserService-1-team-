@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.HomeActivity
 import com.example.frume.data.MyReviewParent
 import com.example.frume.databinding.FragmentUserProductInfoReviewBinding
 import com.example.frume.factory.ProductReviewViewModelFactory
 import com.example.frume.fragment.home_fragment.my_info.review.MyReviewParentAdapter
 import com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener
-import com.example.frume.activity.HomeActivity
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.util.showDialog
 import com.example.frume.util.showToast
@@ -42,7 +42,7 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadReview()
+        viewModel.loadReview(productDocId!!)
     }
 
     override fun onCreateView(
@@ -123,7 +123,7 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
             nega = "취소"
         ) { result ->
             if (result) {
-                viewModel.removeReview(review.reviewDocId!!)
+                viewModel.removeReview(review.reviewDocId!!, productDocId!!)
             }
         }
         viewModel.isRemove.observe(viewLifecycleOwner) {

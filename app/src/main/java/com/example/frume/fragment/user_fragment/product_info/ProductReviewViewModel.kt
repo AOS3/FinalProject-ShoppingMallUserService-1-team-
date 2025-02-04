@@ -34,13 +34,11 @@ class ProductReviewViewModel(
     val isReviewButtonVisible: LiveData<Boolean> get() = _isReviewButtonVisible
 
 
-    init {
-        loadReview()
-    }
 
-    fun loadReview() {
+
+    fun loadReview(productDocId: String) {
         viewModelScope.launch {
-            val review = repository.getAllReview()
+            val review = repository.getProductIdReview(productDocId)
             allReviews.clear()
             allReviews.addAll(review)
 
@@ -75,13 +73,13 @@ class ProductReviewViewModel(
         }
     }
 
-    fun removeReview(reviewDocId: String) {
+    fun removeReview(reviewDocId: String,productDocId: String) {
         viewModelScope.launch {
             val isRemove = repository.removeUserReview(reviewDocId)
             _isRemove.postValue(isRemove)
 
             if (isRemove) {
-                loadReview()
+                loadReview(productDocId)
             }
         }
     }

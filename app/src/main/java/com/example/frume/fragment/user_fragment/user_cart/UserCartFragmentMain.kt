@@ -68,7 +68,6 @@ class UserCartFragmentMain : Fragment(), CartClickListener {
 
     private fun handleResult(data: String) {
         // 바텀시트에서 받은 데이터 처리 (여기서 원하는 메서드 실행 가능)
-        Toast.makeText(requireContext(), "Received: $data", Toast.LENGTH_SHORT).show()
         settingListAndRecyclerView()
     }
 
