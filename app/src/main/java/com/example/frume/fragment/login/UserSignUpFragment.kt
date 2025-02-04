@@ -252,6 +252,7 @@ class UserSignUpFragment : Fragment() {
                     this.customerUserAddress = getCustomerUserAddress
                     this.customerUserState = customerUserState
                     this.customerUserTimeStamp = customerUserTimeStamp
+                    this.customerUserReward = 1000
                 }
 
                 val results = coroutineScope {

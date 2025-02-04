@@ -8,7 +8,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginBottom="30dp"
-		tools:context=".fragment.user_fragment.user_payment.UserPaymentScreenFragment">
+		tools:context=".fragment.payment.UserPaymentScreenFragment">
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:id="@+id/main"
@@ -333,8 +333,6 @@
 				app:layout_constraintEnd_toStartOf="@+id/buttonUserPaymentPaymentMethodCard"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toBottomOf="@+id/textViewUserPaymentPaymentMethod"
-
-
 				/>
 
 			<androidx.appcompat.widget.AppCompatButton

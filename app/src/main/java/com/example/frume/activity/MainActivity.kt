@@ -3,6 +3,7 @@ package com.example.frume.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.frume.R
 import com.example.frume.databinding.ActivityLoginBinding
 import com.example.frume.databinding.ActivityMainBinding
+import com.example.frume.service.CartService
 import com.example.frume.service.UserService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,11 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
-
         // 스플래시 지속 시간 설정
         Handler(Looper.getMainLooper()).postDelayed({
             checkAutoLogin()  // 1초 후 자동 로그인 검사 시작
         }, 1000)
+
     }
 
     private fun checkAutoLogin() {
@@ -54,6 +56,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 val userVO = work1.await()
 
+
+                val work3 = async(Dispatchers.IO) {
+                    CartService.gettingMyCart(userVO!!.customerUserDocId)
+                }
+                val cartDocId = work3.await().cartDocId
+
                 // 사용자 데이터를 성공적으로 가져온 경우
                 if (userVO != null) {
                     Log.d("AutoLogin", "자동 로그인 성공 - 사용자 정보: ${userVO.customerUserName}")
@@ -61,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                     // HomeActivity로 이동
                     val intent = Intent(this@MainActivity, HomeActivity::class.java)
                     intent.putExtra("user_document_id", userVO.customerUserDocId)
+                    intent.putExtra("user_cart_document_id",cartDocId)
                     startActivity(intent)
                     finish()  // MainActivity 종료
                 } else {
