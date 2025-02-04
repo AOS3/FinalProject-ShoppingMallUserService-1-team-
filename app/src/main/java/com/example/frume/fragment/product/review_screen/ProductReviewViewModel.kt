@@ -29,18 +29,16 @@ class ProductReviewViewModel(
     private val _isRemove = MutableLiveData<Boolean?>()
     val isRemove: LiveData<Boolean?> = _isRemove
 
-    // 리뷰 작성 버튼 가시성 제어
+    // 리뷰 작성 버튼 가시성 제어1
     private val _isReviewButtonVisible = MutableLiveData<Boolean>()
     val isReviewButtonVisible: LiveData<Boolean> get() = _isReviewButtonVisible
 
 
-    init {
-        loadReview()
-    }
 
-    fun loadReview() {
+
+    fun loadReview(productDocId: String) {
         viewModelScope.launch {
-            val review = repository.getAllReview()
+            val review = repository.getProductIdReview(productDocId)
             allReviews.clear()
             allReviews.addAll(review)
 
@@ -75,13 +73,13 @@ class ProductReviewViewModel(
         }
     }
 
-    fun removeReview(reviewDocId: String) {
+    fun removeReview(reviewDocId: String,productDocId: String) {
         viewModelScope.launch {
             val isRemove = repository.removeUserReview(reviewDocId)
             _isRemove.postValue(isRemove)
 
             if (isRemove) {
-                loadReview()
+                loadReview(productDocId)
             }
         }
     }

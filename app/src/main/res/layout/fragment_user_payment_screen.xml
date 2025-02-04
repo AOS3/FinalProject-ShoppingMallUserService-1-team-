@@ -616,7 +616,6 @@
 				android:layout_marginTop="28dp"
 				android:layout_marginEnd="10dp"
 				app:layout_constraintEnd_toEndOf="@id/viewUserPaymentTotalPayment"
-				app:layout_constraintHorizontal_bias="0.922"
 				app:layout_constraintStart_toEndOf="@id/textViewUserPaymentTotalPaymentTitle"
 				app:layout_constraintTop_toTopOf="@id/viewUserPaymentTotalPayment"
 				tools:text="18,000원" />

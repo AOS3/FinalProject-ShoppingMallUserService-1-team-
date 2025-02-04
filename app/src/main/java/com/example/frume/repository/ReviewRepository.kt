@@ -130,14 +130,16 @@ class ReviewRepository {
         }
 
     }
-    // sehoon userDocID로 리뷰 정보 가져오기
-    suspend fun getAllReview(): List<MyReviewParent> {
+
+    // sehoon productDocID로 리뷰 정보 가져오기
+    suspend fun getProductIdReview(reviewProductDocId: String): List<MyReviewParent> {
         val firestore = FirebaseFirestore.getInstance()
         val collectionReference = firestore.collection("reviewData")
         val reviewResult = mutableListOf<MyReviewParent>()
 
         try {
             val reviewSnapshot = collectionReference
+                .whereEqualTo("reviewProductDocId", reviewProductDocId)
                 .orderBy("reviewTimeStamp", Query.Direction.DESCENDING) // Firestore에서 직접 정렬
                 .get()
                 .await()
@@ -205,7 +207,6 @@ class ReviewRepository {
             false
         }
     }
-
 
 
 }
