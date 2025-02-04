@@ -7,7 +7,7 @@
 
 	<fragment
 		android:id="@+id/navigation_home"
-		android:name="com.example.frume.fragment.home_fragment.user_home.UserHomeFragment"
+		android:name="com.example.frume.fragment.home.home_screen.UserHomeFragment"
 		android:label="홈"
 		tools:layout="@layout/fragment_user_home">
 		<action
@@ -25,7 +25,7 @@
 
 	<fragment
 		android:id="@+id/navigation_profile"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoFragment"
+		android:name="com.example.frume.fragment.my_info.UserInfoFragment"
 		android:label="내정보"
 		tools:layout="@layout/fragment_user_info">
 		<action
@@ -83,7 +83,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"
-		android:name="com.example.frume.fragment.home_fragment.user_home.UserSearchFragment"
+		android:name="com.example.frume.fragment.home.UserSearchFragment"
 		android:label="검색화면"
 		tools:layout="@layout/fragment_user_search">
 		<action
@@ -171,7 +171,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
-		android:name="com.example.frume.fragment.home_fragment.my_info.order_inquiry.UserOrderHistoryFragment"
+		android:name="com.example.frume.fragment.my_info.order_inquiry.UserOrderHistoryFragment"
 		android:label="배송 조회"
 		tools:layout="@layout/fragment_user_order_history">
 		<action
@@ -187,7 +187,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_manage"
-		android:name="com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserAddressManageFragment"
+		android:name="com.example.frume.fragment.my_info.my_profile_setting.UserAddressManageFragment"
 		android:label="배송지 관리"
 		tools:layout="@layout/fragment_user_address_manage">
 		<action
@@ -207,7 +207,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_add"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserAddressAddFragment"
+		android:name="com.example.frume.fragment.my_info.UserAddressAddFragment"
 		android:label="배송지 추가"
 		tools:layout="@layout/fragment_user_address_add">
 		<action
@@ -219,7 +219,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_modify"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserAddressModifyFragment"
+		android:name="com.example.frume.fragment.my_info.UserAddressModifyFragment"
 		android:label="배송지 수정"
 		tools:layout="@layout/fragment_user_address_modify">
 		<action
@@ -232,7 +232,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_info_manage"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoManageFragment"
+		android:name="com.example.frume.fragment.my_info.UserInfoManageFragment"
 		android:label="회원 정보 관리"
 		tools:layout="@layout/fragment_user_info_manage">
 		<action
@@ -244,7 +244,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_info_modify"
-		android:name="com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserInfoModifyFragment"
+		android:name="com.example.frume.fragment.my_info.my_profile_setting.UserInfoModifyFragment"
 		android:label="UserInfoModifyFragment"
 		tools:layout="@layout/fragment_user_info_modify">
 		<action
@@ -253,7 +253,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_detail"
-		android:name="com.example.frume.fragment.home_fragment.my_info.order_inquiry.UserOrderDetailFragment"
+		android:name="com.example.frume.fragment.my_info.order_inquiry.UserOrderDetailFragment"
 		android:label="주문 상세 내역"
 		tools:layout="@layout/fragment_user_order_detail">
 		<action
@@ -276,7 +276,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_cancel_and_return"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragment"
+		android:name="com.example.frume.fragment.my_info.UserCancelAndReturnFragment"
 		android:label="반품 취소 및 교환 신청"
 		tools:layout="@layout/fragment_user_cancel_and_return" />
 	<fragment
@@ -317,7 +317,7 @@
 	<fragment
 
 		android:id="@+id/user_product_show_list"
-		android:name="com.example.frume.fragment.home_fragment.user_home.UserProductShowListFragment"
+		android:name="com.example.frume.fragment.home.UserProductShowListFragment"
 		android:label="상품 정보"
 		tools:layout="@layout/fragment_user_product_show_list">
 		<action
@@ -362,7 +362,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_pw_modify"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserPwModifyFragment"
+		android:name="com.example.frume.fragment.my_info.UserPwModifyFragment"
 		android:label="비밀번호 변경"
 		tools:layout="@layout/fragment_user_pw_modify" />
 	<dialog
@@ -385,7 +385,7 @@
 	</dialog>
 	<fragment
 		android:id="@+id/user_info_review"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoReviewFragment"
+		android:name="com.example.frume.fragment.my_info.UserInfoReviewFragment"
 		android:label="유저 내 후기"
 		tools:layout="@layout/fragment_user_info_review" />
 

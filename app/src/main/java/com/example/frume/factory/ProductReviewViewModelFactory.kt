@@ -2,7 +2,6 @@ package com.example.frume.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.frume.fragment.home_fragment.my_info.review.ReviewViewModel
 import com.example.frume.fragment.user_fragment.product_info.ProductReviewViewModel
 import com.example.frume.repository.ReviewRepository
 

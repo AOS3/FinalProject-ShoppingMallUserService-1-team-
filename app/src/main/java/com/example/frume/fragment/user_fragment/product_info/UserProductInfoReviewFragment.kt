@@ -9,18 +9,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.frume.R
+import com.example.frume.activity.HomeActivity
 import com.example.frume.data.MyReviewParent
 import com.example.frume.databinding.FragmentUserProductInfoReviewBinding
 import com.example.frume.factory.ProductReviewViewModelFactory
-import com.example.frume.fragment.home_fragment.my_info.review.MyReviewParentAdapter
-import com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener
-import com.example.frume.activity.HomeActivity
+import com.example.frume.fragment.my_info.review.MyReviewParentAdapter
+import com.example.frume.fragment.my_info.review.ReviewClickListener
 import com.example.frume.repository.ReviewRepository
 import com.example.frume.util.showDialog
 import com.example.frume.util.showToast
 
 
-class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
+class UserProductInfoReviewFragment : Fragment(), ReviewClickListener{
     private var _binding: FragmentUserProductInfoReviewBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: MyReviewParentAdapter

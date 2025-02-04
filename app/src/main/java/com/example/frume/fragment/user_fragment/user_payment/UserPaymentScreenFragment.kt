@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -35,12 +36,14 @@ import com.example.frume.service.UserDeliveryAddressService
 import com.example.frume.service.UserService
 import com.example.frume.util.DeliveryOption
 import com.example.frume.util.OrderPaymentOption
+import com.example.frume.util.applyNumberFormat
 import com.example.frume.util.convertThreeDigitComma
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -83,7 +86,6 @@ class UserPaymentScreenFragment : Fragment() {
             R.layout.fragment_user_payment_screen,
             container,
             false
-
         )
         homeActivity = activity as HomeActivity
 
@@ -104,7 +106,7 @@ class UserPaymentScreenFragment : Fragment() {
         // 상품 가격 표시 메서드 호출
         settingViewProductsPrice()
         // 배송비 표시 메서드 호출
-        settingViewDeliverCost()
+        settingViewDeliveryCost()
         // 적립금 사용 editText 설정 메서드 호출
         settingTextInputLayoutUserPaymentSaving()
         // 적립금 전액사용 체크 리스너 메서드 호출
@@ -116,7 +118,6 @@ class UserPaymentScreenFragment : Fragment() {
 
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -514,8 +515,7 @@ class UserPaymentScreenFragment : Fragment() {
                 override fun afterTextChanged(s: Editable?) {
                     // 상품 가격
                     val productCost =
-                        textViewProductTotalPrice.text.toString().replace("원", "").replace(",", "")
-                            .toInt()
+                        textViewProductTotalPrice.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
                     val userReward = userModel?.customerUserReward ?: -1 // 보유 리워드 (없으면 0)
                     val inputText = s.toString()
 
@@ -580,7 +580,7 @@ class UserPaymentScreenFragment : Fragment() {
     }
 
     // 배송비 설정
-    fun settingViewDeliverCost() {
+    fun settingViewDeliveryCost() {
         // 장바구니 루트로 온 경우
         if (args.fromWhere == "Cart") {
             // 장바구니에 있는 물건들 총 가격 구매 여부가 true인것들 합계 구하기
@@ -609,8 +609,7 @@ class UserPaymentScreenFragment : Fragment() {
                 if (productCost >= 50000) {
                     binding.textViewUserPaymentDeliveryCharge.text = "0원"
                 } else {
-
-                    binding.textViewUserPaymentDeliveryCharge.text = "3,000원"
+                    binding.textViewUserPaymentDeliveryCharge.applyNumberFormat(3000)
                 }
             }
         }
@@ -638,10 +637,8 @@ class UserPaymentScreenFragment : Fragment() {
             delay(0)
             binding.apply {
                 textViewUserPaymentTotalSavingInfo.text =
-                    "${
-                        textInputLayoutUserPaymentSaving.editText?.text.toString().toInt()
-                            .convertThreeDigitComma()
-                    }"
+                    textInputLayoutUserPaymentSaving.editText?.text.toString().toInt()
+                        .convertThreeDigitComma()
             }
         }
     }
@@ -680,43 +677,47 @@ class UserPaymentScreenFragment : Fragment() {
                 }
             }
         }
-
     }
 
     // 총 결제 금액 표시
-    // 무거운 계산은 백그라운드 스레드에서 처리하고, UI 업데이트는 다시 메인 스레드에서 실행해야 함!
-    // 이 코드의 핵심: withContext(Dispatchers.Default)를 사용해 계산을 백그라운드에서 처리한 후 UI에 반영!
     fun settingViewTotalCost() {
-        CoroutineScope(Dispatchers.Main).launch {
-            binding.apply {
-                val totalCost = withContext(Dispatchers.Default) {  // 백그라운드 스레드에서 계산
-                    // 상품 가격
-                    val productPrice =
-                        textViewProductTotalPrice.text.toString().replace("원", "").replace(",", "")
-                            .trim().toIntOrNull()
-                            ?: 0
+        binding.apply {
+            CoroutineScope(Dispatchers.Main).launch {
+                val productPrice = withTimeoutOrNull(2000) {
+                    while (true) {
+                        val text  =
+                        textViewProductTotalPrice.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
+                        val value = text
 
-                    // 적립금
-                    val usedReward =
-                        textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "")
-                            .replace(",", "").trim()
-                            .toIntOrNull() ?: 0
+                        if (value != null && value > 0) return@withTimeoutOrNull value
+                        delay(100) // 100ms 간격으로 다시 확인
+                    }
+                } ?: 0 // 2초 후에도 값이 없으면 0으로 처리
 
-                    // 배송비
-                    val shipmentCost =
-                        textViewUserPaymentDeliveryCharge.text.toString().replace("원", "")
-                            .replace(",", "").trim()
-                            .toIntOrNull() ?: 0
-
-                    productPrice + shipmentCost - usedReward
+                val work2 = async(Dispatchers.Default) {
+                    textViewUserPaymentTotalSavingInfo.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
                 }
 
+                val work3 = async(Dispatchers.Default) {
+                    textViewUserPaymentDeliveryCharge.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
+
+                }
+
+                val usedReward = work2.await()
+                val shipmentCost = work3.await()
+
+                val totalCost = productPrice as Int + shipmentCost  - usedReward
+
                 // 총 결제 금액 UI 업데이트
-                textViewUserPaymentTotalPayment.text = "${totalCost.convertThreeDigitComma()}"
+                textViewUserPaymentTotalPayment.text = totalCost.convertThreeDigitComma()
             }
         }
-
     }
+
+
+
+
+
 
     // 주문 완료 버튼 클릭 시 처리
     fun onClickButtonButtonUserCartOrder() {
@@ -812,17 +813,13 @@ class UserPaymentScreenFragment : Fragment() {
 
                     // 배송비
                     addOrderModel.orderDeliveryCost =
-                        textViewUserPaymentDeliveryCharge.text.toString().replace("원", "")
-                            .replace(",", "")
-                            .toInt()
+                        textViewUserPaymentDeliveryCharge.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
                     // 적립금 사용액
                     addOrderModel.usedReward =
                         if (textViewUserPaymentTotalSavingInfo.text.toString() == "") {
                             0
                         } else {
-                            textViewUserPaymentTotalSavingInfo.text.toString().replace("원", "")
-                                .replace(",", "")
-                                .toInt()
+                            textViewUserPaymentTotalSavingInfo.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
                         }
                     // 결제 방식
                     addOrderModel.orderPaymentOption = when (paymentOptionState) {
@@ -925,8 +922,7 @@ class UserPaymentScreenFragment : Fragment() {
                 UserService.updateUserData(userModel)
 
                 // 물건 가격의 1퍼센트 적립
-                val productCost = binding.textViewProductTotalPrice.text.toString().replace("원", "")
-                    .replace(",", "").toInt()
+                val productCost = binding.textViewProductTotalPrice.text.toString().filter { it.isDigit() }.toIntOrNull() ?: 0
                 val getReward = (productCost * 0.01).toInt()
 
                 userModel.customerUserReward += getReward

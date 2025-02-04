@@ -76,14 +76,17 @@ class UserCartFragmentMain : Fragment(), CartClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 🚀 뒤로 가기 버튼 이벤트를 직접 제어
         requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
+            viewLifecycleOwner, // 현재 Fragment의 라이프사이클을 따름
+            object : OnBackPressedCallback(true) { // true: 뒤로 가기 이벤트를 활성화
                 override fun handleOnBackPressed() {
-                    moveToHome()
+                    moveToHome() // 뒤로 가기 버튼을 눌렀을 때 moveToHome() 실행
                 }
             }
         )
+
+        // 📌 UI 레이아웃 설정 함수 호출
         setLayout()
     }
 
