@@ -2,7 +2,7 @@ package com.example.frume.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.frume.fragment.user_fragment.product_info.ProductDetailViewModel
+import com.example.frume.fragment.product.detail_screen.ProductDetailViewModel
 import com.example.frume.repository.ProductRepository
 
 class ProductDetailModelFactory(

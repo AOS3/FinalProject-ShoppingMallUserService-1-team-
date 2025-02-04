@@ -10,7 +10,7 @@
 	<androidx.coordinatorlayout.widget.CoordinatorLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoDescriptionFragment">
+		tools:context=".fragment.product.UserProductInfoDescriptionFragment">
 
 		<androidx.core.widget.NestedScrollView
 			android:layout_width="match_parent"

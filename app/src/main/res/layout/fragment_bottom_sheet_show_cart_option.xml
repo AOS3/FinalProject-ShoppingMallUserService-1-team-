@@ -11,7 +11,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/background_top_rounded_corner"
-		tools:context=".fragment.user_fragment.user_cart.BottomSheetShowCartOptionFragment">
+		tools:context=".fragment.cart.BottomSheetShowCartOptionFragment">
 
 		<!-- Drag Handle -->
 		<com.google.android.material.bottomsheet.BottomSheetDragHandleView

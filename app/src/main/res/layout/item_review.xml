@@ -11,7 +11,7 @@
 
 		<variable
 			name="listener"
-			type="com.example.frume.fragment.home_fragment.my_info.review.ReviewClickListener" />
+			type="com.example.frume.listener.ReviewClickListener" />
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
