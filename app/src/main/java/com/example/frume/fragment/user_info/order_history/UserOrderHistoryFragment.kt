@@ -179,6 +179,8 @@ class UserOrderHistoryFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
              holder.itemProductOrderBinding.textViewItemProductOrderOrderStatus.text = showOrderProductList[position].orderState.str
              holder.itemProductOrderBinding.textViewItemProductOrderProductName.text = showOrderProductList[position].orderProductName
+            val orderDate = convertToDate(showOrderProductList[position].orderProductTimeStamp)
+             holder.itemProductOrderBinding.textViewItemProductOrderDate.text = orderDate
             Glide.with(holder.itemProductOrderBinding.imageViewItemProductOrderProduct.context)
                 .load(showOrderProductList[position].orderProductImagePath)
                 .into(holder.itemProductOrderBinding.imageViewItemProductOrderProduct)
