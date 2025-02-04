@@ -140,16 +140,57 @@ class UserInfoFragment() : Fragment() {
             // 리뷰 개수 로그 출력
             Log.d("test200", "getUserInfo에서 받은 리뷰 개수: $reviewCnt")
 
-            // 유저 정보 가져오는 비동기 작업
-            val work1 = async(Dispatchers.IO) {
-                userModel = UserService.getUserInfo(homeActivity.loginUserDocumentId)[0]
+            val work1 = async(Dispatchers.IO){
+                UserService.getUserInfo(homeActivity.loginUserDocumentId)
             }
-            work1.join() // 유저 정보 가져오는 작업이 끝날 때까지 대기
+            val  userModelList = work1.await()
 
-            // UI 업데이트
-            fragmentUserInfoBinding.textViewTitleUserInfo.text = "${userModel.customerUserName}님"
-            fragmentUserInfoBinding.reWardCostTextViewUserInfo.text = "${userModel.customerUserReward} 원"
-            fragmentUserInfoBinding.reviewCostTextViewUserInfo.text = "${reviewCnt} 건"
+            // 유저 정보가 비어 있는지 확인
+            if (userModelList.isNotEmpty()) {
+                userModel = userModelList[0]  // 첫 번째 유저 정보 사용
+
+                fragmentUserInfoBinding.textViewTitleUserInfo.text = "${userModel.customerUserName}님"
+
+                fragmentUserInfoBinding.reWardCostTextViewUserInfo.text = "${userModel.customerUserReward} 원"
+
+                fragmentUserInfoBinding.reviewCostTextViewUserInfo.text = "${reviewCnt} 건"
+
+                // 회원일 때 텍스트뷰 활성화
+                enableAccountInfo(true)
+            } else {
+                Log.d("test100", "유저 정보를 찾을 수 없습니다. 기본 값을 사용합니다.")
+
+                fragmentUserInfoBinding.textViewTitleUserInfo.text = "비회원님"
+
+                fragmentUserInfoBinding.reWardCostTextViewUserInfo.text = "X"
+
+                fragmentUserInfoBinding.reviewCostTextViewUserInfo.text = "X"
+
+                // 비회원일 때 텍스트뷰 비활성화
+                enableAccountInfo(false)
+            }
+
+
+        }
+    }
+
+    // 회원 정보 관리 및 탈퇴 + 로그아웃 텍스트뷰 활성화/비활성화 메서드
+    private fun enableAccountInfo(enable: Boolean) {
+        fragmentUserInfoBinding.textViewUserInfoAccountInfo.apply {
+            isEnabled = enable  // 클릭 가능 여부 설정
+            setTextColor(
+                if (enable) resources.getColor(R.color.black, null)  // 활성화 시 검정색
+                else resources.getColor(R.color.gray100, null)  // 비활성화 시 회색
+            )
+        }
+
+        fragmentUserInfoBinding.textViewLogoutUserInfo.apply {
+            isEnabled = enable  // 클릭 가능 여부 설정
+            setTextColor(
+                if (enable) resources.getColor(R.color.black, null)  // 활성화 시 검정색
+                else resources.getColor(R.color.gray100, null)  // 비활성화 시 회색
+            )
+
         }
     }
 

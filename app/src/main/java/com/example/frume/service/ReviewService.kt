@@ -22,5 +22,18 @@ class ReviewService {
 
             return result
         }
+
+
+        // 특정 상품에 대한 내 리뷰 개수
+        suspend fun getMyReviewCountByProduct(productDocId: String, userId: String) :Int{
+            val result = ReviewRepository.getMyReviewCountByProduct(productDocId, userId)
+            return result
+        }
+
+        // 특정 상품 주문 횟수
+        suspend fun getMyOrderCountByProduct(productDocId: String, userId: String):Int{
+            val result = ReviewRepository.getMyOrderCountByProduct(productDocId, userId)
+            return result
+        }
     }
 }
