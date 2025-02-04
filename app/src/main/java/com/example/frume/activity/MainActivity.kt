@@ -3,6 +3,9 @@ package com.example.frume.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -32,9 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+        // 스플래시 지속 시간 설정
+        Handler(Looper.getMainLooper()).postDelayed({
+            checkAutoLogin()  // 1초 후 자동 로그인 검사 시작
+        }, 1000)
 
-        // 자동 로그인 검사 시작
-        checkAutoLogin()
     }
 
     private fun checkAutoLogin() {
@@ -50,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                     UserService.selectUserDataByLoginToken(loginToken)
                 }
                 val userVO = work1.await()
+
 
                 val work3 = async(Dispatchers.IO) {
                     CartService.gettingMyCart(userVO!!.customerUserDocId)

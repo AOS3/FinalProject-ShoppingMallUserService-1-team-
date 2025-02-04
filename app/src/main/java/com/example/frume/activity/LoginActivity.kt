@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+        //installSplashScreen()
         //enableEdgeToEdge()
 
         activityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)

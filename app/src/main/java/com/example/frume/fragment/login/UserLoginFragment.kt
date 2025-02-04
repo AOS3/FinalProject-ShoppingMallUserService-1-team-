@@ -54,7 +54,7 @@ class UserLoginFragment : Fragment() {
         onClickSignUpBtn()
         onClickNonMemberLoginBtn()
         setupErrorResetListeners()
-        userAutoLoginProcessing()
+        //userAutoLoginProcessing()
     }
 
     // sehoon 홈 화면 이동 메서드
