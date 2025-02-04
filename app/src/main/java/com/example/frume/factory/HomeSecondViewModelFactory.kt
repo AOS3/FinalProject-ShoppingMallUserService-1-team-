@@ -2,7 +2,7 @@ package com.example.frume.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.frume.fragment.home_fragment.user_home.HomeSecondViewModel
+import com.example.frume.fragment.home.home_tab_second_screen.HomeSecondViewModel
 import com.example.frume.repository.ProductRepository
 
 class HomeSecondViewModelFactory(

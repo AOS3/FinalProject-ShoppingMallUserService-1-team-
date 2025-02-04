@@ -11,7 +11,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/background_top_rounded_corner"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoDialogFragment">
+		tools:context=".fragment.product.UserProductInfoDialogFragment">
 
 		<View
 			android:id="@+id/viewHandle"

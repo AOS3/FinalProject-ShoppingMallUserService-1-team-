@@ -95,3 +95,16 @@ fun Number.convertDigitCommaToString(): String {
     val decimalFormat = DecimalFormat("#") // 천 단위 구분자 없이 포맷
     return decimalFormat.format(this)
 }
+
+fun TextInputLayout.validatePhoneLength(errorMessage: String): Boolean {
+    val inputText = this.editText?.text.toString().trim()
+    return if (inputText.length!=11) {
+        this.isErrorEnabled = true
+        this.error = errorMessage
+        false
+    } else {
+        this.isErrorEnabled = false
+        this.error = null
+        true
+    }
+}
