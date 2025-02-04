@@ -31,8 +31,7 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 
-
-class UserOrderHistoryFragment() : Fragment() {
+class UserOrderHistoryFragment : Fragment() {
 
     lateinit var userOrderHistoryBinding: FragmentUserOrderHistoryBinding
     lateinit var homeActivity: HomeActivity
