@@ -65,6 +65,7 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
         settingRecyclerView()
         observeData()
         onClickBtn()
+        onClickWriteButton()  // 버튼 설정 메서드
     }
 
     private fun settingRecyclerView() {
@@ -135,5 +136,23 @@ class UserProductInfoReviewFragment : Fragment(), ReviewClickListener {
                 viewModel.resetRemove()
             }
         }
+    }
+
+    // 특정 조건을 만족한 경우만 상품 후기 작성하기 버튼이 나타나도록 한다.
+    // 조건 : 내가 작성한 후기 수 < 이 상품을 주문한 횟수
+    private fun onClickWriteButton() {
+
+        productDocId?.let { productId ->
+            val userId = (activity as HomeActivity).loginUserDocumentId
+
+            // 비동기로 ViewModel에 조건 체크 요청
+            viewModel.checkReviewButtonVisibility(productId, userId)
+
+            // ViewModel의 결과를 관찰하여 버튼 가시성 설정
+            viewModel.isReviewButtonVisible.observe(viewLifecycleOwner) { isVisible ->
+                binding.buttonUserProductInfoReview.visibility = if (isVisible) View.VISIBLE else View.GONE
+            }
+        }
+
     }
 }

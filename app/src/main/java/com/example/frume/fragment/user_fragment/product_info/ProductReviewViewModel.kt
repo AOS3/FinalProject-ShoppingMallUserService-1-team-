@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frume.data.MyReviewParent
 import com.example.frume.repository.ReviewRepository
+import com.example.frume.service.ReviewService
 import kotlinx.coroutines.launch
 
 class ProductReviewViewModel(
@@ -27,6 +28,10 @@ class ProductReviewViewModel(
 
     private val _isRemove = MutableLiveData<Boolean?>()
     val isRemove: LiveData<Boolean?> = _isRemove
+
+    // 리뷰 작성 버튼 가시성 제어
+    private val _isReviewButtonVisible = MutableLiveData<Boolean>()
+    val isReviewButtonVisible: LiveData<Boolean> get() = _isReviewButtonVisible
 
 
     init {
@@ -84,4 +89,14 @@ class ProductReviewViewModel(
     fun resetRemove() {
         _isRemove.postValue(null)
     }
+
+    fun checkReviewButtonVisibility(productDocId: String, userId: String) {
+        viewModelScope.launch {
+            val myReviewCount = ReviewService.getMyReviewCountByProduct(productDocId, userId)
+            val orderCount = ReviewService.getMyOrderCountByProduct(productDocId, userId)
+
+            _isReviewButtonVisible.value = myReviewCount < orderCount
+        }
+    }
+
 }

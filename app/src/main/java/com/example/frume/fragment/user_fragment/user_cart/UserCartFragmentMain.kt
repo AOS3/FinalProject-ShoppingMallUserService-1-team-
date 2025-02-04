@@ -48,7 +48,7 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("test100", "onCreateView")
+        Log.d("test1001", "onCreateView")
 
         homeActivity = activity as HomeActivity
 
@@ -152,6 +152,12 @@ class UserCartFragmentMain() : Fragment(), CartClickListener {
     // RecyclerView를 구성하는 메서드
     fun settingRecyclerView() {
         fragmentUserCartBinding.apply {
+
+            // 어댑터 초기화 (초기에는 빈 리스트)
+            val adapter = RecyclerViewCartAdapter()
+            recyclerViewUserCart.adapter = adapter
+
+
             // CoroutineScope 사용
             CoroutineScope(Dispatchers.Main).launch {
                 try {

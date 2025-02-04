@@ -14,6 +14,7 @@ import com.example.frume.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.concurrent.thread
 import android.os.SystemClock
+import android.util.Log
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,6 +24,7 @@ class HomeActivity : AppCompatActivity() {
 
     // 사용자 문서 iD
     var loginUserDocumentId = ""
+
     // 사용자 장바구니 문서 ID
     var userCartDocId = ""
 
@@ -38,8 +40,14 @@ class HomeActivity : AppCompatActivity() {
 
         }
         // 사용자 문서 id와 닉네임을 받는다.
-        loginUserDocumentId = intent.getStringExtra("user_document_id")!!
-        userCartDocId = intent.getStringExtra("user_cart_document_id")!!
+//        userCartDocId = intent.getStringExtra("user_cart_document_id")!!
+//        loginUserDocumentId = intent.getStringExtra("user_document_id")!!
+        val userId = intent.getStringExtra("user_document_id")
+        val cartId = intent.getStringExtra("user_cart_document_id")
+
+        loginUserDocumentId = userId ?: ""
+        userCartDocId = cartId ?: ""
+
         setBottomNavigation()
     }
 
@@ -65,7 +73,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     // 키보드 올리는 메서드
-    fun showSoftInput(view: View){
+    fun showSoftInput(view: View) {
         // 입력을 관리하는 매니저
         val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         // 포커스를 준다.
@@ -77,10 +85,11 @@ class HomeActivity : AppCompatActivity() {
             inputManager.showSoftInput(view, 0)
         }
     }
+
     // 키보드를 내리는 메서드
-    fun hideSoftInput(){
+    fun hideSoftInput() {
         // 포커스가 있는 뷰가 있다면
-        if(currentFocus != null){
+        if (currentFocus != null) {
             // 입력을 관리하는 매니저
             val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             // 키보드를 내린다.
@@ -93,12 +102,12 @@ class HomeActivity : AppCompatActivity() {
     // Activity에서 터치가 발생하면 호출되는 메서드
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         // 만약 포커스가 주어진 View가 있다면
-        if(currentFocus != null){
+        if (currentFocus != null) {
             // 현재 포커스가 주어진 View의 화면상의 영역 정보를 가져온다.
             val rect = Rect()
             currentFocus?.getGlobalVisibleRect(rect)
             // 현재 터치 지점이 포커스를 가지고 있는 View의 영역 내부가 아니라면
-            if(rect.contains(ev?.x?.toInt()!!, ev?.y?.toInt()!!) == false){
+            if (rect.contains(ev?.x?.toInt()!!, ev?.y?.toInt()!!) == false) {
                 // 키보드를 내리고 포커스를 제거한다.
                 hideSoftInput()
             }
