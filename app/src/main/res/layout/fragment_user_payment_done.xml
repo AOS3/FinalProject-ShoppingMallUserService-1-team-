@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".fragment.user_fragment.user_payment.UserPaymentDoneFragment">
+
+	<com.google.android.material.imageview.ShapeableImageView
+		android:id="@+id/iv_image"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:layout_marginTop="100dp"
+		android:src="@drawable/img_fruit"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/tv_done"
+		style="@style/AppText5.S17"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="30dp"
+		android:text="상품 구매가 정상적으로 완료되었습니다."
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/iv_image" />
+
+	<View
+		android:id="@+id/view_date"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:background="@color/gray5"
+		app:layout_constraintBottom_toBottomOf="@id/tv_date_label"
+		app:layout_constraintEnd_toEndOf="@id/tv_date_label"
+		app:layout_constraintStart_toStartOf="@id/tv_date_label"
+		app:layout_constraintTop_toTopOf="@id/tv_date_label" />
+
+	<TextView
+		android:id="@+id/tv_date_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="50dp"
+		android:paddingHorizontal="50dp"
+		android:paddingVertical="10dp"
+		android:text="구매일자"
+		app:layout_constraintStart_toStartOf="@id/tv_done"
+		app:layout_constraintTop_toBottomOf="@id/tv_done" />
+
+	<View
+		android:id="@+id/view_payment"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:background="@color/gray5"
+		app:layout_constraintBottom_toBottomOf="@id/tv_payment_label"
+		app:layout_constraintEnd_toEndOf="@id/tv_payment_label"
+		app:layout_constraintStart_toStartOf="@id/tv_payment_label"
+		app:layout_constraintTop_toTopOf="@id/tv_payment_label" />
+
+	<TextView
+		android:id="@+id/tv_payment_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingHorizontal="50dp"
+		android:paddingVertical="10dp"
+		android:text="결제수단"
+		app:layout_constraintStart_toStartOf="@id/tv_done"
+		app:layout_constraintTop_toBottomOf="@id/tv_date_label" />
+
+	<View
+		android:id="@+id/view_price"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:background="@color/gray5"
+		app:layout_constraintBottom_toBottomOf="@id/tv_price_label"
+		app:layout_constraintEnd_toEndOf="@id/tv_price_label"
+		app:layout_constraintStart_toStartOf="@id/tv_price_label"
+		app:layout_constraintTop_toTopOf="@id/tv_price_label" />
+
+	<TextView
+		android:id="@+id/tv_price_label"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingHorizontal="50dp"
+		android:paddingVertical="10dp"
+		android:text="결제금액"
+		app:layout_constraintStart_toStartOf="@id/tv_done"
+		app:layout_constraintTop_toBottomOf="@id/tv_payment_label" />
+
+	<TextView
+		android:id="@+id/tv_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="@id/view_date"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@id/view_date"
+		app:layout_constraintTop_toTopOf="@id/view_date"
+		tools:text="1000" />
+
+	<TextView
+		android:id="@+id/tv_payment"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="@id/view_payment"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@id/view_payment"
+		app:layout_constraintTop_toTopOf="@id/view_payment"
+		tools:text="신용카드" />
+
+	<TextView
+		android:id="@+id/tv_price"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toBottomOf="@id/view_price"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@id/view_price"
+		app:layout_constraintTop_toTopOf="@id/view_price"
+		tools:text="1000" />
+
+	<androidx.appcompat.widget.AppCompatButton
+		android:id="@+id/btn_done"
+		style="@style/CustomButtonStyle"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="50dp"
+		android:text="홈으로 돌아가기"
+		app:layout_constraintEnd_toEndOf="@id/tv_done"
+		app:layout_constraintStart_toStartOf="@id/tv_done"
+		app:layout_constraintTop_toBottomOf="@id/view_price" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
