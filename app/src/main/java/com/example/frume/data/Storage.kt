@@ -39,10 +39,11 @@ object Storage {
 
     private fun getBannerData(): List<TempBanner> {
         return listOf(
-            TempBanner(R.drawable.banner),
+            TempBanner(R.drawable.img_banner1),
             TempBanner(R.drawable.img_banner2),
             TempBanner(R.drawable.img_banner3),
             TempBanner(R.drawable.img_banner4),
+            TempBanner(R.drawable.banner),
             TempBanner(R.drawable.img_banner5)
         )
     }
