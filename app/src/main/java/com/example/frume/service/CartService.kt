@@ -1,5 +1,6 @@
 package com.example.frume.service
 
+import android.util.Log
 import com.example.frume.model.CartModel
 import com.example.frume.repository.CartRepository
 
