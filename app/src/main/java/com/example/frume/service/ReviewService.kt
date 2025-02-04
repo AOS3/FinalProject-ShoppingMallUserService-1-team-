@@ -1,5 +1,6 @@
 package com.example.frume.service
 
+import android.util.Log
 import com.example.frume.model.ReviewModel
 import com.example.frume.repository.ReviewRepository
 
@@ -13,11 +14,13 @@ class ReviewService {
             return reviewDocId
         }
 
-
-        suspend fun getUserReviewCount(userDocId : String) :Int{
+        suspend fun getUserReviewCount(userDocId: String): Int {
             val result = ReviewRepository.getMyReviewCount(userDocId)
-            return result
 
+            // 리뷰 개수를 로그로 출력
+            Log.d("test200", "getUserReviewCount에서 받은 리뷰 개수: $result")
+
+            return result
         }
 
 

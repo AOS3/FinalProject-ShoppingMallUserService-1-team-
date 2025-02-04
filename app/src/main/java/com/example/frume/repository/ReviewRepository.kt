@@ -54,13 +54,13 @@ class ReviewRepository {
 
             return try {
                 val reviewSnapshot = collectionReference
-                    .whereEqualTo("userDocId", userDocId) // 특정 유저의 리뷰만 필터링
+                    .whereEqualTo("reviewCustomerDocId", userDocId) // 특정 유저의 리뷰만 필터링
                     .orderBy("reviewTimeStamp", Query.Direction.DESCENDING)
                     .get()
                     .await()
 
-                Log.d("Firestore", "사용자($userDocId)의 리뷰 개수: ${reviewSnapshot.documents.size}")
-
+                // 문서 개수를 로그로 출력
+                Log.d("Firestore", "문서 개수: ${reviewSnapshot.documents.size}")
                 reviewSnapshot.documents.size // 문서 개수 반환
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -69,11 +69,21 @@ class ReviewRepository {
         }
 
 
+
         // 내가 작성한 특정 상품에 대한 후기 수 가져오기
         suspend fun getMyReviewCountByProduct(productDocId: String, userId: String): Int {
 
             val firestore = FirebaseFirestore.getInstance()
             val collectionReference = firestore.collection("reviewData")
+
+    }
+
+    // sehoon userDocID로 리뷰 정보 가져오기
+    suspend fun getAllReview(): List<MyReviewParent> {
+        val firestore = FirebaseFirestore.getInstance()
+        val collectionReference = firestore.collection("reviewData")
+        val reviewResult = mutableListOf<MyReviewParent>()
+
 
             return try {
                 val reviewSnapshot = collectionReference

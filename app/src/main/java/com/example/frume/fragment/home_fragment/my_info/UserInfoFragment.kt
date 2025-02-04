@@ -131,11 +131,14 @@ class UserInfoFragment() : Fragment() {
         CoroutineScope(Dispatchers.Main).launch {
             var userModel = UserModel()
 
-            val work0 = async(Dispatchers.IO){
+            // 리뷰 개수 가져오는 비동기 작업
+            val work0 = async(Dispatchers.IO) {
                 ReviewService.getUserReviewCount(homeActivity.loginUserDocumentId)
             }
-            val reviewCnt = work0.await()
+            val reviewCnt = work0.await() // 리뷰 개수 받기
 
+            // 리뷰 개수 로그 출력
+            Log.d("test200", "getUserInfo에서 받은 리뷰 개수: $reviewCnt")
 
             val work1 = async(Dispatchers.IO){
                 UserService.getUserInfo(homeActivity.loginUserDocumentId)
@@ -187,9 +190,8 @@ class UserInfoFragment() : Fragment() {
                 if (enable) resources.getColor(R.color.black, null)  // 활성화 시 검정색
                 else resources.getColor(R.color.gray100, null)  // 비활성화 시 회색
             )
+
         }
     }
-
-
 
 }

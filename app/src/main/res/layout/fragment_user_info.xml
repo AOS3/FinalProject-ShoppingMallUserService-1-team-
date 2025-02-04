@@ -32,8 +32,7 @@
 				android:textColor="@color/white"
 				android:textSize="25sp"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="@id/textViewUserInfoHeader"
-				/>
+				app:layout_constraintTop_toTopOf="@id/textViewUserInfoHeader" />
 
 			<TextView
 				android:id="@+id/textViewUserInfoSubtitle"
@@ -85,10 +84,10 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="20dp"
-					android:text="1000 원"
 					app:layout_constraintEnd_toEndOf="@id/TextViewUserInfoReWard"
 					app:layout_constraintStart_toStartOf="@id/TextViewUserInfoReWard"
-					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReWard" />
+					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReWard"
+					tools:text="1000 원" />
 
 				<com.google.android.material.divider.MaterialDivider
 					android:layout_width="1dp"
@@ -115,10 +114,11 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="20dp"
-					android:text="2 건"
+					android:text=" "
 					app:layout_constraintEnd_toEndOf="@id/TextViewUserInfoReview"
 					app:layout_constraintStart_toStartOf="@id/TextViewUserInfoReview"
-					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReview" />
+					app:layout_constraintTop_toBottomOf="@id/TextViewUserInfoReview"
+					tools:text="2 건" />
 
 				<View
 					android:id="@+id/viewUserInfoUserInfoList"

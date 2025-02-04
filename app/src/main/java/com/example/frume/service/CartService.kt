@@ -1,11 +1,7 @@
 package com.example.frume.service
 
-import android.util.Log
 import com.example.frume.model.CartModel
 import com.example.frume.repository.CartRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class CartService {
     companion object{
@@ -30,8 +26,5 @@ class CartService {
                 return CartModel()  // 비어 있을 경우 기본 값을 반환 (필요 시 기본 값 설정 가능)
             }
         }
-
-
-
     }
 }

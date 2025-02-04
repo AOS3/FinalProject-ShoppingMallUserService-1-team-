@@ -4,6 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools">
 
 	<ScrollView
+		android:id="@+id/scrollView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginBottom="30dp"
@@ -123,7 +124,7 @@
 			<View
 				android:id="@+id/viewUserPaymentAddressModify"
 				android:layout_width="0dp"
-				android:layout_height="150dp"
+				android:layout_height="170dp"
 				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="20dp"
 				android:background="@drawable/background_gray100"
@@ -139,19 +140,20 @@
 				android:layout_height="wrap_content"
 				android:layout_marginStart="20dp"
 				android:layout_marginTop="12dp"
-				android:text="[배송지명]"
 				app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
-				app:layout_constraintTop_toTopOf="@id/viewUserPaymentAddressModify" />
+				app:layout_constraintTop_toTopOf="@id/viewUserPaymentAddressModify"
+				tools:text="[배송지명]" />
 
 			<TextView
 				android:id="@+id/viewUserPaymentAddressModifyUserName"
 				style="@style/AppText3.S14"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
+				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="10dp"
 				android:drawableStart="@drawable/ic_person_24px"
-				android:gravity="center"
+				android:gravity="center_vertical"
+				app:layout_constraintEnd_toEndOf="@id/viewUserPaymentAddressModify"
 				app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
 				app:layout_constraintTop_toBottomOf="@id/viewUserPaymentAddressModifyAddressName"
 				tools:text="김과일" />
@@ -159,26 +161,30 @@
 			<TextView
 				android:id="@+id/viewUserPaymentAddressModifyUserAddress"
 				style="@style/AppText3.S14"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
+				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="10dp"
 				android:drawableStart="@drawable/ic_location_on_24px"
-				android:gravity="center"
+				android:maxLines="3"
+				app:layout_constraintEnd_toEndOf="@id/viewUserPaymentAddressModify"
 				app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
-				app:layout_constraintTop_toBottomOf="@id/viewUserPaymentAddressModifyUserName" />
+				app:layout_constraintTop_toBottomOf="@id/viewUserPaymentAddressModifyUserName"
+				tools:text="긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 긴 주소 입니다 " />
 
 			<TextView
 				android:id="@+id/viewUserPaymentAddressModifyUserPhoneNumber"
 				style="@style/AppText3.S14"
-				android:layout_width="wrap_content"
+				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
+				android:layout_marginHorizontal="20dp"
 				android:layout_marginTop="10dp"
 				android:drawableStart="@drawable/ic_call_24px"
-				android:gravity="center"
+				android:gravity="center_vertical"
+				app:layout_constraintEnd_toEndOf="@id/viewUserPaymentAddressModify"
 				app:layout_constraintStart_toStartOf="@id/viewUserPaymentAddressModify"
-				app:layout_constraintTop_toBottomOf="@id/viewUserPaymentAddressModifyUserAddress" />
+				app:layout_constraintTop_toBottomOf="@id/viewUserPaymentAddressModifyUserAddress"
+				tools:text="01012341234" />
 
 
 			<com.google.android.material.checkbox.MaterialCheckBox
@@ -487,6 +493,8 @@
 					android:inputType="none"
 					android:padding="15dp" />
 			</com.google.android.material.textfield.TextInputLayout>
+
+
 
 			<TextView
 				android:id="@+id/textViewUserPaymentFinalPaymentInfoTitle"

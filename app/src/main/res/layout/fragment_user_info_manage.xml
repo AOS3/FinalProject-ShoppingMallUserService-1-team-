@@ -73,34 +73,25 @@
 					android:inputType="phone" />
 			</com.google.android.material.textfield.TextInputLayout>
 
-			<TextView
-				android:id="@+id/textViewUserInfoModifyShowAddress"
-				style="@style/AppText3.S14"
+
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/textInputLayoutUserInfoModifyAddress"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="20dp"
-				android:layout_marginTop="30dp"
-				android:layout_marginEnd="20dp"
-				android:background="@drawable/background_textview"
-				android:padding="20dp"
-				android:text="@string/common_address"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyPhoneNumber" />
-
-			<!--<TextView
-				android:id="@+id/textViewUserInfoModifyShowPostNumber"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
 				android:layout_marginHorizontal="20dp"
-				android:layout_marginTop="30dp"
-				android:background="@drawable/background_textview"
-				android:fontFamily="@font/nanumsquareneo_3"
-				android:padding="20dp"
-				android:text="@string/common_zip_code"
+				android:layout_marginTop="25dp"
+				android:enabled="false"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress" />-->
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyPhoneNumber">
+
+				<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					style="@style/AppText3.S14"
+					android:hint="@string/common_address" />
+			</com.google.android.material.textfield.TextInputLayout>
+
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/textInputLayoutUserInfoModifyDetailAddress"
@@ -111,7 +102,7 @@
 				android:enabled="false"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/textViewUserInfoModifyShowAddress">
+				app:layout_constraintTop_toBottomOf="@id/textInputLayoutUserInfoModifyAddress">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"

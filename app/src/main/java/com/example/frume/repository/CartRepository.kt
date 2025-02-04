@@ -1,6 +1,5 @@
 package com.example.frume.repository
 
-import android.util.Log
 import com.example.frume.vo.CartVO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await

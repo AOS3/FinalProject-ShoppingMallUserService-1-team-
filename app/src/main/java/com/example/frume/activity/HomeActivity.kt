@@ -49,6 +49,7 @@ class HomeActivity : AppCompatActivity() {
         userCartDocId = cartId ?: ""
 
         setBottomNavigation()
+
     }
 
     // 바텀네비게이션 연결
@@ -65,6 +66,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_profile -> {
                     binding.bottomNavHome.visibility = View.VISIBLE
                 }
+
                 else -> {
                     binding.bottomNavHome.visibility = View.GONE
                 }

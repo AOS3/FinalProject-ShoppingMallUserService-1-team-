@@ -1,19 +1,23 @@
 package com.example.frume.fragment.user_fragment.product_info
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.frume.R
+import com.example.frume.data.Inquiry
+import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserProductInfoInquiryBinding
+import com.example.frume.util.showToast
 
 
-class UserProductInfoInquiryFragment : Fragment() {
+class UserProductInfoInquiryFragment : Fragment(),InquiryClickListener {
     private var _binding: FragmentUserProductInfoInquiryBinding? = null
     private val binding get() = _binding!!
     private var productDocId: String? = null
+
+    private val adapter: ProductInquiryAdapter by lazy { ProductInquiryAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +30,7 @@ class UserProductInfoInquiryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_product_info_inquiry, container, false)
+        _binding = FragmentUserProductInfoInquiryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,7 +41,28 @@ class UserProductInfoInquiryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLayout()
+        onClickCheckBox()
+    }
 
+    private fun setLayout() {
+        val inquiryList = Storage.inquiryList
+        binding.rvProductInquiry.adapter = adapter
+        adapter.updateList(inquiryList.toMutableList())
+        binding.tvProductInquiry.text = "상품문의 (${inquiryList.size})"
+    }
+
+    private fun onClickCheckBox() {
+        binding.cbProductInquiry.setOnCheckedChangeListener { _, isChecked ->
+            val inquiryList = Storage.inquiryList
+            val filteredList = if (isChecked) {
+                inquiryList.filter { !it.secret }
+            } else {
+                inquiryList
+            }
+            binding.tvProductInquiry.text = "상품문의 (${filteredList.size})"
+            adapter.updateList(filteredList.toMutableList())
+        }
     }
 
 
@@ -51,5 +76,9 @@ class UserProductInfoInquiryFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onClickInquiry(inquiry: Inquiry) {
+        requireContext().showToast("추후 기능 개발 예정")
     }
 }
