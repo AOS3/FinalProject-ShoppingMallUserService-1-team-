@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.frume.R
 import com.example.frume.databinding.FragmentUserProductShowListBinding
-import com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragmentArgs
+import com.example.frume.fragment.category.UserCategoryDetailFragmentArgs
 
 
 class UserProductShowListFragment : Fragment() {

@@ -14,11 +14,11 @@ import com.example.frume.data.Product
 import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserHomeTabFirstBinding
 import com.example.frume.factory.HomeViewModelFactory
-import com.example.frume.fragment.adapter.HomeBannerAdapter
-import com.example.frume.fragment.adapter.HomeProductAdapter
+import com.example.frume.adapter.HomeBannerAdapter
+import com.example.frume.adapter.HomeProductAdapter
 import com.example.frume.fragment.home.home_screen.HomeViewModel
 import com.example.frume.fragment.home.home_screen.UserHomeFragmentDirections
-import com.example.frume.fragment.listener.ProductItemClickListener
+import com.example.frume.listener.ProductItemClickListener
 import com.example.frume.repository.ProductRepository
 
 

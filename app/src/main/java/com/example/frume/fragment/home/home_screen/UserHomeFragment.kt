@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.R
 import com.example.frume.data.Storage
 import com.example.frume.databinding.FragmentUserHomeBinding
-import com.example.frume.fragment.adapter.HomeTabAdapter
+import com.example.frume.adapter.HomeTabAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 /*import com.example.frume.fragment.FullSubFragmentName*/

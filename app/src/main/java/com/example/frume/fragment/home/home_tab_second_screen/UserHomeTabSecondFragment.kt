@@ -10,9 +10,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.frume.data.Product
 import com.example.frume.databinding.FragmentUserHomeTabSecondBinding
 import com.example.frume.factory.HomeSecondViewModelFactory
-import com.example.frume.fragment.adapter.HomeProductAdapter
+import com.example.frume.adapter.HomeProductAdapter
 import com.example.frume.fragment.home.home_screen.UserHomeFragmentDirections
-import com.example.frume.fragment.listener.ProductItemClickListener
+import com.example.frume.listener.ProductItemClickListener
 import com.example.frume.repository.ProductRepository
 import com.example.frume.util.CategoryType
 
