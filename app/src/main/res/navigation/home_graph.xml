@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/nav_graph"
 	app:startDestination="@id/navigation_home">
 
+
 	<fragment
 		android:id="@+id/navigation_home"
-		android:name="com.example.frume.fragment.home_fragment.user_home.UserHomeFragment"
+		android:name="com.example.frume.fragment.home.home_screen.UserHomeFragment"
 		android:label="홈"
 		tools:layout="@layout/fragment_user_home">
 		<action
@@ -15,122 +15,224 @@
 			app:destination="@id/user_search" />
 		<action
 			android:id="@+id/action_navigation_home_to_user_product_info"
-			app:destination="@id/user_product_info" />
+			app:destination="@id/user_product_info"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 
 
 	<fragment
 		android:id="@+id/navigation_profile"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoFragment"
+		android:name="com.example.frume.fragment.user_info.UserInfoFragment"
 		android:label="내정보"
 		tools:layout="@layout/fragment_user_info">
 		<action
 			android:id="@+id/action_navigation_profile_to_user_order_history"
-			app:destination="@id/user_order_history" />
+			app:destination="@id/user_order_history"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_navigation_profile_to_userAddressManageFragment"
-			app:destination="@id/user_address_manage" />
+			app:destination="@id/user_address_manage"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_navigation_profile_to_user_info_manage"
-			app:destination="@id/user_info_manage" />
+			app:destination="@id/user_info_manage"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+		<action
+			android:id="@+id/action_navigation_profile_to_userInfoReviewFragment"
+			app:destination="@id/user_info_review"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
+
+
 	<fragment
 		android:id="@+id/navigation_cart"
-		android:name="com.example.frume.fragment.user_fragment.user_cart.UserCartFragment"
+		android:name="com.example.frume.fragment.cart.UserCartFragmentMain"
 		android:label="장바구니"
-		tools:layout="@layout/fragment_user_cart">
+		tools:layout="@layout/fragment_user_cart_main">
 		<action
 			android:id="@+id/action_navigation_cart_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
+			app:destination="@id/user_payment_screen"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+		<action
+			android:id="@+id/action_navigation_cart_to_bottomSheetShowCartOptionFragment"
+			app:destination="@id/bottomSheetShowCartOptionFragment" />
+		<action
+			android:id="@+id/action_navigation_cart_to_navigation_home"
+			app:destination="@id/navigation_home"
+			app:popUpTo="@id/navigation_home"
+			app:popUpToInclusive="true"
+			/>
 	</fragment>
 	<fragment
 		android:id="@+id/user_search"
-		android:name="com.example.frume.fragment.home_fragment.user_home.UserSearchFragment"
+		android:name="com.example.frume.fragment.home.UserSearchFragment"
 		android:label="검색화면"
 		tools:layout="@layout/fragment_user_search">
 		<action
-			android:id="@+id/action_user_search_to_user_product_show_list"
-			app:destination="@id/user_product_show_list" />
-		<action
 			android:id="@+id/action_user_search_to_navigation_home"
 			app:destination="@id/navigation_home" />
+		<action
+			android:id="@+id/action_user_search_to_user_category_detail"
+			app:destination="@id/user_category_detail" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_product_info"
-		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoFragment"
+		android:name="com.example.frume.fragment.product.info_screen.UserProductInfoFragment"
 		android:label="상품 정보"
 		tools:layout="@layout/fragment_user_product_info">
 		<action
 			android:id="@+id/action_user_product_info_to_userProductInfoDescriptionFragment"
-			app:destination="@id/user_product_info_description" />
-		<action
-			android:id="@+id/action_user_product_info_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
+			app:destination="@id/user_product_info_description"
+
+			/>
 		<action
 			android:id="@+id/action_user_product_info_to_user_product_info_write_review"
-			app:destination="@id/user_product_info_write_review" />
+			app:destination="@id/user_product_info_write_review"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_user_product_info_to_navigation_home"
 			app:destination="@id/navigation_home" />
+
 		<action
-			android:id="@+id/action_user_product_info_to_navigation_home2"
-			app:destination="@id/navigation_home" />
+			android:id="@+id/action_user_product_info_to_user_product_info_dialog"
+			app:destination="@id/user_product_info_dialog"
+
+			/>
+
 		<argument
-			android:name="productNameMethod"
-			app:argType="com.example.frume.data.TempProduct"
-			app:nullable="true" />
+			android:name="selectedProductDocId"
+			app:argType="string" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_payment_screen"
-		android:name="com.example.frume.fragment.user_fragment.user_payment.UserPaymentScreenFragment"
+		android:name="com.example.frume.fragment.payment.UserPaymentScreenFragment"
 		android:label="결제 화면"
 		tools:layout="@layout/fragment_user_payment_screen">
 		<action
 			android:id="@+id/action_user_payment_screen_to_user_product_info"
 			app:destination="@id/user_product_info" />
+		<action
+			android:id="@+id/action_user_payment_screen_to_user_cart_choice_Deliver_address"
+			app:destination="@id/user_cart_choice_Deliver_address"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+		<argument
+			android:name="deliveryAddressDocId"
+			app:argType="string"
+			app:nullable="true" />
+		<argument
+			android:name="fromWhere"
+			app:argType="string" />
+		<argument
+			android:name="productDocIdDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
+		<argument
+			android:name="deliverySubscribeStateDirectPurchase"
+			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE"
+			app:argType="com.example.frume.util.DeliverySubscribeState" />
+		<argument
+			android:name="productCountDirectPurchase"
+			android:defaultValue="0"
+			app:argType="integer" />
+		<argument
+			android:name="dueDateDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_payment_screen_to_user_payment_web_view"
+			app:destination="@id/user_payment_web_view" />
+		<action
+			android:id="@+id/action_user_payment_screen_to_userPaymentDoneFragment"
+			app:destination="@id/user_payment_done" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_history"
-		android:name="com.example.frume.fragment.home_fragment.my_info.order_inquiry.UserOrderHistoryFragment"
+		android:name="com.example.frume.fragment.user_info.order_history.UserOrderHistoryFragment"
 		android:label="배송 조회"
 		tools:layout="@layout/fragment_user_order_history">
 		<action
 			android:id="@+id/action_user_order_history_to_user_order_detail"
-			app:destination="@id/user_order_detail" />
+			app:destination="@id/user_order_detail"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+		<action
+			android:id="@+id/action_user_order_history_to_user_navigation_profile"
+			app:destination="@+id/navigation_profile" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_manage"
-		android:name="com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserAddressManageFragment"
+		android:name="com.example.frume.fragment.user_info.setting_my_info.deliveryAddress_management.UserAddressManageFragment"
 		android:label="배송지 관리"
 		tools:layout="@layout/fragment_user_address_manage">
 		<action
 			android:id="@+id/action_user_address_manage_to_user_address_add"
-			app:destination="@id/user_address_add" />
+			app:destination="@id/user_address_add"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<action
 			android:id="@+id/action_user_address_manage_to_userAddressModifyFragment"
-			app:destination="@id/user_address_modify" />
+			app:destination="@id/user_address_modify"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_add"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserAddressAddFragment"
+		android:name="com.example.frume.fragment.user_info.setting_my_info.deliveryAddress_management.UserAddressAddFragment"
 		android:label="배송지 추가"
 		tools:layout="@layout/fragment_user_address_add">
 		<action
 			android:id="@+id/action_user_address_add_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
+		<action
+			android:id="@+id/action_user_address_add_to_user_cart_choice_Deliver_address"
+			app:destination="@id/user_cart_choice_Deliver_address" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_address_modify"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserAddressModifyFragment"
+		android:name="com.example.frume.fragment.user_info.setting_my_info.deliveryAddress_management.UserAddressModifyFragment"
 		android:label="배송지 수정"
 		tools:layout="@layout/fragment_user_address_modify">
 		<action
 			android:id="@+id/action_user_address_modify_to_user_address_manage"
 			app:destination="@id/user_address_manage" />
+		<argument
+			android:name="addressDocId"
+			app:argType="string" />
+
 	</fragment>
 	<fragment
 		android:id="@+id/user_info_manage"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserInfoManageFragment"
+		android:name="com.example.frume.fragment.user_info.setting_my_info.user_info_management.UserInfoManageFragment"
 		android:label="회원 정보 관리"
 		tools:layout="@layout/fragment_user_info_manage">
 		<action
@@ -142,7 +244,7 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_info_modify"
-		android:name="com.example.frume.fragment.home_fragment.my_info.my_profile_setting.UserInfoModifyFragment"
+		android:name="com.example.frume.fragment.user_info.setting_my_info.user_info_management.UserInfoModifyFragment"
 		android:label="UserInfoModifyFragment"
 		tools:layout="@layout/fragment_user_info_modify">
 		<action
@@ -151,43 +253,71 @@
 	</fragment>
 	<fragment
 		android:id="@+id/user_order_detail"
-		android:name="com.example.frume.fragment.home_fragment.my_info.order_inquiry.UserOrderDetailFragment"
+		android:name="com.example.frume.fragment.user_info.order_history.UserOrderDetailFragment"
 		android:label="주문 상세 내역"
 		tools:layout="@layout/fragment_user_order_detail">
 		<action
-			android:id="@+id/action_user_order_detail_to_userCancelAndReturnFragment"
+			android:id="@+id/action_user__to_userCancelAndReturnFragment"
 			app:destination="@id/user_cancel_and_return" />
+		<action
+			android:id="@+id/action_user_order_detail_to_user_cancel_and_return"
+			app:destination="@id/user_cancel_and_return"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
+		<argument
+			android:name="orderProductDocId"
+			app:argType="string" />
+		<argument
+			android:name="orderDocId"
+			app:argType="string" />
+
 	</fragment>
 	<fragment
 		android:id="@+id/user_cancel_and_return"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserCancelAndReturnFragment"
+		android:name="com.example.frume.fragment.user_info.order_history.UserOrderCancelAndReturnFragment"
 		android:label="반품 취소 및 교환 신청"
-		tools:layout="@layout/fragment_user_cancel_and_return">
-		<action
-			android:id="@+id/action_userCancelAndReturnFragment_to_user_order_detail"
-			app:destination="@id/user_order_detail" />
-	</fragment>
+		tools:layout="@layout/fragment_user_order_cancel_and_return" />
 	<fragment
 		android:id="@+id/user_product_info_description"
-		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoDescriptionFragment"
+		android:name="com.example.frume.fragment.product.UserProductInfoDescriptionFragment"
 		android:label="상품 설명"
 		tools:layout="@layout/fragment_user_product_info_description">
 		<action
-			android:id="@+id/action_user_product_info_description_to_user_payment_screen"
-			app:destination="@id/user_payment_screen" />
+			android:id="@+id/action_user_product_info_description_to_user_product_info"
+			app:destination="@id/user_product_info"
+
+			/>
 	</fragment>
+
+	<fragment
+		android:id="@+id/user_product_info_review"
+		android:name="com.example.frume.fragment.product.review_screen.UserProductInfoReviewFragment"
+		android:label="상품후기"
+		tools:layout="@layout/fragment_user_product_info_review">
+		<action
+			android:id="@+id/action_user_product_info_review_to_user_product_info_write_review"
+			app:destination="@id/user_product_info_write_review" />
+	</fragment>
+
 	<fragment
 		android:id="@+id/user_product_info_write_review"
-		android:name="com.example.frume.fragment.user_fragment.product_info.UserProductInfoWriteReviewFragment"
+		android:name="com.example.frume.fragment.product.UserProductInfoWriteReviewFragment"
 		android:label="UserProductInfoWriteReviewFragment"
 		tools:layout="@layout/fragment_user_product_info_write_review">
 		<action
 			android:id="@+id/action_user_product_info_write_review_to_user_product_info"
 			app:destination="@id/user_product_info" />
+		<argument
+			android:name="productDocId"
+			app:argType="string" />
 	</fragment>
+
 	<fragment
+
 		android:id="@+id/user_product_show_list"
-		android:name="com.example.frume.fragment.home_fragment.user_home.UserProductShowListFragment"
+		android:name="com.example.frume.fragment.home.UserProductShowListFragment"
 		android:label="상품 정보"
 		tools:layout="@layout/fragment_user_product_show_list">
 		<action
@@ -196,28 +326,135 @@
 	</fragment>
 	<fragment
 		android:id="@+id/navigation_category"
-		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryFragment"
+		android:name="com.example.frume.fragment.category.UserCategoryFragment"
 		android:label="카테고리"
 		tools:layout="@layout/fragment_user_category">
 		<action
 			android:id="@+id/action_navigation_category_to_userCategoryDetailFragment"
-			app:destination="@id/user_category_detail" />
+			app:destination="@id/user_category_detail"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 		<argument
 			android:name="categoryArgs"
 			app:argType="com.example.frume.util.ProductCategoryDetailType" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_category_detail"
-		android:name="com.example.frume.fragment.user_fragment.category.UserCategoryDetailFragment"
+		android:name="com.example.frume.fragment.category.UserCategoryDetailFragment"
 		android:label="상품 리스트"
-		tools:layout="@layout/fragment_user_category_detail" >
+		tools:layout="@layout/fragment_user_category_detail">
 		<argument
 			android:name="categoryMethod"
 			app:argType="com.example.frume.util.ProductCategoryDetailType" />
+		<argument
+			android:name="searchMethod"
+			app:argType="string"
+			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_category_detail_to_user_product_info"
+			app:destination="@id/user_product_info"
+			app:enterAnim="@anim/slide_in_right"
+			app:exitAnim="@anim/slide_out_left"
+			app:popEnterAnim="@anim/slide_in_left"
+			app:popExitAnim="@anim/slide_out_right" />
 	</fragment>
 	<fragment
 		android:id="@+id/user_pw_modify"
-		android:name="com.example.frume.fragment.home_fragment.my_info.UserPwModifyFragment"
+		android:name="com.example.frume.fragment.user_info.setting_my_info.user_info_management.UserPwModifyFragment"
 		android:label="비밀번호 변경"
 		tools:layout="@layout/fragment_user_pw_modify" />
+	<dialog
+		android:id="@+id/user_product_info_dialog"
+		android:name="com.example.frume.fragment.product.UserProductInfoDialogFragment"
+		android:label="UserProductInfoDialogFragment"
+		tools:layout="@layout/fragment_user_product_info_dialog">
+		<action
+			android:id="@+id/action_user_product_info_dialog_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+		<argument
+			android:name="productDocId"
+			app:argType="string"
+			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_product_info_dialog_to_navigation_cart"
+			app:destination="@id/navigation_cart" />
+
+
+	</dialog>
+	<fragment
+		android:id="@+id/user_info_review"
+		android:name="com.example.frume.fragment.user_info.my_review_screen.UserInfoReviewFragment"
+		android:label="유저 내 후기"
+		tools:layout="@layout/fragment_user_info_review" />
+
+	<fragment
+		android:id="@+id/user_cart_choice_Deliver_address"
+		android:name="com.example.frume.fragment.payment.UserPaymentChoiceDeliveryAddressFragment"
+		android:label="배송지 선택"
+		tools:layout="@layout/fragment_user_payment_choice_delivery_address">
+		<action
+			android:id="@+id/action_user_cart_choice_Deliver_address_to_user_payment_screen"
+			app:destination="@id/user_payment_screen" />
+		<argument
+			android:name="fromWhere"
+			app:argType="string" />
+		<argument
+			android:name="productDocIdDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
+		<argument
+			android:name="deliverySubscribeStateDirectPurchase"
+			android:defaultValue="DELIVERY_STATE_NOT_SUBSCRIBE"
+			app:argType="com.example.frume.util.DeliverySubscribeState" />
+		<argument
+			android:name="productCountDirectPurchase"
+			android:defaultValue="0"
+			app:argType="integer" />
+		<argument
+			android:name="dueDateDirectPurchase"
+			app:argType="string"
+			app:nullable="true" />
+		<action
+			android:id="@+id/action_user_cart_choice_Deliver_address_to_user_address_add"
+			app:destination="@id/user_address_add" />
+	</fragment>
+
+	<dialog
+		android:id="@+id/bottomSheetShowCartOptionFragment"
+		android:name="com.example.frume.fragment.cart.BottomSheetShowCartOptionFragment"
+		android:label="상품정보 변경 바텀시트"
+		tools:layout="@layout/fragment_bottom_sheet_show_cart_option">
+		<argument
+			android:name="cartDocId"
+			app:argType="string" />
+		<argument
+			android:name="cartProductDocId"
+			app:argType="string" />
+	</dialog>
+	<fragment
+		android:id="@+id/user_payment_web_view"
+		android:name="com.example.frume.fragment.payment.UserPaymentWebViewFragment"
+		android:label="fragment_user_payment_web_view"
+		tools:layout="@layout/fragment_user_payment_web_view">
+		<argument
+			android:name="webViewType"
+			app:argType="integer" />
+	</fragment>
+	<fragment
+		android:id="@+id/user_payment_done"
+		android:name="com.example.frume.fragment.payment.UserPaymentDoneFragment"
+		android:label="fragment_user_payment_done"
+		tools:layout="@layout/fragment_user_payment_done">
+		<argument
+			android:name="paymentDone"
+			app:argType="com.example.frume.data.PaymentDone" />
+		<action
+			android:id="@+id/action_user_payment_done_to_navigation_home"
+			app:destination="@id/navigation_home"
+			app:popUpTo="@id/navigation_home"
+			app:popUpToInclusive="true" />
+	</fragment>
+
 </navigation>

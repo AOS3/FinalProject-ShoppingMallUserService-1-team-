@@ -10,7 +10,7 @@
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoDetailFragment">
+		tools:context=".fragment.product.detail_screen.UserProductInfoDetailFragment">
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
@@ -313,7 +313,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
 				android:fontFamily="@font/nanumsquareneo_3"
-				android:text="02-1234-1234"
+				android:text="1588-XXXX"
 				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailKakaoServiceNameLabel"
 				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailKakaoServiceNameLabel" />
 
@@ -334,7 +334,7 @@
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
 				android:fontFamily="@font/nanumsquareneo_3"
-				android:text="상담 시간: 09:00 ~ 18:00"
+				android:text="09:00 ~ 18:00"
 				app:layout_constraintStart_toStartOf="@id/textViewProductInfoDetailMobileServiceNumberLabel"
 				app:layout_constraintTop_toBottomOf="@id/textViewProductInfoDetailMobileServiceNumberLabel" />
 

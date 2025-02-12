@@ -6,7 +6,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.home_fragment.user_home.UserHomeTabFirstFragment">
+		tools:context=".fragment.home.home_tab_first_screen.UserHomeTabFirstFragment">
 
 		<androidx.core.widget.NestedScrollView
 			android:id="@+id/nestedScrollView"
@@ -34,42 +34,37 @@
 						android:id="@+id/linearUserHomeTabFirst"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:layout_gravity="end"
+						android:layout_marginTop="260dp"
 						android:layout_marginEnd="12dp"
 						android:layout_marginBottom="16dp"
 						android:background="@drawable/gray_ellipse"
 						android:orientation="horizontal"
-						android:paddingStart="8dp"
-						android:paddingTop="4dp"
-						android:paddingEnd="8dp"
-						android:paddingBottom="4dp"
-						android:layout_gravity="end|bottom"
+						android:paddingHorizontal="8dp"
+						android:paddingVertical="4dp"
 						app:layout_constraintBottom_toBottomOf="@id/viewPager"
 						app:layout_constraintEnd_toEndOf="@id/viewPager">
 
 						<TextView
 							android:id="@+id/textViewBannerFirstNumber"
+							style="@style/AppText3.S10"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="1"
-							android:textColorHint="#ffffff"
-							android:textSize="10dp" />
+							android:text="1" />
 
 						<TextView
+							style="@style/AppText3.S10.White"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:layout_marginLeft="4dp"
-							android:layout_marginRight="4dp"
-							android:text="/"
-							android:textColor="#FFFFFF"
-							android:textSize="10dp" />
+							android:layout_marginHorizontal="4dp"
+							android:text="/" />
 
 						<TextView
 							android:id="@+id/textViewBannerLastNumber"
+							style="@style/AppText3.S10.White"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="15"
-							android:textColor="#FFFFFF"
-							android:textSize="10dp" />
+							android:text="15" />
 					</LinearLayout>
 				</com.example.frume.util.NestedScrollableHost>
 
@@ -87,7 +82,6 @@
 					app:layout_constraintTop_toBottomOf="@id/customScrollableHost"
 					app:spanCount="2"
 					tools:listitem="@layout/item_product" />
-
 			</androidx.constraintlayout.widget.ConstraintLayout>
 		</androidx.core.widget.NestedScrollView>
 	</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,13 @@
 
 	<data>
 
+		<variable
+			name="myReview"
+			type="com.example.frume.data.MyReviewParent" />
+
+		<variable
+			name="listener"
+			type="com.example.frume.listener.ReviewClickListener" />
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
@@ -12,36 +19,53 @@
 		android:layout_height="wrap_content"
 		android:layout_margin="20dp">
 
-		<RatingBar
-			android:id="@+id/ratingBarItemReview"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:fontFamily="@font/nanumsquareneo_5"
-			android:isIndicator="true"
-			android:rating="4.5"
-			android:stepSize="0.5"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
-
-		<TextView
-			android:id="@+id/textViewRecyclerViewReviewDate"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="5dp"
-			android:fontFamily="@font/nanumsquareneo_2"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/ratingBarItemReview"
-			tools:text="2025.01.12" />
-
 		<TextView
 			android:id="@+id/textViewRecyclerViewReviewTitle"
+			style="@style/AppText5.S17"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="10dp"
-			android:fontFamily="@font/nanumsquareneo_5"
+			android:text="@{myReview.reviewTitle}"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewDate"
-			tools:text="너무 맛있어요![리뷰 제목]" />
+			app:layout_constraintTop_toTopOf="parent"
+			tools:text="후기 제목입니다." />
+
+		<TextView
+			android:id="@+id/textViewRecyclerViewRemoveReview"
+			style="@style/AppText2.S14"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:onClick="@{()->listener.onClickDelete(myReview)}"
+			android:text="삭제"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+		<RatingBar
+			android:id="@+id/ratingBarItemReview"
+			style="?android:attr/ratingBarStyleSmall"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:isIndicator="true"
+			android:progressTint="@color/yellow100"
+			android:rating="@{myReview.reviewRatingPoint}"
+			android:stepSize="0.5"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewTitle" />
+
+		<TextView
+			android:id="@+id/textViewRecyclerViewReviewDate"
+			style="@style/AppText2.S14"
+			formattedDate="@{myReview.reviewTimeStamp}"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="10dp"
+			app:layout_constraintBottom_toBottomOf="@id/ratingBarItemReview"
+			app:layout_constraintStart_toEndOf="@id/ratingBarItemReview"
+			app:layout_constraintTop_toTopOf="@id/ratingBarItemReview"
+			tools:text="2025.01.12" />
+
 
 		<TextView
 			android:id="@+id/textViewRecyclerViewReviewText"
@@ -51,27 +75,63 @@
 			android:ellipsize="end"
 			android:fontFamily="@font/nanumsquareneo_3"
 			android:maxLines="1"
+			android:text="@{myReview.reviewContent}"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewTitle"
+			app:layout_constraintTop_toBottomOf="@id/ratingBarItemReview"
 			tools:text="어쩌구 저쩌구[리뷰 내용]" />
 
-		<ImageView
-			android:id="@+id/imageViewRecyclerViewReview"
-			android:layout_width="300dp"
-			android:layout_height="150dp"
-			android:layout_marginTop="5dp"
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/recyclerViewItemReview"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:orientation="horizontal"
+			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewReviewText"
-			tools:background="@color/gray5" />
+			tools:listitem="@layout/item_add_image" />
+
+		<androidx.constraintlayout.widget.Group
+			android:id="@+id/groupAnswer"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:constraint_referenced_ids="imageViewItemReview,textViewReviewAnswer"
+			app:visibilityBasedOnText="@{myReview.reviewAnswer}" />
+
+		<com.google.android.material.imageview.ShapeableImageView
+			android:id="@+id/imageViewItemReview"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginTop="10dp"
+			android:src="@drawable/img_fruit"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/recyclerViewItemReview"
+			app:shapeAppearanceOverlay="@style/AppRoundedImage" />
+
+		<TextView
+			android:id="@+id/textViewReviewAnswer"
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="100dp"
+			android:layout_margin="10dp"
+			android:background="@drawable/background_input_count"
+			android:ellipsize="end"
+			android:maxLines="5"
+			android:padding="10dp"
+			android:text="@{myReview.reviewAnswer}"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/imageViewItemReview"
+			app:layout_constraintTop_toBottomOf="@id/recyclerViewItemReview"
+			tools:text="관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변 관리자의 답변" />
+
 
 		<com.google.android.material.divider.MaterialDivider
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="10dp"
-			app:dividerColor="@color/gray50"
+			android:layout_marginTop="20dp"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/imageViewRecyclerViewReview" />
-
+			app:layout_constraintTop_toBottomOf="@id/textViewReviewAnswer" />
 	</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

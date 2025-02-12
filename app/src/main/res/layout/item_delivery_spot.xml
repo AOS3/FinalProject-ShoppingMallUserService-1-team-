@@ -27,7 +27,9 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_home_24px" /> <!-- 접근성용 설명 -->
+                    android:src="@drawable/ic_home_24px"
+                    android:visibility="gone"
+                    /> <!-- 접근성용 설명 -->
 
                 <!-- 주소지 이름 -->
                 <TextView
@@ -53,13 +55,13 @@
 
 
         <!-- 우측 우편번호 부분 -->
-        <TextView
+        <!--<TextView
             android:id="@+id/postalCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="end"
             android:text="12456"
-            android:textSize="14sp" />
+            android:textSize="14sp" />-->
     </LinearLayout>
 </layout>

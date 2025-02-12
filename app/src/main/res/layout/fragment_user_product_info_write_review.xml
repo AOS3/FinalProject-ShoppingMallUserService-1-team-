@@ -10,7 +10,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoWriteReviewFragment">
+		tools:context=".fragment.product.UserProductInfoWriteReviewFragment">
 
 		<com.google.android.material.appbar.MaterialToolbar
 			android:id="@+id/toolbarUserProductInfoWriteReview"
@@ -20,8 +20,7 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:title="후기 작성"
-			/>
+			app:title="후기 작성" />
 
 
 		<com.google.android.material.textfield.TextInputLayout
@@ -60,21 +59,23 @@
 			app:layout_constraintTop_toTopOf="@id/textViewUserProductInfoWriteReviewImageLabel"
 			tools:text="( 0 / 3 )" />
 
+
 		<com.google.android.material.card.MaterialCardView
 			android:id="@+id/cardViewUserProductInfoWriteReviewAddImage"
-			android:layout_width="80dp"
-			android:layout_height="80dp"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
 			android:layout_marginTop="20dp"
 			app:cardBackgroundColor="@color/white"
 			app:cardElevation="5dp"
 			app:layout_constraintStart_toStartOf="@id/textViewUserProductInfoWriteReviewImageLabel"
 			app:layout_constraintTop_toBottomOf="@id/textViewUserProductInfoWriteReviewImageLabel">
 
-			<ImageView
+			<com.google.android.material.imageview.ShapeableImageView
 				android:id="@+id/imageViewUserProductInfoWriteReviewAddImage"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
 				android:layout_gravity="center"
+				android:padding="30dp"
 				android:src="@drawable/ic_add_24px" />
 		</com.google.android.material.card.MaterialCardView>
 
@@ -82,9 +83,11 @@
 			android:id="@+id/recyclerViewUserProductInfoWriteReview"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
+			android:layout_marginStart="10dp"
 			android:orientation="horizontal"
 			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 			app:layout_constraintBottom_toBottomOf="@id/cardViewUserProductInfoWriteReviewAddImage"
+			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toEndOf="@id/cardViewUserProductInfoWriteReviewAddImage"
 			app:layout_constraintTop_toTopOf="@id/cardViewUserProductInfoWriteReviewAddImage"
 			tools:listitem="@layout/item_add_image" />
@@ -95,6 +98,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="30dp"
 			android:rating="3"
+			android:progressTint="@color/yellow100"
 			android:stepSize="0.5"
 			app:layout_constraintStart_toStartOf="@id/cardViewUserProductInfoWriteReviewAddImage"
 			app:layout_constraintTop_toBottomOf="@id/cardViewUserProductInfoWriteReviewAddImage" />
@@ -120,15 +124,14 @@
 				android:maxLength="100" />
 		</com.google.android.material.textfield.TextInputLayout>
 
-		<Button
+		<androidx.appcompat.widget.AppCompatButton
 			android:id="@+id/buttonUserProductInfoReviewConfirm"
+			style="@style/CustomButtonStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="20dp"
 			android:layout_marginEnd="20dp"
 			android:layout_marginBottom="20dp"
-			android:background="@drawable/selector_button_background"
-			android:fontFamily="@font/nanumsquareneo_5"
 			android:text="후기 작성 완료"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"

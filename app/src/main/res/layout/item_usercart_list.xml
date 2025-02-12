@@ -13,14 +13,12 @@
 			android:id="@+id/checkboxRecyclerViewSelect"
 			android:layout_width="30dp"
 			android:layout_height="30dp"
-			android:layout_marginLeft="10dp"
 			app:layout_constraintHorizontal_bias="0"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent" />
 
-		<!-- 상품 이미지
-				이미지 원본 크기와 비율 유지하며 이미지 뷰 내부에 꽉 차도록 한다(centerCrop)-->
-		<ImageView
+		<!-- 상품 이미지 -->
+		<com.google.android.material.imageview.ShapeableImageView
 			android:id="@+id/imageViewRecyclerViewImage"
 			android:layout_width="130dp"
 			android:layout_height="100dp"
@@ -31,6 +29,15 @@
 			app:layout_constraintTop_toBottomOf="@+id/checkboxRecyclerViewSelect"
 			tools:src="@drawable/ic_panorama_24px" />
 
+		<TextView
+			android:id="@+id/textViewRecyclerViewChangeOption"
+			style="@style/AppText3.S14"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="옵션 변경"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
 		<!-- 상품 이름 -->
 		<TextView
 			android:id="@+id/textViewRecyclerViewProductName"
@@ -38,90 +45,83 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="4dp"
-			android:layout_marginTop="30dp"
+			android:layout_marginTop="28dp"
 			android:ellipsize="end"
 			android:maxLines="1"
-			app:layout_constraintEnd_toStartOf="@id/imageViewRecyclerViewDelete"
 			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewImage"
 			app:layout_constraintTop_toTopOf="parent"
 			tools:text="맛있는 딸기 1kg" />
 
-
-		<ImageView
-			android:id="@+id/imageViewRecyclerViewDelete"
+		<TextView
+			android:id="@+id/textViewRecyclerViewProductPriceLabel"
+			style="@style/AppText3.S14"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="20dp"
-			android:src="@drawable/ic_delete_white_24px"
-			app:layout_constraintBottom_toBottomOf="@id/textViewRecyclerViewProductName"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="@id/textViewRecyclerViewProductName" />
+			android:layout_marginTop="10dp"
+			android:text="가격 :"
+			app:layout_constraintStart_toStartOf="@id/textViewRecyclerViewProductName"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductName" />
 
-		<!-- 상품 가격 -->
 		<TextView
 			android:id="@+id/textViewRecyclerViewProductPrice"
 			style="@style/AppText3.S14"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="10dp"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="@id/textViewRecyclerViewProductName"
-			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductName"
-			tools:text="16,900원" />
-
-
-		<View
-			android:id="@+id/viewRecyclerViewCount"
-			android:layout_width="150dp"
-			android:layout_height="40dp"
-			android:layout_marginStart="60dp"
-			android:layout_marginTop="10dp"
-			android:layout_marginEnd="20dp"
-			android:background="@drawable/background_gray100"
-			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewImage"
-			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductPrice" />
-
-		<ImageView
-			android:id="@+id/imageViewRecyclerViewRemove"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="15dp"
-			android:contentDescription="-버튼을 누르면 값이 감소"
-			android:src="@drawable/ic_remove_24px"
-			app:layout_constraintBottom_toBottomOf="@id/viewRecyclerViewCount"
-			app:layout_constraintStart_toStartOf="@id/viewRecyclerViewCount"
-			app:layout_constraintTop_toTopOf="@id/viewRecyclerViewCount" />
+			android:layout_marginStart="10dp"
+			android:layout_marginTop="10dp"
+			app:layout_constraintStart_toEndOf="@id/textViewRecyclerViewProductPriceLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductName"
+			tools:text="16,900" />
 
+		<TextView
+			android:id="@+id/textViewProductCountLabel"
+			style="@style/AppText3.S14"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="수량 :"
+			app:layout_constraintBottom_toTopOf="@id/textViewProductDueDateLabel"
+			app:layout_constraintStart_toStartOf="@id/textViewRecyclerViewProductPriceLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewRecyclerViewProductPriceLabel" />
 
-		<EditText
+		<TextView
+			android:id="@+id/textViewRecyclerViewProductCount"
 			style="@style/AppText3.S14"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginHorizontal="20dp"
-			android:background="@color/transparent"
-			android:gravity="center"
-			android:inputType="number"
-			android:text="13"
+			android:layout_marginStart="10dp"
+			android:text="0"
+			app:layout_constraintStart_toEndOf="@id/textViewProductCountLabel"
+			app:layout_constraintTop_toTopOf="@id/textViewProductCountLabel" />
 
-			app:layout_constraintBottom_toBottomOf="@id/viewRecyclerViewCount"
-			app:layout_constraintEnd_toStartOf="@id/imageViewRecyclerViewAdd"
-			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewRemove"
-			app:layout_constraintTop_toTopOf="@id/viewRecyclerViewCount" />
-
-		<ImageView
-			android:id="@+id/imageViewRecyclerViewAdd"
+		<TextView
+			android:id="@+id/textViewProductDueDateLabel"
+			style="@style/AppText3.S14"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="15dp"
-			android:contentDescription="+버튼을 누르면 값이 감소"
-			android:src="@drawable/ic_add_24px"
-			app:layout_constraintBottom_toBottomOf="@id/viewRecyclerViewCount"
-			app:layout_constraintEnd_toEndOf="@id/viewRecyclerViewCount"
-			app:layout_constraintTop_toTopOf="@id/viewRecyclerViewCount" />
+			android:layout_marginStart="5dp"
+			android:text="배송 예정일 : "
+			app:layout_constraintStart_toEndOf="@id/imageViewRecyclerViewImage"
+			app:layout_constraintTop_toBottomOf="@id/textViewProductCountLabel" />
 
+		<TextView
+			android:id="@+id/TextViewProductDueDate"
+			style="@style/AppText3.S14"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="25.01.01"
+			app:layout_constraintStart_toStartOf="@id/textViewRecyclerViewProductPriceLabel"
+			app:layout_constraintTop_toBottomOf="@id/textViewProductDueDateLabel" />
+
+		<com.google.android.material.divider.MaterialDivider
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/TextViewProductDueDate"
+
+			/>
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
-
 </layout>
-

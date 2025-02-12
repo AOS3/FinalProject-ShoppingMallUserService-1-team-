@@ -10,7 +10,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.category.UserCategoryFragment">
+		tools:context=".fragment.category.UserCategoryFragment">
 
 		<TextView
 			android:id="@+id/textViewUserCategoryKoreaLabel"
@@ -148,7 +148,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="50dp"
 			android:fontFamily="@font/nanumsquareneo_5"
-			android:text="용량"
+			android:text="기타"
 			app:layout_constraintStart_toStartOf="@id/textViewUserCategoryKoreaLabel"
 			app:layout_constraintTop_toBottomOf="@id/textViewUserCategorySingle" />
 

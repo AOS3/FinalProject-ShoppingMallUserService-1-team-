@@ -68,13 +68,15 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:25.1.1")
     implementation("com.google.firebase:firebase-storage:21.0.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
     implementation("com.google.android.material:material:1.9.0")
+    // 권한 추가
+    implementation("com.google.firebase:firebase-auth-ktx:21.0.5")
 
 
     // sehoon jetPackNavigation 임포트
     implementation("androidx.navigation:navigation-fragment:2.8.4")
     implementation("androidx.navigation:navigation-ui:2.8.4")
-    
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
 
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 }

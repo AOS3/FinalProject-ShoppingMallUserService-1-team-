@@ -10,7 +10,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoReviewFragment">
+		tools:context=".fragment.product.review_screen.UserProductInfoReviewFragment">
 
 		<androidx.appcompat.widget.AppCompatButton
 			android:id="@+id/buttonUserProductInfoReview"
@@ -22,7 +22,9 @@
 			android:text="후기 작성"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
+			app:layout_constraintTop_toTopOf="parent"
+			android:visibility="gone"
+			/>
 
 
 		<androidx.recyclerview.widget.RecyclerView

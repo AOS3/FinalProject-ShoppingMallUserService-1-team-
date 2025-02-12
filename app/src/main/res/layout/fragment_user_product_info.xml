@@ -10,7 +10,7 @@
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		tools:context=".fragment.user_fragment.product_info.UserProductInfoFragment">
+		tools:context=".fragment.product.info_screen.UserProductInfoFragment">
 
 		<com.google.android.material.appbar.MaterialToolbar
 			android:id="@+id/toolBarUserProductInfo"
@@ -18,22 +18,23 @@
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			app:layout_constraintEnd_toEndOf="parent"
+			app:title="상품 정보"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:title="[상품명]" />
+			 />
 
 
 		<!--    이름은 코드 내부에서 설정	        -->
 		<!--    상품 설명, 상세 정보, 후기, 문의	-->
 		<com.google.android.material.tabs.TabLayout
 			android:id="@+id/tabLayoutUserProductInfo"
+			style="@style/AppText3.S14"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:background="@color/white"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/toolBarUserProductInfo"
-			app:tabSelectedTextColor="@color/green100" />
+			app:layout_constraintTop_toBottomOf="@id/toolBarUserProductInfo" />
 
 		<androidx.viewpager2.widget.ViewPager2
 			android:id="@+id/viewPagerUserProductInfo"
